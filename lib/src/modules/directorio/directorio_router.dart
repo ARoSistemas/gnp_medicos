@@ -15,9 +15,6 @@ class DirectorioRouter {
   }
 
   Future<void> showMedicosSearch() async {
-    // Future(() {
-    //   _runsAfterBuild(view.dateTime, 'DirectorioMedico-PantallaInicio');
-    // });
     await Get.to(
       () => const DirectorioSearchPage(),
       binding: BindingsBuilder(() {
@@ -29,9 +26,6 @@ class DirectorioRouter {
   }
 
   Future<void> showHosptalesSearch() async {
-    // Future(() {
-    //   _runsAfterBuild(view.dateTime, 'DirectorioHospitales-PantallaInicio');
-    // });
     await Get.to(
       () => const DirectorioSearchPage(),
       binding: BindingsBuilder(() {
@@ -43,9 +37,6 @@ class DirectorioRouter {
   }
 
   Future<void> showClinicasSearch() async {
-    // Future(() {
-    //   _runsAfterBuild(view.dateTime, 'DirectorioClinicas-PantallaInicio');
-    // });
     await Get.to(
       () => const DirectorioSearchPage(),
       binding: BindingsBuilder(() {
@@ -57,10 +48,6 @@ class DirectorioRouter {
   }
 
   Future<void> showOtrosServSearch() async {
-    // Future(() {
-    //   _runsAfterBuild(view.dateTime,
-    // 'DirectorioOtrosServicios-PantallaInicio');
-    // });
     await Get.to(
       () => const DirectorioSearchPage(),
       binding: BindingsBuilder(() {
@@ -72,9 +59,6 @@ class DirectorioRouter {
   }
 
   Future<void> showModulosSearch() async {
-    // Future(() {
-    //   _runsAfterBuild(view.dateTime, 'DirectorioModulosGNP-PantallaInicio');
-    // });
     await Get.to(
       () => const DirectorioSearchPage(),
       binding: BindingsBuilder(() {

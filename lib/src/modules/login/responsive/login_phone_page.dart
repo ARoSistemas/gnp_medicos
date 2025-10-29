@@ -24,21 +24,7 @@ class _LoginPhonePage extends StatelessWidget {
                     width: context.pWidth(40, pxMin: 100, pxMax: 1000),
                   ),
                 ),
-                Text(
-                  'Texto de ejemplo',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    fontSize: context.pText(30),
-                  ),
-                ),
-                Text(
-                  'Texto de ejemplo delimitado',
-                  style: TextStyle(
-                    fontWeight: FontWeight.w500,
-                    // fontSize: context.pText(13),
-                    fontSize: context.pText(30, pxMin: 30, pxMax: 40),
-                  ),
-                ),
+
                 if (!_c.isEmailEntered.value)
                   Padding(
                     padding: const EdgeInsets.only(bottom: 20),
@@ -191,6 +177,17 @@ class _LoginPhonePage extends StatelessWidget {
                   child: OutlinedButton(
                     onPressed: _c.navigateRegister,
                     child: Text(esMessages.mx.registerNow.value),
+                  ),
+                ),
+
+                /// Directorio page
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 30),
+                  child: OutlinedButton(
+                    onPressed: () async {
+                      await Get.toNamed(DirectorioPage.page.name);
+                    },
+                    child: const Text('Directorio Page'),
                   ),
                 ),
               ],

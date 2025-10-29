@@ -29,7 +29,7 @@ class DirectorioInteractor implements DirectorioUseCase {
     final MyResponse response = await RequestHandler.httpRequest(request);
 
     if (response.success) {
-      final list = response.response as List;
+      final List list = []; //response.response as List;
       final List<Planes> planes =
           list.map((item) => Planes.fromJson(item)).toList()
             // Add the 'Todos' option manually as the old code did.
@@ -130,10 +130,12 @@ class DirectorioInteractor implements DirectorioUseCase {
       headers: headers,
     );
 
+    /// Se conecta al Api y trae la lista de Estados
     final MyResponse response = await RequestHandler.httpRequest(request);
+    final l = MyResponse.fromJson({});
 
     if (response.success) {
-      final list = response.response as List;
+      final List list = l.response;
       final List<Estados> estados =
           list.map((item) => Estados.fromJson(item)).toList()
             ..insert(0, Estados.fromJson({'estado': 'Todos'}));
@@ -160,7 +162,8 @@ class DirectorioInteractor implements DirectorioUseCase {
     final MyResponse response = await RequestHandler.httpRequest(request);
 
     if (response.success) {
-      final list = response.response as List;
+      // final list = response.response as List;
+      final List list = [];
       final List<Municipios> municipios =
           list.map((item) => Municipios.fromJson(item)).toList()
             ..insert(0, Municipios.fromJson({'municipio': 'Todos'}));

@@ -35,7 +35,7 @@ class Estados {
   Estados(this.claveEstado);
 
   factory Estados.fromJson(Map<String, dynamic> json) => Estados(
-    json['claveEstado'],
+    json['claveEstado'] ?? '',
   );
 
   final String claveEstado;
@@ -45,7 +45,7 @@ class Municipios {
   Municipios(this.municipio);
 
   factory Municipios.fromJson(Map<String, dynamic> json) => Municipios(
-    json['municipios'],
+    json['municipios'] ?? '',
   );
   final String municipio;
 }

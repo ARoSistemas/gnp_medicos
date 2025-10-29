@@ -17,6 +17,12 @@ class MyRequest {
 
 class MyResponse {
   MyResponse({required this.success, this.response});
+
+  factory MyResponse.fromJson(Map<String, dynamic> json) => MyResponse(
+    success: json['success'] ?? true,
+    response: json['response'] ?? [],
+  );
+  
   final bool success;
   final dynamic response;
 }
