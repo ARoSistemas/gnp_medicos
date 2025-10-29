@@ -1,8 +1,9 @@
 import 'package:get/get.dart';
-import 'package:medicos/src/modules/directorio/DirectorioSearchModule/DirectorioSearchController.dart';
-import 'package:medicos/src/modules/directorio/DirectorioSearchModule/DirectorioSearchPage.dart';
-import 'package:medicos/src/modules/directorio/stubs/ServiceResponseTimeMeasurementManager.dart';
-import 'package:medicos/src/modules/directorio/stubs/TipoServicio.dart';
+
+import 'package:medicos/src/modules/directorio/directorio_search_module/directorio_search_controller.dart';
+import 'package:medicos/src/modules/directorio/directorio_search_module/directorio_search_page.dart';
+import 'package:medicos/src/modules/directorio/stubs/service_response_time_measurement_manager.dart';
+import 'package:medicos/src/modules/directorio/stubs/tipo_servicio.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class DirectorioRouter {
@@ -13,71 +14,72 @@ class DirectorioRouter {
     Get.back();
   }
 
-  void showMedicosSearch() {
+  Future<void> showMedicosSearch() async {
     // Future(() {
     //   _runsAfterBuild(view.dateTime, 'DirectorioMedico-PantallaInicio');
     // });
-    Get.to(
+    await Get.to(
       () => const DirectorioSearchPage(),
       binding: BindingsBuilder(() {
         Get.lazyPut<DirectorioSearchController>(
-          () => DirectorioSearchController(servicio: TipoServicio.Medicos),
+          () => DirectorioSearchController(servicio: TipoServicio.medicos),
         );
       }),
     );
   }
 
-  void showHosptalesSearch() {
+  Future<void> showHosptalesSearch() async {
     // Future(() {
     //   _runsAfterBuild(view.dateTime, 'DirectorioHospitales-PantallaInicio');
     // });
-    Get.to(
+    await Get.to(
       () => const DirectorioSearchPage(),
       binding: BindingsBuilder(() {
         Get.lazyPut<DirectorioSearchController>(
-          () => DirectorioSearchController(servicio: TipoServicio.Hospitales),
+          () => DirectorioSearchController(servicio: TipoServicio.hospitales),
         );
       }),
     );
   }
 
-  void showClinicasSearch() {
+  Future<void> showClinicasSearch() async {
     // Future(() {
     //   _runsAfterBuild(view.dateTime, 'DirectorioClinicas-PantallaInicio');
     // });
-    Get.to(
+    await Get.to(
       () => const DirectorioSearchPage(),
       binding: BindingsBuilder(() {
         Get.lazyPut<DirectorioSearchController>(
-          () => DirectorioSearchController(servicio: TipoServicio.Clinicas),
+          () => DirectorioSearchController(servicio: TipoServicio.clinicas),
         );
       }),
     );
   }
 
-  void showOtrosServSearch() {
+  Future<void> showOtrosServSearch() async {
     // Future(() {
-    //   _runsAfterBuild(view.dateTime, 'DirectorioOtrosServicios-PantallaInicio');
+    //   _runsAfterBuild(view.dateTime,
+    // 'DirectorioOtrosServicios-PantallaInicio');
     // });
-    Get.to(
+    await Get.to(
       () => const DirectorioSearchPage(),
       binding: BindingsBuilder(() {
         Get.lazyPut<DirectorioSearchController>(
-          () => DirectorioSearchController(servicio: TipoServicio.OtrosServ),
+          () => DirectorioSearchController(servicio: TipoServicio.otrosServ),
         );
       }),
     );
   }
 
-  void showModulosSearch() {
+  Future<void> showModulosSearch() async {
     // Future(() {
     //   _runsAfterBuild(view.dateTime, 'DirectorioModulosGNP-PantallaInicio');
     // });
-    Get.to(
+    await Get.to(
       () => const DirectorioSearchPage(),
       binding: BindingsBuilder(() {
         Get.lazyPut<DirectorioSearchController>(
-          () => DirectorioSearchController(servicio: TipoServicio.Modulos),
+          () => DirectorioSearchController(servicio: TipoServicio.modulos),
         );
       }),
     );
@@ -92,10 +94,10 @@ class DirectorioRouter {
     }
   }
 
-  Future<bool> requestLocationPermission() async =>
+  Future<bool> requestLocationPermission() =>
       _requestPermission(Permission.locationAlways);
 
-  Future<void> _runsAfterBuild(
+  Future<void> runsAfterBuild(
     DateTime timeStartSecond,
     String nameService,
   ) async {

@@ -1,4 +1,4 @@
-import 'package:medicos/src/modules/directorio/Entity/Catalogos.dart';
+import 'package:medicos/src/modules/directorio/entity/catalogos.dart';
 
 abstract class DirectorioView {}
 

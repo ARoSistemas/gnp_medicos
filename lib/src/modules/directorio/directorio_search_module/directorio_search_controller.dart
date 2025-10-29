@@ -1,8 +1,7 @@
 import 'package:get/get.dart';
-import '../stubs/TipoServicio.dart';
+import 'package:medicos/src/modules/directorio/stubs/tipo_servicio.dart';
 
 class DirectorioSearchController extends GetxController {
-  final TipoServicio servicio;
-
   DirectorioSearchController({required this.servicio});
+  final TipoServicio servicio;
 }

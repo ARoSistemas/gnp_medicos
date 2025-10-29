@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 enum AlertDialogType {
@@ -7,7 +6,12 @@ enum AlertDialogType {
   sinResultados,
 }
 
-void customAlert(AlertDialogType type, BuildContext context, String title, String message) {
+void customAlert(
+  AlertDialogType type,
+  BuildContext context,
+  String title,
+  String message,
+) {
   // Implementación vacía para satisfacer el compilador.
-  print('Mostrando alerta (stub): $type, $title, $message');
+  // print('Mostrando alerta (stub): $type, $title, $message');
 }

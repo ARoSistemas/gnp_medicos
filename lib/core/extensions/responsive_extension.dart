@@ -28,12 +28,6 @@ extension ResponsiveSizeExtension on BuildContext {
   double pWidth(double percent, {double? width, double? pxMin, double? pxMax}) {
     final double widthTmp = width ?? MediaQuery.of(this).size.width;
 
-    print('''
-🎃 
-  size.height :: $widthTmp
-  percent width:: $percent = pixel :: ${widthTmp * percent / 100}
-''');
-
     if (pxMin != null && pxMax != null) {
       return (widthTmp * percent / 100).clamp(pxMin, pxMax);
     }
@@ -54,11 +48,6 @@ extension ResponsiveSizeExtension on BuildContext {
     double? pxMax,
   }) {
     final double heightTmp = height ?? MediaQuery.of(this).size.height;
-    print('''
-🔥 
-  size.height :: $heightTmp
-  percent height :: $percent = pixel :: ${heightTmp * percent / 100}
-''');
 
     if (pxMin != null && pxMax != null) {
       return (heightTmp * percent / 100).clamp(pxMin, pxMax);
@@ -79,15 +68,6 @@ extension ResponsiveSizeExtension on BuildContext {
     final double diagonal = math.sqrt(
       math.pow(sizeTmp.width, 2) + math.pow(sizeTmp.height, 2),
     );
-
-    print('''
-😁
-  size.height :: ${sizeTmp.height}
-  size.width :: ${sizeTmp.width}
-  diagonal :: $diagonal
-
-  percent FontSize :: $percent = pixel :: ${diagonal * ((percent / 10) / 100)}
-''');
 
     if (pxMin != null && pxMax != null) {
       return (diagonal * (percent / 10) / 100).clamp(pxMin, pxMax);
