@@ -1,0 +1,159 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "medicos_local",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--dart-define-from-file=config.json"
+            ]
+        },
+        {
+            "name": "medicos_local (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile",
+            "args": [
+                "--dart-define-from-file=config.json"
+            ]
+        },
+        {
+            "name": "medicos_local (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "args": [
+                "--dart-define-from-file=config.json"
+            ]
+        },
+        {
+            "name": "medicos_local (WEB mode)",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "flutterMode": "debug",
+            "args": [
+                "--dart-define-from-file=config.json",
+                "--web-browser-flag=--disable-web-security"
+            ]
+        }
+    ]
+}
+// {
+//     // Use IntelliSense to learn about possible attributes.
+//     // Hover to view descriptions of existing attributes.
+//     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+//     "version": "0.2.0",
+//     "configurations": [
+//         {
+//             "name": "Medicos QA",
+//             "request": "launch",
+//             "type": "dart",
+//             "program": "lib/main.dart",
+//             "args": [
+//                 "--flavor",
+//                 "qa",
+//                 "--dart-define-from-file=config.json"
+//             ]
+//         },
+//         {
+//             "name": "Medicos UAT",
+//             "request": "launch",
+//             "type": "dart",
+//             "program": "lib/main.dart",
+//             "args": [
+//                 "--flavor",
+//                 "uat",
+//                 "--dart-define-from-file=config.json"
+//             ]
+//         },
+//         {
+//             "name": "Medicos PRO",
+//             "request": "launch",
+//             "type": "dart",
+//             "program": "lib/main.dart",
+//             "args": [
+//                 "--flavor",
+//                 "pro",
+//                 "--dart-define-from-file=config.json"
+//             ]
+//         },
+//         {
+//             "name": "Medicos QA (profile mode)",
+//             "request": "launch",
+//             "type": "dart",
+//             "flutterMode": "profile",
+//             "program": "lib/main.dart",
+//             "args": [
+//                 "--flavor",
+//                 "qa",
+//                 "--dart-define-from-file=config.json"
+//             ]
+//         },
+//         {
+//             "name": "Medicos UAT (profile mode)",
+//             "request": "launch",
+//             "type": "dart",
+//             "flutterMode": "profile",
+//             "program": "lib/main.dart",
+//             "args": [
+//                 "--flavor",
+//                 "uat",
+//                 "--dart-define-from-file=config.json"
+//             ]
+//         },
+//         {
+//             "name": "Medicos PRO (profile mode)",
+//             "request": "launch",
+//             "type": "dart",
+//             "flutterMode": "profile",
+//             "program": "lib/main.dart",
+//             "args": [
+//                 "--flavor",
+//                 "pro",
+//                 "--dart-define-from-file=config.json"
+//             ]
+//         },
+//         {
+//             "name": "Medicos QA (release mode)",
+//             "request": "launch",
+//             "type": "dart",
+//             "flutterMode": "release",
+//             "program": "lib/main.dart",
+//             "args": [
+//                 "--flavor",
+//                 "qa",
+//                 "--dart-define-from-file=config.json"
+//             ]
+//         },
+//         {
+//             "name": "Medicos UAT (release mode)",
+//             "request": "launch",
+//             "type": "dart",
+//             "flutterMode": "release",
+//             "program": "lib/main.dart",
+//             "args": [
+//                 "--flavor",
+//                 "uat",
+//                 "--dart-define-from-file=config.json"
+//             ]
+//         },
+//         {
+//             "name": "Medicos PRO (release mode)",
+//             "request": "launch",
+//             "type": "dart",
+//             "flutterMode": "release",
+//             "program": "lib/main.dart",
+//             "args": [
+//                 "--flavor",
+//                 "pro",
+//                 "--dart-define-from-file=config.json"
+//             ]
+//         },
+//     ]
+// }

@@ -1,0 +1,7 @@
+{
+  "flavor": "QA",
+  "appName": "Médicos QA",
+  "cipherKey": "3yY@7P8laL%TBYuPTJni4lCtyYS4%B#n",
+  "cipherIV": "olh21%SeKvv*zea@Mq#hwyBjWj2WSy6P",
+  "baseUrlMedicos": "https://admonproveedoressalud-services-qa.gnp.com.mx/admonproveedores"
+}

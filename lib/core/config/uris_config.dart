@@ -1,0 +1,3 @@
+class UrisConfig {
+  UrisConfig._();
+}
