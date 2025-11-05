@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicos/core/extensions/font_size_extension.dart';
+import 'package:medicos/core/extensions/responsive_extension.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/widgets/drawer/widgets/item_drawer.dart';
 import 'package:medicos/src/modules/anexos/anexos_page.dart';
@@ -20,27 +21,25 @@ class DrawerPhone extends StatelessWidget {
   const DrawerPhone({
     required this.jwt,
     required this.permisos,
+    required this.banConvenio,
+    required this.version,
     super.key,
   });
 
   final String jwt;
   final Map<String, dynamic> permisos;
+  final bool banConvenio;
+  final String version;
 
   @override
   Widget build(BuildContext context) {
-    
     final List<ItemForDrawer> items = [
-      ItemForDrawer(
-        iconName: 'icono_modulo_inicio.png',
-        title: 'Inicio',
-        route: '/welcome',
-        visible: true,
-      ),
       ItemForDrawer(
         iconName: 'icono_modulo_convenio_medico.png',
         title: 'Convenio Médico',
         route: ConvenioMedicoPage.page.name,
-        visible: permisos[ConvenioMedicoPage.page.name] ?? false,
+        visible:
+            (permisos[ConvenioMedicoPage.page.name] ?? false) && banConvenio,
       ),
       ItemForDrawer(
         iconName: 'icono_modulo_tabuladores.png',
@@ -109,7 +108,7 @@ class DrawerPhone extends StatelessWidget {
         children: [
           /// Body
           SizedBox(
-            height: MediaQuery.of(context).size.height * 0.92,
+            height: context.pHeight(92),
             width: double.infinity,
             child: ListView.builder(
               itemCount: items.length,
@@ -149,7 +148,7 @@ class DrawerPhone extends StatelessWidget {
                   Row(
                     children: [
                       Text(
-                        'Versión 7.8.55',
+                        'Versión $version',
                         style: TextStyle(
                           fontSize: context.fontSize(12),
                           color: ColorPalette.textPrimary,
@@ -172,7 +171,9 @@ class DrawerPhone extends StatelessWidget {
     super.debugFillProperties(properties);
     properties
       ..add(StringProperty('jwt', jwt))
-      ..add(DiagnosticsProperty<Map<String, dynamic>>('permisos', permisos));
+      ..add(DiagnosticsProperty<Map<String, dynamic>>('permisos', permisos))
+      ..add(DiagnosticsProperty<bool>('banConvenio', banConvenio))
+      ..add(StringProperty('version', version));
   }
 }
 

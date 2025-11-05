@@ -73,7 +73,7 @@ class NotificationServiceImpl extends GetxService
             child: CustomNotification(
               type: type,
               hasShadow: hasShadow,
-              title: title,
+              title: title?.toUpperCase(),
               message: message,
               showCloseButton: showCloseButton,
               onAction: onAction,

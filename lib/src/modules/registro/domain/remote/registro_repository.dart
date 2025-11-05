@@ -1,17 +1,17 @@
+
 import 'package:get/get.dart';
 import 'package:medicos/core/config/app_config.dart';
 import 'package:medicos/core/services/network/network_service.dart';
 
 class RegistroRepository extends ApiBaseProvider {
   @override
-  final String url = AppConfig.baseUrl;
+  final String url = AppConfig.baseUrlMedicos;
 
   @override
-  final String contextPath = '/conveniomedicos';
+  final String contextPath = '/admonproveedores/conveniomedicos';
 
   Future<bool> registerService(Map<String, String> data) async {
-    // const String loginEnpoint = '/registrarUsuario';
-    final Response res = await post('/registrarUsuario', data);
+    final Response res = await post('/usuarios/registrar', data);
     return (res.statusCode ?? 0) >= 200 && (res.statusCode ?? 0) <= 299;
   }
 }

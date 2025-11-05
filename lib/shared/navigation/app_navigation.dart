@@ -4,6 +4,9 @@ import 'package:medicos/src/modules/beneficios/beneficios_page.dart';
 import 'package:medicos/src/modules/contacto/contacto_page.dart';
 import 'package:medicos/src/modules/convenio_medico/children/view_pdf/view_pdf_page.dart';
 import 'package:medicos/src/modules/convenio_medico/convenio_medico_page.dart';
+import 'package:medicos/src/modules/directorio/children/filter_page/filterpage_page.dart';
+import 'package:medicos/src/modules/directorio/children/filter_results/filter_results_page.dart';
+import 'package:medicos/src/modules/directorio/children/item_map/item_map_page.dart';
 import 'package:medicos/src/modules/directorio/directorio_page.dart';
 import 'package:medicos/src/modules/home/home_page.dart';
 import 'package:medicos/src/modules/login/login_page.dart';
@@ -44,6 +47,9 @@ final class AppNavigation {
     AssistantsPage.page,
     ViewPdfPage.page,
     DirectorioPage.page,
+    FilterPage.page,
+    FilterResultsPage.page,
+    ItemMapPage.page,
     ContactoPage.page,
     NuevaSolicitudPage.page,
   ];

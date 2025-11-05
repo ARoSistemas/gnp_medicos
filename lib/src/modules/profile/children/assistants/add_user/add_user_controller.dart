@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:medicos/core/extensions/null_extensions.dart';
 import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/core/services/threads/threads_service.dart';
+import 'package:medicos/core/utils/exception_manager.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
 import 'package:medicos/shared/models/incoming/tipos_assistant_model.dart';
@@ -46,8 +47,9 @@ class AddUserController extends GetxController
   final formKey = GlobalKey<FormState>();
 
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController firstNameController = TextEditingController();
   final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController secondLastNameController =
+      TextEditingController();
   final TextEditingController birthdateController = TextEditingController();
   final TextEditingController genderController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
@@ -79,8 +81,8 @@ class AddUserController extends GetxController
     if (!isNewUser.value) {
       registerActive.value = true;
       nameController.text = assistant.nombre.value().trim();
-      firstNameController.text = assistant.apellidoPaterno.value().trim();
-      lastNameController.text = assistant.apellidoMaterno.value().trim();
+      lastNameController.text = assistant.apellidoPaterno.value().trim();
+      secondLastNameController.text = assistant.apellidoMaterno.value().trim();
       emailController.text = assistant.email.value().trim();
       phoneNumberController.text = assistant.telefono.value().trim();
       birthdateController.text = dateFormat(
@@ -105,8 +107,8 @@ class AddUserController extends GetxController
   @override
   void onClose() {
     nameController.dispose();
-    firstNameController.dispose();
     lastNameController.dispose();
+    secondLastNameController.dispose();
     birthdateController.dispose();
     genderController.dispose();
     phoneNumberController.dispose();
@@ -156,6 +158,7 @@ class AddUserController extends GetxController
       initialDate: selectedDate.value ?? maxDate,
       firstDate: minDate,
       lastDate: maxDate,
+      confirmText: 'Aceptar'
     );
 
     if (picked != null && picked != selectedDate.value) {
@@ -206,8 +209,8 @@ class AddUserController extends GetxController
             codigoFiliacionMedico: appState.user.codigoFiliacion,
             asistente: AssistantDto(
               nombre: nameController.text,
-              apellidoPaterno: firstNameController.text,
-              apellidoMaterno: lastNameController.text,
+              apellidoPaterno: lastNameController.text,
+              apellidoMaterno: secondLastNameController.text,
               fechaNacimiento: dateFormat(
                 date: birthdateController.text,
                 isInput: false,
@@ -240,7 +243,7 @@ class AddUserController extends GetxController
       },
     );
 
-    change(null, status: RxStatus.success());
+    change(state, status: RxStatus.success());
     return newAssistantId;
   }
 
@@ -251,8 +254,8 @@ class AddUserController extends GetxController
           idAssistant: assistant.idAsistente,
           updateAssistantModel: AssistantUpdateModel(
             nombre: nameController.text,
-            apellidoPaterno: firstNameController.text,
-            apellidoMaterno: lastNameController.text,
+            apellidoPaterno: lastNameController.text,
+            apellidoMaterno: secondLastNameController.text,
             fechaNacimiento: dateFormat(
               date: birthdateController.text,
               isInput: false,
@@ -272,7 +275,11 @@ class AddUserController extends GetxController
           );
         }
       },
-      errorMsg: 'El asistente NO se actualizo',
+      customExceptionMessages: {
+        Exception(): ExceptionAlertProperties(
+          message: 'El asistente no se actualizó',
+        ),
+      },
     );
   }
 
@@ -344,7 +351,11 @@ class AddUserController extends GetxController
           type: AlertType.success,
         );
       },
-      errorMsg: 'Error al actualizar los permisos del asistente',
+      customExceptionMessages: {
+        Exception(): ExceptionAlertProperties(
+          message: 'Error al actualizar los permisos del asistente',
+        ),
+      },
     );
     Get.back();
   }

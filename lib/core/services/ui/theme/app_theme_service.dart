@@ -67,7 +67,15 @@ class AppThemeService extends GetxService {
         textButtonTheme: _textButtonTheme(),
         inputDecorationTheme: _inputDecorationTheme(),
         checkboxTheme: _checkBoxTheme(),
+        dropdownMenuTheme: _dropdownMenuTheme(),
+        bottomSheetTheme: _bottomSheetTheme()
       );
+
+  DropdownMenuThemeData _dropdownMenuTheme() => const DropdownMenuThemeData(
+    inputDecorationTheme: InputDecorationTheme(
+      focusColor: ColorPalette.white,
+    ),
+  );
 
   ThemeData get darkTheme => FlexThemeData.dark(
     scheme: _usedScheme,
@@ -188,5 +196,9 @@ class AppThemeService extends GetxService {
         return Colors.white;
       },
     ),
+  );
+
+  BottomSheetThemeData _bottomSheetTheme() => BottomSheetThemeData(
+    modalBarrierColor: ColorPalette.textPrimary.withValues(alpha: 0.7)
   );
 }

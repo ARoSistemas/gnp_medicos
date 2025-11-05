@@ -26,13 +26,13 @@ class ContactoController extends GetxController
       ),
       ItemsContacts(
         title: esMessages.mx.gnpLine.value,
-        contact: '5552279000',
+        contact: '+525552279000',
         isLink: true,
         onTap: () => launchPhoneContact('5552279000'),
       ),
       ItemsContacts(
         title: '@GNPSeguros',
-        contact: '5552279000',
+        contact: '+525552279000',
         isLink: false,
         img: 'icono_contactanos_facebook.png',
         jwt: jwt,
@@ -62,7 +62,7 @@ class ContactoController extends GetxController
   Future<void> launchPhoneContact(String phoneNumber) async {
     final Uri launchUri = Uri(
       scheme: 'tel',
-      path: '+52$phoneNumber',
+      path: phoneNumber,
     );
     await launchUrl(launchUri);
   }
@@ -72,5 +72,25 @@ class ContactoController extends GetxController
     if (!await launchUrl(url)) {
       throw Exception('Could not launch $url');
     }
+  }
+
+  Future<void> launchEmail(String email, {String? subject}) async {
+    String? encodeQueryParameters(Map<String, String> params) => params.entries
+        .map(
+          (e) =>
+              '${Uri.encodeComponent(e.key)}=${Uri.encodeComponent(e.value)}',
+        )
+        .join('&');
+
+    final Uri emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: email,
+      query: encodeQueryParameters(<String, String>{
+        'subject': subject ?? '',
+      }),
+    );
+
+    // launchUrl(emailLaunchUri);
+    await launchUrl(emailLaunchUri);
   }
 }

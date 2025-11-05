@@ -104,7 +104,7 @@ class _MX extends IAppMessages {
   @override
   MsgProperty get enterYourEmail => MsgProperty(
     key: 'enterYourEmail',
-    value: 'Ingrese su correo electrónico',
+    value: 'Ingresa tu correo electrónico',
   );
 
   @override
@@ -236,9 +236,27 @@ class _MX extends IAppMessages {
   );
 
   @override
+  MsgProperty get errorLoadingInvites => MsgProperty(
+    key: 'errorLoadingInvites',
+    value: 'Error al cargar invitaciones',
+  );
+
+  @override
   MsgProperty get errorLoadingAssistants => MsgProperty(
     key: 'errorLoadingAssistants',
     value: 'Error al cargar asistentes.',
+  );
+
+  @override
+  MsgProperty get errorLoadingForm => MsgProperty(
+    key: 'errorLoadingForm',
+    value: 'Error al cargar el formulario',
+  );
+
+  @override
+  MsgProperty get errorLoadingInfo => MsgProperty(
+    key: 'errorLoadingInfo',
+    value: 'Error al cargar la información',
   );
 
   @override
@@ -317,18 +335,30 @@ class _MX extends IAppMessages {
   MsgProperty get name => MsgProperty(
     key: 'name',
     value: 'Nombre',
-  );
-
-  @override
-  MsgProperty get firstName => MsgProperty(
-    key: 'firstName',
-    value: 'Apellido paterno',
+    pValue: 'Nombre(s)',
   );
 
   @override
   MsgProperty get lastName => MsgProperty(
     key: 'lastName',
+    value: 'Apellido paterno',
+  );
+
+  @override
+  MsgProperty get secondLastName => MsgProperty(
+    key: 'secondLastName',
     value: 'Apellido materno',
+  );
+
+  @override
+  MsgProperty get notLastName => MsgProperty(
+    key: 'notLastName',
+    value: 'Primer Apellido',
+  );
+  @override
+  MsgProperty get notSecondLastName => MsgProperty(
+    key: 'notSecondLastName',
+    value: 'Segundo Apellido',
   );
 
   @override
@@ -386,12 +416,6 @@ class _MX extends IAppMessages {
   );
 
   @override
-  MsgProperty get errorLoadingInvites => MsgProperty(
-    key: 'errorLoadingInvites',
-    value: 'Error al cargar invitaciones',
-  );
-
-  @override
   MsgProperty get noInvites => MsgProperty(
     key: 'noInvites',
     value: 'Sin invitaciones',
@@ -407,12 +431,6 @@ class _MX extends IAppMessages {
   MsgProperty get noForm => MsgProperty(
     key: 'noForm',
     value: 'Sin formulario para mostrar',
-  );
-
-  @override
-  MsgProperty get errorLoadingForm => MsgProperty(
-    key: 'errorLoadingForm',
-    value: 'Error al cargar el formulario',
   );
 
   @override
@@ -503,6 +521,12 @@ class _MX extends IAppMessages {
   MsgProperty get specialty => MsgProperty(
     key: 'specialty',
     value: 'Especialidad',
+  );
+
+  @override
+  MsgProperty get subSpecialty => MsgProperty(
+    key: 'subspecialty',
+    value: 'Subespecialidad',
   );
 
   @override
@@ -773,5 +797,182 @@ class _MX extends IAppMessages {
   MsgProperty get consult => MsgProperty(
     key: 'consult',
     value: 'Consultar',
+  );
+
+  @override
+  MsgProperty get myData => MsgProperty(
+    key: 'myData',
+    value: 'Mis datos',
+  );
+
+  @override
+  MsgProperty get profesionalTitle => MsgProperty(
+    key: 'profesionalTitle',
+    value: 'Titulo profesional',
+  );
+
+  @override
+  MsgProperty get gender => MsgProperty(
+    key: 'gender',
+    value: 'Género',
+  );
+
+  @override
+  MsgProperty get medicalOffice => MsgProperty(
+    key: 'medicalOffice',
+    value: 'Dirección de Consultorio',
+  );
+
+  @override
+  MsgProperty get nationality => MsgProperty(
+    key: 'nationality',
+    value: 'Nacionalidad',
+  );
+
+  @override
+  MsgProperty get enterYourNameContinue => MsgProperty(
+    key: 'enterYourNameContinue',
+    value: 'Ingresa tu nombre para continuar.',
+  );
+
+  @override
+  MsgProperty get enterYourLastNameContinue => MsgProperty(
+    key: 'enterYourLastNameContinue',
+    value: 'Ingresa tu apellido para continuar',
+  );
+
+  @override
+  MsgProperty get enterYourSecondLastNameContinue => MsgProperty(
+    key: 'enterYourSecondLastNameContinue',
+    value: 'Ingresa tu apellido materno para continuar',
+  );
+
+  @override
+  MsgProperty get enterYourPassword => MsgProperty(
+    key: 'enterYourPassword',
+    value: 'Ingresa tu contraseña',
+  );
+
+  @override
+  MsgProperty get enterYourPhoneNumber => MsgProperty(
+    key: 'enterYourPhoneNumber',
+    value: 'El número de celular es requerido',
+  );
+
+  @override
+  MsgProperty get enterTenDigits => MsgProperty(
+    key: 'enterTenDigits',
+    value: 'Ingresa los 10 dígitos de tu número',
+  );
+
+  @override
+  MsgProperty get enterYourOption => MsgProperty(
+    key: 'enterYourOption',
+    value: 'Selecciona una opción valida',
+  );
+
+  @override
+  MsgProperty get enterYourDate => MsgProperty(
+    key: 'enterYourDate',
+    value: 'Selecciona fecha valida',
+  );
+
+  @override
+  MsgProperty get enterYourRfc => MsgProperty(
+    key: 'enterYourRfc',
+    value: 'El RFC es obligatorio.',
+  );
+
+  @override
+  MsgProperty get rfcFormatInvalid => MsgProperty(
+    key: 'rfcFormatInvalid',
+    value: 'El formato del RFC no es válido.',
+  );
+
+  @override
+  MsgProperty get rfcGenericNoAllowed => MsgProperty(
+    key: 'rfcGenericNoAllowed',
+    value: 'El RFC genérico no está permitido.',
+  );
+
+  @override
+  MsgProperty get enterYourRfcName => MsgProperty(
+    key: 'enterYourRfcName',
+    value: 'El RFC no coincide con el nombre y apellidos.',
+  );
+
+  @override
+  MsgProperty get rfcDigitsTwelveThirteen => MsgProperty(
+    key: 'rfcDigitsTwelveThirteen',
+    value: 'El RFC debe tener 12 o 13 caracteres.',
+  );
+
+  @override
+  MsgProperty get reTabulationsLegend => MsgProperty(
+    key: 'reTabulationsLegend',
+    value:
+        '''Re Tabulaciones, dudas de tus pagos, aclaraciones de carta para comunicarse al Cam:''',
+  );
+
+  @override
+  MsgProperty get bankingInfoLegend => MsgProperty(
+    key: 'bankingInfoLegend',
+    value:
+        '''Información bancaria, datos fiscales, actualización de estados de cuenta:''',
+  );
+  @override
+  MsgProperty get personalizedAssistanceLegend => MsgProperty(
+    key: 'personalizedAssistanceLegend',
+    value: 'Asistencia personalizada, médico de confianza con ejecutivo:',
+  );
+
+  @override
+  MsgProperty get onlyAlphabeticCharacters => MsgProperty(
+    key: 'onlyAlphabeticCharacters',
+    value: 'Solo se permiten valores alfabéticos',
+  );
+
+  @override
+  MsgProperty get toRegisterYouAccept => MsgProperty(
+    key: 'toRegisterYouAccept',
+    value: 'Al registrarte aceptas nuestros ',
+  );
+
+  @override
+  MsgProperty get termsAndConditions => MsgProperty(
+    key: 'termsAndConditions',
+    value: 'Términos y condiciones de uso de Medios Electrónicos ',
+  );
+
+  @override
+  MsgProperty get fromGroupNational => MsgProperty(
+    key: 'fromGroupNational',
+    value: 'de Grupo Nacional Provincial S.A.B',
+  );
+
+  @override
+  MsgProperty get signUp => MsgProperty(
+    key: 'signUp',
+    value: 'Registrarme',
+  );
+
+  @override
+  MsgProperty get homeTerms => MsgProperty(
+    key: 'homeTerms',
+    value:
+        'Se prohíbe la reproducción parcial o total de la información '
+        'contenida en este sitio a nivel digital.',
+  );
+
+  @override
+  MsgProperty get noResultsFound => MsgProperty(
+    key: 'noResultsFound',
+    value: 'No se encontraron resultados',
+  );
+
+  @override
+  MsgProperty get selectBtnToContinue => MsgProperty(
+    key: 'selectBtnToContinue',
+    value: 'Selecciona el botón de "Nueva búsqueda" para intentar de nuevo',
   );
 }

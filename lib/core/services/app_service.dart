@@ -7,9 +7,9 @@ import 'package:medicos/core/services/security/cipher_service.dart';
 import 'package:medicos/core/services/threads/threads_service.dart';
 import 'package:medicos/core/services/ui/ui_service.dart';
 import 'package:medicos/shared/services/alerts/notification_service.dart';
+import 'package:medicos/shared/services/shared_services.dart';
 import 'package:medicos/shared/services/storage/file_storage/file_storage_service.dart';
 import 'package:medicos/shared/services/storage/user_storage.dart';
-import 'package:pdfrx/pdfrx.dart';
 
 part 'storage/storage_service.dart';
 
@@ -28,9 +28,10 @@ class AppService extends GetxService {
   late final NotificationServiceImpl notifications;
   late final FileStorageService fileStorage;
 
+  late final SharedServices shared;
+
   Future<void> init() async {
     WidgetsFlutterBinding.ensureInitialized();
-    pdfrxFlutterInitialize();
 
     cipher = Get.put(CipherService());
     navigation = Get.put(NavigationService());
@@ -38,6 +39,7 @@ class AppService extends GetxService {
     storage = Get.put(StorageService());
     threads = Get.put(ThreadsService());
     ui = Get.put(UIService());
+    shared = Get.put(SharedServices());
 
     /// Notifications Services
     notifications = Get.put(NotificationServiceImpl());
@@ -46,6 +48,7 @@ class AppService extends GetxService {
 
     await storage.init();
     await ui.init();
+    await shared.init();
 
     userStorage = UserStorage();
     await userStorage.init();

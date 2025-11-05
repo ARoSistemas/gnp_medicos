@@ -13,6 +13,9 @@ class UserModel {
     required this.codigoFiliacion,
     required this.rfc,
     required this.nombreCompleto,
+    required this.nombre,
+    required this.apePaterno,
+    required this.apeMaterno,
     required this.especialidad,
     required this.estado,
     required this.circulo,
@@ -27,6 +30,7 @@ class UserModel {
     required this.email,
     required this.pass,
     required this.permisos,
+    required this.biometric,
   });
 
   factory UserModel.fromRaw(String raw) => UserModel.fromMap(jsonDecode(raw));
@@ -36,6 +40,9 @@ class UserModel {
     codigoFiliacion: json['codigoFiliacion'] ?? '',
     rfc: json['rfc'] ?? '',
     nombreCompleto: json['nombreCompleto'] ?? '',
+    nombre: json['nombre'] ?? '',
+    apePaterno: json['apePaterno'] ?? '',
+    apeMaterno: json['apeMaterno'] ?? '',
     especialidad: json['especialidad'] ?? '',
     estado: json['estado'] ?? '',
     circulo: json['circulo'] ?? '',
@@ -47,9 +54,10 @@ class UserModel {
     uid: json['uid'] ?? '',
     banVerAviso: json['banVerAviso'] ?? false,
     banConvenioActualizado: json['banConvenioActualizado'] ?? false,
-    email: '',
-    pass: '',
+    email: json['email'] ?? '',
+    pass: json['pass'] ?? '',
     permisos: [],
+    biometric: json['biometric'] ?? false,
   );
 
   factory UserModel.empty() => UserModel(
@@ -57,6 +65,9 @@ class UserModel {
     codigoFiliacion: '',
     rfc: '',
     nombreCompleto: '',
+    apeMaterno: '',
+    apePaterno: '',
+    nombre: '',
     especialidad: '',
     estado: '',
     circulo: '',
@@ -71,12 +82,16 @@ class UserModel {
     email: '',
     pass: '',
     permisos: [],
+    biometric: false,
   );
 
   final Token token;
   final String codigoFiliacion;
   final String rfc;
   final String nombreCompleto;
+  final String nombre;
+  final String apePaterno;
+  final String apeMaterno;
   final String especialidad;
   final String estado;
   final String circulo;
@@ -91,12 +106,16 @@ class UserModel {
   final String email;
   final String pass;
   final List<PermissionsDto> permisos;
+  final bool biometric;
 
   UserModel copyWith({
     Token? token,
     String? codigoFiliacion,
     String? rfc,
     String? nombreCompleto,
+    String? nombre,
+    String? apePaterno,
+    String? apeMaterno,
     String? especialidad,
     String? estado,
     String? circulo,
@@ -111,11 +130,15 @@ class UserModel {
     String? email,
     String? pass,
     List<PermissionsDto>? permisos,
+    bool? biometric,
   }) => UserModel(
     token: token ?? this.token,
     codigoFiliacion: codigoFiliacion ?? this.codigoFiliacion,
     rfc: rfc ?? this.rfc,
     nombreCompleto: nombreCompleto ?? this.nombreCompleto,
+    nombre: nombre ?? this.nombre,
+    apePaterno: apePaterno ?? this.apePaterno,
+    apeMaterno: apeMaterno ?? this.apeMaterno,
     especialidad: especialidad ?? this.especialidad,
     estado: estado ?? this.estado,
     circulo: circulo ?? this.circulo,
@@ -131,6 +154,7 @@ class UserModel {
     email: email ?? this.email,
     pass: pass ?? this.pass,
     permisos: permisos ?? this.permisos,
+    biometric: biometric ?? this.biometric,
   );
 
   Map<String, dynamic> toJson() => {
@@ -149,5 +173,12 @@ class UserModel {
     'uid': uid,
     'banVerAviso': banVerAviso,
     'banConvenioActualizado': banConvenioActualizado,
+  };
+
+  Map<String, dynamic> toJsonStored() => {
+    'token': token.toJson(),
+    'email': email,
+    'pass': pass,
+    'biometric': biometric
   };
 }

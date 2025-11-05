@@ -21,6 +21,7 @@ class DropdownPermission extends StatelessWidget {
         data: Theme.of(context).copyWith(
           highlightColor: Colors.transparent,
           splashColor: Colors.transparent,
+          focusColor: Colors.white
         ),
         child: DropdownButtonFormField(
           isExpanded: true,

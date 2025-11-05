@@ -15,23 +15,21 @@ class RegistroController extends GetxController
 
   final ThreadsService threadsService = Get.find();
   final RegistroRepository _authService = Get.find();
-
   final NotificationServiceImpl _notification = AppService.i.notifications;
-
   late TabController tabController;
   RxInt selectedIndex = 0.obs;
 
   final Rx<String?> selectedItem = Rx<String?>(null);
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController firstNameController = TextEditingController();
-  final TextEditingController lastNameController = TextEditingController();
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController phoneNumberController = TextEditingController();
-  final TextEditingController rfcController = TextEditingController();
-  final TextEditingController cedulaController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController passwordConfirmController =
-      TextEditingController();
+
+  final TextEditingController nameCtler = TextEditingController();
+  final TextEditingController lastNameCtler = TextEditingController();
+  final TextEditingController secondLastNameCtler = TextEditingController();
+  final TextEditingController emailCtler = TextEditingController();
+  final TextEditingController phoneNumberCtler = TextEditingController();
+  final TextEditingController rfcCtler = TextEditingController();
+  final TextEditingController cedulaCtler = TextEditingController();
+  final TextEditingController passwordCtler = TextEditingController();
+  final TextEditingController passwordConfirmCtler = TextEditingController();
 
   RxBool isPasswordVisible = false.obs;
   RxBool isConfirmPasswordVisible = false.obs;
@@ -58,6 +56,11 @@ class RegistroController extends GetxController
 
   Future<void> registerService() async {
     if (!formKey.currentState!.validate()) {
+      _notification.show(
+        title: 'Atención',
+        message: 'Favor de validar la información ingresada',
+        type: AlertType.warning,
+      );
       return;
     }
 
@@ -68,24 +71,26 @@ class RegistroController extends GetxController
     await threadsService.execute(
       func: () async {
         res = await _authService.registerService({
-          'nombre': nameController.text.trim(),
-          'paterno': firstNameController.text.trim(),
-          'materno': lastNameController.text.trim(),
-          'telefono': phoneNumberController.text.trim(),
-          'rfc': rfcController.text.trim(),
-          'mail': emailController.text.trim(),
-          'password': passwordController.text.trim(),
+          'nombre': nameCtler.text.trim(),
+          'paterno': lastNameCtler.text.trim(),
+          'materno': secondLastNameCtler.text.trim(),
+          'telefono': phoneNumberCtler.text.trim(),
+          'rfc': rfcCtler.text.trim(),
+          'mail': emailCtler.text.trim(),
+          'password': passwordCtler.text.trim(),
         });
       },
     );
 
     _notification.show(
-      title: '',
-      message: res ? 'Registro exitoso' : 'Error en el registro',
+      title: res ? 'Éxito' : 'Error',
+      message: res ? 'Registro exitoso' : 'Credenciales inválidas',
       type: res ? AlertType.success : AlertType.error,
     );
 
-    Get.back();
+    if (res) {
+      Get.back();
+    }
     isLoading.value = false;
   }
 
@@ -101,17 +106,19 @@ class RegistroController extends GetxController
     tabController.animateTo(1);
   }
 
-  String validaRfc(String? value) {
-    final String? rfcError = Validators.validateRfc(value);
+  String? validaRfc(String? value) {
+    final String? rfcError = Validators.rfc(value);
+
     if (rfcError != null) {
       return rfcError;
     }
-    final String rfcConNombreError = Validators.validateRfcName(
-      name: nameController.text,
-      firstName: firstNameController.text,
-      lastName: lastNameController.text,
-      rfc: value!,
+    final String? rfcConNombreError = Validators.rfcName(
+      name: nameCtler.text,
+      lastName: lastNameCtler.text,
+      secondLastName: secondLastNameCtler.text,
+      rfc: value ?? '',
     );
+
     return rfcConNombreError;
   }
 }

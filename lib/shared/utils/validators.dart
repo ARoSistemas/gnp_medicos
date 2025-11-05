@@ -1,37 +1,55 @@
 import 'package:medicos/core/extensions/null_extensions.dart';
+import 'package:medicos/shared/constans/constans.dart';
+import 'package:medicos/shared/messages/es/es_messages.dart';
 
 class Validators {
-  static String? validateName(String? value) {
-    if (value.value().trim().isEmpty) {
-      return 'Ingresa tu nombre para continuar.';
+  static RegExp validString = RegExp(regexNames, unicode: true);
+
+  static String? _validOnlyAlphabeticCharacters(String? value) {
+    if (!validString.hasMatch(value!)) {
+      return esMessages.mx.onlyAlphabeticCharacters.value;
     }
     return null;
   }
 
-  static String? validateFirstName(String? value) {
+  static String? name(String? value) {
     if (value.value().trim().isEmpty) {
-      return 'Ingresa tu apellido para continuar.';
+      return esMessages.mx.enterYourNameContinue.value;
     }
-    return null;
+    return _validOnlyAlphabeticCharacters(value);
+  }
+
+  static String? lastName(String? value) {
+    if (value.value().trim().isEmpty) {
+      return esMessages.mx.enterYourLastNameContinue.value;
+    }
+    return _validOnlyAlphabeticCharacters(value);
+  }
+
+  static String? secondLastName(String? value) {
+    if (value.value().trim().isEmpty) {
+      return esMessages.mx.enterYourLastNameContinue.value;
+    }
+    return _validOnlyAlphabeticCharacters(value);
   }
 
   static bool isValidEmail(String email) => RegExp(
     r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
   ).hasMatch(email);
 
-  static String? validateEmail(String? value) {
+  static String? email(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Agrega un correo válido';
+      return esMessages.mx.enterYourEmail.value;
     }
     if (!isValidEmail(value)) {
-      return 'Agrega un correo válido';
+      return esMessages.mx.enterYourEmail.value;
     }
     return null;
   }
 
-  static String? validatePassword(String? password) {
+  static String? password(String? password) {
     if (password!.isEmpty) {
-      return 'Ingresa tu contraseña';
+      return esMessages.mx.enterYourPassword.value;
     }
     return null;
   }
@@ -43,33 +61,33 @@ class Validators {
         RegExp(r'^[0-9]{10}$').hasMatch(cleanPhone);
   }
 
-  static String? validatePhone(String? value) {
+  static String? phone(String? value) {
     if (value == null || value.isEmpty) {
-      return 'El número de celular es requerido';
+      return esMessages.mx.enterYourPhoneNumber.value;
     }
     if (!isValidPhone(value)) {
-      return 'Ingresa los 10 dígitos de tu número';
+      return esMessages.mx.enterTenDigits.value;
     }
     return null;
   }
 
-  static String? validateOption(String? value) {
+  static String? option(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Selecciona una opción valida';
+      return esMessages.mx.enterYourOption.value;
     }
     return null;
   }
 
-  static String? validateDate(String? value) {
+  static String? date(String? value) {
     if (value == null || value.isEmpty) {
-      return 'Selecciona fecha valida';
+      return esMessages.mx.enterYourDate.value;
     }
     return null;
   }
 
-  static String? validateRfc(String? value) {
+  static String? rfc(String? value) {
     if (value == null || value.isEmpty) {
-      return 'El RFC es obligatorio.';
+      return esMessages.mx.enterYourRfc.value;
     }
 
     final String rfcLimpio = value
@@ -79,17 +97,17 @@ class Validators {
         .replaceAll(' ', '');
 
     if (rfcLimpio.length != 12 && rfcLimpio.length != 13) {
-      return 'El RFC debe tener 12 o 13 caracteres.';
+      return esMessages.mx.rfcDigitsTwelveThirteen.value;
     }
 
     final RegExp rfcRegExp = RegExp(r'^([A-ZÑ&]{3,4})\d{6}([A-Z\d]{3})$');
 
     if (!rfcRegExp.hasMatch(rfcLimpio)) {
-      return 'El formato del RFC no es válido.';
+      return esMessages.mx.rfcFormatInvalid.value;
     }
 
     if (rfcLimpio.startsWith('XAXX')) {
-      return 'El RFC genérico no está permitido.';
+      return esMessages.mx.rfcGenericNoAllowed.value;
     }
 
     return null;
@@ -97,31 +115,33 @@ class Validators {
 
   static String generateRfcBase(
     String name,
-    String firstName,
     String lastName,
+    String secondLastName,
   ) {
     String cleanName;
-    String cleanFirstName;
     String cleanLastName;
+    String cleanSecondLastName;
 
     cleanName = _cleanNames(name.trim().toUpperCase());
-    cleanFirstName = _cleanNames(firstName.trim().toUpperCase());
     cleanLastName = _cleanNames(lastName.trim().toUpperCase());
+    cleanSecondLastName = _cleanNames(secondLastName.trim().toUpperCase());
 
     // Primera letra del apellido paterno
-    final String l1 = cleanFirstName.isNotEmpty ? cleanFirstName[0] : '';
+    final String l1 = cleanLastName.isNotEmpty ? cleanLastName[0] : '';
 
     // Primera vocal interna del apellido paterno
     String l2 = '';
-    for (int i = 1; i < cleanFirstName.length; i++) {
-      if ('AEIOU'.contains(cleanFirstName[i])) {
-        l2 = cleanFirstName[i];
+    for (int i = 1; i < cleanLastName.length; i++) {
+      if ('AEIOU'.contains(cleanLastName[i])) {
+        l2 = cleanLastName[i];
         break;
       }
     }
 
     // Primera letra del apellido materno
-    final String l3 = cleanLastName.isNotEmpty ? cleanLastName[0] : '';
+    final String l3 = cleanSecondLastName.isNotEmpty
+        ? cleanSecondLastName[0]
+        : '';
 
     // Primera letra del nombre
     final String l4 = cleanName.isNotEmpty ? cleanName[0] : '';
@@ -129,22 +149,23 @@ class Validators {
     return l1 + l2 + l3 + l4;
   }
 
-  static String validateRfcName({
+  static String? rfcName({
     required String name,
-    required String firstName,
     required String lastName,
+    required String secondLastName,
     required String rfc,
   }) {
     final String rfcBase = generateRfcBase(
       name,
-      firstName,
       lastName,
+      secondLastName,
     );
+
     final String rfcClean = rfc.trim().toUpperCase();
     if (!rfcClean.startsWith(rfcBase)) {
-      return 'El RFC no coincide con el nombre y apellidos.';
+      return esMessages.mx.enterYourRfcName.value;
     }
-    return '';
+    return null;
   }
 
   static String _cleanNames(String s) {

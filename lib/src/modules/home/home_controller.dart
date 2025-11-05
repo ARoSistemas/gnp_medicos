@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:get/get.dart';
 import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/core/services/threads/threads_service.dart';
+import 'package:medicos/core/utils/exception_manager.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
 import 'package:medicos/src/modules/home/domain/entities/dtos/asisstant_dto.dart';
@@ -17,20 +18,29 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
   final HomeRepository apiConn = Get.find();
   final AppStateController appState = Get.find();
 
-  Rx<bool> isDoctor = false.obs;
-
   @override
   Future<void> onInit() async {
     super.onInit();
-    await getAssistantList();
+    if (appState.isDoctor) {
+      await getAssistantList();
+    }
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    if (!appState.isDoctor) {
+      loadUserPermissions(isDoctor: false);
+      unawaited(Get.offAllNamed(WelcomePage.page.name));
+    }
   }
 
   /// Fetches the list of assistants associated with the current user.
   ///
   /// This method uses the [threadsService] to perform an asynchronous call to
-  /// [´apiConn.fetchListado´]. 
-  /// It also determines if the user has the 'Proveedor' 
-  /// role and updates the [isDoctor] flag accordingly.
+  /// [´apiConn.fetchListado´].
+  /// It also determines if the user has the 'Proveedor'
+  /// role and updates the [´isDoctor´] flag accordingly.
   ///
   /// Upon completion, it updates the controller's state with the fetched list:
   /// - [RxStatus.success] if the list is not empty.
@@ -44,20 +54,25 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
           appState.user.token.jwt,
         );
 
-        isDoctor.value = appState.user.token.jwtLogin.claims.roles.contains(
-          'Proveedor',
-        );
-
         final _HomeModel newState = _HomeModel.empty().copyWith(
           asisstantList: res.body,
         );
 
-        change(
-          newState,
-          status: newState.asisstantList.isEmpty
-              ? RxStatus.empty()
-              : RxStatus.success(),
-        );
+        if (newState.asisstantList.length == 1 && !appState.isDoctor) {
+          /// Select assistant to use
+          await selectUser(newState.asisstantList.first);
+        } else {
+          /// Load user permissions like doctor
+          loadUserPermissions(isDoctor: true);
+        }
+
+        if (newState.asisstantList.isEmpty) {
+          /// Go to page Welcolme
+          unawaited(Get.offAllNamed(WelcomePage.page.name));
+        } else {
+          /// Update state and wait to select user
+          change(newState, status: RxStatus.success());
+        }
       },
       onError: () {
         change(
@@ -70,13 +85,15 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
 
   /// Selects a user and updates the application state.
   ///
-  /// This method is called when a user is selected from the list. 
-  /// It fetches the user's permissions and updates the user's data 
+  /// This method is called when a user is selected from the list.
+  /// It fetches the user's permissions and updates the user's data
   /// in the [appState].
-  /// If the permissions are fetched successfully, 
+  /// If the permissions are fetched successfully,
   /// it navigates to the [WelcomePage].
   Future<void> selectUser(AsisstantDto item) async {
+    /// Set user like assistant
     appState.isDoctor = false;
+
     bool isOk = false;
     await appService.threads.execute(
       func: () async {
@@ -88,14 +105,15 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
         await updateUserData(item, res.body ?? []);
         isOk = true;
       },
-      errorMsg: 'Los permisos no fueron recuperados',
-      onError: () {
-        // Que hacer si no se recuperan los permisos ???
+      customExceptionMessages: {
+        Exception(): ExceptionAlertProperties(
+          message: 'Los permisos no fueron recuperados',
+        ),
       },
     );
 
     if (isOk) {
-      unawaited(Get.toNamed(WelcomePage.page.name));
+      unawaited(Get.offAllNamed(WelcomePage.page.name));
     }
   }
 
@@ -107,11 +125,13 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
     AsisstantDto item,
     List<PermissionsDto> permisos,
   ) async {
-    appState.isDoctor = false;
     final UserModel tmpUser = appState.user.copyWith(
       codigoFiliacion: item.codigoFiliacion,
       nombreCompleto:
           '${item.nombre} ${item.apellidoPaterno} ${item.apellidoMaterno}',
+      apeMaterno: item.apellidoMaterno,
+      apePaterno: item.apellidoPaterno,
+      nombre: item.nombre,
       rfc: item.rfc,
       especialidad: item.especialidad,
       estado: item.estado,
@@ -125,5 +145,52 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
       permisos: permisos.where((permiso) => permiso.activo).toList(),
     );
     appState.user = tmpUser;
+
+    /// Load user permissions like assistant
+    loadUserPermissions(isDoctor: false);
+  }
+
+  /// Loads the user's permissions into the application state.
+  ///
+  /// This method populates the [´appState.userPermissions´]
+  /// map based on whether the user is a doctor or an assistant.
+  ///
+  /// If [isDoctor] is `true`, a predefined set of permissions for doctors is
+  /// loaded. These permissions grant access to all sections of the app.
+  ///
+  /// If [isDoctor] is `false`, the permissions are loaded from the
+  /// [appState.user.permisos´´] list, which contains the specific permissions
+  /// assigned to the assistant. Only active permissions are considered.
+  ///
+  /// The [´appState.userPermissions´] map uses the permission ID (route) as the
+  /// key and a boolean value indicating if the permission is active.
+  void loadUserPermissions({required bool isDoctor}) {
+    Map<String, dynamic> permisosMap = {};
+    if (isDoctor) {
+      permisosMap = {
+        '/convenio-medico': true,
+        '/tabuladores': true,
+        '/mis-pagos': true,
+        '/solicitar-convenio': true,
+        '/mis-tramites': true,
+        '/beneficios': true,
+        '/anexos': true,
+        '/formatos': true,
+        '/evaluaciones': true,
+        '/directorio-medico': true,
+        '/contacto': true,
+        '/datos-personales': true,
+        '/datos-academicos': true,
+        '/datos-fiscales': true,
+        '/asistentes': true,
+      };
+    } else {
+      permisosMap = {
+        for (final PermissionsDto p in appState.user.permisos) p.id: p.activo,
+      };
+    }
+
+    /// Save user permissions in app state
+    appState.userPermissions = permisosMap;
   }
 }

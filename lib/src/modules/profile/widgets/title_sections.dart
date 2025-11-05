@@ -33,7 +33,13 @@ class TitleSections extends StatelessWidget {
             : const SizedBox.shrink(),
       ),
       SizedBox(width: context.scale(15)),
-      Text(title, style: Get.textTheme.titleMedium),
+      Flexible(
+        child: Text(
+          title,
+          overflow: TextOverflow.ellipsis,
+          style: Get.textTheme.titleMedium,
+        ),
+      ),
     ],
   );
 

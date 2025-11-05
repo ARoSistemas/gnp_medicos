@@ -8,7 +8,12 @@ class _WelcomePhonePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppbarWelcomePhone(nombre: _c.user.nombreCompleto),
-    drawer: DrawerPhone(jwt: _c.jwt, permisos: _c.permisosMap),
+    drawer: DrawerPhone(
+      jwt: _c.jwt,
+      permisos: _c.appState.userPermissions,
+      banConvenio: _c.appState.user.banVerConvenio,
+      version: _c.appState.version,
+    ),
     body: SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -22,7 +27,7 @@ class _WelcomePhonePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 10),
             child: Text(
-              '''¡Buen día, ${_c.user.token.jwtLogin.claims.givenName} !''',
+              '''¡Buen día, ${_c.user.nombreCompleto.split(' ').first} !''',
               style: context.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 fontSize: context.fontSize(18),

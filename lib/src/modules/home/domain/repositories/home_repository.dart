@@ -6,10 +6,10 @@ import 'package:medicos/src/modules/profile/children/assistants/add_user/domain/
 
 class HomeRepository extends ApiBaseProvider {
   @override
-  final String url = AppConfig.baseUrl;
+  final String url = AppConfig.baseUrlMedicos;
 
   @override
-  final String contextPath = '/asistentes';
+  final String contextPath = '/admonproveedores/asistentes';
 
   /// Fetch data for Assistants List
   Future<Response<List<AsisstantDto>>> fetchListado(String uuid, String jwt) =>

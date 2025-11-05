@@ -7,7 +7,7 @@ class _DatosPersonalesPhonePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: const AppBarPhone(title: 'Datos personales'),
+    appBar: AppBarPhone(title: esMessages.mx.personalData.value),
     body: Column(
       children: [
         SizedBox(height: context.scale(20, axis: ScaleAxis.height)),
@@ -21,66 +21,66 @@ class _DatosPersonalesPhonePage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
-                const SectionTitle(title: 'MIS DATOS'),
+                SectionTitle(title: esMessages.mx.myData.value),
                 SizedBox(height: context.scale(15, axis: ScaleAxis.height)),
                 TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Nombre',
-                    hintText: 'Nombre',
+                  decoration: InputDecoration(
+                    labelText: esMessages.mx.name.value,
+                    hintText: esMessages.mx.name.value,
                   ),
                   controller: _c.nameController,
                   validator: (value) => '',
                 ),
                 SizedBox(height: context.scale(20, axis: ScaleAxis.height)),
                 TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Fecha de nacimiento',
-                    hintText: 'Fecha de nacimiento',
+                  decoration: InputDecoration(
+                    labelText: esMessages.mx.birthdate.value,
+                    hintText: esMessages.mx.birthdate.value,
                   ),
                   controller: _c.birthdateController,
                   validator: (value) => '',
                 ),
                 SizedBox(height: context.scale(20, axis: ScaleAxis.height)),
                 TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Género',
-                    hintText: 'Género',
+                  decoration: InputDecoration(
+                    labelText: esMessages.mx.gender.value,
+                    hintText: esMessages.mx.gender.value,
                   ),
                   controller: _c.genderController,
                   validator: (value) => '',
                 ),
                 SizedBox(height: context.scale(20, axis: ScaleAxis.height)),
                 TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Número de teléfono',
-                    hintText: 'Número de teléfono',
+                  decoration: InputDecoration(
+                    labelText: esMessages.mx.phoneNumber.value,
+                    hintText: esMessages.mx.phoneNumber.value,
                   ),
                   controller: _c.phoneNumberController,
                   validator: (value) => '',
                 ),
                 SizedBox(height: context.scale(20, axis: ScaleAxis.height)),
                 TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Correo electrónico',
-                    hintText: 'Correo electrónico',
+                  decoration: InputDecoration(
+                    labelText: esMessages.mx.email.value,
+                    hintText: esMessages.mx.email.value,
                   ),
                   controller: _c.emailController,
                   validator: (value) => '',
                 ),
                 SizedBox(height: context.scale(20, axis: ScaleAxis.height)),
                 TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Dirección de Consultorio',
-                    hintText: 'Dirección de Consultorio',
+                  decoration: InputDecoration(
+                    labelText:  esMessages.mx.medicalOffice.value,
+                    hintText: esMessages.mx.medicalOffice.value,
                   ),
                   controller: _c.addresController,
                   validator: (value) => '',
                 ),
                 SizedBox(height: context.scale(20, axis: ScaleAxis.height)),
                 TextFormField(
-                  decoration: const InputDecoration(
-                    labelText: 'Nacionalidad',
-                    hintText: 'Nacionalidad',
+                  decoration: InputDecoration(
+                    labelText: esMessages.mx.nationality.value,
+                    hintText:  esMessages.mx.nationality.value,
                   ),
                   controller: _c.nationalityController,
                   validator: (value) => '',

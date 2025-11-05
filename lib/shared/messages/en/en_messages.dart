@@ -198,12 +198,6 @@ class _US extends IAppMessages {
   );
 
   @override
-  MsgProperty get errorLoadingAssistants =>
-      esMessages.mx.errorLoadingAssistants.copyWith(
-        value: 'Error loading assistants.',
-      );
-
-  @override
   MsgProperty get loadingData => esMessages.mx.loadingData.copyWith(
     value: 'Loading data',
   );
@@ -253,13 +247,13 @@ class _US extends IAppMessages {
   );
 
   @override
-  MsgProperty get firstName => esMessages.mx.firstName.copyWith(
-    value: 'First Name',
+  MsgProperty get generalData => esMessages.mx.generalData.copyWith(
+    value: 'General Data',
   );
 
   @override
-  MsgProperty get generalData => esMessages.mx.generalData.copyWith(
-    value: 'General Data',
+  MsgProperty get name => esMessages.mx.name.copyWith(
+    value: 'Name(s)',
   );
 
   @override
@@ -268,8 +262,18 @@ class _US extends IAppMessages {
   );
 
   @override
-  MsgProperty get name => esMessages.mx.name.copyWith(
-    value: 'Name(s)',
+  MsgProperty get secondLastName => esMessages.mx.secondLastName.copyWith(
+    value: 'Second LastName',
+  );
+
+  @override
+  MsgProperty get notLastName => esMessages.mx.secondLastName.copyWith(
+    value: 'LastName',
+  );
+
+  @override
+  MsgProperty get notSecondLastName => esMessages.mx.secondLastName.copyWith(
+    value: 'Second LastName',
   );
 
   @override
@@ -334,10 +338,26 @@ class _US extends IAppMessages {
       );
 
   @override
+  MsgProperty get errorLoadingAssistants =>
+      esMessages.mx.errorLoadingAssistants.copyWith(
+        value: 'Error loading assistants.',
+      );
+
+  @override
   MsgProperty get errorLoadingInvites =>
       esMessages.mx.errorLoadingInvites.copyWith(
         value: 'Error Loading Invites',
       );
+
+  @override
+  MsgProperty get errorLoadingForm => esMessages.mx.noForm.copyWith(
+    value: 'Error loading form',
+  );
+
+  @override
+  MsgProperty get errorLoadingInfo => esMessages.mx.noForm.copyWith(
+    value: 'Error loading information',
+  );
 
   @override
   MsgProperty get noInvites => esMessages.mx.noInvites.copyWith(
@@ -352,11 +372,6 @@ class _US extends IAppMessages {
   @override
   MsgProperty get noForm => esMessages.mx.noForm.copyWith(
     value: 'No form to display',
-  );
-
-  @override
-  MsgProperty get errorLoadingForm => esMessages.mx.noForm.copyWith(
-    value: 'Error loading form',
   );
 
   @override
@@ -666,5 +681,170 @@ class _US extends IAppMessages {
   @override
   MsgProperty get tabulator => esMessages.mx.tabulator.copyWith(
     value: 'Tabulador',
+  );
+
+  @override
+  MsgProperty get myData => esMessages.mx.myData.copyWith(
+    value: 'My data',
+  );
+
+  @override
+  MsgProperty get profesionalTitle => esMessages.mx.profesionalTitle.copyWith(
+    value: 'Profesional Title',
+  );
+
+  @override
+  MsgProperty get gender => esMessages.mx.gender.copyWith(
+    value: 'Gender',
+  );
+
+  @override
+  MsgProperty get medicalOffice => esMessages.mx.medicalOffice.copyWith(
+    value: 'Medical office',
+  );
+
+  @override
+  MsgProperty get nationality => esMessages.mx.nationality.copyWith(
+    value: 'Nationality',
+  );
+
+  @override
+  MsgProperty get subSpecialty => esMessages.mx.subSpecialty.copyWith(
+    value: 'Subspecialty',
+  );
+
+  @override
+  MsgProperty get enterTenDigits => esMessages.mx.enterTenDigits.copyWith(
+    value: 'Enter the 10 digits of your number',
+  );
+
+  @override
+  MsgProperty get enterYourDate => esMessages.mx.enterYourDate.copyWith(
+    value: 'Select a valid date',
+  );
+
+  @override
+  MsgProperty get enterYourNameContinue =>
+      esMessages.mx.enterYourNameContinue.copyWith(
+        value: 'Enter your name to continue.',
+      );
+
+  @override
+  MsgProperty get enterYourLastNameContinue =>
+      esMessages.mx.enterYourLastNameContinue.copyWith(
+        value: 'Enter your lastname to continue',
+      );
+
+  @override
+  MsgProperty get enterYourSecondLastNameContinue =>
+      esMessages.mx.enterYourSecondLastNameContinue.copyWith(
+        value: 'Enter your second lastname to continue',
+      );
+
+  @override
+  MsgProperty get enterYourOption => esMessages.mx.enterYourOption.copyWith(
+    value: 'Select a valid option',
+  );
+
+  @override
+  MsgProperty get enterYourPassword => esMessages.mx.enterYourPassword.copyWith(
+    value: 'Enter your password',
+  );
+
+  @override
+  MsgProperty get enterYourPhoneNumber =>
+      esMessages.mx.enterYourPhoneNumber.copyWith(
+        value: 'The phone number is required',
+      );
+
+  @override
+  MsgProperty get enterYourRfc => esMessages.mx.enterYourRfc.copyWith(
+    value: 'The RFC is mandatory.',
+  );
+
+  @override
+  MsgProperty get enterYourRfcName => esMessages.mx.enterYourRfcName.copyWith(
+    value: 'The RFC does not match the name and lastnames.',
+  );
+
+  @override
+  MsgProperty get rfcFormatInvalid => esMessages.mx.rfcFormatInvalid.copyWith(
+    value: 'The RFC format is not valid.',
+  );
+
+  @override
+  MsgProperty get rfcGenericNoAllowed =>
+      esMessages.mx.rfcGenericNoAllowed.copyWith(
+        value: 'The generic RFC is not allowed.',
+      );
+
+  @override
+  MsgProperty get rfcDigitsTwelveThirteen =>
+      esMessages.mx.rfcDigitsTwelveThirteen.copyWith(
+        value: 'The RFC must have 12 or 13 characters.',
+      );
+
+  @override
+  MsgProperty
+  get reTabulationsLegend => esMessages.mx.reTabulationsLegend.copyWith(
+    value:
+        '''For fee schedule inquiries, questions about your payments, or clarifications on letters, please contact the CAM:''',
+  );
+
+  @override
+  MsgProperty get bankingInfoLegend => esMessages.mx.bankingInfoLegend.copyWith(
+    value:
+        '''Banking information, tax information, account statement updates:''',
+  );
+
+  @override
+  MsgProperty get personalizedAssistanceLegend =>
+      esMessages.mx.personalizedAssistanceLegend.copyWith(
+        value:
+            '''Personalized assistance, and a dedicated executive for trusted physicians:''',
+      );
+
+  @override
+  MsgProperty get onlyAlphabeticCharacters =>
+      esMessages.mx.onlyAlphabeticCharacters.copyWith(
+        value: '''Only is permited alphabetic characters''',
+      );
+
+  @override
+  MsgProperty get toRegisterYouAccept =>
+      esMessages.mx.toRegisterYouAccept.copyWith(
+        value: '''By registering you agree to our ''',
+      );
+  @override
+  MsgProperty get termsAndConditions =>
+      esMessages.mx.termsAndConditions.copyWith(
+        value: '''Terms and conditions of use of Electronic Media''',
+      );
+
+  @override
+  MsgProperty get fromGroupNational => esMessages.mx.fromGroupNational.copyWith(
+    value: '''of Grupo Nacional Provincial S.A.B''',
+  );
+
+  @override
+  MsgProperty get signUp => esMessages.mx.fromGroupNational.copyWith(
+    value: '''signUp''',
+  );
+
+  @override
+  MsgProperty get homeTerms => esMessages.mx.homeTerms.copyWith(
+    value:
+        'Partial or total reproduction of the information contained on '
+        'this site in digital form is prohibited.',
+  );
+
+  @override
+  MsgProperty get noResultsFound => esMessages.mx.homeTerms.copyWith(
+    value: 'No results found',
+  );
+
+  @override
+  MsgProperty get selectBtnToContinue => esMessages.mx.homeTerms.copyWith(
+    value: 'Select the "New Search" button to try again.',
   );
 }

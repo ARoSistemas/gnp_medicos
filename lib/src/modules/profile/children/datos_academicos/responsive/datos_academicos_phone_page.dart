@@ -7,7 +7,7 @@ class _DatosAcademicosPhonePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: const AppBarPhone(title: 'Datos académicos'),
+    appBar: AppBarPhone(title: esMessages.mx.academicData.value),
     body: Column(
       children: [
         SizedBox(height: context.scale(20, axis: ScaleAxis.height)),
@@ -21,7 +21,7 @@ class _DatosAcademicosPhonePage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
-                const SectionTitle(title: 'MIS DATOS'),
+                SectionTitle(title: esMessages.mx.myData.value),
                 SizedBox(height: context.scale(15, axis: ScaleAxis.height)),
                 TextFormField(
                   decoration: const InputDecoration(

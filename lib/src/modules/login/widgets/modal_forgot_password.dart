@@ -41,7 +41,7 @@ class ModalForgotPassword extends StatelessWidget {
                       labelText: esMessages.mx.email.value,
                       hintText: esMessages.mx.email.value,
                     ),
-                    validator: Validators.validateEmail,
+                    validator: Validators.email,
                   ),
                 ),
 
@@ -50,7 +50,7 @@ class ModalForgotPassword extends StatelessWidget {
                   onPressed: _c.isLoading.value ? null : _c.forgotPassword,
                   child: _c.isLoading.value
                       ? const CircularProgressIndicator(
-                          color: ColorPalette.white,
+                          color: ColorPalette.primary,
                         )
                       : Text(esMessages.mx.sendLink.value),
                 ),

@@ -4,20 +4,24 @@ import 'package:medicos/core/services/network/network_service.dart';
 
 class AddAssistantsRepository extends ApiBaseProvider {
   @override
-  final String url = AppConfig.baseUrl;
+  final String url = AppConfig.baseUrlMedicos;
 
   @override
-  final String contextPath = '/asistentes';
+  final String contextPath = '/admonproveedores/asistentes';
 
   Future<bool> onOffAssistant({
     required String idAssistant,
+    required String idTipoAsistente,
     required String affiliationCode,
     required bool status,
     required String jwt,
   }) async {
     final Response r = await put(
       '/relaciones/medicos/$affiliationCode/asistentes/$idAssistant',
-      {'activo': status},
+      {
+        'activo': status,
+        'idTipoAsistente': idTipoAsistente
+      },
       headers: {
         'Content-Type': 'application/json',
         'Authorization': 'Bearer $jwt',

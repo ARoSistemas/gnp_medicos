@@ -41,7 +41,7 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty noInformationToShow;
   abstract final MsgProperty loadingInformation;
   abstract final MsgProperty addAssistant;
-  abstract final MsgProperty errorLoadingAssistants;
+
   abstract final MsgProperty pleaseTryAgainLater;
   abstract final MsgProperty loadingData;
   abstract final MsgProperty accept;
@@ -53,9 +53,6 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty permissions;
   abstract final MsgProperty updateUser;
   abstract final MsgProperty newUser;
-  abstract final MsgProperty name;
-  abstract final MsgProperty firstName;
-  abstract final MsgProperty lastName;
   abstract final MsgProperty typeUser;
   abstract final MsgProperty phoneNumber;
   abstract final MsgProperty birthdate;
@@ -66,11 +63,11 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty clabe;
   abstract final MsgProperty numberAccount;
   abstract final MsgProperty pleaseWait;
-  abstract final MsgProperty errorLoadingInvites;
+
   abstract final MsgProperty noInvites;
   abstract final MsgProperty noActiveInvites;
   abstract final MsgProperty noForm;
-  abstract final MsgProperty errorLoadingForm;
+
   abstract final MsgProperty medicalReport;
   abstract final MsgProperty paymentManual;
   abstract final MsgProperty glossaryTerms;
@@ -86,6 +83,7 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty withHomoclave;
   abstract final MsgProperty doctorsName;
   abstract final MsgProperty specialty;
+  abstract final MsgProperty subSpecialty;
   abstract final MsgProperty state;
   abstract final MsgProperty medicalCircle;
   abstract final MsgProperty medicalTabulator;
@@ -97,7 +95,20 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty directory;
   abstract final MsgProperty medicalRegister;
   abstract final MsgProperty registrationData;
+
+  /// Personal Data
+  abstract final MsgProperty name;
   abstract final MsgProperty fullName;
+  abstract final MsgProperty lastName;
+  abstract final MsgProperty secondLastName;
+  abstract final MsgProperty enterYourNameContinue;
+  abstract final MsgProperty enterYourLastNameContinue;
+  abstract final MsgProperty enterYourSecondLastNameContinue;
+
+  /// TMP
+  abstract final MsgProperty notLastName;
+  abstract final MsgProperty notSecondLastName;
+
   abstract final MsgProperty createAccount;
   abstract final MsgProperty formats;
   abstract final MsgProperty transplantOrthopedicsFormat;
@@ -131,6 +142,39 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty cpts;
   abstract final MsgProperty cost;
   abstract final MsgProperty consult;
+  abstract final MsgProperty myData;
+  abstract final MsgProperty profesionalTitle;
+  abstract final MsgProperty gender;
+  abstract final MsgProperty medicalOffice;
+  abstract final MsgProperty nationality;
+  abstract final MsgProperty enterYourPassword;
+  abstract final MsgProperty enterYourPhoneNumber;
+  abstract final MsgProperty enterTenDigits;
+  abstract final MsgProperty enterYourOption;
+  abstract final MsgProperty enterYourDate;
+  abstract final MsgProperty enterYourRfc;
+  abstract final MsgProperty rfcFormatInvalid;
+  abstract final MsgProperty rfcGenericNoAllowed;
+  abstract final MsgProperty enterYourRfcName;
+  abstract final MsgProperty rfcDigitsTwelveThirteen;
+  abstract final MsgProperty reTabulationsLegend;
+  abstract final MsgProperty bankingInfoLegend;
+  abstract final MsgProperty personalizedAssistanceLegend;
+  abstract final MsgProperty onlyAlphabeticCharacters;
+  abstract final MsgProperty toRegisterYouAccept;
+  abstract final MsgProperty termsAndConditions;
+  abstract final MsgProperty fromGroupNational;
+  abstract final MsgProperty signUp;
+  abstract final MsgProperty homeTerms;
+
+  /// Msg error
+  abstract final MsgProperty errorLoadingInvites;
+  abstract final MsgProperty errorLoadingAssistants;
+  abstract final MsgProperty errorLoadingForm;
+  abstract final MsgProperty errorLoadingInfo;
+
+  abstract final MsgProperty noResultsFound;
+  abstract final MsgProperty selectBtnToContinue;
 
   @override
   Map<String, String> toJson() => {
@@ -169,7 +213,6 @@ abstract class IAppMessages extends IMessages {
     ...noInformationToShow.msgMap,
     ...loadingInformation.msgMap,
     ...addAssistant.msgMap,
-    ...errorLoadingAssistants.msgMap,
     ...pleaseTryAgainLater.msgMap,
     ...loadingData.msgMap,
     ...accept.msgMap,
@@ -182,8 +225,8 @@ abstract class IAppMessages extends IMessages {
     ...generalData.msgMap,
     ...permissions.msgMap,
     ...name.msgMap,
-    ...firstName.msgMap,
     ...lastName.msgMap,
+    ...secondLastName.msgMap,
     ...typeUser.msgMap,
     ...phoneNumber.msgMap,
     ...birthdate.msgMap,
@@ -194,11 +237,13 @@ abstract class IAppMessages extends IMessages {
     ...clabe.msgMap,
     ...numberAccount.msgMap,
     ...pleaseWait.msgMap,
+    ...errorLoadingAssistants.msgMap,
     ...errorLoadingInvites.msgMap,
+    ...errorLoadingForm.msgMap,
+    ...errorLoadingInfo.msgMap,
     ...noInvites.msgMap,
     ...noActiveInvites.msgMap,
     ...noForm.msgMap,
-    ...errorLoadingForm.msgMap,
     ...medicalReport.msgMap,
     ...paymentManual.msgMap,
     ...glossaryTerms.msgMap,
@@ -259,5 +304,37 @@ abstract class IAppMessages extends IMessages {
     ...cpts.msgMap,
     ...cost.msgMap,
     ...consult.msgMap,
+    ...myData.msgMap,
+    ...profesionalTitle.msgMap,
+    ...gender.msgMap,
+    ...medicalOffice.msgMap,
+    ...nationality.msgMap,
+    ...subSpecialty.msgMap,
+    ...enterYourNameContinue.msgMap,
+    ...enterYourLastNameContinue.msgMap,
+    ...enterYourSecondLastNameContinue.msgMap,
+    ...enterYourPassword.msgMap,
+    ...enterYourPhoneNumber.msgMap,
+    ...enterTenDigits.msgMap,
+    ...enterYourOption.msgMap,
+    ...enterYourDate.msgMap,
+    ...enterYourRfc.msgMap,
+    ...rfcFormatInvalid.msgMap,
+    ...rfcGenericNoAllowed.msgMap,
+    ...enterYourRfcName.msgMap,
+    ...rfcDigitsTwelveThirteen.msgMap,
+    ...reTabulationsLegend.msgMap,
+    ...bankingInfoLegend.msgMap,
+    ...personalizedAssistanceLegend.msgMap,
+    ...onlyAlphabeticCharacters.msgMap,
+    ...toRegisterYouAccept.msgMap,
+    ...termsAndConditions.msgMap,
+    ...fromGroupNational.msgMap,
+    ...signUp.msgMap,
+    ...notLastName.msgMap,
+    ...notSecondLastName.msgMap,
+    ...homeTerms.msgMap,
+    ...noResultsFound.msgMap,
+    ...selectBtnToContinue.msgMap,
   };
 }

@@ -18,6 +18,7 @@ class UserStorage extends IStorage {
       key: 'user',
       defaultValue: '',
       value: '',
+      encrypt: true
     ),
   };
 
@@ -25,14 +26,19 @@ class UserStorage extends IStorage {
     properties.firstWhere((p) => p.key == 'user') as StorageProperty<String>;
 
   void saveUser(UserModel userMdl) {
-    save(user, jsonEncode(userMdl.toJson()));
+    save(user, jsonEncode(userMdl.toJsonStored()));
   }
 
-  UserModel getUser() {
+  UserModel? getUser() {
     final String value = user.value;
     if (user.value.isEmpty) {
-      return UserModel.empty();
+      return null;
     }
     return UserModel.fromMap(json.decode(value));
+  }
+
+  Future<void> cleanUser() async {
+    user.value = user.defaultValue;
+    await box.remove(user.key);
   }
 }

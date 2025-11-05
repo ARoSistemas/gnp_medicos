@@ -28,7 +28,7 @@ class _HomePhonePage extends StatelessWidget {
             ),
 
             /// Mi Perfil como doctor
-            if (_c.isDoctor.value)
+            if (_c.appState.isDoctor)
               SizedBox(
                 width: double.infinity,
                 height: context.scale(160, axis: ScaleAxis.height),
@@ -61,7 +61,7 @@ class _HomePhonePage extends StatelessWidget {
             SizedBox(
               width: double.infinity,
               height: context.scale(
-                420 + (_c.isDoctor.value ? 0 : 160),
+                420 + (_c.appState.isDoctor ? 0 : 160),
                 axis: ScaleAxis.height,
               ),
               child: ListView.builder(

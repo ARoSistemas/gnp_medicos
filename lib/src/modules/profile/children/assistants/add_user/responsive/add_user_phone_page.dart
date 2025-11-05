@@ -37,7 +37,7 @@ class _AddUserPhonePage extends StatelessWidget {
                         child: ItemTabBarView(
                           isSelected: _c.selectedIndex.value == 0,
                           iconName: Icons.person_outline,
-                          title: 'Datos Generales',
+                          title: esMessages.mx.generalData.value,
                         ),
                       ),
 
@@ -49,7 +49,7 @@ class _AddUserPhonePage extends StatelessWidget {
                           child: ItemTabBarView(
                             isSelected: _c.selectedIndex.value == 1,
                             iconName: Icons.security_outlined,
-                            title: 'Permisos',
+                            title: esMessages.mx.permissions.value,
                           ),
                         ),
                       ),

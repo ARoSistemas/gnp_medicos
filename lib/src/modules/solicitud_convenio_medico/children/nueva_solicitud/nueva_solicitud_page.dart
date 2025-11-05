@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicos/core/services/navigation/route_params.dart';
+import 'package:medicos/shared/messages/es/es_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/utils/validators.dart';
 import 'package:medicos/shared/widgets/appbar_phone.dart';
 import 'package:medicos/shared/widgets/banner_medico.dart';
+import 'package:medicos/src/modules/profile/widgets/title_sections.dart';
 import 'package:medicos/src/modules/solicitud_convenio_medico/children/nueva_solicitud/nueva_solicitud_controller.dart';
 
 part 'nueva_solicitud_bindings.dart';

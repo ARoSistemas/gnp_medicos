@@ -11,7 +11,7 @@ class FormPasswordPhone extends StatelessWidget {
   Widget build(BuildContext context) {
     final RegistroController c = Get.find<RegistroController>();
     const String avisoTerminos =
-        'Termino y condiciones de uso de Medios Electrónicos ';
+        'Términos y condiciones de uso de Medios Electrónicos ';
 
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -27,7 +27,7 @@ class FormPasswordPhone extends StatelessWidget {
           SizedBox(height: context.scale(10, axis: ScaleAxis.height)),
           Obx(
             () => TextFormField(
-              controller: c.passwordController,
+              controller: c.passwordCtler,
               obscureText: !c.isPasswordVisible.value,
               decoration: InputDecoration(
                 labelText: 'Contraseña',
@@ -47,7 +47,7 @@ class FormPasswordPhone extends StatelessWidget {
           SizedBox(height: context.scale(30, axis: ScaleAxis.height)),
           Obx(
             () => TextFormField(
-              controller: c.passwordConfirmController,
+              controller: c.passwordConfirmCtler,
               obscureText: !c.isConfirmPasswordVisible.value,
               decoration: InputDecoration(
                 labelText: 'Confirmar contraseña',

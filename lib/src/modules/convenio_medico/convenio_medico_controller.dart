@@ -100,7 +100,7 @@ class ConvenioMedicoController extends GetxController
 
   Future<void> launcLowAgreement() async {
     final Uri url = Uri.parse(
-      'https://docs.google.com/forms/d/1U1QykaK1UcKesLEia9wxHlr7GdzTT1l2p7xNcRon8so/edit',
+      'https://docs.google.com/forms/d/1EdrJrM8--nRJX3lKorw9O_DKyiZwqhMRzlMBYeHapEQ/edit?pli=1',
     );
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       throw Exception('Could not launch $url');
@@ -109,7 +109,7 @@ class ConvenioMedicoController extends GetxController
 
   Future<void> updateAgreement() async {
     final Uri url = Uri.parse(
-      'https://docs.google.com/forms/d/1pOtikMLaUS-GsWBmvss4CQBd-u9IywvhymvbSOTUNKc/edit',
+      'https://docs.google.com/forms/d/1imC0j2XNygW0nv5rdxieNOlrc02Im4UkhhHheL5pfMg/edit?pli=1',
     );
     if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
       throw Exception('Could not launch $url');

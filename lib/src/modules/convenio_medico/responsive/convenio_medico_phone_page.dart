@@ -6,7 +6,12 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
   final ConvenioMedicoController _c = Get.find<ConvenioMedicoController>();
 
   @override
-  Widget build(BuildContext context) => Scaffold(
+  Widget build(BuildContext context) {
+    const styleInput = TextStyle(
+      color: Color.fromARGB(255, 19, 17, 17),
+    );
+
+    return Scaffold(
     appBar: AppBarPhone(title: esMessages.mx.agreement.value),
     body: SingleChildScrollView(
       child: Column(
@@ -60,6 +65,8 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
                 TextFormField(
                   controller: _c.emailController,
                   readOnly: true,
+                  enabled: false,
+                  style: styleInput,
                   decoration: InputDecoration(
                     labelText: esMessages.mx.email.value,
                     hintText: esMessages.mx.email.value,
@@ -90,6 +97,8 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
                     ),
                   ),
                   readOnly: true,
+                  enabled: false,
+                  style: styleInput,
                   validator: (v) => null,
                 ),
                 Padding(
@@ -118,6 +127,8 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
                     ),
                   ),
                   readOnly: true,
+                  enabled: false,
+                  style: styleInput,
                   validator: (v) => null,
                 ),
                 SizedBox(height: context.scale(10, axis: ScaleAxis.height)),
@@ -136,6 +147,8 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
                     ),
                   ),
                   readOnly: true,
+                  enabled: false,
+                  style: styleInput,
                   validator: (v) => null,
                 ),
                 SizedBox(height: context.scale(10, axis: ScaleAxis.height)),
@@ -154,6 +167,8 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
                     ),
                   ),
                   readOnly: true,
+                  enabled: false,
+                  style: styleInput,
                   validator: (v) => null,
                 ),
                 SizedBox(height: context.scale(10, axis: ScaleAxis.height)),
@@ -172,6 +187,8 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
                     ),
                   ),
                   readOnly: true,
+                  enabled: false,
+                  style: styleInput,
                   validator: (v) => null,
                 ),
                 SizedBox(height: context.scale(10, axis: ScaleAxis.height)),
@@ -190,6 +207,8 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
                     ),
                   ),
                   readOnly: true,
+                  enabled: false,
+                  style: styleInput,
                   validator: (v) => null,
                 ),
                 SizedBox(height: context.scale(10, axis: ScaleAxis.height)),
@@ -208,6 +227,8 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
                     ),
                   ),
                   readOnly: true,
+                  enabled: false,
+                  style: styleInput,
                   validator: (v) => null,
                 ),
                 SizedBox(height: context.scale(30, axis: ScaleAxis.height)),
@@ -238,4 +259,5 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
       ),
     ),
   );
+  }
 }

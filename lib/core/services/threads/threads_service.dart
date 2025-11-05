@@ -30,14 +30,14 @@ class ThreadsService extends GetxService {
   ///   },
   /// );
   /// ```
-  Future<void> execute({
+  Future<bool> execute({
     required Future<void> Function() func,
-    bool rethrowException = false,
-    String errorMsg = '',
+    Map<Exception, ExceptionAlertProperties>? customExceptionMessages,
     VoidCallback? onError,
   }) async {
     try {
       await func.call();
+      return true;
     } on Exception catch (e, stack) {
       logger.e(
         'Exception caught in ThreadsService.execute: $e',
@@ -46,39 +46,14 @@ class ThreadsService extends GetxService {
       );
 
       /// callback on error
-      onError?.call();
+      if (onError != null) {
+        onError.call();
+        return false;
+      }
 
       /// error handling
-      ExceptionManager.handleError(e, errorMsg);
-
-      if (rethrowException) {
-        rethrow;
-      }
+      ExceptionManager.handleError(e, customExceptionMessages);
+      return false;
     }
   }
 }
-
-// class ThreadsService extends GetxService {
-//   Future<bool> execute({
-//     required Future<void> Function() func,
-//     bool rethrowException = false,
-//     String message = '',
-//     VoidCallback? onError,
-//   }) async {
-//     try {
-//       await func.call();
-//       return true;
-//     } on Exception catch (e) {
-//       logger.e('Exception: $e');
-
-//       if (rethrowException) {
-//         rethrow;
-//       }
-
-//       onError?.call();
-
-//       ExceptionManager.handleError(e, message);
-//       return false;
-//     }
-//   }
-// }

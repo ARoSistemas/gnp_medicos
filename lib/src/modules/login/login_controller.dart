@@ -1,12 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:medicos/core/extensions/null_extensions.dart';
 import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/core/services/threads/threads_service.dart';
+import 'package:medicos/core/utils/exception_manager.dart';
 import 'package:medicos/core/utils/logger.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
 import 'package:medicos/shared/models/entities/claims_mdl.dart';
@@ -17,7 +20,7 @@ import 'package:medicos/shared/widgets/custom_notification.dart';
 import 'package:medicos/src/modules/home/home_page.dart';
 import 'package:medicos/src/modules/login/domain/repositories/auth_repository.dart';
 import 'package:medicos/src/modules/registro/registro_page.dart';
-import 'package:medicos/src/modules/welcome/welcome_page.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
 part 'login_model.dart';
 
@@ -25,19 +28,18 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
   final AuthRepository _authService = Get.find();
   final ThreadsService threadsService = Get.find();
   final AppStateController appState = Get.find();
+  late PackageInfo packageInfo;
 
   final NotificationServiceImpl _notification = AppService.i.notifications;
-
   final LocalAuthentication auth = LocalAuthentication();
 
   final formKey = GlobalKey<FormState>();
 
-  RxBool isAuthenticated = false.obs;
   RxBool canCheckBiometrics = false.obs;
   final RxList<BiometricType> availableBiometrics = <BiometricType>[].obs;
 
   RxBool isLoading = false.obs;
-  RxBool isEmailEntered = false.obs;
+  Rxn<UserModel> userStored = Rxn<UserModel>();
 
   final TextEditingController emailController = TextEditingController();
   final TextEditingController emailForgotPassController =
@@ -45,7 +47,6 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
   final TextEditingController passwordController = TextEditingController();
 
   RxBool isPasswordVisible = false.obs;
-  RxBool isAsistenteMedico = false.obs;
 
   final UserStorage userStorage = AppService.i.userStorage;
   final formKeyForgotPassword = GlobalKey<FormState>();
@@ -55,6 +56,8 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
     super.onInit();
     change(LoginModel.empty(), status: RxStatus.success());
     await checkBiometricsSupport();
+    packageInfo = await PackageInfo.fromPlatform();
+    appState.version = packageInfo.version;
   }
 
   @override
@@ -65,39 +68,39 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
     super.onClose();
   }
 
-  Future<void> doLogin() async {
+  Future<void> doLogin({bool biometric = false}) async {
     Get.back();
 
-    if (!formKey.currentState!.validate()) {
+    if (!biometric && userStored.value != null) {
+      emailController.text = (userStored.value?.email).value();
+    }
+
+    if (!biometric && !formKey.currentState!.validate()) {
       return;
     }
 
     FocusScope.of(Get.context!).unfocus();
-    if (!isEmailEntered.value) {
-      toggleInputFields();
-    } else {
-      await login(
-        emailController.text,
-        passwordController.text,
-      ).then((value) {
-        if (value) {
-          if (isAsistenteMedico.value) {
-            unawaited(Get.offAllNamed(HomePage.page.name));
-          } else {
-            unawaited(Get.offAllNamed(WelcomePage.page.name));
-          }
-        }
-      });
-    }
+
+    await login(
+      biometric ? (userStored.value?.email).value() : emailController.text,
+      biometric ? (userStored.value?.pass).value() : passwordController.text,
+    ).then((value) {
+      if (value) {
+        unawaited(Get.offAllNamed(HomePage.page.name));
+      }
+    });
   }
 
   /// Get Login
   Future<bool> login(String email, String password) async {
     isLoading.value = true;
-    
-    bool ret = false;
-    
-    await appService.threads.execute(
+
+    final bool ret = await appService.threads.execute(
+      customExceptionMessages: {
+        Exception(): ExceptionAlertProperties(
+          message: 'Contraseña incorrecta. Verifícala e inténtalo de nuevo',
+        ),
+      },
       func: () async {
         final Response<LoginModel> hasUser = await _authService.login(
           email,
@@ -109,28 +112,26 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
 
         /// Se guarda en el estado global el usuario logeado
         final Claims claims = userLogged.token.jwtLogin.claims;
-
         appState.user = userLogged.copyWith(
+          biometric: userStorage.getUser()?.biometric ?? false,
           email: email,
-          pass: password,
           nombreCompleto:
               '${claims.givenName} '
               '${claims.apePaterno} '
               '${claims.apeMaterno}',
+          nombre: claims.givenName,
+          apePaterno: claims.apePaterno,
+          apeMaterno: claims.apeMaterno,
         );
 
-        /// Flag para determinar si es Médico o Asistente
-        isAsistenteMedico.value = claims.roles.contains(
-          'Asistente Medico',
-        );
+        /// Si el rol es asistente, isDoctor = false;
+        appState.isDoctor = !claims.roles.contains('Asistente Medico');
 
         /// Se guarda en el storage temporalmente
-        userStorage.saveUser(userLogged);
-        ret = true;
-      },
-      errorMsg: 'Contraseña incorrecta. Verifícala e inténtalo de nuevo',
-      onError: () {
-        ret = false;
+        final UserModel userStored = appState.user.copyWith(
+          pass: password
+        );
+        userStorage.saveUser(userStored);
       },
     );
 
@@ -148,6 +149,7 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
 
     await threadsService.execute(
       func: () async {
+        isLoading.value = true;
         res = await _authService.forgotPassword(
           emailForgotPassController.text,
         );
@@ -156,8 +158,8 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
 
     if (res) {
       _notification.show(
-        title: 'Éxito',
-        message: 'El correo de recuperación se envió correctamente.',
+        title: 'Envió exitoso',
+      message: 'Se envió un enlace de recuperación de contraseña a tu correo.',
         type: AlertType.success,
       );
     }
@@ -166,26 +168,25 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
     Get.back();
   }
 
-  void toggleInputFields() {
-    isEmailEntered.value = !isEmailEntered.value;
-  }
-
   void togglePasswordVisibility() {
     isPasswordVisible.value = !isPasswordVisible.value;
   }
 
   Future<void> checkBiometricsSupport() async {
-    try {
-      canCheckBiometrics.value = await auth.canCheckBiometrics;
-      if (canCheckBiometrics.value) {
-        availableBiometrics.assignAll(await auth.getAvailableBiometrics());
+    if (!kIsWeb) {
+      try {
+        canCheckBiometrics.value = await auth.canCheckBiometrics;
+        if (canCheckBiometrics.value) {
+          availableBiometrics.assignAll(await auth.getAvailableBiometrics());
+          userStored.value = userStorage.getUser();
+        }
+      } on PlatformException catch (e) {
+        logger.i('Error biometrics ${e.message}');
       }
-    } on PlatformException catch (e) {
-      logger.i('Error biometrics ${e.message}');
     }
   }
 
-  Future<void> authenticate() async {
+  Future<void> authenticateBiometric() async {
     if (!canCheckBiometrics.value) {
       _notification.show(
         title: 'Error',
@@ -200,17 +201,12 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
         localizedReason: 'Por favor, autentíquese para acceder a la aplicación',
         options: const AuthenticationOptions(
           stickyAuth: true,
+          biometricOnly: true,
         ),
       );
 
-      isAuthenticated.value = didAuthenticate;
-
       if (didAuthenticate) {
-        _notification.show(
-          title: 'Éxito',
-          message: 'Autenticación Biométrica Exitosa.',
-          type: AlertType.success,
-        );
+        await doLogin(biometric: true);
       } else {
         _notification.show(
           title: 'Falló',
@@ -233,17 +229,9 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
     }
   }
 
-  void logout() {
-    isAuthenticated.value = false;
-    appState.reset();
-    emailController.text = '';
-    passwordController.text = '';
-
-    _notification.show(
-      title: 'Sesión cerrada',
-      message: 'Ha cerrado la sesión.',
-      type: AlertType.success,
-    );
+  Future<void> changeUser() async {
+    await userStorage.cleanUser();
+    userStored.value = userStorage.getUser();
   }
 
   /// EndClass

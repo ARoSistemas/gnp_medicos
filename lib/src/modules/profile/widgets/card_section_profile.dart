@@ -3,104 +3,90 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 
+/// A widget that displays a card with a title and an arrow icon.
+///
+/// This widget is designed to be used in profile or menu sections
+/// where a visual link to another screen is needed. The card is interactive
+/// and executes an [onTap] function when pressed.
+///
+/// The visibility of the card is controlled by the [showCard] parameter.
+/// If it is `false`, the widget will not take up any space in the UI.
+///
+/// ### Example Usage:
+///
+/// ```dart
+/// CardSectionProfile(
+///   title: 'Personal Data',
+///   subtitle: 'Basic user information',
+///   showCard: true,
+///   onTap: () {
+///     Get.toNamed('/personal-data');
+///   },
+/// )
+/// ```
+///
+/// **Note:** The `subtitle` and `icon` parameters are defined in the
+/// constructor but are not currently used in the widget's implementation.
 class CardSectionProfile extends StatelessWidget {
+  /// Creates an item for profile page
   const CardSectionProfile({
     required this.title,
     required this.subtitle,
     required this.onTap,
+    required this.showCard,
     this.icon,
     super.key,
   });
 
+  /// The main text displayed on the card.
   final String title;
+
+  /// A secondary text for the card. Currently not displayed.
   final String subtitle;
+
+  /// The function that is executed when the user taps the card.
   final Function()? onTap;
+
+  /// An icon for the card. Currently not displayed.
   final IconData? icon;
 
-  @override
-  Widget build(BuildContext context) => GestureDetector(
-    onTap: onTap,
-    child: Card(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 7),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              title,
-              style: context.textTheme.titleMedium,
-            ),
-            IconButton(
-              icon: const Icon(Icons.arrow_forward_ios),
-              onPressed: onTap,
-              color: ColorPalette.primary,
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
+  /// Controls whether the card should be shown or not.
+  ///
+  /// If `true`, the card is rendered. If `false`, an empty `SizedBox`
+  /// is rendered instead.
+  final bool showCard;
 
-  /* Padding(
-    padding: EdgeInsets.only(bottom: context.scale(20, axis: ScaleAxis.height)),
-    child: GestureDetector(
-      onTap: onTap,
-      child: Card(
-        margin: EdgeInsets.zero,
-        elevation: 5,
-        color: Colors.white,
-        shadowColor: const Color.fromRGBO(0, 45, 113, 0.239),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(4),
-          side: const BorderSide(
-            color: ColorPalette.backgroundCard
-          ),
-        ),
-        child: Container(
-          padding: const EdgeInsets.all(20),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Expanded(
+  @override
+  Widget build(BuildContext context) => showCard
+      ? GestureDetector(
+          onTap: onTap,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 7,
+                ),
                 child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    if (icon != null)
-                      Padding(
-                        padding: EdgeInsets.only(right: context.scale(10)),
-                        child: Icon(
-                          icon,
-                          size: 50,
-                          color: ColorPalette.textPrimary
-                        ),
-                      ),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(title, style: Get.textTheme.titleMedium),
-                          Text(
-                            subtitle,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                            style: Get.textTheme.bodySmall,
-                          ),
-                        ],
-                      ),
+                    Text(
+                      title,
+                      style: context.textTheme.titleMedium,
+                    ),
+                    IconButton(
+                      icon: const Icon(Icons.arrow_forward_ios),
+                      onPressed: onTap,
+                      color: ColorPalette.primary,
                     ),
                   ],
                 ),
               ),
-              const Icon(
-                Icons.chevron_right,
-                color: Colors.deepOrange,
-                size: 30,
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
-    ),
-  ); */
+        )
+      : const SizedBox();
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -109,6 +95,7 @@ class CardSectionProfile extends StatelessWidget {
       ..add(StringProperty('title', title))
       ..add(StringProperty('subtitle', subtitle))
       ..add(ObjectFlagProperty<Function()?>.has('onTap', onTap))
-      ..add(DiagnosticsProperty<IconData?>('icon', icon));
+      ..add(DiagnosticsProperty<IconData?>('icon', icon))
+      ..add(DiagnosticsProperty<bool>('showCard', showCard));
   }
 }

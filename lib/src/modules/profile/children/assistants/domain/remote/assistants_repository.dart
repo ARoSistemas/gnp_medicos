@@ -5,10 +5,10 @@ import 'package:medicos/src/modules/profile/children/assistants/add_user/domain/
 
 class AssistantsRepository extends ApiBaseProvider {
   @override
-  final String url = AppConfig.baseUrl;
+  final String url = AppConfig.baseUrlMedicos;
 
   @override
-  final String contextPath = '/medicos';
+  final String contextPath = '/admonproveedores/medicos';
 
   /// Fetch Assistants List
   ///

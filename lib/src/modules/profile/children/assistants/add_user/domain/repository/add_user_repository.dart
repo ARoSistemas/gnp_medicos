@@ -10,10 +10,10 @@ import 'package:medicos/src/modules/profile/children/assistants/add_user/domain/
 
 class AddUserRepository extends ApiBaseProvider {
   @override
-  final String url = AppConfig.baseUrl;
+  final String url = AppConfig.baseUrlMedicos;
 
   @override
-  final String contextPath = '/asistentes';
+  final String contextPath = '/admonproveedores/asistentes';
 
   /// Fetch for assistants list.
   ///
@@ -320,6 +320,4 @@ class AddUserRepository extends ApiBaseProvider {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer $jwt',
   };
-
-  /// EndClass
 }

@@ -13,10 +13,10 @@ class ConvenioMedicoRepository extends ApiBaseProvider {
   final AppStateController stateControllers = Get.find<AppStateController>();
 
   @override
-  final String url = AppConfig.baseUrl;
+  final String url = AppConfig.baseUrlMedicos;
 
   @override
-  final String contextPath = '/archivos';
+  final String contextPath = '/admonproveedores/archivos';
 
   Future<Uint8List?> donwMoloadMedicalAgreement(String affiliationCode) async {
     final String loginEnpoint = '/medicos/$affiliationCode/convenio';

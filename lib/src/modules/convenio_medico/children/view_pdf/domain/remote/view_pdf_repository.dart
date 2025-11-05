@@ -13,10 +13,10 @@ class ViewPdfRepository extends ApiBaseProvider {
   final ThreadsService threadsService = Get.find<ThreadsService>();
 
   @override
-  final String url = AppConfig.baseUrl;
+  final String url = AppConfig.baseUrlMedicos;
 
   @override
-  final String contextPath = '/archivos';
+  final String contextPath = '/admonproveedores/archivos';
 
   Future<Uint8List?> downloadLineamiento() async {
     const String loginEnpoint = '/medicos/aviso';

@@ -47,13 +47,12 @@ class ItemAssitants extends StatelessWidget {
                 ),
                 SizedBox(width: context.scale(16)),
                 Column(
-                  // mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(name, style: Get.textTheme.titleMedium),
                     SizedBox(height: context.scale(3, axis: ScaleAxis.height)),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.54,
+                      width: MediaQuery.of(context).size.width * 0.5,
                       child: Text(
                         subTitle,
                         maxLines: 1,

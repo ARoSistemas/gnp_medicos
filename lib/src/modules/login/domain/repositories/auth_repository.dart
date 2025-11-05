@@ -5,10 +5,10 @@ import 'package:medicos/src/modules/login/login_controller.dart';
 
 class AuthRepository extends ApiBaseProvider {
   @override
-  final String url = AppConfig.baseUrl;
+  final String url = AppConfig.baseUrlMedicos;
 
   @override
-  final String contextPath = '/conveniomedicos';
+  final String contextPath = '/admonproveedores/conveniomedicos';
 
   /// Fetch data for Login
   Future<Response<LoginModel>> login(

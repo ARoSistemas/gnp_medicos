@@ -58,7 +58,7 @@ class AssistantsController extends GetxController
         );
         change(
           state!.copyWith(assistants: assistants),
-          status: assistants.isNotEmpty ? RxStatus.success() : RxStatus.empty(),
+          status: RxStatus.success(),
         );
       },
       onError: () {
@@ -83,6 +83,7 @@ class AssistantsController extends GetxController
       func: () async {
         final bool res = await apiConnAsis.onOffAssistant(
           idAssistant: assistant.idAsistente,
+          idTipoAsistente: assistant.idTipoAsistente,
           affiliationCode: appState.user.codigoFiliacion,
           status: !assistant.activo,
           jwt: appState.user.token.jwt,
