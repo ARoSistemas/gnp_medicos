@@ -3,17 +3,17 @@
 /// This class is used to encapsulate the information for each option
 /// displayed in the directory list, such as in `_DirectorioPhonePage`.
 /// It contains a title for the item and the name of the associated image.
-class ItemsDirectoryMdl {
-  /// Creates an instance of [ItemsDirectoryMdl].
-  ItemsDirectoryMdl({
+class ItemDirectoryMdl {
+  /// Creates an instance of [ItemDirectoryMdl].
+  ItemDirectoryMdl({
     required this.title,
     required this.subtitle,
     required this.idPage,
     this.img = '',
   });
 
-  /// Creates an empty instance of [ItemsDirectoryMdl].
-  factory ItemsDirectoryMdl.empty() => ItemsDirectoryMdl(
+  /// Creates an empty instance of [ItemDirectoryMdl].
+  factory ItemDirectoryMdl.empty() => ItemDirectoryMdl(
     title: '',
     subtitle: '',
     idPage: '',

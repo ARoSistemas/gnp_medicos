@@ -5,6 +5,7 @@ class _AddUserBindings extends Bindings {
   void dependencies() {
     Get
       ..lazyPut(AddUserController.new)
-      ..put(AddUserRepository());
+      ..put(AddUserRepository())
+      ..put(AddAssistantsRepository());
   }
 }

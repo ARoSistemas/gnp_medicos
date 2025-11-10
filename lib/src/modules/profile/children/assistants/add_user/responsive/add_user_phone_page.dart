@@ -48,7 +48,7 @@ class _AddUserPhonePage extends StatelessWidget {
                           padding: const EdgeInsets.only(left: 10),
                           child: ItemTabBarView(
                             isSelected: _c.selectedIndex.value == 1,
-                            iconName: Icons.security_outlined,
+                            iconName: Icons.verified_user_outlined,
                             title: esMessages.mx.permissions.value,
                           ),
                         ),

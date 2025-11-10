@@ -21,7 +21,7 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
   @override
   Future<void> onInit() async {
     super.onInit();
-    if (appState.isDoctor) {
+    if (!appState.isDoctor) {
       await getAssistantList();
     }
   }
@@ -29,8 +29,8 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
   @override
   void onReady() {
     super.onReady();
-    if (!appState.isDoctor) {
-      loadUserPermissions(isDoctor: false);
+    if (appState.isDoctor) {
+      loadUserPermissions(isDoctor: true);
       unawaited(Get.offAllNamed(WelcomePage.page.name));
     }
   }
@@ -107,7 +107,7 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
       },
       customExceptionMessages: {
         Exception(): ExceptionAlertProperties(
-          message: 'Los permisos no fueron recuperados',
+          message: 'Los permisos no fueron recuperados.',
         ),
       },
     );

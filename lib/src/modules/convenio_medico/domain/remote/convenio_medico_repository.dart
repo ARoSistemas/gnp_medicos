@@ -36,6 +36,23 @@ class ConvenioMedicoRepository extends ApiBaseProvider {
     }
   }
 
+  Future<Uint8List?> downloadLineamiento() async {
+    const String loginEnpoint = '/medicos/aviso';
+    try {
+      http.Response? response;
+      final Uri uri = Uri.parse('$url$contextPath$loginEnpoint');
+      response = await http.get(uri, 
+        headers: _getHeaders(stateControllers.user.token.jwt)
+      );
+      if (response.statusCode == HttpStatus.ok) {
+        return response.bodyBytes;
+      }
+      return null;
+    } on Exception catch (_) {
+      return null;
+    }
+  }
+
   Map<String, String> _getHeaders(String jwt) => {
     'Content-Type': 'application/json',
     'Authorization': 'Bearer $jwt',

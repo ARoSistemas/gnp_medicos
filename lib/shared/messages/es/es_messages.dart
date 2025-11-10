@@ -158,7 +158,7 @@ class _MX extends IAppMessages {
   @override
   MsgProperty get personalData => MsgProperty(
     key: 'personalData',
-    value: 'Datos personales',
+    value: 'Datos Personales',
   );
 
   @override
@@ -500,6 +500,12 @@ class _MX extends IAppMessages {
   );
 
   @override
+  MsgProperty get view => MsgProperty(
+    key: 'view',
+    value: 'Visualizar',
+  );
+
+  @override
   MsgProperty get rfc => MsgProperty(
     key: 'rfc',
     value: 'RFC',
@@ -634,13 +640,13 @@ class _MX extends IAppMessages {
   @override
   MsgProperty get requestLog => MsgProperty(
     key: 'requestLog',
-    value: 'Bitacora de solicitudes',
+    value: 'Bitácora de solicitudes',
   );
 
   @override
   MsgProperty get applicationLog => MsgProperty(
     key: 'applicationLog',
-    value: 'Bitacora de aplicaciones',
+    value: 'Bitácora de aplicaciones',
   );
 
   @override

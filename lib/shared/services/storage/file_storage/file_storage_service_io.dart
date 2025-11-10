@@ -22,7 +22,7 @@ class FileStorageService extends FileStorageBase {
     } on Exception catch (e) {
       appService.notifications.show(
         title: 'Error',
-        message: 'Error al descargar o compartir: $e',
+        message: 'Error al descargar o compartir: $e.',
         type: AlertType.error,
       );
     }

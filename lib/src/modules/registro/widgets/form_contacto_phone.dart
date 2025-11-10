@@ -100,6 +100,11 @@ class FormContactoPhone extends StatelessWidget {
             ),
             validator: Validators.email,
             autovalidateMode: AutovalidateMode.onUserInteraction,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(
+                RegExp(regexFilterEmail)
+              ),
+            ]
           ),
           SizedBox(height: context.scale(30, axis: ScaleAxis.height)),
 

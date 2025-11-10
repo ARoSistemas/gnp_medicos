@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:medicos/shared/constans/constans.dart';
 import 'package:medicos/shared/messages/es/es_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/utils/validators.dart';
@@ -36,19 +38,28 @@ class ModalForgotPassword extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(top: 30, bottom: 30),
                   child: TextFormField(
+                    maxLength: 100,
                     controller: _c.emailForgotPassController,
                     decoration: InputDecoration(
                       labelText: esMessages.mx.email.value,
                       hintText: esMessages.mx.email.value,
+                      counterText: ''
                     ),
                     validator: Validators.email,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(
+                          RegExp(regexFilterEmail)
+                        ),
+                      ]
                   ),
                 ),
 
                 /// Btn: Enviar Link
                 ElevatedButton(
-                  onPressed: _c.isLoading.value ? null : _c.forgotPassword,
-                  child: _c.isLoading.value
+                  onPressed: 
+                  _c.isLoadingForgot.value ? null : _c.forgotPassword,
+                  child: _c.isLoadingForgot.value
                       ? const CircularProgressIndicator(
                           color: ColorPalette.primary,
                         )

@@ -2,10 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicos/core/extensions/responsive_extension.dart';
 import 'package:medicos/shared/messages/es/es_messages.dart';
+import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/widgets/appbar_phone.dart';
 import 'package:medicos/shared/widgets/banner_medico.dart';
+import 'package:medicos/shared/widgets/wdgt_loading.dart';
 import 'package:medicos/src/modules/directorio/children/filter_page/filterpage_page.dart';
 import 'package:medicos/src/modules/directorio/directorio_controller.dart';
+import 'package:medicos/src/modules/directorio/domain/entities/items_directory_mdl.dart';
+import 'package:medicos/src/modules/directorio/domain/repository/directory_repository.dart';
 import 'package:medicos/src/modules/directorio/widgets/wdgt_item_menu_directory.dart';
 
 part 'directorio_bindings.dart';

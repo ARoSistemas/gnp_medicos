@@ -18,10 +18,10 @@ final class _NuevaSolicitudModel {
 
   _NuevaSolicitudModel copyWith({
     String? name,
-    List<CatalogConveioModel>? specialties,
-    List<CatalogConveioModel>? subSpecialties,
-    List<CatalogConveioModel>? states,
-    List<CatalogConveioModel>? hospitalAttention,
+    List<CatalogConvenioModel>? specialties,
+    List<CatalogConvenioModel>? subSpecialties,
+    List<CatalogConvenioModel>? states,
+    List<CatalogConvenioModel>? hospitalAttention,
   }) => _NuevaSolicitudModel(
     name: name ?? this.name,
     specialties: specialties ?? this.specialties,
@@ -31,8 +31,8 @@ final class _NuevaSolicitudModel {
   );
 
   final String name;
-  final List<CatalogConveioModel> specialties;
-  final List<CatalogConveioModel> subSpecialties;
-  final List<CatalogConveioModel> states;
-  final List<CatalogConveioModel> hospitalAttention;
+  final List<CatalogConvenioModel> specialties;
+  final List<CatalogConvenioModel> subSpecialties;
+  final List<CatalogConvenioModel> states;
+  final List<CatalogConvenioModel> hospitalAttention;
 }

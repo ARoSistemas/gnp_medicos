@@ -18,7 +18,7 @@ class SolicitudConvenioMedicoRepository extends ApiBaseProvider {
     String idAssistant,
     String jwt,
   ) async {
-    const String solicitudEndPoint = '/gestor-medico/solicitudes/MDUMEIJ028';
+    final String solicitudEndPoint = '/gestor-medico/solicitudes/$idAssistant';
     final Response<List<SolicitudModel>> ret = await get(
       solicitudEndPoint,
       headers: finalHeaders(jwt),
@@ -40,12 +40,12 @@ class SolicitudConvenioMedicoRepository extends ApiBaseProvider {
     return ret.body ?? [];
   }
 
-  Future<List<CatalogConveioModel>> getSpecialty(
+  Future<List<CatalogConvenioModel>> getSpecialty(
     String jwt,
   ) async {
     const String solicitudEndPoint = '/gestor-medico/catalogo/especialidad';
 
-    final Response<List<CatalogConveioModel>> ret = await get(
+    final Response<List<CatalogConvenioModel>> ret = await get(
       solicitudEndPoint,
       headers: finalHeaders(jwt),
       decoder: (data) {
@@ -56,8 +56,8 @@ class SolicitudConvenioMedicoRepository extends ApiBaseProvider {
         final List<Map<String, dynamic>> dataList =
             List<Map<String, dynamic>>.from(data);
 
-        final List<CatalogConveioModel> listaFinal = dataList
-            .map(CatalogConveioModel.fromMap)
+        final List<CatalogConvenioModel> listaFinal = dataList
+            .map(CatalogConvenioModel.fromMap)
             .toList();
 
         return listaFinal;
@@ -66,12 +66,12 @@ class SolicitudConvenioMedicoRepository extends ApiBaseProvider {
     return ret.body ?? [];
   }
 
-  Future<List<CatalogConveioModel>> getSubspecialty(
+  Future<List<CatalogConvenioModel>> getSubspecialty(
     String jwt,
   ) async {
     const String solicitudEndPoint = '/gestor-medico/catalogo/subespecialidad';
 
-    final Response<List<CatalogConveioModel>> ret = await get(
+    final Response<List<CatalogConvenioModel>> ret = await get(
       solicitudEndPoint,
       headers: finalHeaders(jwt),
       decoder: (data) {
@@ -82,8 +82,8 @@ class SolicitudConvenioMedicoRepository extends ApiBaseProvider {
         final List<Map<String, dynamic>> dataList =
             List<Map<String, dynamic>>.from(data);
 
-        final List<CatalogConveioModel> listaFinal = dataList
-            .map(CatalogConveioModel.fromMap)
+        final List<CatalogConvenioModel> listaFinal = dataList
+            .map(CatalogConvenioModel.fromMap)
             .toList();
 
         return listaFinal;
@@ -92,13 +92,13 @@ class SolicitudConvenioMedicoRepository extends ApiBaseProvider {
     return ret.body ?? [];
   }
 
-  Future<List<CatalogConveioModel>> getHopitalAttention(
+  Future<List<CatalogConvenioModel>> getHopitalAttention(
     String jwt,
   ) async {
     const String solicitudEndPoint =
         '/gestor-medico/catalogo/hospital-atencion';
 
-    final Response<List<CatalogConveioModel>> ret = await get(
+    final Response<List<CatalogConvenioModel>> ret = await get(
       solicitudEndPoint,
       headers: finalHeaders(jwt),
       decoder: (data) {
@@ -109,8 +109,8 @@ class SolicitudConvenioMedicoRepository extends ApiBaseProvider {
         final List<Map<String, dynamic>> dataList =
             List<Map<String, dynamic>>.from(data);
 
-        final List<CatalogConveioModel> listaFinal = dataList
-            .map(CatalogConveioModel.fromMap)
+        final List<CatalogConvenioModel> listaFinal = dataList
+            .map(CatalogConvenioModel.fromMap)
             .toList();
 
         return listaFinal;
@@ -119,12 +119,12 @@ class SolicitudConvenioMedicoRepository extends ApiBaseProvider {
     return ret.body ?? [];
   }
 
-  Future<List<CatalogConveioModel>> getState(
+  Future<List<CatalogConvenioModel>> getState(
     String jwt,
   ) async {
     const String solicitudEndPoint = '/convenio/catalogo/estado';
 
-    final Response<List<CatalogConveioModel>> ret = await get(
+    final Response<List<CatalogConvenioModel>> ret = await get(
       solicitudEndPoint,
       headers: finalHeaders(jwt),
       decoder: (data) {
@@ -135,8 +135,8 @@ class SolicitudConvenioMedicoRepository extends ApiBaseProvider {
         final List<Map<String, dynamic>> dataList =
             List<Map<String, dynamic>>.from(data);
 
-        final List<CatalogConveioModel> listaFinal = dataList
-            .map(CatalogConveioModel.fromMap)
+        final List<CatalogConvenioModel> listaFinal = dataList
+            .map(CatalogConvenioModel.fromMap)
             .toList();
 
         return listaFinal;

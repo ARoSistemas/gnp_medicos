@@ -19,8 +19,6 @@ import 'package:medicos/src/modules/profile/profile_page.dart';
 import 'package:medicos/src/modules/registro/registro_page.dart';
 import 'package:medicos/src/modules/solicitud_convenio_medico/children/nueva_solicitud/nueva_solicitud_page.dart';
 import 'package:medicos/src/modules/solicitud_convenio_medico/solicitud_convenio_medico_page.dart';
-import 'package:medicos/src/modules/solicitud_documentacion/solicitud_documentacion_page.dart';
-import 'package:medicos/src/modules/solicitud_documentacion/widgets/solicitud_phone.dart/solicitud_upload_phone.dart';
 import 'package:medicos/src/modules/tabuladores/tabuladores_page.dart';
 import 'package:medicos/src/modules/welcome/welcome_page.dart';
 
@@ -31,15 +29,12 @@ final class AppNavigation {
     LoginPage.page,
     ProfilePage.page,
     SolicitudConvenioMedicoPage.page,
-    SolicitudDocumentacionPage.page,
     ViewPdfPage.page,
     WelcomePage.page,
-    SolicitudDocumentacionPage.page,
     DatosPersonalesPage.page,
     DatosAcademicosPage.page,
     DatosFiscalesPage.page,
     AddUserPage.page,
-    SolicitudUploadPhone.page,
     TabuladoresPage.page,
     AnexosPage.page,
     BeneficiosPage.page,

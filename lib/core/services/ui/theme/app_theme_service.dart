@@ -68,7 +68,8 @@ class AppThemeService extends GetxService {
         inputDecorationTheme: _inputDecorationTheme(),
         checkboxTheme: _checkBoxTheme(),
         dropdownMenuTheme: _dropdownMenuTheme(),
-        bottomSheetTheme: _bottomSheetTheme()
+        bottomSheetTheme: _bottomSheetTheme(),
+        datePickerTheme: _datePickerTheme()
       );
 
   DropdownMenuThemeData _dropdownMenuTheme() => const DropdownMenuThemeData(
@@ -200,5 +201,17 @@ class AppThemeService extends GetxService {
 
   BottomSheetThemeData _bottomSheetTheme() => BottomSheetThemeData(
     modalBarrierColor: ColorPalette.textPrimary.withValues(alpha: 0.7)
+  );
+
+  DatePickerThemeData _datePickerTheme() => DatePickerThemeData(
+    backgroundColor: Colors.white,
+    headerBackgroundColor: ColorPalette.primary,
+    headerForegroundColor: Colors.white,
+    dayBackgroundColor: WidgetStateProperty.resolveWith((states) {
+      if (states.contains(WidgetState.selected)) {
+        return ColorPalette.textPrimary;
+      }
+      return null;
+    }),
   );
 }

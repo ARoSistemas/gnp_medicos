@@ -83,9 +83,9 @@ class _DatosFiscalesPhonePage extends StatelessWidget {
                       ),
                     ),
                     iconAlignment: IconAlignment.end,
-                    icon: IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.co_present),
+                    icon: ImageFromWeb(
+                      imageName: 'icono_modulo_fiscales_pagos.png',
+                      jwt: _c.user.token.jwt
                     ),
                   ),
                 ],

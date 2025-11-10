@@ -58,7 +58,7 @@ class RegistroController extends GetxController
     if (!formKey.currentState!.validate()) {
       _notification.show(
         title: 'Atención',
-        message: 'Favor de validar la información ingresada',
+        message: 'Favor de validar la información ingresada.',
         type: AlertType.warning,
       );
       return;
@@ -84,7 +84,7 @@ class RegistroController extends GetxController
 
     _notification.show(
       title: res ? 'Éxito' : 'Error',
-      message: res ? 'Registro exitoso' : 'Credenciales inválidas',
+      message: res ? 'Registro exitoso.' : 'Credenciales inválidas.',
       type: res ? AlertType.success : AlertType.error,
     );
 

@@ -6,63 +6,59 @@ class ItemToSearchDirectoryMdl {
   /// Creates an instance of [ItemToSearchDirectoryMdl] with all the required
   /// filter IDs.
   ItemToSearchDirectoryMdl({
+    required this.idPage,
     required this.itemSelected,
-    required this.idEspecialidad,
-    required this.idPlanHospitalario,
-    required this.idClinica,
-    required this.idOtrosServicios,
-    required this.idCirculoMedico,
-    required this.idEstado,
-    required this.idMunicipio,
-    required this.doctor,
-    required this.asegurado,
-    required this.searchCtrler,
+    required this.especialidad,
+    required this.planHospitalario,
+    required this.clinica,
+    required this.otrosServicios,
+    required this.circuloMedico,
+    required this.estado,
+    required this.municipio,
+    required this.searchBy,
   });
 
   /// Creates an empty instance of [ItemToSearchDirectoryMdl].
   factory ItemToSearchDirectoryMdl.empty() => ItemToSearchDirectoryMdl(
-    itemSelected: ItemsDirectoryMdl.empty(),
-    idEspecialidad: '',
-    idPlanHospitalario: '',
-    idClinica: '',
-    idOtrosServicios: null,
-    idCirculoMedico: '',
-    idEstado: '',
-    idMunicipio: '',
-    doctor: '',
-    asegurado: '',
-    searchCtrler: {},
+    idPage: '',
+    itemSelected: ItemDirectoryMdl.empty(),
+    especialidad: {},
+    planHospitalario: {},
+    clinica: {},
+    otrosServicios: {},
+    circuloMedico: {},
+    estado: {},
+    municipio: {},
+    searchBy: '',
   );
 
+  /// The ID of the page being searched (e.g., 'medicos', 'hospitales').
+  final String idPage;
+
   /// The main directory item being searched (e.g., Doctors, Hospitals).
-  final ItemsDirectoryMdl itemSelected;
+  final ItemDirectoryMdl itemSelected;
 
   /// The ID of the selected medical specialty.
-  final String idEspecialidad;
+  final Map<String, dynamic> especialidad;
 
   /// The ID of the selected hospital plan.
-  final String idPlanHospitalario;
+  final Map<String, dynamic> planHospitalario;
 
   /// The ID of the selected clinic type.
-  final String idClinica;
+  final Map<String, dynamic> clinica;
 
   /// The ID of the selected "other services" type.
-  final int? idOtrosServicios;
+  final Map<String, dynamic> otrosServicios;
 
   /// The ID of the selected medical circle or tabulator.
-  final String idCirculoMedico;
+  final Map<String, dynamic> circuloMedico;
 
   /// The ID of the selected state.
-  final String idEstado;
+  final Map<String, dynamic> estado;
 
   /// The ID of the selected municipality.
-  final String idMunicipio;
+  final Map<String, dynamic> municipio;
 
-  /// The name of the doctor to search for.
-  final String doctor;
-
-  /// The name or policy number of the insured to search for.
-  final String asegurado;
-
-  final Map<String, dynamic> searchCtrler;
+  ///  The name to search for in the directory.
+  final String searchBy;
 }

@@ -9,6 +9,7 @@ class CardItemsResults extends StatelessWidget {
     required this.item,
     super.key,
   });
+
   final ItemsResultsMdl item;
 
   @override

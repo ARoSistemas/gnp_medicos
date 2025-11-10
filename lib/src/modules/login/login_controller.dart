@@ -39,6 +39,7 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
   final RxList<BiometricType> availableBiometrics = <BiometricType>[].obs;
 
   RxBool isLoading = false.obs;
+  RxBool isLoadingForgot = false.obs;
   Rxn<UserModel> userStored = Rxn<UserModel>();
 
   final TextEditingController emailController = TextEditingController();
@@ -98,7 +99,8 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
     final bool ret = await appService.threads.execute(
       customExceptionMessages: {
         Exception(): ExceptionAlertProperties(
-          message: 'Contraseña incorrecta. Verifícala e inténtalo de nuevo',
+          message: 'Usuario y/o contraseña incorrectos. '
+              'Verifícala e inténtalo de nuevo.',
         ),
       },
       func: () async {
@@ -109,7 +111,6 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
 
         final LoginModel loginData = hasUser.body!;
         final UserModel userLogged = loginData.toEntity().user;
-
         /// Se guarda en el estado global el usuario logeado
         final Claims claims = userLogged.token.jwtLogin.claims;
         appState.user = userLogged.copyWith(
@@ -149,7 +150,7 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
 
     await threadsService.execute(
       func: () async {
-        isLoading.value = true;
+        isLoadingForgot.value = true;
         res = await _authService.forgotPassword(
           emailForgotPassController.text,
         );
@@ -163,7 +164,7 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
         type: AlertType.success,
       );
     }
-    isLoading.value = false;
+    isLoadingForgot.value = false;
     emailForgotPassController.text = '';
     Get.back();
   }

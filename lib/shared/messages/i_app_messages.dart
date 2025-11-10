@@ -79,6 +79,7 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty gnpLine;
   abstract final MsgProperty agreement;
   abstract final MsgProperty download;
+  abstract final MsgProperty view;
   abstract final MsgProperty rfc;
   abstract final MsgProperty withHomoclave;
   abstract final MsgProperty doctorsName;

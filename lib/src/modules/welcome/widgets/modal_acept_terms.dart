@@ -28,7 +28,7 @@ class ModalAceptTerms extends StatelessWidget {
             const SizedBox(height: 20),
             ElevatedButton(
               onPressed: Get.back,
-              child: const Text('Entendido'),
+              child: const Text('Aceptar y continuar'),
             ),
           ],
         ),

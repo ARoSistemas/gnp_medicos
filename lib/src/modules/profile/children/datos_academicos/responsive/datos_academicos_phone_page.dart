@@ -21,7 +21,7 @@ class _DatosAcademicosPhonePage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
-                SectionTitle(title: esMessages.mx.myData.value),
+                SectionTitle(title: esMessages.mx.myData.value.toUpperCase()),
                 SizedBox(height: context.scale(15, axis: ScaleAxis.height)),
                 TextFormField(
                   decoration: const InputDecoration(

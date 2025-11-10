@@ -6,6 +6,7 @@ import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/widgets/appbar_phone.dart';
 import 'package:medicos/shared/widgets/banner_medico.dart';
 import 'package:medicos/shared/widgets/section_title.dart';
+import 'package:medicos/shared/widgets/wdgt_image_from_web.dart';
 import 'package:medicos/src/modules/profile/children/datos_fiscales/datos_fiscales_controller.dart';
 
 part 'datos_fiscales_bindings.dart';

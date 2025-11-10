@@ -6,7 +6,7 @@ import 'package:medicos/core/extensions/null_extensions.dart';
 import 'package:medicos/core/extensions/responsive_extension.dart';
 import 'package:medicos/shared/messages/es/es_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
-import 'package:medicos/src/modules/solicitud_documentacion/solicitud_documentacion_page.dart';
+import 'package:medicos/src/modules/solicitud_convenio_medico/children/upload_documents/upload_documents_page.dart';
 
 class CardSolicitud extends StatelessWidget {
   const CardSolicitud({
@@ -140,7 +140,7 @@ class CardSolicitud extends StatelessWidget {
                     SizedBox(height: context.scale(16, axis: ScaleAxis.height)),
                     ElevatedButton(
                       onPressed: () =>
-                          Get.toNamed(SolicitudDocumentacionPage.page.name),
+                          Get.toNamed(UploadDocumentsPage.page.name),
                       child: Text(esMessages.mx.uploadInformation.value),
                     ),
                   ],

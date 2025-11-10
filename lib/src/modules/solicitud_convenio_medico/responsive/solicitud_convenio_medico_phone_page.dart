@@ -50,12 +50,21 @@ class _SolicitudConvenioMedicoPhonePage extends StatelessWidget {
                       itemBuilder: (context, index) {
                         final SolicitudModel requestAgreement =
                             _c.requestsAgreement[index];
+                        StatusSolicitud status;
+                        switch(requestAgreement.cveEstatus){
+                          case '01':
+                            status = StatusSolicitud.success;
+                          case '02':
+                            status = StatusSolicitud.error;
+                          default:
+                            status = StatusSolicitud.success;
+                        }
                         return Padding(
                           padding: const EdgeInsets.only(bottom: 20),
                           child: CardSolicitud(
                             nameDoctor: requestAgreement.nombreMedico,
                             dateRequest: requestAgreement.fechaSolicitud,
-                            status: StatusSolicitud.success,
+                            status: status,
                             folio: requestAgreement.cveSolicitud,
                           ),
                         );

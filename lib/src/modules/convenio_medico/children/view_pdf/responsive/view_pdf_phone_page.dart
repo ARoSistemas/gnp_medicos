@@ -6,25 +6,33 @@ class _ViewPdfPhonePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: const AppBarPhone(title: 'Convenio'),
+    appBar: AppBarPhone(title: _c.type),
     body: Padding(
       padding: const EdgeInsetsGeometry.symmetric(horizontal: 16),
       child: Obx(
         () => Stack(
           children: [
-            if (_c.documentLineamiento != null && !_c.isLoading.value)
+            if (_c.document != null && !_c.isLoading.value)
               Column(
                 children: [
                   Flexible(
                     child: PdfViewer.data(
-                      _c.documentLineamiento!,
-                      sourceName: 'lineamientos',
+                      _c.document!,
+                      sourceName: _c.type,
                     ),
                   ),
-                  SizedBox(height: context.scale(10, axis: ScaleAxis.height)),
-                  OutlinedButton(
-                    onPressed: _c.downloadDevice,
-                    child: const Text('Descargar'),
+                  Visibility(
+                    visible: _c.type != FileTypesAgree.agreement,
+                    child: SizedBox(
+                      height: context.scale(10, axis: ScaleAxis.height)
+                    )
+                  ),
+                  Visibility(
+                    visible: _c.type != FileTypesAgree.agreement,
+                    child: OutlinedButton(
+                      onPressed: _c.downloadDevice,
+                      child: Text(msg.download.value),
+                    ),
                   ),
                   SizedBox(height: context.scale(40, axis: ScaleAxis.height)),
                 ],

@@ -21,5 +21,7 @@
   "baseGoogleApis": "https://maps.googleapis.com/maps/api",
   "shareLocation": "https://www.google.com/maps/place/",
   "baseIntegracion": "https://soycliente.gnp.com.mx/",
-  "urlPoliza": "https://api.service.gnp.com.mx"
+  "urlPoliza": "https://api.service.gnp.com.mx",
+  "urlDirectorioUAT": "https://api-uat.oscpuat.gnp.com.mx",
+  "urlDirectorio": "https://soycliente.gnp.com.mx"
 }

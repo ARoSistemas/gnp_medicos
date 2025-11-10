@@ -55,7 +55,7 @@ class DrawerPhone extends StatelessWidget {
       ),
       ItemForDrawer(
         iconName: 'icono_modulo_solicitud_convenio_medico.png',
-        title: 'Solicitar convenio',
+        title: 'Solicitud convenio médico',
         route: SolicitudConvenioMedicoPage.page.name,
         visible: permisos[SolicitudConvenioMedicoPage.page.name] ?? false,
       ),

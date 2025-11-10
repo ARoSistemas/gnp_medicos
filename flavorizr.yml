@@ -1,0 +1,52 @@
+instructions:
+  - assets:download
+  - assets:extract
+  - android:androidManifest
+  - android:flavorizrGradle
+  - android:buildGradle
+  #- android:dummyAssets
+  - android:icons
+  #- flutter:flavors
+  #- flutter:app
+  #- flutter:pages
+  #- flutter:main
+  - ios:podfile
+  - ios:xcconfig
+  - ios:buildTargets
+  - ios:schema
+  #- ios:dummyAssets
+  - ios:icons
+  - ios:plist
+  #- ios:launchScreen
+  #- google:firebase
+  #- huawei:agconnect
+  - assets:clean
+  #- ide:config
+
+flavors:
+  qa:
+    app:
+      name: "Médicos (QA)"
+      #icon: assets/icons/launcher/qa.png
+    android:
+      applicationId: mx.com.gnp.medicos.qa
+    ios:
+      bundleId: mx.com.gnp.medicos.qa
+
+  uat:
+    app:
+      name: "Médicos (UAT)"
+      #icon: assets/icons/launcher/uat.png
+    android:
+      applicationId: mx.com.gnp.medicos.uat
+    ios:
+      bundleId: mx.com.gnp.medicos.uat
+
+  prod:
+    app:
+      name: "Médicos"
+      #icon: assets/icons/launcher/prod.png
+    android:
+      applicationId: mx.com.gnp.medicos
+    ios:
+      bundleId: mx.com.gnp.medicos

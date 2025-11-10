@@ -1,24 +1,24 @@
 import 'dart:convert';
 
-class CatalogConveioModel {
-  CatalogConveioModel({
+class CatalogConvenioModel {
+  CatalogConvenioModel({
     required this.clave,
     required this.cveEstado,
     required this.descripcion,
   });
 
-  factory CatalogConveioModel.empty() => CatalogConveioModel(
+  factory CatalogConvenioModel.empty() => CatalogConvenioModel(
     clave: '',
     cveEstado: '',
     descripcion: '',
   );
 
-  factory CatalogConveioModel.fromRaw(String raw) =>
-      CatalogConveioModel.fromMap(jsonDecode(raw));
+  factory CatalogConvenioModel.fromRaw(String raw) =>
+      CatalogConvenioModel.fromMap(jsonDecode(raw));
 
 
-  factory CatalogConveioModel.fromMap(Map<String, dynamic> json) =>
-      CatalogConveioModel(
+  factory CatalogConvenioModel.fromMap(Map<String, dynamic> json) =>
+      CatalogConvenioModel(
         clave: json['clave'] ?? '',
         cveEstado: json['cve_estado'] ?? '',
         descripcion: json['descripcion'] ?? '',
@@ -27,11 +27,11 @@ class CatalogConveioModel {
   final String cveEstado;
   final String descripcion;
 
-  CatalogConveioModel copyWith({
+  CatalogConvenioModel copyWith({
     String? clave,
     String? cveEstado,
     String? descripcion,
-  }) => CatalogConveioModel(
+  }) => CatalogConvenioModel(
     clave: clave ?? this.clave,
     cveEstado: cveEstado ?? this.cveEstado,
     descripcion: descripcion ?? this.descripcion,

@@ -25,6 +25,7 @@ class AuthRepository extends ApiBaseProvider {
       if ((data as Map<String, dynamic>)['code'] is int) {
         return LoginModel.fromMap(data);
       }
+
       return LoginModel.empty();
     },
   );

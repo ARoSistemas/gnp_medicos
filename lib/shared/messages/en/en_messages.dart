@@ -430,6 +430,11 @@ class _US extends IAppMessages {
   );
 
   @override
+  MsgProperty get view => esMessages.mx.view.copyWith(
+    value: 'View',
+  );
+
+  @override
   MsgProperty get rfc => esMessages.mx.rfc.copyWith(
     value: 'RFC',
   );

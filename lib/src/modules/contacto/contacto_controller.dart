@@ -13,6 +13,7 @@ class ContactoController extends GetxController
   UserModel get user => appState.user;
   String get jwt => appState.user.token.jwt;
   List<ItemsContacts> items = [];
+
   @override
   void onInit() {
     super.onInit();
@@ -26,9 +27,9 @@ class ContactoController extends GetxController
       ),
       ItemsContacts(
         title: esMessages.mx.gnpLine.value,
-        contact: '+525552279000',
+        contact: '5552279000',
         isLink: true,
-        onTap: () => launchPhoneContact('5552279000'),
+        onTap: () => launchPhoneContact('+525552279000'),
       ),
       ItemsContacts(
         title: '@GNPSeguros',

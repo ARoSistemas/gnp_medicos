@@ -15,6 +15,7 @@ import 'package:medicos/src/modules/profile/children/assistants/add_user/domain/
 import 'package:medicos/src/modules/profile/children/assistants/add_user/domain/dtos/register_assistant_dto.dart';
 import 'package:medicos/src/modules/profile/children/assistants/add_user/domain/entities/assistant_update_model.dart';
 import 'package:medicos/src/modules/profile/children/assistants/add_user/domain/repository/add_user_repository.dart';
+import 'package:medicos/src/modules/profile/children/assistants/domain/remote/add_assistants_repository.dart';
 
 part 'add_user_model.dart';
 
@@ -22,6 +23,7 @@ class AddUserController extends GetxController
     with StateMixin<_AddUserModel>, GetSingleTickerProviderStateMixin {
   final ThreadsService threadsService = Get.find();
   final AddUserRepository apiConn = Get.find();
+  final AddAssistantsRepository apiConnAsis = Get.find();
   final AppStateController appState = Get.find();
   final NotificationServiceImpl _notification = AppService.i.notifications;
 
@@ -158,7 +160,8 @@ class AddUserController extends GetxController
       initialDate: selectedDate.value ?? maxDate,
       firstDate: minDate,
       lastDate: maxDate,
-      confirmText: 'Aceptar'
+      confirmText: 'Aceptar',
+      initialEntryMode: DatePickerEntryMode.calendarOnly,
     );
 
     if (picked != null && picked != selectedDate.value) {
@@ -229,8 +232,8 @@ class AddUserController extends GetxController
         newAssistantId = res.body ?? '';
 
         _notification.show(
-          title: 'Registro de Asistentes',
-          message: 'El asistente $newAssistantId fue registrado',
+          title: 'Registro exitoso',
+          message: 'Se registró al usuario correctamente.',
           type: newAssistantId.isEmpty ? AlertType.error : AlertType.success,
         );
 
@@ -268,16 +271,25 @@ class AddUserController extends GetxController
           jwt: appState.user.token.jwt,
         );
 
+        await apiConnAsis.onOffAssistant(
+          idAssistant: assistant.idAsistente,
+          idTipoAsistente: selectedItemType.value.toString(),
+          affiliationCode: appState.user.codigoFiliacion,
+          status: true, 
+          jwt: jwt
+        );
+
         if (res.statusCode! >= 200) {
           _notification.show(
-            message: 'El asistente se actualizo',
+            title: 'Actualización exitosa',
+            message: 'Se registró al usuario correctamente.',
             type: AlertType.success,
           );
         }
       },
       customExceptionMessages: {
         Exception(): ExceptionAlertProperties(
-          message: 'El asistente no se actualizó',
+          message: 'El asistente no se actualizó.',
         ),
       },
     );
@@ -353,7 +365,7 @@ class AddUserController extends GetxController
       },
       customExceptionMessages: {
         Exception(): ExceptionAlertProperties(
-          message: 'Error al actualizar los permisos del asistente',
+          message: 'Error al actualizar los permisos del asistente.',
         ),
       },
     );

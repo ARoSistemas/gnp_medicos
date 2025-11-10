@@ -34,7 +34,7 @@ class ImageFromWeb extends StatelessWidget {
     super.key,
   });
 
-  /// The name of the image file to be fetched from the server 
+  /// The name of the image file to be fetched from the server
   /// (e.g., 'image.png').
   final String imageName;
 
@@ -53,9 +53,14 @@ class ImageFromWeb extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ClipRRect(
     borderRadius: borderRadius,
-    child: (imageName.isEmpty)
-        ? SizedBox(height: height, width: width, child: const Placeholder())
-        : CachedNetworkImage(
+    child: imageName.isEmpty
+        ? SizedBox(
+            height: height,
+            width: width,
+            child: const Placeholder(),
+          )
+        : jwt.isNotEmpty
+        ? CachedNetworkImage(
             height: height,
             width: width,
             fit: BoxFit.cover,
@@ -64,6 +69,10 @@ class ImageFromWeb extends StatelessWidget {
             httpHeaders: {'Authorization': 'Bearer $jwt'},
             errorWidget: (context, url, error) =>
                 const Icon(Icons.question_mark_outlined),
+          )
+        : Image.asset(
+            imageName,
+            fit: BoxFit.cover,
           ),
   );
 

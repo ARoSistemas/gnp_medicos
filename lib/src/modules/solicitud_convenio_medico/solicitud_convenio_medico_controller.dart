@@ -43,8 +43,8 @@ class SolicitudConvenioMedicoController extends GetxController
       isLoading.value = true;
       requestsAgreement = await _requestAgreementRepository
           .getRequestsAgreement(
-            appState.user.uid,
-            appState.user.token.jwt,
+            user.token.jwtLogin.uid,
+            user.token.jwt,
           );
       isLoading.value = false;
     } on Exception catch (e) {

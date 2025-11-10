@@ -15,4 +15,6 @@ class AppConfig {
     'baseUrlIntegracion',
   );
   static const String urlPoliza = String.fromEnvironment('urlPoliza');
+
+  static const String urlDirectorio = String.fromEnvironment('urlDirectorio');
 }

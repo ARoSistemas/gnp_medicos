@@ -28,34 +28,22 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
               children: [
                 const SizedBox(height: 20),
                 SectionTitle(
-                  title: esMessages.mx.agreement.value,
+                  title: esMessages.mx.agreement.value.toUpperCase(),
                   widget: GestureDetector(
-                    onTap: () {},
+                    onTap: () => _c.onView(FileTypesAgree.agreement),
                     child: Row(
                       children: [
                         Text(
-                          esMessages.mx.download.value,
+                          esMessages.mx.view.value,
                           style: Get.textTheme.titleMedium?.copyWith(
                             color: ColorPalette.primary,
+                            letterSpacing: 1.25
                           ),
                         ),
-                        const SizedBox(width: 10),
-                        Obx(
-                          () => _c.isLoadingDownload.value
-                              ? SizedBox(
-                                  width: context.scale(20),
-                                  height: context.scale(20),
-                                  child: const CircularProgressIndicator(
-                                    color: ColorPalette.primary,
-                                  ),
-                                )
-                              : IconButton(
-                                  onPressed: _c.downMoloadMedicalAgreement,
-                                  icon: const Icon(
-                                    Icons.download_outlined,
-                                    color: ColorPalette.primary,
-                                  ),
-                                ),
+                        const SizedBox(width: 8),
+                        const Icon(
+                          Icons.remove_red_eye_outlined,
+                          color: ColorPalette.primary,
                         ),
                       ],
                     ),
@@ -233,7 +221,7 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
                 ),
                 SizedBox(height: context.scale(30, axis: ScaleAxis.height)),
                 ElevatedButton(
-                  onPressed: () => Get.toNamed(ViewPdfPage.page.name),
+                  onPressed: () => _c.onView(FileTypesAgree.guidelines),
                   child: Text(esMessages.mx.consultGuidelines.value,),
                 ),
                 SizedBox(height: context.scale(15, axis: ScaleAxis.height)),

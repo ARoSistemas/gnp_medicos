@@ -3,8 +3,12 @@ part of 'directorio_page.dart';
 class _DirectorioBindings extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<DirectorioController>(
+    Get
+      ..lazyPut<DirectorioController>(
         DirectorioController.new,
-    );
+      )
+      ..put<DirectoryRepository>(
+        DirectoryRepository(),
+      );
   }
 }

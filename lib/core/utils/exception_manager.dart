@@ -66,7 +66,7 @@ final class ExceptionManager {
     } else {
       notification.show(
         title: 'Error',
-        message: 'Ocurrió un error inesperado',
+        message: 'Ocurrió un error inesperado.',
         type: AlertType.error,
       );
     }

@@ -3,14 +3,18 @@ class ItemsResultsMdl {
     required this.title,
     required this.subtitle,
     required this.desc,
-    required this.gps,
+    required this.tel,
+    required this.lat,
+    required this.lng,
   });
 
   factory ItemsResultsMdl.empty() => ItemsResultsMdl(
     title: '',
     subtitle: '',
     desc: '',
-    gps: '',
+    tel: '',
+    lat: '',
+    lng: '',
   );
 
   /// The title of the directory item to be displayed in the UI.
@@ -22,6 +26,10 @@ class ItemsResultsMdl {
   /// The image associated with the directory item.
   final String desc;
 
-  /// The GPS coordinates associated with the directory item.
-  final String gps;
+  /// The telephone number associated with the directory item.
+  final String tel;
+
+  /// The GPS coordinates of the directory item.
+  final String lat;
+  final String lng;
 }

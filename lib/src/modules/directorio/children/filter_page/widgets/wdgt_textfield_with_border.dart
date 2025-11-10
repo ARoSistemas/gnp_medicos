@@ -42,6 +42,7 @@ class TextFieldWithBorderInBottom extends StatelessWidget {
             borderSide: BorderSide(color: colorBorde, width: 2),
           ),
         ),
+        onTapOutside: (event) => FocusScope.of(context).unfocus(),
       ),
     ],
   );

@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:medicos/core/services/app_service.dart';
+import 'package:medicos/core/utils/exception_manager.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
+import 'package:medicos/src/modules/directorio/children/filter_page/domain/entities/models/circulo_medico_mdl.dart';
+import 'package:medicos/src/modules/directorio/children/filter_page/domain/entities/models/clinica_mdl.dart';
+import 'package:medicos/src/modules/directorio/children/filter_page/domain/entities/models/especialidad_mdl.dart';
+import 'package:medicos/src/modules/directorio/children/filter_page/domain/entities/models/municipio_mdl.dart';
+import 'package:medicos/src/modules/directorio/children/filter_page/domain/entities/models/otro_servicio_mdl.dart';
+import 'package:medicos/src/modules/directorio/children/filter_page/domain/entities/models/plan_hospitalario_mdl.dart';
+import 'package:medicos/src/modules/directorio/children/filter_page/domain/repositories/filterpage_repository.dart';
 import 'package:medicos/src/modules/directorio/children/filter_results/filter_results_page.dart';
 import 'package:medicos/src/modules/directorio/domain/entities/filter_directory_mdl.dart';
 import 'package:medicos/src/modules/directorio/domain/entities/items_directory_mdl.dart';
@@ -11,98 +19,130 @@ part 'filterpage_model.dart';
 class FilterPageController extends GetxController
     with StateMixin<_FilterPageModel>, WidgetsBindingObserver {
   final AppStateController appState = Get.find<AppStateController>();
+  final FilterPageRepository _filterPageRepo = Get.find();
 
-  ItemsDirectoryMdl itemSelected = ItemsDirectoryMdl(
-    title: 'Médicos',
-    subtitle: 'Directorio de Médicos',
-    idPage: 'medicos',
-  );
+  ItemDirectoryMdl itemSelected = ItemDirectoryMdl.empty();
 
-  /// Elementos de la búsqueda
+  ///* Elements of the search *///
+
+  /// Keyboard visible flag
   bool _isKeyboardVisible = false;
+
+  /// Show search dropdown
   RxBool showSearchDropdown = false.obs;
+
+  /// Filtered list for search
   RxList<Map<String, dynamic>> listFiltered = <Map<String, dynamic>>[].obs;
+
+  /// Complete list for search
   List<Map<String, dynamic>> _itemsToSearch = [];
+
+  /// Controllers and focus nodes
   final TextEditingController searchCtrler = TextEditingController();
-  Map<String, dynamic> itemSearch = {};
+
+  /// Focus node for the search input
   final FocusNode fnInputSearch = FocusNode();
-  final RxString hintTextSearch = ''.obs;
-  final RxString keyToSearch = 'especialidad'.obs;
 
-  /// Elementos de los dropdowns de filtros
-  List<Map<String, dynamic>> itemsEspecialidades = [];
-  RxMap<String, dynamic> itemSelectedEspecialidades = <String, dynamic>{}.obs;
+  /// Hint text for the search input
+  String hintTextSearch = '';
 
-  List<Map<String, dynamic>> itemsPlanHospitalario = [];
-  RxMap<String, dynamic> itemSelectedPlanHospitalario = <String, dynamic>{}.obs;
+  /// Key for the search
+  final RxString keyToSearch = ''.obs;
 
-  List<Map<String, dynamic>> itemsClinicas = [];
-  RxMap<String, dynamic> itemSelectedClinicas = <String, dynamic>{}.obs;
+  ///* End elements of the search *///
+  ///
+  ///* Elements of the filter dropdowns *///
 
-  List<Map<String, dynamic>> itemsOtrosServicios = [];
-  RxMap<String, dynamic> itemSelectedOtrosServicios = <String, dynamic>{}.obs;
+  /// Catalog for specialties
+  List<Map<String, dynamic>> catEspecialidades = [];
 
-  List<Map<String, dynamic>> itemsCirculos = [];
-  RxMap<String, dynamic> itemSelectedCirculos = <String, dynamic>{}.obs;
+  /// Selected specialty
+  RxMap<String, dynamic> especialidadSelected = <String, dynamic>{}.obs;
 
-  List<Map<String, dynamic>> itemsEstados = [];
-  RxMap<String, dynamic> itemSelectedEstados = <String, dynamic>{}.obs;
+  /// Catalog for hospital plans
+  List<Map<String, dynamic>> catPlanHospitalario = [];
 
-  List<Map<String, dynamic>> itemsMunicipios = [];
-  RxMap<String, dynamic> itemSelectedMunicipios = <String, dynamic>{}.obs;
+  /// Selected hospital plan
+  RxMap<String, dynamic> planHospitalarioSelected = <String, dynamic>{}.obs;
 
-  final TextEditingController medicoCtrler = TextEditingController();
-  final TextEditingController aseguradoCtrler = TextEditingController();
+  /// Catalog for clinics
+  List<Map<String, dynamic>> catClinicas = [];
+
+  /// Selected clinic
+  RxMap<String, dynamic> clinicasSelected = <String, dynamic>{}.obs;
+
+  /// Catalog for other services
+  List<Map<String, dynamic>> catOtrosServicios = [];
+
+  /// Selected other service
+  RxMap<String, dynamic> otrosServiciosSelected = <String, dynamic>{}.obs;
+
+  /// Catalog for medical circles
+  List<Map<String, dynamic>> catCirculos = [];
+
+  /// Selected medical circle
+  RxMap<String, dynamic> circuloSelected = <String, dynamic>{}.obs;
+
+  /// Catalog for states
+  List<Map<String, dynamic>> catEstados = [];
+
+  /// Selected state
+  RxMap<String, dynamic> itemSelectedEstado = <String, dynamic>{}.obs;
+
+  /// Catalog for municipalities
+  List<Map<String, dynamic>> catMunicipios = [];
+
+  /// Selected municipality
+  RxMap<String, dynamic> municipiosSelected = <String, dynamic>{}.obs;
+
+  /// Controller for the input search by general
+  final TextEditingController searchByCtrler = TextEditingController();
+
+  /// Hint text for the search input
+  String titleSearchby = '';
+
+  /// Label text for the search input
+  String labelSearchby = '';
 
   @override
   Future<void> onInit() async {
     super.onInit();
+    change(null, status: RxStatus.loading());
 
-    /// Registramos el observer para detectar cambios en el teclado.
+    /// Register the observer to detect changes in the keyboard.
     WidgetsBinding.instance.addObserver(this);
 
-    /// Recibimos el tipo de búsqueda caso no venga nada, se asume médicos
-    itemSelected =
-        Get.arguments as ItemsDirectoryMdl? ??
-        ItemsDirectoryMdl(
-          title: 'Médicos',
-          subtitle: 'Directorio de Médicos',
-          idPage: 'medicos',
-        );
+    /// We receive the search type if nothing comes, it is assumed doctors
+    final item = Get.arguments as Map<String, dynamic>;
+    itemSelected = item['item'] as ItemDirectoryMdl;
 
-    /// Estados y municipios son comunes a varios tipos de búsqueda
-    fetchDataEstados();
-    fetchDataMunicipios();
+    /// We receive the catalogs
+    catEspecialidades = item['catEspecialidades'] as List<Map<String, dynamic>>;
+    catCirculos = item['catCirculos'] as List<Map<String, dynamic>>;
+    catPlanHospitalario =
+        item['catPlanHospitalario'] as List<Map<String, dynamic>>;
+    catClinicas = item['catClinicas'] as List<Map<String, dynamic>>;
+    catOtrosServicios = item['catOtrosServicios'] as List<Map<String, dynamic>>;
+    catEstados = item['catEstados'] as List<Map<String, dynamic>>;
 
-    /// Configuramos los valores iniciales según el tipo de búsqueda
+    /// We set the initial values according to the search type
     await setTypeSearch(itemSelected);
 
-    /// Una vez configurados los valores iniciales
-    /// agregamos los listeners necesarios y continuamos con la carga
+    /// Once the initial values are configured
+    /// we add the necessary listeners and continue loading
 
-    /// Listener para el input de búsqueda
+    /// Listener for the search input
     searchCtrler.addListener(() {
       _filterSearch(key: keyToSearch.value);
     });
 
-    /// Listener para el foco del input de búsqueda
+    /// Listener for the focus of the search input
     fnInputSearch.addListener(() {
       showSearchDropdown.value = fnInputSearch.hasFocus;
       if (!fnInputSearch.hasFocus) {
         resetSearch();
       }
     });
-
-    await Future.delayed(const Duration(milliseconds: 750));
-
-    /// Finalmente indicamos que la carga fue exitosa
-    change(
-      _FilterPageModel(
-        name: itemSelected.subtitle,
-        itemSelected: itemSelected.idPage,
-      ),
-      status: RxStatus.success(),
-    );
   }
 
   @override
@@ -110,8 +150,7 @@ class FilterPageController extends GetxController
     WidgetsBinding.instance.removeObserver(this);
     searchCtrler.dispose();
     fnInputSearch.dispose();
-    medicoCtrler.dispose();
-    aseguradoCtrler.dispose();
+    searchByCtrler.dispose();
     super.onClose();
   }
 
@@ -127,8 +166,6 @@ class FilterPageController extends GetxController
 
     final bool isKeyboardCurrentlyVisible = bottomInset > 0;
 
-    // Si el teclado estaba visible y ahora no lo está,
-    // y el foco lo tiene el input.
     if (_isKeyboardVisible &&
         !isKeyboardCurrentlyVisible &&
         fnInputSearch.hasFocus) {
@@ -136,209 +173,401 @@ class FilterPageController extends GetxController
       fnInputSearch.unfocus();
     }
 
-    // Actualizamos el estado del teclado para el próximo frame.
+    /// update the keyboard visibility flag
     _isKeyboardVisible = isKeyboardCurrentlyVisible;
   }
 
+  /// Filters the search list
   void _filterSearch({required String key}) {
-    // required List<Map<String, dynamic>> listToFilter,
     final String query = searchCtrler.text.toLowerCase();
-
     listFiltered.value = _itemsToSearch.where((item) {
-      // final String toSeek = item[key] ?? '';
       final String toSeek = (item[key] as String?)?.toLowerCase() ?? '';
       return toSeek.contains(query.toLowerCase());
     }).toList();
   }
 
+  /// Resets the search
   void resetSearch() {
     listFiltered.value = _itemsToSearch;
     searchCtrler.clear();
     showSearchDropdown.value = false;
   }
 
-  Future<void> setTypeSearch(ItemsDirectoryMdl itemSelected) async {
-    /// Definimos los valores iniciales según el tipo de búsqueda
-    switch (itemSelected.idPage) {
-      case 'medicos':
-        keyToSearch.value = 'especialidad';
-        hintTextSearch.value = 'Buscar por especialidad';
-        fetchDataEspecialidades();
-        _itemsToSearch = itemsEspecialidades;
-        itemSelectedEspecialidades.value = itemsEspecialidades.first;
-        fetchDataCirculos();
-        itemSelectedCirculos.value = itemsCirculos.first;
-      case 'hospitales':
-        keyToSearch.value = 'plan';
-        hintTextSearch.value = 'Buscar por nombre del hospital';
-        fetchDataPlanHospitalario();
-        _itemsToSearch = itemsPlanHospitalario;
-        itemSelectedPlanHospitalario.value = itemsPlanHospitalario.first;
-      case 'clinicas':
-        keyToSearch.value = 'tipoClinica';
-        hintTextSearch.value = 'Buscar por nombre de la clínica';
-        fetchDataClinicas();
-        _itemsToSearch = itemsClinicas;
-        itemSelectedClinicas.value = itemsClinicas.first;
-      case 'otros_servicios':
-        keyToSearch.value = 'tipoServicio';
-        hintTextSearch.value = 'Buscar por nombre...';
-        fetchDataOtrosServicios();
-        _itemsToSearch = itemsOtrosServicios;
-        itemSelectedOtrosServicios.value = itemsOtrosServicios.first;
-      case 'modulos_gnp':
-        keyToSearch.value = 'estado';
-        hintTextSearch.value = 'Buscar por...';
-      default:
-        keyToSearch.value = 'especialidad';
-        hintTextSearch.value = 'Buscar por especialidad';
-        fetchDataEspecialidades();
-        _itemsToSearch = itemsEspecialidades;
-        itemSelectedEspecialidades.value = itemsEspecialidades.first;
-        fetchDataCirculos();
-        itemSelectedCirculos.value = itemsCirculos.first;
-    }
+  /// We set the initial values according to the search type
+  Future<void> setTypeSearch(ItemDirectoryMdl itemSelected) async {
+    /// The error message are in every case on each fetch function
+    await appService.threads.execute(
+      func: () async {
+        /// flag to validadte if loading was ok
+        bool isLoadinOk = false;
 
-    /// Se informa que estamos cargando los datos
-    change(
-      _FilterPageModel(
-        name: itemSelected.subtitle,
-        itemSelected: itemSelected.idPage,
-      ),
-      status: RxStatus.loading(),
+        /// We load the data according to the search type
+        switch (itemSelected.idPage) {
+          case 'medicos':
+            isLoadinOk = await fetchDataCirculos();
+            isLoadinOk = await fetchDataEspecialidades();
+
+          case 'hospitales':
+            isLoadinOk = await fetchDataPlanHospitalario();
+
+          case 'clinicas':
+            isLoadinOk = await fetchDataClinicas();
+
+          case 'otros_servicios':
+            isLoadinOk = await fetchDataOtrosServicios();
+
+          default:
+        }
+
+        if (isLoadinOk) {
+          /// We set the initial values for the search
+          itemSelectedEstado.value = catEstados.first;
+        }
+
+        if (isLoadinOk) {
+          /// Finally, we indicate that the loading was successful
+          change(
+            _FilterPageModel(
+              name: itemSelected.subtitle,
+              itemSelected: itemSelected.idPage,
+            ),
+            status: RxStatus.success(),
+          );
+        } else {
+          /// If not, we indicate that the loading was not successful
+          change(null, status: RxStatus.error());
+        }
+      },
+      onError: () {
+        /// If not, we indicate that the loading was not successful
+        change(null, status: RxStatus.error());
+      },
     );
   }
 
-  /// Se obtienen los datos de los filtros
-  void fetchDataEspecialidades() {
-    itemsEspecialidades = [
-      {'claveEspecialidad': '0', 'especialidad': 'Todos'},
-      {'claveEspecialidad': '1', 'especialidad': 'ANATOMOPATOLOGIA'},
-      {
-        'claveEspecialidad': '2',
-        'especialidad': 'ANESTESIOLOGIA Y C. DEL DOLOR',
+  /// We obtain the data for the medical circles
+  Future<bool> fetchDataCirculos() => appService.threads.execute(
+    customExceptionMessages: {
+      Exception(): ExceptionAlertProperties(
+        message:
+            'Error al obtener círculos médicos. Inténtalo de nuevo más tarde',
+      ),
+    },
+    func: () async {
+      if (catCirculos.isEmpty) {
+        /// We obtain the data for the medical circles
+        final Response<List<CirculoMedicoMdl>> hasData = await _filterPageRepo
+            .fetchCirculoMedico();
+
+        /// We save the temporary list
+        final List<CirculoMedicoMdl> tmpData = hasData.body!;
+
+        /// We build the list of medical circles
+        catCirculos = [
+          {'claveCirculoMedico': '0', 'circuloMedico': 'Todos'},
+          ...tmpData.map(
+            (e) {
+              /// If the medical circle has a length of 1, the prefix is added
+              if (e.circuloMedico.length == 1) {
+                return {
+                  'claveCirculoMedico': e.claveCirculoMedico,
+                  'circuloMedico':
+                      'Nivel de tabulador médico ${e.circuloMedico}',
+                };
+              }
+
+              /// If not, it is returned as is
+              return {
+                'claveCirculoMedico': e.claveCirculoMedico,
+                'circuloMedico': e.circuloMedico,
+              };
+            },
+          ),
+        ];
+      }
+
+      /// We set the initial values for the search
+      circuloSelected.value = catCirculos.first;
+    },
+  );
+
+  /// We obtain the data for the specialties
+  Future<bool> fetchDataEspecialidades() => appService.threads.execute(
+    customExceptionMessages: {
+      Exception(): ExceptionAlertProperties(
+        message:
+            'Error al obtener especialidades. Inténtalo de nuevo más tarde',
+      ),
+    },
+    func: () async {
+      if (catEspecialidades.isEmpty) {
+        /// Get the data for the specialties
+        final Response<List<EspecialidadMdl>> hasData = await _filterPageRepo
+            .fetchEspecialidades();
+
+        /// We save the temporary list
+        final List<EspecialidadMdl> tmpData = hasData.body!;
+
+        /// We build the list of specialties
+        catEspecialidades = [
+          {'claveEspecialidad': '0', 'especialidad': 'Todos'},
+          ...tmpData.map(
+            (e) => {
+              'claveEspecialidad': e.claveEspecialidad,
+              'especialidad': e.especialidad,
+            },
+          ),
+        ];
+      }
+
+      /// We set the initial values for the search
+      keyToSearch.value = 'especialidad';
+      titleSearchby = 'MÉDICO';
+
+      /// Hint text for the search input List
+      hintTextSearch = 'Buscar por especialidad';
+
+      /// Label text for the search input
+      labelSearchby = 'Nombre (Opcional)';
+
+      /// Complete list for the search
+      _itemsToSearch = catEspecialidades;
+
+      /// Value selected by default
+      especialidadSelected.value = catEspecialidades.first;
+    },
+  );
+
+  /// We obtain the data for the hospital plans
+  Future<bool> fetchDataPlanHospitalario() => appService.threads.execute(
+    customExceptionMessages: {
+      Exception(): ExceptionAlertProperties(
+        message:
+            '''Error al obtener planes hospitalarios. Inténtalo de nuevo más tarde''',
+      ),
+    },
+    func: () async {
+      if (catPlanHospitalario.isEmpty) {
+        /// Get the data for the hospital plans
+        final Response<List<PlanHospitalarioMdl>> hasData =
+            await _filterPageRepo.fetchPlanHospitalario();
+
+        /// We save the temporary list
+        final List<PlanHospitalarioMdl> tmpData = hasData.body!;
+
+        /// We build the list of hospital plans
+        catPlanHospitalario = [
+          {'clavePlan': '0', 'plan': 'Todos'},
+          ...tmpData.map(
+            (e) => {
+              'clavePlan': e.clavePlan,
+              'plan': e.plan,
+            },
+          ),
+        ];
+      }
+
+      /// We set the initial values for the search
+      keyToSearch.value = 'plan';
+
+      /// Hint text for the search input List
+      hintTextSearch = 'Buscar por nombre del hospital';
+
+      /// Label text for the search input
+      titleSearchby = 'HOSPITAL';
+
+      /// Label text for the search input
+      labelSearchby = 'Buscar por nombre del hospital';
+
+      /// Complete list for the search
+      _itemsToSearch = catPlanHospitalario;
+
+      /// Value selected by default
+      planHospitalarioSelected.value = catPlanHospitalario.first;
+    },
+  );
+
+  /// We obtain the data for the clinics
+  Future<bool> fetchDataClinicas() => appService.threads.execute(
+    customExceptionMessages: {
+      Exception(): ExceptionAlertProperties(
+        message: 'Error al obtener clínicas. Inténtalo de nuevo más tarde',
+      ),
+    },
+    func: () async {
+      if (catClinicas.isEmpty) {
+        /// We obtain the data for the clinics
+        final Response<List<ClinicaMdl>> hasData = await _filterPageRepo
+            .fetchClinicas();
+
+        /// We save the temporary list
+        final List<ClinicaMdl> tmpData = hasData.body!;
+
+        /// We build the list of clinics
+        catClinicas = [
+          {'claveTipoClinica': '0', 'tipoClinica': 'Todos'},
+          ...tmpData.map(
+            (e) => {
+              'claveTipoClinica': e.claveTipoClinica,
+              'tipoClinica': e.tipoClinica,
+            },
+          ),
+        ];
+      }
+
+      /// We set the initial values for the search
+      keyToSearch.value = 'tipoClinica';
+
+      /// Hint text for the search input List
+      hintTextSearch = 'Buscar por nombre de la clínica';
+
+      /// Label text for the search input
+      titleSearchby = 'CLÍNICA';
+
+      /// Label text for the search input
+      labelSearchby = 'Buscar por nombre de la clínica';
+
+      /// Complete list for the search
+      _itemsToSearch = catClinicas;
+
+      /// Default selected value
+      clinicasSelected.value = catClinicas.first;
+    },
+  );
+
+  /// We obtain the data for other services
+  Future<bool> fetchDataOtrosServicios() => appService.threads.execute(
+    customExceptionMessages: {
+      Exception(): ExceptionAlertProperties(
+        message:
+            'Error al obtener otros servicios. Inténtalo de nuevo más tarde',
+      ),
+    },
+    func: () async {
+      if (catOtrosServicios.isEmpty) {
+        /// Get the data for other services
+        final Response<List<OtroServicioMdl>> hasData = await _filterPageRepo
+            .fetchOtrosServicios();
+
+        /// We save the temporary list
+        final List<OtroServicioMdl> tmpData = hasData.body!;
+
+        /// We build the list of other services
+        catOtrosServicios = [
+          {'claveTipoProveedor': '0', 'tipoProveedor': 'Todos'},
+          ...tmpData.map(
+            (e) => {
+              'claveTipoProveedor': e.claveTipoProveedor,
+              'tipoProveedor': e.tipoProveedor,
+            },
+          ),
+        ];
+      }
+
+      /// We set the initial values for the search
+      keyToSearch.value = 'tipoProveedor';
+
+      /// Hint text for the search input
+      hintTextSearch = 'Buscar por nombre...';
+
+      titleSearchby = 'OTROS SERVICIOS';
+      labelSearchby = 'Buscar por nombre del establecimiento';
+
+      /// Complete list for the search
+      _itemsToSearch = catOtrosServicios;
+
+      /// Value selected by default
+      otrosServiciosSelected.value = catOtrosServicios.first;
+    },
+  );
+
+  /// We obtain the data for the municipalities
+  Future<bool> fetchDataMunicipios() {
+    /// We inform that we are loading the data
+    change(state, status: RxStatus.loading());
+    return appService.threads.execute(
+      customExceptionMessages: {
+        Exception(): ExceptionAlertProperties(
+          message: 'Error al obtener municipios. Inténtalo de nuevo más tarde',
+        ),
       },
-      {
-        'claveEspecialidad': '3',
-        'especialidad': 'ANGIOLOGIA, FONIATRIA Y C.H.',
+      func: () async {
+        /// We obtain the data for the municipalities
+        final String cveMun = itemSelectedEstado['claveEstado'] ?? '0';
+
+        /// We obtain the data for the municipalities
+        final Response<List<MunicipioMdl>> hasData = await _filterPageRepo
+            .fetchMunicipios(cveMun);
+
+        /// We save the temporary list
+        final List<MunicipioMdl> tmpData = hasData.body!;
+
+        /// We build the list of municipalities
+        catMunicipios = [
+          {'claveMunicipio': '0', 'municipio': 'Todos'},
+          ...tmpData.map(
+            (e) => {
+              'claveMunicipio': e.claveMunicipio,
+              'municipio': e.municipio,
+            },
+          ),
+        ];
+
+        /// Value selected by default
+        municipiosSelected.value = catMunicipios.first;
+
+        /// We indicate that the loading was successful
+        change(state, status: RxStatus.success());
       },
-      {'claveEspecialidad': '4', 'especialidad': 'CARDIOLOGIA'},
-      {'claveEspecialidad': '5', 'especialidad': 'CARDIOPEDIATRIA'},
-      {'claveEspecialidad': '6', 'especialidad': 'CIRUGIA GENERAL'},
-      {'claveEspecialidad': '7', 'especialidad': 'CIRUGIA PEDIATRICA'},
-      {'claveEspecialidad': '8', 'especialidad': 'CIRUGIA CARDIOVASCULAR'},
-      {'claveEspecialidad': '9', 'especialidad': 'CIRUGIA ONCOLOGICA'},
-      {'claveEspecialidad': '10', 'especialidad': 'CIRUGIA PLASTICA'},
-      {'claveEspecialidad': '11', 'especialidad': 'CIRUGIA TORACICA'},
-      {'claveEspecialidad': '12', 'especialidad': 'CIRUGIA VASCULAR'},
-      {'claveEspecialidad': '13', 'especialidad': 'DERMATOLOGIA'},
-      {'claveEspecialidad': '14', 'especialidad': 'ENDOCRINOLOGIA'},
-      {'claveEspecialidad': '15', 'especialidad': 'GASTROENTEROLOGIA'},
-      {'claveEspecialidad': '16', 'especialidad': 'GERIATRIA'},
-      {'claveEspecialidad': '17', 'especialidad': 'HEMATOLOGIA'},
-      {'claveEspecialidad': '18', 'especialidad': 'INFECTOLOGIA'},
-      {'claveEspecialidad': '19', 'especialidad': 'MEDICINA INTERNA'},
-      {'claveEspecialidad': '20', 'especialidad': 'NEFROLOGIA'},
-      {'claveEspecialidad': '21', 'especialidad': 'NEUMOLOGIA'},
-      {'claveEspecialidad': '22', 'especialidad': 'NUTRICION'},
-      {'claveEspecialidad': '23', 'especialidad': 'ONCOLOGIA'},
-      {'claveEspecialidad': '24', 'especialidad': 'OFTALMOLOGIA'},
-      {'claveEspecialidad': '25', 'especialidad': 'OTORRINOLARINGOLOGIA'},
-      {'claveEspecialidad': '26', 'especialidad': 'PEDIATRIA'},
-      {'claveEspecialidad': '27', 'especialidad': 'PSIQUIATRIA'},
-      {'claveEspecialidad': '28', 'especialidad': 'RADIOLOGIA E IMAGEN'},
-      {'claveEspecialidad': '29', 'especialidad': 'REHABILITACION'},
-      {'claveEspecialidad': '30', 'especialidad': 'REUMATOLOGIA'},
-      {'claveEspecialidad': '31', 'especialidad': 'TRAUMATOLOGIA Y ORTOPEDIA'},
-      {'claveEspecialidad': '32', 'especialidad': 'UROLOGIA'},
-      {'claveEspecialidad': '33', 'especialidad': 'URGENCIAS'},
-      {'claveEspecialidad': '34', 'especialidad': 'VIROLOGIA'},
-      {'claveEspecialidad': '35', 'especialidad': 'OTRAS ESPECIALIDADES'},
-    ];
+      onError: () => change(null, status: RxStatus.error()),
+    );
   }
 
-  /// Se obtienen los datos de los planes hospitalarios
-  void fetchDataPlanHospitalario() {
-    itemsPlanHospitalario = [
-      {'clavePlan': '1', 'plan': 'Todos'},
-      {'clavePlan': '2', 'plan': 'Versátil'},
-      {'clavePlan': '3', 'plan': 'Premium'},
-    ];
-  }
-
-  /// Se obtienen los datos de las clínicas
-  void fetchDataClinicas() {
-    itemsClinicas = [
-      {'claveTipoClinica': '1', 'tipoClinica': 'CLINICA DE CORTA ESTANCIA'},
-      {'claveTipoClinica': '2', 'tipoClinica': 'CLINICA OFTALMOLOGICA'},
-      {'claveTipoClinica': '3', 'tipoClinica': 'CLINICA ONCOLOGICA'},
-    ];
-  }
-
-  /// Se obtienen los datos de otros servicios
-  void fetchDataOtrosServicios() {
-    itemsOtrosServicios = [
-      {'claveTipoProveedor': 1, 'tipoProveedor': 'Todos'},
-      {'claveTipoProveedor': 2, 'tipoProveedor': 'Laboratorios'},
-      {'claveTipoProveedor': 3, 'tipoProveedor': 'Gabinetes'},
-    ];
-  }
-
-  /// Se obtienen los datos de los círculos médicos
-  void fetchDataCirculos() {
-    itemsCirculos = [
-      {'claveCirculoMedico': '0', 'circuloMedico': 'Todos'},
-      {'claveCirculoMedico': '1', 'circuloMedico': 'Novus'},
-      {'claveCirculoMedico': '2', 'circuloMedico': 'Excelsis'},
-    ];
-  }
-
-  /// Se obtienen los datos de los estados
-  void fetchDataEstados() {
-    itemsEstados = [
-      {'claveEstado': '000', 'estado': 'Todos'},
-      {'claveEstado': '001', 'estado': 'Aguascalientes'},
-      {'claveEstado': '002', 'estado': 'Baja California'},
-    ];
-
-    itemSelectedEstados.value = itemsEstados.first;
-  }
-
-  /// Se obtienen los datos de los municipios
-  void fetchDataMunicipios() {
-    itemsMunicipios = [
-      {'claveMunicipio': '0', 'municipio': 'Todos', 'cp': '0'},
-      {
-        'claveMunicipio': '001',
-        'municipio': 'Municipio Aguascalientes',
-        'cp': '20000',
-      },
-      {
-        'claveMunicipio': '002',
-        'municipio': 'Municipio Baja California',
-        'cp': '20900',
-      },
-    ];
-
-    itemSelectedMunicipios.value = itemsMunicipios.first;
-  }
-
+  /// Navigates to the Filter Results Page with the selected filters.
   Future<void> goToFilterResultsPage() async {
+    /// Send the user to the results page with the selected filters
     await Get.toNamed(
       FilterResultsPage.page.name,
       arguments: ItemToSearchDirectoryMdl(
+        idPage: itemSelected.idPage,
         itemSelected: itemSelected,
-        idEspecialidad: itemSelectedEspecialidades['claveEspecialidad'] ?? '',
-        idCirculoMedico: itemSelectedCirculos['claveCirculoMedico'] ?? '',
-        idPlanHospitalario: itemSelectedPlanHospitalario['clavePlan'] ?? '',
-        idClinica: itemSelectedClinicas['claveTipoClinica'] ?? '',
-        idOtrosServicios: itemSelectedOtrosServicios['claveTipoProveedor'],
-        idEstado: itemSelectedEstados['claveEstado'] ?? '',
-        idMunicipio: itemSelectedMunicipios['claveMunicipio'] ?? '',
-        doctor: medicoCtrler.text,
-        asegurado: aseguradoCtrler.text,
-        searchCtrler: itemSearch,
+        especialidad: especialidadSelected,
+        circuloMedico: circuloSelected,
+        planHospitalario: planHospitalarioSelected,
+        clinica: clinicasSelected,
+        otrosServicios: otrosServiciosSelected,
+        estado: itemSelectedEstado,
+        municipio: municipiosSelected,
+        searchBy: searchByCtrler.text,
       ),
-    );
+    )!.then((_) {
+      /// When returning from the results page, reset the search fields
+      resetSearch();
+      searchByCtrler.clear();
+      especialidadSelected.value = catEspecialidades.isNotEmpty
+          ? catEspecialidades.first
+          : <String, dynamic>{};
+      circuloSelected.value = catCirculos.isNotEmpty
+          ? catCirculos.first
+          : <String, dynamic>{};
+      planHospitalarioSelected.value = catPlanHospitalario.isNotEmpty
+          ? catPlanHospitalario.first
+          : <String, dynamic>{};
+      clinicasSelected.value = catClinicas.isNotEmpty
+          ? catClinicas.first
+          : <String, dynamic>{};
+      otrosServiciosSelected.value = catOtrosServicios.isNotEmpty
+          ? catOtrosServicios.first
+          : <String, dynamic>{};
+      itemSelectedEstado.value = catEstados.isNotEmpty
+          ? catEstados.first
+          : <String, dynamic>{};
+      municipiosSelected.value = catMunicipios.isNotEmpty
+          ? catMunicipios.first
+          : <String, dynamic>{};
+
+      /// Hide the keyboard if it was open
+      FocusManager.instance.primaryFocus?.unfocus();
+    });
   }
 }

@@ -7,6 +7,7 @@ import 'package:medicos/shared/controllers/state_controller.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
 import 'package:medicos/shared/services/alerts/notification_service.dart';
 import 'package:medicos/shared/widgets/custom_notification.dart';
+import 'package:medicos/src/modules/convenio_medico/children/view_pdf/view_pdf_page.dart';
 import 'package:medicos/src/modules/convenio_medico/domain/remote/convenio_medico_repository.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -84,7 +85,7 @@ class ConvenioMedicoController extends GetxController
       } else {
         _notification.show(
           title: 'Error',
-          message: 'No se logró obtener el convenio',
+          message: 'No se logró obtener el convenio.',
           type: AlertType.error,
         );
       }
@@ -92,7 +93,7 @@ class ConvenioMedicoController extends GetxController
       isLoadingDownload.value = false;
       _notification.show(
         title: 'Error',
-        message: 'Ocurrió el detalle $e',
+        message: 'Ocurrió el detalle $e.',
         type: AlertType.error,
       );
     }
@@ -122,5 +123,9 @@ class ConvenioMedicoController extends GetxController
       data: dataDoc, 
       fileName: fileName
     );
+  }
+
+  Future<void> onView(String type) async {
+    await Get.toNamed(ViewPdfPage.page.name, arguments: type);
   }
 }

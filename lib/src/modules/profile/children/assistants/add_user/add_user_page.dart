@@ -12,6 +12,7 @@ import 'package:medicos/src/modules/profile/children/assistants/add_user/domain/
 import 'package:medicos/src/modules/profile/children/assistants/add_user/widgets/item_tabbar.dart';
 import 'package:medicos/src/modules/profile/children/assistants/add_user/widgets/user_general_data.dart';
 import 'package:medicos/src/modules/profile/children/assistants/add_user/widgets/user_permissions.dart';
+import 'package:medicos/src/modules/profile/children/assistants/domain/remote/add_assistants_repository.dart';
 
 part 'add_user_bindings.dart';
 part 'add_user_middleware.dart';

@@ -9,7 +9,7 @@ import 'package:medicos/core/utils/logger.dart';
 import 'package:medicos/shared/bindings/initial_bindings.dart';
 import 'package:medicos/shared/messages/es/es_messages.dart';
 import 'package:medicos/shared/navigation/app_navigation.dart';
-import 'package:medicos/src/modules/login/login_page.dart';
+import 'package:medicos/src/modules/directorio/directorio_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -34,7 +34,8 @@ class App extends StatelessWidget {
       ],
       fallbackLocale: esMessages.mx.locale,
       logWriterCallback: _logWriter,
-      initialRoute: LoginPage.page.name,
+      // initialRoute: LoginPage.page.name,
+      initialRoute: DirectorioPage.page.name,
       initialBinding: InitialBindings(),
       getPages: AppNavigation.pages,
     );

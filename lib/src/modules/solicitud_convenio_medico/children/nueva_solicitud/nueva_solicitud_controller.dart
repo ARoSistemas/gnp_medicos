@@ -24,10 +24,10 @@ class NuevaSolicitudController extends GetxController
 
   UserModel get user => appState.user;
   RxBool isLoading = false.obs;
-  List<CatalogConveioModel> specialtyCatalog = [];
-  List<CatalogConveioModel> subSpecialtyCatalog = [];
-  List<CatalogConveioModel> stateCatalog = [];
-  List<CatalogConveioModel> hospitalAttentionCatalog = [];
+  List<CatalogConvenioModel> specialtyCatalog = [];
+  List<CatalogConvenioModel> subSpecialtyCatalog = [];
+  List<CatalogConvenioModel> stateCatalog = [];
+  List<CatalogConvenioModel> hospitalAttentionCatalog = [];
 
   TextEditingController nameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
@@ -116,7 +116,7 @@ class NuevaSolicitudController extends GetxController
     }
     return selectedHospitals
         .map((id) {
-          final CatalogConveioModel hospital = state!.hospitalAttention
+          final CatalogConvenioModel hospital = state!.hospitalAttention
               .firstWhere(
                 (h) => h.clave == id,
               );
@@ -225,8 +225,8 @@ class NuevaSolicitudController extends GetxController
         _notification.show(
           title: 'Registro de Asistentes',
           message: res.bodyString!.isEmpty
-              ? 'La solciitud no fue registrada'
-              : 'La solicitud fue registrada',
+              ? 'La solciitud no fue registrada.'
+              : 'La solicitud fue registrada.',
           type: res.bodyString!.isEmpty ? AlertType.error : AlertType.success,
         );
       },
