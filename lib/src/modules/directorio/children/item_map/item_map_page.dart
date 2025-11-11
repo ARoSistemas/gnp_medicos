@@ -5,6 +5,7 @@ import 'package:medicos/core/extensions/responsive_extension.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/widgets/wdgt_loading.dart';
 import 'package:medicos/src/modules/directorio/children/filter_results/filter_results_controller.dart';
+import 'package:medicos/src/modules/directorio/children/item_map/domain/repositories/item_map_repository.dart';
 import 'package:medicos/src/modules/directorio/children/item_map/item_map_controller.dart';
 
 part 'item_map_bindings.dart';

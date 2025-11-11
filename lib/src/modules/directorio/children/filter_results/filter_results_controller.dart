@@ -61,10 +61,6 @@ class FilterResultsController extends GetxController
 
   /// Load next page for pagination
   Future<void> loadNextPage() async {
-    // if (nTotalPages == 0) {
-    //   return;
-    // }
-
     if (currentPage.value >= nTotalPages) {
       return;
     }

@@ -59,8 +59,7 @@ class ImageFromWeb extends StatelessWidget {
             width: width,
             child: const Placeholder(),
           )
-        : jwt.isNotEmpty
-        ? CachedNetworkImage(
+        : CachedNetworkImage(
             height: height,
             width: width,
             fit: BoxFit.cover,
@@ -69,10 +68,6 @@ class ImageFromWeb extends StatelessWidget {
             httpHeaders: {'Authorization': 'Bearer $jwt'},
             errorWidget: (context, url, error) =>
                 const Icon(Icons.question_mark_outlined),
-          )
-        : Image.asset(
-            imageName,
-            fit: BoxFit.cover,
           ),
   );
 

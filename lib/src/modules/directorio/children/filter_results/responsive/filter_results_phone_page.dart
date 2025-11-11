@@ -22,9 +22,11 @@ class _FilterResultsPhonePage extends StatelessWidget {
               Text(
                 '''Se encontraron ${_c.totalResults} resultados para:''',
               ),
-              Text(
-                '''Se encontraron ${_c.totalResults} resultados Página ${_c.currentPage.value} de ${_c.nTotalPages} ''',
-              ),
+              // Text(
+              //   '''Se encontraron
+              //  ${_c.totalResults} resultados
+              //Página ${_c.currentPage.value} de ${_c.nTotalPages} ''',
+              // ),
 
               /// Chips de filtros
               Wrap(

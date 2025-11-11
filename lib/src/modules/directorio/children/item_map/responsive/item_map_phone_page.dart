@@ -32,6 +32,8 @@ class _ItemMapPhonePage extends StatelessWidget {
                         rotateGesturesEnabled: false,
                         initialCameraPosition: _c.state!.gps,
                         onMapCreated: _c.mapCtrler.complete,
+                        markers: _c.markers,
+                        polylines: _c.polylines,
                         compassEnabled: false,
                         myLocationEnabled: true,
                         myLocationButtonEnabled: false,
@@ -39,13 +41,17 @@ class _ItemMapPhonePage extends StatelessWidget {
                     ),
                   ),
 
-                  /// Pin en el centro
-                  const Center(
-                    child: Icon(
-                      Icons.location_on,
-                      color: ColorPalette.primary,
-                      size: 40,
-                    ),
+                  /// Marker en el centro
+                  Obx(
+                    () => _c.showCentralPin.value
+                        ? const Center(
+                            child: Icon(
+                              Icons.location_on,
+                              color: ColorPalette.primary,
+                              size: 40,
+                            ),
+                          )
+                        : const SizedBox.shrink(),
                   ),
 
                   /// Botones de modo de transporte
@@ -59,7 +65,8 @@ class _ItemMapPhonePage extends StatelessWidget {
                         children: [
                           /// Icon gps
                           GestureDetector(
-                            onTap: _c.goToCurrentLocation,
+                            onTap: () =>
+                                _c.goToCurrentLocation(moveCamera: true),
                             child: const DecoratedBox(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.only(
@@ -125,6 +132,38 @@ class _ItemMapPhonePage extends StatelessWidget {
                         ],
                       ),
                     ),
+                  ),
+
+                  /// UI loagding
+                  Obx(
+                    () => _c.isLoadingRoute.value
+                        ? Container(
+                            height: context.pHeight(50),
+                            color: Colors.grey.shade50,
+                          )
+                        : const SizedBox.shrink(),
+                  ),
+                  Obx(
+                    () => _c.isLoadingRoute.value
+                        ? const Center(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                CircularProgressIndicator(
+                                  color: ColorPalette.primary,
+                                ),
+                                Divider(color: Colors.transparent),
+                                Text(
+                                  'Calculando, por favor espere un momento...',
+                                  style: TextStyle(
+                                    color: ColorPalette.primary,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : const SizedBox.shrink(),
                   ),
                 ],
               ),

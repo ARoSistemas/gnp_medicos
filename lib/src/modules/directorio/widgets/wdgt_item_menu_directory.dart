@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicos/core/extensions/responsive_extension.dart';
-import 'package:medicos/shared/widgets/wdgt_image_from_web.dart';
 
 /// A card widget that displays an image and a title, designed for use as an
 /// item in a directory or menu list.
@@ -54,10 +53,18 @@ class ItemsMenuDirectory extends StatelessWidget {
           padding: const EdgeInsets.all(10),
           child: Row(
             children: [
-              ImageFromWeb(
-                imageName: img,
-                jwt: jwt,
+              // ImageFromWeb(
+              //   imageName: img,
+              //   jwt: jwt,
+              //   height: 85,
+              // ),
+              /// Temporal hasta tener la imagenes en web
+              SizedBox(
                 height: 85,
+                child: Image.asset(
+                  img,
+                  fit: BoxFit.cover,
+                ),
               ),
 
               Padding(
