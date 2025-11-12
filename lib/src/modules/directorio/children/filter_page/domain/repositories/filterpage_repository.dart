@@ -16,9 +16,6 @@ class FilterPageRepository extends ApiBaseProvider {
   @override
   final String contextPath = '/integracion/catalogo';
 
-  // url UAT:: https://api-uat.oscpuat.gnp.com.mx
-  // url Prod :: https://soycliente.gnp.com.mx
-
   final Map<String, String> _header = {
     'Content-Type': 'application/json',
     'apiKey': 'l7xxea7d6e3359234e548aac02166bca4b4b',
@@ -136,7 +133,6 @@ class FilterPageRepository extends ApiBaseProvider {
   );
 
   /// Fetch data Plan hospitalario
-  // url:: https://api-uat.oscpuat.gnp.com.mx/redesMedicas/catalogo/planes
   // Respuesta de apiResponsePlanes ::
   // [
   //   {
@@ -164,7 +160,6 @@ class FilterPageRepository extends ApiBaseProvider {
   );
 
   /// Fetch data Plan hospitalario
-  // URL de la API:  // https://soycliente-uat.gnp.com.mx/integracion/catalogo/tiposClinica
   // Respuesta de apiResponseClinicas ::
   //  [
   //    {
@@ -176,12 +171,7 @@ class FilterPageRepository extends ApiBaseProvider {
   //       "tipoClinica":"CLINICA OFTAMOLOGICA"
   //    }
   // ]
-  // https://soycliente-uat.gnp.com.mx/integracion/catalogo/clinicas
-  // Marca error: java.net.SocketTimeoutException: timeout
-  /// https://api-uat.oscpuat.gnp.com.mx/redesMedicas/catalogo/clinicas
-  /// Este marca error: java.net.SocketTimeoutException: timeout
 
-  // url::  https://api-uat.oscpuat.gnp.com.mx/redesMedicas/catalogo/tiposClinica
   // Respuesta de apiResponseClinicas ::
   // [
   //    {

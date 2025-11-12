@@ -1,5 +1,5 @@
-class ItemsResultsMdl {
-  ItemsResultsMdl({
+class ItemResultsMdl {
+  ItemResultsMdl({
     required this.title,
     required this.subtitle,
     required this.desc,
@@ -8,7 +8,7 @@ class ItemsResultsMdl {
     required this.lng,
   });
 
-  factory ItemsResultsMdl.empty() => ItemsResultsMdl(
+  factory ItemResultsMdl.empty() => ItemResultsMdl(
     title: '',
     subtitle: '',
     desc: '',

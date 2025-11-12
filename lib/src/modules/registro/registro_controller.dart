@@ -41,7 +41,7 @@ class RegistroController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    change(null, status: RxStatus.success());
+    change(state, status: RxStatus.success());
     tabController = TabController(length: 1, vsync: this);
     tabController.addListener(() {
       selectedIndex.value = tabController.index;

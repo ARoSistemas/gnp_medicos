@@ -7,23 +7,21 @@ class _AssistantsPhonePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: const AppBarPhone(title: 'Asistentes'),
+    appBar: AppBarPhoneWdgt(
+      title: esMessages.mx.assistants.value,
+      name: _c.user.nombreCompleto,
+      medicalIdentifier: _c.user.codigoFiliacion,
+    ),
     body: _c.obx(
       (data) => Column(
         children: [
-          /// Header
-          Padding(
-            padding: const EdgeInsets.only(bottom: 15),
-            child: BannerMedico(
-              name: _c.user.nombreCompleto,
-              medicalIdentifier: _c.user.codigoFiliacion,
-            ),
-          ),
-    
           /// Body
           Expanded(
             child: ListView.builder(
-              padding: const EdgeInsetsGeometry.symmetric(horizontal: 16),
+              padding: const EdgeInsetsGeometry.symmetric(
+                horizontal: 16,
+                vertical: 10,
+              ),
               itemCount: data!.assistants.length,
               itemBuilder: (context, i) => CardAsistente(
                 onPressed: () async {
@@ -39,7 +37,7 @@ class _AssistantsPhonePage extends StatelessWidget {
               ),
             ),
           ),
-    
+
           /// Footer
           SafeArea(
             child: Padding(

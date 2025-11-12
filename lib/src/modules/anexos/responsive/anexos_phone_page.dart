@@ -7,61 +7,55 @@ class _AnexosPhonePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBarPhone(
+    appBar: AppBarPhoneWdgt(
       title: esMessages.mx.annexes.value,
+      name: _c.user.nombreCompleto,
+      medicalIdentifier: _c.user.codigoFiliacion,
     ),
-    body: Column(
-      children: <Widget>[
-        BannerMedico(
-          name: _c.user.nombreCompleto,
-          medicalIdentifier: _c.user.codigoFiliacion,
-        ),
-        SizedBox(height: context.scale(20, axis: ScaleAxis.height)),
-        SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              CardAnexo(title: esMessages.mx.medicalReport.value),
-              SizedBox(height: context.scale(10, axis: ScaleAxis.height)),
-              CardAnexo(title: esMessages.mx.paymentManual.value),
-              SizedBox(height: context.scale(10, axis: ScaleAxis.height)),
-              CardAnexo(title: esMessages.mx.glossaryTerms.value),
-              SizedBox(height: context.scale(10, axis: ScaleAxis.height)),
-              CardAnexo(title: esMessages.mx.levelsAndTabs.value),
-            ],
+    body: _c.obx(
+      (state) => Column(
+        children: [
+          SizedBox(height: context.scale(20, axis: ScaleAxis.height)),
+
+          /// Annexes List
+          ...state!.items.map(
+            (item) => Padding(
+              padding: EdgeInsets.only(
+                bottom: context.scale(10, axis: ScaleAxis.height),
+                left: 16,
+                right: 16,
+              ),
+              child: CardFileDownload(
+                nombre: item.fileName.split('.').first,
+                onDownload: () => _c.downloadAnexo(item.fileName),
+              ),
+            ),
           ),
+        ],
+      ),
+      onLoading: const Center(child: LoadingGnp()),
+      onEmpty: Center(
+        child: LoadingGnp(
+          icon: const Icon(
+            Icons.error,
+            size: 70,
+            color: ColorPalette.primary,
+          ),
+          title: msg.noAnnexesAvailable.value,
+          subtitle: '',
         ),
-      ],
+      ),
+      onError: (_) => Center(
+        child: LoadingGnp(
+          icon: const Icon(
+            Icons.error,
+            size: 70,
+            color: ColorPalette.primary,
+          ),
+          title: msg.errorOccurred.value,
+          subtitle: msg.couldNotRetrieveAnnexes.value,
+        ),
+      ),
     ),
   );
-}
-
-class CardAnexo extends StatelessWidget {
-  const CardAnexo({required this.title, super.key});
-  final String title;
-
-  @override
-  Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(4),
-      border: Border.all(color: ColorPalette.borderCardFormat),
-    ),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Text(title, style: Get.textTheme.titleMedium),
-        const Icon(
-          Icons.download_outlined,
-          color: ColorPalette.primary,
-        ),
-      ],
-    ),
-  );
-
-  @override
-  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
-    super.debugFillProperties(properties);
-    properties.add(StringProperty('title', title));
-  }
 }

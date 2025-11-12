@@ -67,9 +67,9 @@ class NuevaSolicitudController extends GetxController
   }
 
   void loadDataSolicitud() {
-    nameController.text = user.nombreCompleto;
-    lastNameController.text = user.nombreCompleto;
-    secondLastNameController.text = user.nombreCompleto;
+    nameController.text = user.nombre;
+    lastNameController.text = user.apePaterno;
+    secondLastNameController.text = user.apeMaterno;
     rfcController.text = user.rfc;
     emailController.text = user.email;
   }

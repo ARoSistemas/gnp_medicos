@@ -8,4 +8,6 @@ class UploadDocumentsRouteParams extends RouteParams {
 
   @override
   String get keyId => 'uploadDocumentsId';
+
+  String? get idSolicitud => id;
 }

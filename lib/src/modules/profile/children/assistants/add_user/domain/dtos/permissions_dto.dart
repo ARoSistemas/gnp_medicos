@@ -6,6 +6,7 @@ class PermissionsDto {
     required this.descripcion,
     required this.activo,
     required this.submodulos,
+    required this.orden,
   });
 
   factory PermissionsDto.empty() => PermissionsDto(
@@ -13,12 +14,14 @@ class PermissionsDto {
     descripcion: '',
     activo: false,
     submodulos: [],
+    orden: 100,
   );
 
   factory PermissionsDto.fromMap(Map<String, dynamic> json) => PermissionsDto(
     id: json['id'],
     descripcion: json['descripcion'],
     activo: json['activo'],
+    orden: json['orden'] ?? 100,
     submodulos: List<PermissionsDto>.from(
       ((json['submodulos'] ?? []) as List<dynamic>).map(
         (x) => PermissionsDto.fromMap(x),
@@ -40,23 +43,27 @@ class PermissionsDto {
     'descripcion': descripcion,
     'activo': activo,
     'submodulos': List<dynamic>.from(submodulos.map((x) => x.toJson())),
+    'orden': orden,
   };
 
   String id;
   String descripcion;
   bool activo;
   List<PermissionsDto> submodulos;
+  int orden;
 
   PermissionsDto copyWith({
     String? id,
     String? descripcion,
     bool? activo,
     List<PermissionsDto>? submodulos,
+    int? orden,
   }) => PermissionsDto(
     id: id ?? this.id,
     descripcion: descripcion ?? this.descripcion,
     activo: activo ?? this.activo,
     submodulos: submodulos ?? this.submodulos,
+    orden: orden ?? this.orden,
   );
 
   Map<String, dynamic> toMap() => {
@@ -64,6 +71,7 @@ class PermissionsDto {
     'descripcion': descripcion,
     'activo': activo,
     'submodulos': List<dynamic>.from(submodulos.map((x) => x.toMap())),
+    'orden': orden,
   };
 
   //   final String rHardCode = '''

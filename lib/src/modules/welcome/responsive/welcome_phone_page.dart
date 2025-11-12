@@ -11,7 +11,7 @@ class _WelcomePhonePage extends StatelessWidget {
     drawer: DrawerPhone(
       jwt: _c.jwt,
       permisos: _c.appState.userPermissions,
-      banConvenio: _c.appState.user.banVerConvenio,
+      banConvenio: _c.appState.user.banConvenioVigente,
       version: _c.appState.version,
     ),
     body: SingleChildScrollView(

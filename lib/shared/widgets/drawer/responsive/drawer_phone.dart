@@ -6,7 +6,7 @@ import 'package:medicos/core/extensions/responsive_extension.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/widgets/drawer/widgets/item_drawer.dart';
 import 'package:medicos/src/modules/anexos/anexos_page.dart';
-import 'package:medicos/src/modules/beneficios/beneficios_page.dart';
+import 'package:medicos/src/modules/benefits/benefits_page.dart';
 import 'package:medicos/src/modules/contacto/contacto_page.dart';
 import 'package:medicos/src/modules/convenio_medico/convenio_medico_page.dart';
 import 'package:medicos/src/modules/directorio/directorio_page.dart';
@@ -45,7 +45,7 @@ class DrawerPhone extends StatelessWidget {
         iconName: 'icono_modulo_tabuladores.png',
         title: 'Tabuladores',
         route: TabuladoresPage.page.name,
-        visible: permisos[TabuladoresPage.page.name] ?? false,
+        visible: (permisos[TabuladoresPage.page.name] ?? false) && banConvenio,
       ),
       ItemForDrawer(
         iconName: 'icono_modulo_mis_pagos.png',
@@ -63,13 +63,13 @@ class DrawerPhone extends StatelessWidget {
         iconName: 'icono_modulo_mis_tramites.png',
         title: 'Mis tramites',
         route: ProceduresPage.page.name,
-        visible: permisos[ProceduresPage.page.name] ?? false,
+        visible: (permisos[ProceduresPage.page.name] ?? false) && banConvenio,
       ),
       ItemForDrawer(
         iconName: 'icono_modulo_beneficios.png',
         title: 'Beneficios',
         route: BeneficiosPage.page.name,
-        visible: permisos[BeneficiosPage.page.name] ?? false,
+        visible: (permisos[BeneficiosPage.page.name] ?? false) && banConvenio,
       ),
       ItemForDrawer(
         iconName: 'icono_modulo_anexos.png',

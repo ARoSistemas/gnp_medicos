@@ -1,11 +1,13 @@
 import 'package:get/get.dart';
 import 'package:medicos/shared/services/firebase/firebase_service.dart';
+import 'package:medicos/shared/services/select_file/select_file.dart';
 import 'package:pdfrx/pdfrx.dart';
 
 class SharedServices extends GetxService {
   late final FirebaseService firebaseService;
 
   Future<void> init() async {
+    Get.lazyPut(SelectFileService.new);
     firebaseService = Get.put(FirebaseService());
 
     await firebaseService.init();

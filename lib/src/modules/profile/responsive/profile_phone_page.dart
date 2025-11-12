@@ -16,6 +16,7 @@ class _ProfilePhonePage extends StatelessWidget {
           child: BannerUser(
             name: _c.user.nombreCompleto,
             medicalIdentifier: _c.user.codigoFiliacion,
+            canChangeProfile: _c.user.canChangeProfile,
             onTapChangePhoto: () {},
           ),
         ),
@@ -75,10 +76,10 @@ class _ProfilePhonePage extends StatelessWidget {
               /// Card: Datos Académicos
               CardSectionProfile(
                 showCard:
-                    _c.appState.userPermissions[DatosAcademicosPage
+                    (_c.appState.userPermissions[DatosAcademicosPage
                         .page
                         .name] ??
-                    false,
+                    false) && _c.user.banConvenioVigente,
                 title: esMessages.mx.academicData.value,
                 subtitle: '',
                 onTap: () => Get.toNamed(DatosAcademicosPage.page.name),
@@ -87,8 +88,8 @@ class _ProfilePhonePage extends StatelessWidget {
               /// Card: Datos Fiscales - Cuentas
               CardSectionProfile(
                 showCard:
-                    _c.appState.userPermissions[DatosFiscalesPage.page.name] ??
-                    false,
+                    (_c.appState.userPermissions[DatosFiscalesPage.page.name] ??
+                    false) && _c.user.banConvenioVigente,
                 title: esMessages.mx.taxDataAccounts.value,
                 subtitle: '',
                 onTap: () => Get.toNamed(DatosFiscalesPage.page.name),

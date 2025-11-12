@@ -6,8 +6,10 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/core/utils/exception_manager.dart';
+import 'package:medicos/shared/controllers/state_controller.dart';
+import 'package:medicos/shared/models/entities/user_mdl.dart';
 import 'package:medicos/shared/widgets/custom_notification.dart';
-import 'package:medicos/src/modules/directorio/children/filter_results/domain/entities/models/items_results_mdl.dart';
+import 'package:medicos/src/modules/directorio/children/filter_results/domain/entities/models/item_results_mdl.dart';
 import 'package:medicos/src/modules/directorio/children/item_map/domain/entities/dtos/directions_dto.dart'
     as dtogmap;
 import 'package:medicos/src/modules/directorio/children/item_map/domain/repositories/item_map_repository.dart';
@@ -17,7 +19,10 @@ part 'item_map_model.dart';
 
 class ItemMapController extends GetxController
     with StateMixin<_ItemMapModel>, WidgetsBindingObserver {
-  final ItemMapRepository _itemMapRepo = Get.find();
+  final ItemMapRepository _apiConn = Get.find();
+  final AppStateController appState = Get.find();
+
+  UserModel get user => appState.user;
 
   /// Completer for GoogleMapController
   Completer<GoogleMapController> mapCtrler = Completer<GoogleMapController>();
@@ -25,6 +30,7 @@ class ItemMapController extends GetxController
   /// Key to force rebuild of the GoogleMap widget
   Rx<Key> mapKey = UniqueKey().obs;
 
+  /// Current position of the user
   Position currentPosition = Position(
     latitude: 0,
     longitude: 0,
@@ -38,6 +44,7 @@ class ItemMapController extends GetxController
     headingAccuracy: 0,
   );
 
+  /// Set of polylines to display on the map
   RxSet<Polyline> polylines = <Polyline>{}.obs;
 
   /// Set of markers to display on the map
@@ -46,24 +53,40 @@ class ItemMapController extends GetxController
   /// Controls the visibility of the central pin
   RxBool showCentralPin = true.obs;
 
+  /// Indicates if the route is currently being loaded
   RxBool isLoadingRoute = false.obs;
 
   @override
   Future<void> onInit() async {
     super.onInit();
 
-    /// Observe app lifecycle changes
-    WidgetsBinding.instance.addObserver(this);
-    change(null, status: RxStatus.loading());
-
     /// Retrieve arguments passed to this page
     final Map<String, dynamic> arg =
         Get.arguments as Map<String, dynamic>? ?? {};
 
-    final ItemsResultsMdl tmp =
-        arg['item'] as ItemsResultsMdl? ?? ItemsResultsMdl.empty();
+    final ItemResultsMdl tmp =
+        arg['item'] as ItemResultsMdl? ?? ItemResultsMdl.empty();
     final String tmpTitle = arg['titleAppBar'] as String? ?? '';
 
+    change(
+      _ItemMapModel.empty().copyWith(
+        name: tmpTitle,
+        title: tmp.title,
+        subtitle: tmp.subtitle,
+        desc: tmp.desc,
+        tel: tmp.tel,
+        lat: tmp.lat,
+        lng: tmp.lng,
+        gps: const CameraPosition(
+          target: LatLng(0, 0),
+          zoom: 14.4746,
+        ),
+      ),
+      status: RxStatus.loading(),
+    );
+
+    /// Observe app lifecycle changes
+    WidgetsBinding.instance.addObserver(this);
     change(
       _ItemMapModel.empty().copyWith(
         name: tmpTitle,
@@ -306,7 +329,7 @@ class ItemMapController extends GetxController
     final directions =
         '''?origin=${currentPosition.latitude},${currentPosition.longitude}&destination=${state!.lat},${state!.lng}&$mode&key=AIzaSyD2bbZFGV3US6N_qtlrkxHUc1Sj_tAozPg''';
 
-    final Response<dtogmap.DirectionsDto> hasData = await _itemMapRepo
+    final Response<dtogmap.DirectionsDto> hasData = await _apiConn
         .getRoutePoints(
           directions,
         );

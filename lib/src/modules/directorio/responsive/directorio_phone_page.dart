@@ -8,6 +8,7 @@ class _DirectorioPhonePage extends StatelessWidget {
   @override
   @override
   Widget build(BuildContext context) {
+    /// Navegar a filtro
     Future<void> goto(ItemDirectoryMdl item) async {
       await Get.toNamed(
         FilterPage.page.name,
@@ -32,19 +33,17 @@ class _DirectorioPhonePage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBarPhone(title: esMessages.mx.directory.value),
+      appBar: AppBarPhoneWdgt(
+        title: msg.directory.value,
+        name: _c.user.nombreCompleto,
+        medicalIdentifier: _c.user.codigoFiliacion,
+      ),
       body: _c.obx(
         (state) => SingleChildScrollView(
           physics: const NeverScrollableScrollPhysics(),
           child: Column(
             spacing: 20,
             children: [
-              /// Banner
-              BannerMedico(
-                name: _c.user.nombreCompleto,
-                medicalIdentifier: _c.user.codigoFiliacion,
-              ),
-
               /// body
               SizedBox(
                 width: double.infinity,
@@ -75,7 +74,7 @@ class _DirectorioPhonePage extends StatelessWidget {
               size: 70,
               color: ColorPalette.primary,
             ),
-            title: esMessages.mx.noInformationToShow.value,
+            title: msg.noInformationToShow.value,
             subtitle: '',
           ),
         ),
@@ -86,8 +85,8 @@ class _DirectorioPhonePage extends StatelessWidget {
               size: 70,
               color: ColorPalette.primary,
             ),
-            title: esMessages.mx.errorLoadingInfo.value,
-            subtitle: esMessages.mx.pleaseTryAgainLater.value,
+            title: msg.errorLoadingInfo.value,
+            subtitle: msg.pleaseTryAgainLater.value,
           ),
         ),
       ),

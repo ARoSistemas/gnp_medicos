@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/core/utils/exception_manager.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
+import 'package:medicos/shared/messages/i_app_messages.dart';
+import 'package:medicos/shared/models/entities/user_mdl.dart';
 import 'package:medicos/src/modules/directorio/children/filter_page/domain/entities/models/circulo_medico_mdl.dart';
 import 'package:medicos/src/modules/directorio/children/filter_page/domain/entities/models/clinica_mdl.dart';
 import 'package:medicos/src/modules/directorio/children/filter_page/domain/entities/models/especialidad_mdl.dart';
@@ -18,8 +20,10 @@ part 'filterpage_model.dart';
 
 class FilterPageController extends GetxController
     with StateMixin<_FilterPageModel>, WidgetsBindingObserver {
-  final AppStateController appState = Get.find<AppStateController>();
-  final FilterPageRepository _filterPageRepo = Get.find();
+  final AppStateController appState = Get.find();
+  final FilterPageRepository _apiConn = Get.find();
+
+  UserModel get user => appState.user;
 
   ItemDirectoryMdl itemSelected = ItemDirectoryMdl.empty();
 
@@ -107,10 +111,6 @@ class FilterPageController extends GetxController
   @override
   Future<void> onInit() async {
     super.onInit();
-    change(null, status: RxStatus.loading());
-
-    /// Register the observer to detect changes in the keyboard.
-    WidgetsBinding.instance.addObserver(this);
 
     /// We receive the search type if nothing comes, it is assumed doctors
     final item = Get.arguments as Map<String, dynamic>;
@@ -124,6 +124,9 @@ class FilterPageController extends GetxController
     catClinicas = item['catClinicas'] as List<Map<String, dynamic>>;
     catOtrosServicios = item['catOtrosServicios'] as List<Map<String, dynamic>>;
     catEstados = item['catEstados'] as List<Map<String, dynamic>>;
+
+    /// Register the observer to detect changes in the keyboard.
+    WidgetsBinding.instance.addObserver(this);
 
     /// We set the initial values according to the search type
     await setTypeSearch(itemSelected);
@@ -235,12 +238,12 @@ class FilterPageController extends GetxController
           );
         } else {
           /// If not, we indicate that the loading was not successful
-          change(null, status: RxStatus.error());
+          change(state, status: RxStatus.error());
         }
       },
       onError: () {
         /// If not, we indicate that the loading was not successful
-        change(null, status: RxStatus.error());
+        change(state, status: RxStatus.error());
       },
     );
   }
@@ -256,7 +259,7 @@ class FilterPageController extends GetxController
     func: () async {
       if (catCirculos.isEmpty) {
         /// We obtain the data for the medical circles
-        final Response<List<CirculoMedicoMdl>> hasData = await _filterPageRepo
+        final Response<List<CirculoMedicoMdl>> hasData = await _apiConn
             .fetchCirculoMedico();
 
         /// We save the temporary list
@@ -296,13 +299,13 @@ class FilterPageController extends GetxController
     customExceptionMessages: {
       Exception(): ExceptionAlertProperties(
         message:
-            'Error al obtener especialidades. Inténtalo de nuevo más tarde',
+            '''${msg.errorGetting.value}${msg.specialty.pValue} ${msg.pleaseTryAgainLater.value}''',
       ),
     },
     func: () async {
       if (catEspecialidades.isEmpty) {
         /// Get the data for the specialties
-        final Response<List<EspecialidadMdl>> hasData = await _filterPageRepo
+        final Response<List<EspecialidadMdl>> hasData = await _apiConn
             .fetchEspecialidades();
 
         /// We save the temporary list
@@ -349,8 +352,8 @@ class FilterPageController extends GetxController
     func: () async {
       if (catPlanHospitalario.isEmpty) {
         /// Get the data for the hospital plans
-        final Response<List<PlanHospitalarioMdl>> hasData =
-            await _filterPageRepo.fetchPlanHospitalario();
+        final Response<List<PlanHospitalarioMdl>> hasData = await _apiConn
+            .fetchPlanHospitalario();
 
         /// We save the temporary list
         final List<PlanHospitalarioMdl> tmpData = hasData.body!;
@@ -397,7 +400,7 @@ class FilterPageController extends GetxController
     func: () async {
       if (catClinicas.isEmpty) {
         /// We obtain the data for the clinics
-        final Response<List<ClinicaMdl>> hasData = await _filterPageRepo
+        final Response<List<ClinicaMdl>> hasData = await _apiConn
             .fetchClinicas();
 
         /// We save the temporary list
@@ -446,7 +449,7 @@ class FilterPageController extends GetxController
     func: () async {
       if (catOtrosServicios.isEmpty) {
         /// Get the data for other services
-        final Response<List<OtroServicioMdl>> hasData = await _filterPageRepo
+        final Response<List<OtroServicioMdl>> hasData = await _apiConn
             .fetchOtrosServicios();
 
         /// We save the temporary list
@@ -496,7 +499,7 @@ class FilterPageController extends GetxController
         final String cveMun = itemSelectedEstado['claveEstado'] ?? '0';
 
         /// We obtain the data for the municipalities
-        final Response<List<MunicipioMdl>> hasData = await _filterPageRepo
+        final Response<List<MunicipioMdl>> hasData = await _apiConn
             .fetchMunicipios(cveMun);
 
         /// We save the temporary list
@@ -519,7 +522,7 @@ class FilterPageController extends GetxController
         /// We indicate that the loading was successful
         change(state, status: RxStatus.success());
       },
-      onError: () => change(null, status: RxStatus.error()),
+      onError: () => change(state, status: RxStatus.error()),
     );
   }
 
@@ -542,8 +545,10 @@ class FilterPageController extends GetxController
       ),
     )!.then((_) {
       /// When returning from the results page, reset the search fields
+
       resetSearch();
       searchByCtrler.clear();
+
       especialidadSelected.value = catEspecialidades.isNotEmpty
           ? catEspecialidades.first
           : <String, dynamic>{};

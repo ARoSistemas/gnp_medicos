@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/core/utils/exception_manager.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
+import 'package:medicos/shared/models/entities/user_mdl.dart';
 import 'package:medicos/src/modules/directorio/children/filter_results/domain/entities/dtos/clinicas_dto.dart';
 import 'package:medicos/src/modules/directorio/children/filter_results/domain/entities/dtos/hospitales_dto.dart';
 import 'package:medicos/src/modules/directorio/children/filter_results/domain/entities/dtos/medico_dto.dart';
@@ -14,28 +15,39 @@ part 'filter_results_model.dart';
 
 class FilterResultsController extends GetxController
     with StateMixin<_FilterResultsModel>, WidgetsBindingObserver {
-  final AppStateController appState = Get.find<AppStateController>();
+  final AppStateController appState = Get.find();
+  final FilterResultsRepository _apiConn = Get.find();
 
-  final FilterResultsRepository _filterResultsRepo = Get.find();
+  UserModel get user => appState.user;
 
+  /// Item selected to search
   Rx<ItemToSearchDirectoryMdl> itemToSearch =
       ItemToSearchDirectoryMdl.empty().obs;
 
+  /// Scroll controller for pagination
   final ScrollController scrollController = ScrollController();
+
+  /// Indicates if more data is being fetched for pagination
   RxBool isFetchingMore = false.obs;
 
+  /// Current page for pagination
   RxInt currentPage = 1.obs;
+
+  /// Total number of pages for pagination
   int nTotalPages = 0;
+
+  /// Filter string built based on selected filters
   String filterString = '';
+
+  /// Total results obtained from the search
   int totalResults = 0;
+
+  /// List of items to show in the results
   RxList<dynamic> listToShow = <dynamic>[].obs;
 
   @override
   Future<void> onInit() async {
     super.onInit();
-
-    /// Listen to scroll events for pagination
-    scrollController.addListener(_onScroll);
 
     /// Get type of search, if nothing comes, it is assumed empty
     itemToSearch.value =
@@ -45,6 +57,10 @@ class FilterResultsController extends GetxController
     final _FilterResultsModel tmp = _FilterResultsModel.empty().copyWith(
       name: itemToSearch.value.itemSelected.subtitle,
     );
+
+    /// Listen to scroll events for pagination
+    scrollController.addListener(_onScroll);
+
     change(tmp, status: RxStatus.loading());
 
     /// Set initial values according to the type of search
@@ -277,7 +293,7 @@ class FilterResultsController extends GetxController
         },
         func: () async {
           /// Se obtienen los datos de los planes hospitalarios
-          final Response<MedicosDto> hasData = await _filterResultsRepo
+          final Response<MedicosDto> hasData = await _apiConn
               .fetchItemMedicosFiltered('?$filter&pagina=$page');
 
           /// Get the first element of the Medicos group and
@@ -311,7 +327,7 @@ class FilterResultsController extends GetxController
           ),
         },
         func: () async {
-          final Response<HospitalesDto> hasData = await _filterResultsRepo
+          final Response<HospitalesDto> hasData = await _apiConn
               .fetchItemHospitalesFiltered('?$filter&pagina=$page');
 
           /// Get the first element of the Hospitales group and
@@ -347,7 +363,7 @@ class FilterResultsController extends GetxController
           ),
         },
         func: () async {
-          final Response<ClinicasDto> hasData = await _filterResultsRepo
+          final Response<ClinicasDto> hasData = await _apiConn
               .fetchItemClinicasFiltered('?$filter&pagina=$page');
 
           /// Se obtiene el primer elemento del grupo de Clinicas y
@@ -383,7 +399,7 @@ class FilterResultsController extends GetxController
       ),
     },
     func: () async {
-      final Response<OtrosServiciosDto> hasData = await _filterResultsRepo
+      final Response<OtrosServiciosDto> hasData = await _apiConn
           .fetchItemOtrosServiciosFiltered('$filter?&pagina=$page');
 
       /// Get the first element of the Clinicas group and

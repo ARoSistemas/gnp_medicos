@@ -7,7 +7,11 @@ class _ItemMapPhonePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(backgroundColor: Colors.white, title: Text(_c.state!.name)),
+    appBar: AppBarPhoneWdgt(
+      title: _c.state!.name,
+      name: _c.user.nombreCompleto,
+      medicalIdentifier: _c.user.codigoFiliacion,
+    ),
     body: _c.obx(
       (state) => Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
@@ -20,7 +24,7 @@ class _ItemMapPhonePage extends StatelessWidget {
               height: context.pHeight(50),
               child: Stack(
                 children: [
-                  /// Mapa
+                  /// Map
                   Obx(
                     () => SizedBox(
                       height: context.pHeight(50),
@@ -35,26 +39,28 @@ class _ItemMapPhonePage extends StatelessWidget {
                         markers: _c.markers,
                         polylines: _c.polylines,
                         compassEnabled: false,
-                        myLocationEnabled: true,
                         myLocationButtonEnabled: false,
                       ),
                     ),
                   ),
 
-                  /// Marker en el centro
+                  /// Center marker
                   Obx(
                     () => _c.showCentralPin.value
                         ? const Center(
-                            child: Icon(
-                              Icons.location_on,
-                              color: ColorPalette.primary,
-                              size: 40,
+                            child: Padding(
+                              padding: EdgeInsets.only(bottom: 40),
+                              child: Icon(
+                                Icons.location_on,
+                                color: ColorPalette.primary,
+                                size: 40,
+                              ),
                             ),
                           )
                         : const SizedBox.shrink(),
                   ),
 
-                  /// Botones de modo de transporte
+                  /// Transport mode buttons
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: SizedBox(
@@ -134,7 +140,7 @@ class _ItemMapPhonePage extends StatelessWidget {
                     ),
                   ),
 
-                  /// UI loagding
+                  /// UI loading
                   Obx(
                     () => _c.isLoadingRoute.value
                         ? Container(
@@ -214,6 +220,28 @@ class _ItemMapPhonePage extends StatelessWidget {
         ),
       ),
       onLoading: const Center(child: LoadingGnp()),
+      onEmpty: Center(
+        child: LoadingGnp(
+          icon: const Icon(
+            Icons.warning,
+            size: 70,
+            color: ColorPalette.primary,
+          ),
+          title: esMessages.mx.noInformationToShow.value,
+          subtitle: '',
+        ),
+      ),
+      onError: (_) => Center(
+        child: LoadingGnp(
+          icon: const Icon(
+            Icons.error,
+            size: 70,
+            color: ColorPalette.primary,
+          ),
+          title: esMessages.mx.errorLoadingInfo.value,
+          subtitle: esMessages.mx.pleaseTryAgainLater.value,
+        ),
+      ),
     ),
   );
 }

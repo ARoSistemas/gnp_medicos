@@ -19,13 +19,13 @@ class _FilterPagePhonePage extends StatelessWidget {
             'catOtrosServicios': _c.catOtrosServicios,
           },
         );
-        //
       }
     },
     child: Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        title: Text(_c.itemSelected.subtitle),
+      appBar: AppBarPhoneWdgt(
+        title: _c.itemSelected.subtitle,
+        name: _c.user.nombreCompleto,
+        medicalIdentifier: _c.user.codigoFiliacion,
       ),
       body: _c.obx(
         (state) => SizedBox(
@@ -70,7 +70,7 @@ class _FilterPagePhonePage extends StatelessWidget {
                   if (_c.state!.itemSelected == 'medicos')
                     Obx(
                       () => DropdownSearchField(
-                        title: 'Especialidad',
+                        title: msg.specialty.value,
                         hintText: _c.especialidadSelected['especialidad'],
                         items: _c.catEspecialidades,
                         labelKey: 'especialidad',
@@ -207,7 +207,7 @@ class _FilterPagePhonePage extends StatelessWidget {
               size: 70,
               color: ColorPalette.primary,
             ),
-            title: esMessages.mx.noInformationToShow.value,
+            title: msg.noInformationToShow.value,
             subtitle: '',
           ),
         ),
@@ -218,8 +218,8 @@ class _FilterPagePhonePage extends StatelessWidget {
               size: 70,
               color: ColorPalette.primary,
             ),
-            title: esMessages.mx.errorLoadingInfo.value,
-            subtitle: esMessages.mx.pleaseTryAgainLater.value,
+            title: msg.errorLoadingInfo.value,
+            subtitle: msg.pleaseTryAgainLater.value,
           ),
         ),
       ),

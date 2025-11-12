@@ -1,6 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medicos/core/extensions/null_extensions.dart';
 import 'package:medicos/core/extensions/responsive_extension.dart';
 import 'package:medicos/core/services/navigation/route_params.dart';
 import 'package:medicos/shared/messages/es/es_messages.dart';
@@ -9,6 +10,7 @@ import 'package:medicos/shared/utils/colors/color_palette.dart'
 import 'package:medicos/shared/widgets/appbar_phone.dart';
 import 'package:medicos/shared/widgets/banner_medico.dart';
 import 'package:medicos/shared/widgets/wdgt_loading.dart';
+import 'package:medicos/src/modules/solicitud_convenio_medico/children/upload_documents/children/request_documents/domain/dtos/tipye_documents_dto.dart';
 import 'package:medicos/src/modules/solicitud_convenio_medico/children/upload_documents/children/request_documents/domain/repositories/request_documents_repository.dart';
 import 'package:medicos/src/modules/solicitud_convenio_medico/children/upload_documents/children/request_documents/request_documents_controller.dart';
 import 'package:medicos/src/modules/solicitud_convenio_medico/children/upload_documents/children/request_documents/widgets/card_upload_format.dart';

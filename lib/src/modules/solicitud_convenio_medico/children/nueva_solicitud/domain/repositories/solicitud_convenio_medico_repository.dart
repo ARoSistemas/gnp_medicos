@@ -19,6 +19,7 @@ class SolicitudConvenioMedicoRepository extends ApiBaseProvider {
     String jwt,
   ) async {
     final String solicitudEndPoint = '/gestor-medico/solicitudes/$idAssistant';
+   
     final Response<List<SolicitudModel>> ret = await get(
       solicitudEndPoint,
       headers: finalHeaders(jwt),

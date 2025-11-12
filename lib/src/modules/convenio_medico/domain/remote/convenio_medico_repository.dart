@@ -5,11 +5,9 @@ import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'package:medicos/core/config/app_config.dart';
 import 'package:medicos/core/services/network/network_service.dart';
-import 'package:medicos/core/services/threads/threads_service.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
 
 class ConvenioMedicoRepository extends ApiBaseProvider {
-  final ThreadsService threadsService = Get.find<ThreadsService>();
   final AppStateController stateControllers = Get.find<AppStateController>();
 
   @override

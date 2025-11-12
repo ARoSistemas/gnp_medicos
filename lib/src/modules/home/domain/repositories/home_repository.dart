@@ -42,9 +42,11 @@ class HomeRepository extends ApiBaseProvider {
     },
     decoder: (data) {
       if (data is List) {
-        return data
-            .map((item) => PermissionsDto.fromMap(item as Map<String, dynamic>))
-            .toList();
+        final List<PermissionsDto> list = data
+        .map((item) => PermissionsDto.fromMap(item as Map<String, dynamic>))
+        .toList()
+        ..sort((a, b) => a.orden.compareTo(b.orden));
+        return list;
       }
       return [];
     },

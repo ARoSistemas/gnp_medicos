@@ -28,7 +28,7 @@ class _HomePhonePage extends StatelessWidget {
             ),
 
             /// Mi Perfil como doctor
-            if (_c.appState.isDoctor)
+            if (_c.andIsDoctor.value)
               SizedBox(
                 width: double.infinity,
                 height: context.scale(160, axis: ScaleAxis.height),
@@ -45,7 +45,7 @@ class _HomePhonePage extends StatelessWidget {
                       name: _c.appState.user.nombreCompleto,
                       subTitle: _c.appState.user.especialidad,
                       urlPhoto: '',
-                      onTap: () => Get.toNamed(WelcomePage.page.name),
+                      onTap: _c.selectprofile,
                     ),
                   ],
                 ),
@@ -58,12 +58,7 @@ class _HomePhonePage extends StatelessWidget {
                 title: esMessages.mx.myAccess.value.toUpperCase(),
               ),
             ),
-            SizedBox(
-              width: double.infinity,
-              height: context.scale(
-                420 + (_c.appState.isDoctor ? 0 : 160),
-                axis: ScaleAxis.height,
-              ),
+            Expanded(
               child: ListView.builder(
                 padding: EdgeInsets.zero,
                 itemCount: data?.asisstantList.length,
@@ -82,15 +77,33 @@ class _HomePhonePage extends StatelessWidget {
             ),
           ],
         ),
-        onEmpty: Center(
-          child: LoadingGnp(
-            icon: const Icon(
-              Icons.warning,
-              size: 70,
-              color: ColorPalette.primary,
-            ),
-            title: esMessages.mx.noInvites.value,
-            subtitle: esMessages.mx.noActiveInvites.value,
+        onEmpty: Scaffold(
+          appBar: AppBarPhone(
+            elevation: 8,
+            title: msg.back.value,
+            onBack: _c.exit,
+          ),
+          body: Column(
+            children: [
+              const SizedBox(height: 30),
+              Text(
+                msg.apologize.pValue.value(),
+                style: Get.textTheme.titleLarge
+              ),
+              const SizedBox(height: 50),
+              ImageFromWeb(
+                height: 300,
+                width: double.infinity,
+                imageName: 'imagen_mensaje_ups.png',
+                jwt: _c.appState.user.token.jwt
+              ),
+              const SizedBox(height: 30),
+              Text(
+                msg.noInvitation.value,
+                style: Get.textTheme.titleMedium,
+                textAlign: TextAlign.justify,
+              )
+            ],
           ),
         ),
         onError: (_) => Center(

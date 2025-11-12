@@ -4,17 +4,20 @@ import 'package:get/get.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 
 class AppBarPhone extends StatelessWidget implements PreferredSizeWidget {
-  const AppBarPhone({this.title, super.key});
+  const AppBarPhone({this.title, this.onBack, this.elevation = 0, super.key});
 
   final String? title;
+  final Function()? onBack;
+  final double elevation;
 
   @override
   Widget build(BuildContext context) => AppBar(
     backgroundColor: Colors.white,
     surfaceTintColor: Colors.white,
+    elevation: elevation,
     leading: IconButton(
       icon: const Icon(Icons.arrow_back, color: ColorPalette.primary),
-      onPressed: Get.back,
+      onPressed: onBack ?? Get.back,
     ),
     title: Text(
       title ?? '',
@@ -33,6 +36,9 @@ class AppBarPhone extends StatelessWidget implements PreferredSizeWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(StringProperty('title', title));
+    properties
+      ..add(StringProperty('title', title))
+      ..add(DiagnosticsProperty<Function?>('onBack', onBack))
+      ..add(DoubleProperty('elevation', elevation));
   }
 }

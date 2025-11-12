@@ -1,7 +1,7 @@
-part of '../beneficios_page.dart';
+part of '../benefits_page.dart';
 
-class _BeneficiosTabletPage extends StatelessWidget {
-  _BeneficiosTabletPage();
+class _BeneficiosDesktopPage extends StatelessWidget {
+  _BeneficiosDesktopPage();
 
   final BeneficiosController _c = Get.find<BeneficiosController>();
 
@@ -16,7 +16,7 @@ class _BeneficiosTabletPage extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Text(
-            'Beneficios module tablet page',
+            'Beneficios module desktop page',
             style: Get.textTheme.headlineMedium,
           ),
         ],

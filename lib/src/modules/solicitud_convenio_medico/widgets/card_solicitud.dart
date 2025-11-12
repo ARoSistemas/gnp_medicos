@@ -139,8 +139,12 @@ class CardSolicitud extends StatelessWidget {
                   children: [
                     SizedBox(height: context.scale(16, axis: ScaleAxis.height)),
                     ElevatedButton(
-                      onPressed: () =>
-                          Get.toNamed(UploadDocumentsPage.page.name),
+                      onPressed: () async {
+                        await Get.toNamed(
+                          UploadDocumentsPage.page.name,
+                          arguments: folio,
+                        );
+                      },
                       child: Text(esMessages.mx.uploadInformation.value),
                     ),
                   ],

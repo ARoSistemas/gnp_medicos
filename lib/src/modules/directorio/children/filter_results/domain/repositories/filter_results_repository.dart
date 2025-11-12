@@ -1,4 +1,5 @@
 import 'package:get/get_connect/http/src/response/response.dart';
+import 'package:medicos/core/config/app_config.dart';
 import 'package:medicos/core/services/network/network_service.dart';
 import 'package:medicos/src/modules/directorio/children/filter_results/domain/entities/dtos/clinicas_dto.dart';
 import 'package:medicos/src/modules/directorio/children/filter_results/domain/entities/dtos/hospitales_dto.dart';
@@ -7,13 +8,12 @@ import 'package:medicos/src/modules/directorio/children/filter_results/domain/en
 
 class FilterResultsRepository extends ApiBaseProvider {
   @override
-  final String url = 'https://soycliente.gnp.com.mx';
+  final String url = AppConfig.urlDirectorio;
 
   @override
   final String contextPath = '';
 
   /// Fetch data for medicos filtered items
-  // uri:: /integracion/catalogo/medicos ?origen=corporativo&pagina=1
   // Response example:
   // {
   //    "registrosTotales":11412,
@@ -121,7 +121,6 @@ class FilterResultsRepository extends ApiBaseProvider {
   );
 
   /// Fetch data for Hospitales filtered items
-  // uri:: /integracion/catalogo/hospitales ?origen=corporativo&pagina=1
   // Response example:
   //   {
   //    "registrosTotales":459,
@@ -224,7 +223,6 @@ class FilterResultsRepository extends ApiBaseProvider {
       );
 
   /// Fetch data for Clinicas filtered items
-  // uri:: /integracion/catalogo/clinicas ?pagina=1&banClinicaCE=CE
   // Response example:
   // {
   //    "registrosTotales":169,
@@ -319,8 +317,6 @@ class FilterResultsRepository extends ApiBaseProvider {
       );
 
   /// Fetch data for otros servicios filtered items
-  /// https://soycliente.gnp.com.mx/integracion/catalogo/sauxs?pagina=1
-  // uri:: /integracion/catalogo/sauxs ?pagina=1&banClinicaCE=CE
   // Response example:
   // {
   // "registrosTotales": 75,

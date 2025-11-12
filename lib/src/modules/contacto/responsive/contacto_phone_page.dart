@@ -8,89 +8,107 @@ class _ContactoPhonePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBarPhone(title: esMessages.mx.gnpContact.value),
-    body: SingleChildScrollView(
-      child: Column(
-        children: <Widget>[
-          /// Banner
-          Padding(
-            padding: const EdgeInsets.only(bottom: 20),
-            child: BannerMedico(
-              name: _c.user.nombreCompleto,
-              medicalIdentifier: _c.user.codigoFiliacion,
-            ),
-          ),
-
-          /// Links
-          ..._c.items.map(
-            (e) => Padding(
-              padding: const EdgeInsets.only(
-                top: 15,
-                bottom: 15,
-                left: 10,
-                right: 10,
-              ),
-              child: ItemMenu(
-                title: e.title,
-                contact: e.contact,
-                img: e.img,
-                isLink: e.isLink,
-                jwt: e.jwt,
-                onTap: e.onTap,
+    body: _c.obx((data) => SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            /// Banner
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20),
+              child: BannerMedico(
+                name: _c.user.nombreCompleto,
+                medicalIdentifier: _c.user.codigoFiliacion,
               ),
             ),
+      
+            /// Links
+            ..._c.items.map(
+              (e) => Padding(
+                padding: const EdgeInsets.only(
+                  top: 15,
+                  bottom: 15,
+                  left: 10,
+                  right: 10,
+                ),
+                child: ItemMenu(
+                  title: e.title,
+                  contact: e.contact,
+                  img: e.img,
+                  isLink: e.isLink,
+                  jwt: e.jwt,
+                  onTap: e.onTap,
+                ),
+              ),
+            ),
+      
+            const Divider(color: Colors.transparent),
+      
+            /// Re Tabulaciones...
+            ThisTitles(
+              title: esMessages.mx.reTabulationsLegend.value,
+            ),
+            LastItems(
+              title: (_c.contacto!['aclaraciones'] as Map)['telefono'],
+              subtitle: (_c.contacto!['aclaraciones'] as Map)['correo'],
+              leading: 'icono_contactanos_mail.png',
+              jwt: _c.items[2].jwt,
+              onTapTitle: () async {
+                await _c.launchPhoneContact(
+                  (_c.contacto!['aclaraciones'] as Map)['telefono'],
+                );
+              },
+              onTapSubTitle: () async {
+                await _c.launchEmail(
+                   (_c.contacto!['aclaraciones'] as Map)['correo'],
+                  subject: 'Dudas sobre ReTabulaciones/Aclaraciones',
+                );
+              },
+            ),
+      
+            /// Información bancaria...
+            ThisTitles(
+              title: esMessages.mx.bankingInfoLegend.value,
+            ),
+            LastItems(
+              leading: 'icono_contactanos_mail.png',
+              title: (_c.contacto!['informacionBancaria'] as Map)['correo'],
+              jwt: _c.items[2].jwt,
+              onTapTitle: () async {
+                await _c.launchEmail(
+                  (_c.contacto!['informacionBancaria'] as Map)['correo'],
+                  subject: 'Dudas sobre ReTabulaciones/Aclaraciones',
+                );
+              },
+            ),
+      
+            /// Asistencia ...
+            ThisTitles(
+              title: esMessages.mx.personalizedAssistanceLegend.value,
+            ),
+            LastItems(
+              leading: 'icono_contactanos_phone.png',
+              title: 
+              (_c.contacto!['asistenciaPersonalizada'] as Map)['telefono'],
+              jwt: _c.items[2].jwt,
+              onTapTitle: () async {
+                await _c.launchPhoneContact(
+                  (_c.contacto!['asistenciaPersonalizada'] as Map)['telefono']
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+      onLoading: const Center(child: LoadingGnp()),
+      onError: (_) => Center(
+        child: LoadingGnp(
+          icon: const Icon(
+            Icons.error,
+            size: 70,
+            color: ColorPalette.primary,
           ),
-
-          const Divider(color: Colors.transparent),
-
-          /// Re Tabulaciones...
-          ThisTitles(
-            title: esMessages.mx.reTabulationsLegend.value,
-          ),
-          LastItems(
-            title: '5572075716',
-            subtitle: 'centroatencionmedicosgnp@gnp.com.mx',
-            leading: 'icono_contactanos_mail.png',
-            jwt: _c.items[2].jwt,
-            onTapTitle: () async {
-              await _c.launchPhoneContact('5572075716');
-            },
-            onTapSubTitle: () async {
-              await _c.launchEmail(
-                'centroatencionmedicosgnp@gnp.com.mx',
-                subject: 'Dudas sobre ReTabulaciones/Aclaraciones',
-              );
-            },
-          ),
-
-          /// Información bancaria...
-          ThisTitles(
-            title: esMessages.mx.bankingInfoLegend.value,
-          ),
-          LastItems(
-            leading: 'icono_contactanos_mail.png',
-            title: 'informacionproveedores@gnp.com.mx',
-            jwt: _c.items[2].jwt,
-            onTapTitle: () async {
-              await _c.launchEmail(
-                'centroatencionmedicosgnp@gnp.com.mx',
-                subject: 'Dudas sobre ReTabulaciones/Aclaraciones',
-              );
-            },
-          ),
-
-          /// Asistencia ...
-          ThisTitles(
-            title: esMessages.mx.personalizedAssistanceLegend.value,
-          ),
-          LastItems(
-            leading: 'icono_contactanos_phone.png',
-            title: '5572075716',
-            jwt: _c.items[2].jwt,
-            onTapTitle: () async {
-              await _c.launchPhoneContact('5572075716');
-            },
-          ),
-        ],
+          title: esMessages.mx.errorLoadingContact.value,
+          subtitle: esMessages.mx.pleaseTryAgainLater.value,
+        ),
       ),
     ),
   );

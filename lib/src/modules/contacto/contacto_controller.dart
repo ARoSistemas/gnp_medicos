@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
 import 'package:medicos/shared/messages/es/es_messages.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
@@ -13,23 +14,38 @@ class ContactoController extends GetxController
   UserModel get user => appState.user;
   String get jwt => appState.user.token.jwt;
   List<ItemsContacts> items = [];
-
+  Map? redes;
+  Map? contacto;
   @override
-  void onInit() {
+  Future<void> onInit() async {
     super.onInit();
+    await getData();
+  }
+
+  Future<void> getData() async {
+    final Map? dataFirebase = await appService.shared.firebaseService
+        .getDataOnce('appConfig/modulos/contactanos');
+    if (dataFirebase != null) {
+      change(null, status: RxStatus.success());
+    } else {
+      change(null, status: RxStatus.error());
+      return;
+    }
+    redes = dataFirebase['redes'] as Map;
+    contacto = dataFirebase['contacto'] as Map;
 
     items = [
       ItemsContacts(
         title: esMessages.mx.webSite.value,
         contact: 'gnp.com.mx',
         isLink: true,
-        onTap: () => launchWeb('https://www.gnp.com.mx/'),
+        onTap: () => launchWeb(dataFirebase['pagina']),
       ),
       ItemsContacts(
         title: esMessages.mx.gnpLine.value,
         contact: '5552279000',
         isLink: true,
-        onTap: () => launchPhoneContact('+525552279000'),
+        onTap: () => launchPhoneContact(dataFirebase['telefono']),
       ),
       ItemsContacts(
         title: '@GNPSeguros',
@@ -37,25 +53,21 @@ class ContactoController extends GetxController
         isLink: false,
         img: 'icono_contactanos_facebook.png',
         jwt: jwt,
-        onTap: () => launchWeb(
-          'https://www.facebook.com/gnpseguros/',
-        ),
+        onTap: () => launchWeb(redes!['facebook']),
       ),
       ItemsContacts(
         title: '@GNPSeguros',
         img: 'icono_contactanos_x.png',
         isLink: false,
         jwt: jwt,
-        onTap: () => launchWeb('https://twitter.com/gnpseguros'),
+        onTap: () => launchWeb(redes!['x']),
       ),
       ItemsContacts(
         title: '@GNPSeguros',
         img: 'icono_contactanos_instagram.png',
         isLink: false,
         jwt: jwt,
-        onTap: () => launchWeb(
-          'https://www.instagram.com/gnpseguros/',
-        ),
+        onTap: () => launchWeb(redes!['instagram']),
       ),
     ];
   }

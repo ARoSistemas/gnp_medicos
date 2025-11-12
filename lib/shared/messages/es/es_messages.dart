@@ -158,13 +158,13 @@ class _MX extends IAppMessages {
   @override
   MsgProperty get personalData => MsgProperty(
     key: 'personalData',
-    value: 'Datos Personales',
+    value: 'Datos personales',
   );
 
   @override
   MsgProperty get academicData => MsgProperty(
     key: 'academicData',
-    value: 'Datos Académicos',
+    value: 'Datos académicos',
   );
 
   @override
@@ -416,6 +416,12 @@ class _MX extends IAppMessages {
   );
 
   @override
+  MsgProperty get errorLoadingContact => MsgProperty(
+    key: 'errorLoadingContact',
+    value: 'Error al cargar los datos de contacto.',
+  );
+
+  @override
   MsgProperty get noInvites => MsgProperty(
     key: 'noInvites',
     value: 'Sin invitaciones',
@@ -527,6 +533,8 @@ class _MX extends IAppMessages {
   MsgProperty get specialty => MsgProperty(
     key: 'specialty',
     value: 'Especialidad',
+    pValue: 'Especialidades',
+    eValue: 'especialidad',
   );
 
   @override
@@ -917,14 +925,14 @@ class _MX extends IAppMessages {
   MsgProperty get reTabulationsLegend => MsgProperty(
     key: 'reTabulationsLegend',
     value:
-        '''Re Tabulaciones, dudas de tus pagos, aclaraciones de carta para comunicarse al Cam:''',
+        '''Re Tabulaciones, dudas de tus pagos, aclaraciones de carta pase para comunicarse al Cam:''',
   );
 
   @override
   MsgProperty get bankingInfoLegend => MsgProperty(
     key: 'bankingInfoLegend',
     value:
-        '''Información bancaria, datos fiscales, actualización de estados de cuenta:''',
+        '''Información Bancaria, datos fiscales, actualización de estados de cuenta:''',
   );
   @override
   MsgProperty get personalizedAssistanceLegend => MsgProperty(
@@ -980,5 +988,85 @@ class _MX extends IAppMessages {
   MsgProperty get selectBtnToContinue => MsgProperty(
     key: 'selectBtnToContinue',
     value: 'Selecciona el botón de "Nueva búsqueda" para intentar de nuevo',
+  );
+
+  @override
+  MsgProperty get apologize => MsgProperty(
+    key: 'apologize',
+    value: 'Lo siento',
+    pValue: '¡Lo sentimos!',
+  );
+
+  @override
+  MsgProperty get noInvitation => MsgProperty(
+    key: 'noInvitation',
+    value:
+        'Parece que no tienes una invitación activa en este momento. '
+        'Te sugerimos contactar a tu médico para que te brinde el acceso.',
+  );
+
+  @override
+  MsgProperty get back => MsgProperty(
+    key: 'back',
+    value: 'Volver',
+  );
+
+  /// Modulo: Anexos
+  @override
+  MsgProperty get noAnnexesAvailable => MsgProperty(
+    key: 'noAnnexesAvailable',
+    value: 'Sin anexos disponibles',
+  );
+
+  @override
+  MsgProperty get errorOccurred => MsgProperty(
+    key: 'errorOccurred',
+    value: 'Ocurrió un error',
+  );
+
+  @override
+  MsgProperty get couldNotRetrieveAnnexes => MsgProperty(
+    key: 'couldNotRetrieveAnnexes',
+    value: 'No fue posible recuperar los anexos',
+  );
+
+  /// Modulo: Directorio
+  @override
+  MsgProperty get medico => MsgProperty(
+    key: 'medico',
+    value: 'Médicos',
+    pValue: 'Médicos',
+  );
+
+  @override
+  MsgProperty get enconvenio => MsgProperty(
+    key: 'enconvenio',
+    value: 'en convenio',
+  );
+
+  @override
+  MsgProperty get hospital => MsgProperty(
+    key: 'hospital',
+    value: 'Hospital',
+    pValue: 'Hospitales',
+  );
+
+  @override
+  MsgProperty get clinica => MsgProperty(
+    key: 'clinica',
+    value: 'Clínica',
+    pValue: 'Clínicas',
+  );
+
+  @override
+  MsgProperty get otrosServicios => MsgProperty(
+    key: 'otrosServicios',
+    value: 'Otros servicios',
+  );
+
+  @override
+  MsgProperty get errorGetting => MsgProperty(
+    key: 'errorGetting',
+    value: 'Error al obtener ',
   );
 }

@@ -27,10 +27,12 @@ class UserModel {
     required this.uid,
     required this.banVerAviso,
     required this.banConvenioActualizado,
+    required this.banConvenioVigente,
     required this.email,
     required this.pass,
     required this.permisos,
     required this.biometric,
+    required this.canChangeProfile,
   });
 
   factory UserModel.fromRaw(String raw) => UserModel.fromMap(jsonDecode(raw));
@@ -54,10 +56,12 @@ class UserModel {
     uid: json['uid'] ?? '',
     banVerAviso: json['banVerAviso'] ?? false,
     banConvenioActualizado: json['banConvenioActualizado'] ?? false,
+    banConvenioVigente: json['banConvenioVigente'] ?? false,
     email: json['email'] ?? '',
     pass: json['pass'] ?? '',
     permisos: [],
     biometric: json['biometric'] ?? false,
+    canChangeProfile: json['canChangeProfile'] ?? false,
   );
 
   factory UserModel.empty() => UserModel(
@@ -79,10 +83,12 @@ class UserModel {
     uid: '',
     banVerAviso: false,
     banConvenioActualizado: false,
+    banConvenioVigente: false,
     email: '',
     pass: '',
     permisos: [],
     biometric: false,
+    canChangeProfile: false,
   );
 
   final Token token;
@@ -103,10 +109,12 @@ class UserModel {
   final bool banDescargaConvenio;
   final bool banVerAviso;
   final bool banConvenioActualizado;
+  final bool banConvenioVigente;
   final String email;
   final String pass;
   final List<PermissionsDto> permisos;
   final bool biometric;
+  final bool canChangeProfile;
 
   UserModel copyWith({
     Token? token,
@@ -127,10 +135,12 @@ class UserModel {
     String? uid,
     bool? banVerAviso,
     bool? banConvenioActualizado,
+    bool? banConvenioVigente,
     String? email,
     String? pass,
     List<PermissionsDto>? permisos,
     bool? biometric,
+    bool? canChangeProfile,
   }) => UserModel(
     token: token ?? this.token,
     codigoFiliacion: codigoFiliacion ?? this.codigoFiliacion,
@@ -151,10 +161,12 @@ class UserModel {
     banVerAviso: banVerAviso ?? this.banVerAviso,
     banConvenioActualizado:
         banConvenioActualizado ?? this.banConvenioActualizado,
+    banConvenioVigente: banConvenioVigente ?? this.banConvenioVigente,
     email: email ?? this.email,
     pass: pass ?? this.pass,
     permisos: permisos ?? this.permisos,
     biometric: biometric ?? this.biometric,
+    canChangeProfile: canChangeProfile ?? this.canChangeProfile,
   );
 
   Map<String, dynamic> toJson() => {
@@ -173,6 +185,7 @@ class UserModel {
     'uid': uid,
     'banVerAviso': banVerAviso,
     'banConvenioActualizado': banConvenioActualizado,
+    'banConvenioVigente': banConvenioVigente,
   };
 
   Map<String, dynamic> toJsonStored() => {

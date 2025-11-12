@@ -2,6 +2,7 @@ import 'package:get/get.dart';
 import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/core/utils/exception_manager.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
+import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
 import 'package:medicos/src/modules/directorio/children/filter_page/domain/entities/models/estado_mdl.dart';
 import 'package:medicos/src/modules/directorio/domain/entities/items_directory_mdl.dart';
@@ -11,9 +12,8 @@ part 'directorio_model.dart';
 
 class DirectorioController extends GetxController
     with StateMixin<_DirectorioModel> {
-  final AppStateController appState = Get.find<AppStateController>();
-
-  final DirectoryRepository _directoryRepo = Get.find();
+  final AppStateController appState = Get.find();
+  final DirectoryRepository _apiCon = Get.find();
 
   UserModel get user => appState.user;
   String get jwt => appState.user.token.jwt;
@@ -37,38 +37,41 @@ class DirectorioController extends GetxController
   /// Catalog for other services
   List<Map<String, dynamic>> catOtrosServicios = [];
 
+  /// Items in the directory
   final List<ItemDirectoryMdl> items = [
     ItemDirectoryMdl(
-      title: 'Médicos',
-      subtitle: 'Médicos en convenio',
+      title: msg.medico.pValue!,
+      subtitle: '${msg.medico.pValue!} ${msg.enconvenio.value}',
       idPage: 'medicos',
-      img: 'assets/dir_doctores.png',
+      img: 'icono_modulo_directorio_doctores.png',
     ),
+
     ItemDirectoryMdl(
-      title: 'Hospitales',
-      subtitle: 'Hospitales en convenio',
+      title: msg.hospital.pValue!,
+      subtitle: '${msg.hospital.pValue!} ${msg.enconvenio.value}',
       idPage: 'hospitales',
-      img: 'assets/dir_hospitales.png',
+      img: 'icono_modulo_directorio_hospitales.png',
     ),
+
     ItemDirectoryMdl(
-      title: 'Clínicas',
-      subtitle: 'Clínicas en convenio',
+      title: msg.clinica.pValue!,
+      subtitle: '${msg.clinica.pValue!} ${msg.enconvenio.value}',
       idPage: 'clinicas',
-      img: 'assets/dir_clinicas.png',
+      img: 'icono_modulo_directorio_clinicas.png',
     ),
+
     ItemDirectoryMdl(
-      title: 'Otros servicios de salud',
-      subtitle: 'Otros servicios de salud en convenio',
+      title: msg.otrosServicios.value,
+      subtitle: msg.otrosServicios.value,
       idPage: 'otros_servicios',
-      img: 'assets/dir_otrosServiciosSalud.png',
+      img: 'icono_modulo_directorio_otros.png',
     ),
   ];
 
   @override
   Future<void> onInit() async {
     super.onInit();
-    change(null, status: RxStatus.loading());
-
+    change(state, status: RxStatus.loading());
     await _loadEstados().then((value) {
       if (value) {
         change(const _DirectorioModel(), status: RxStatus.success());
@@ -92,8 +95,7 @@ class DirectorioController extends GetxController
     },
     func: () async {
       /// We obtain the data for the states
-      final Response<List<EstadoMdl>> hasData = await _directoryRepo
-          .fetchEstados();
+      final Response<List<EstadoMdl>> hasData = await _apiCon.fetchEstados();
 
       /// We save the temporary list
       final List<EstadoMdl> tmpData = hasData.body!;

@@ -94,7 +94,7 @@ class AddUserController extends GetxController
 
       final bool hasPermissions = await getPermissions(assistant.idAsistente);
       if (!hasPermissions) {
-        change(null, status: RxStatus.error());
+        change(state, status: RxStatus.error());
         return;
       }
     }
@@ -275,8 +275,8 @@ class AddUserController extends GetxController
           idAssistant: assistant.idAsistente,
           idTipoAsistente: selectedItemType.value.toString(),
           affiliationCode: appState.user.codigoFiliacion,
-          status: true, 
-          jwt: jwt
+          status: true,
+          jwt: jwt,
         );
 
         if (res.statusCode! >= 200) {
@@ -336,7 +336,7 @@ class AddUserController extends GetxController
   }
 
   Future<void> saveUserComplete() async {
-    change(null, status: RxStatus.loading());
+    change(state, status: RxStatus.loading());
     await threadsService.execute(
       func: () async {
         if (isNewUser.value) {
@@ -357,11 +357,6 @@ class AddUserController extends GetxController
             jwt: appState.user.token.jwt,
           );
         }
-
-        _notification.show(
-          message: 'Los permisos se guardaron.',
-          type: AlertType.success,
-        );
       },
       customExceptionMessages: {
         Exception(): ExceptionAlertProperties(

@@ -22,7 +22,8 @@ class AuthRepository extends ApiBaseProvider {
       'tipousuario': 'administrador',
     },
     decoder: (data) {
-      if ((data as Map<String, dynamic>)['code'] is int) {
+      if (data is Map<String, dynamic> &&
+        data['code'] is int) {
         return LoginModel.fromMap(data);
       }
 

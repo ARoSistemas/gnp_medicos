@@ -4,10 +4,12 @@ import 'package:get/get.dart';
 import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/core/services/threads/threads_service.dart';
 import 'package:medicos/core/utils/exception_manager.dart';
+import 'package:medicos/shared/constans/constans.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
 import 'package:medicos/src/modules/home/domain/entities/dtos/asisstant_dto.dart';
 import 'package:medicos/src/modules/home/domain/repositories/home_repository.dart';
+import 'package:medicos/src/modules/login/login_page.dart';
 import 'package:medicos/src/modules/profile/children/assistants/add_user/domain/dtos/permissions_dto.dart';
 import 'package:medicos/src/modules/welcome/welcome_page.dart';
 
@@ -17,22 +19,12 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
   final ThreadsService threadsService = Get.find();
   final HomeRepository apiConn = Get.find();
   final AppStateController appState = Get.find();
+  RxBool andIsDoctor = false.obs;
 
   @override
   Future<void> onInit() async {
     super.onInit();
-    if (!appState.isDoctor) {
-      await getAssistantList();
-    }
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-    if (appState.isDoctor) {
-      loadUserPermissions(isDoctor: true);
-      unawaited(Get.offAllNamed(WelcomePage.page.name));
-    }
+    await getAssistantList();
   }
 
   /// Fetches the list of assistants associated with the current user.
@@ -47,6 +39,8 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
   /// - [RxStatus.empty] if the list is empty.
   /// - [RxStatus.error] if an error occurs during the fetch.
   Future<void> getAssistantList() async {
+    andIsDoctor.value = appState.user.token.
+    jwtLogin.claims.roles.contains('Proveedor');
     await threadsService.execute(
       func: () async {
         final Response<List<AsisstantDto>> res = await apiConn.fetchListado(
@@ -58,19 +52,24 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
           asisstantList: res.body,
         );
 
-        if (newState.asisstantList.length == 1 && !appState.isDoctor) {
-          /// Select assistant to use
+        if (newState.asisstantList.length == 1 && !andIsDoctor.value) {
+          /// Autoselect unique assistant to use
           await selectUser(newState.asisstantList.first);
-        } else {
-          /// Load user permissions like doctor
-          loadUserPermissions(isDoctor: true);
-        }
+          return;
+        } 
 
+        /// Validate if no has invitatios
         if (newState.asisstantList.isEmpty) {
-          /// Go to page Welcolme
-          unawaited(Get.offAllNamed(WelcomePage.page.name));
+          if (andIsDoctor.value) {
+            /// Validate if isDoctor and autoselect profile
+            selectprofile();
+          } else {
+            /// Logout and mssge
+            change(newState, status: RxStatus.empty());
+          }
         } else {
           /// Update state and wait to select user
+          appState.user = appState.user.copyWith(canChangeProfile: true);
           change(newState, status: RxStatus.success());
         }
       },
@@ -81,6 +80,12 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
         );
       },
     );
+  }
+
+  void selectprofile() {
+    appState.isDoctor = true;
+    loadUserPermissions(isDoctor: true);
+    unawaited(Get.offAllNamed(WelcomePage.page.name));
   }
 
   /// Selects a user and updates the application state.
@@ -143,6 +148,7 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
       banVerAviso: item.banVerAviso,
       banConvenioActualizado: item.banConvenioActualizado,
       permisos: permisos.where((permiso) => permiso.activo).toList(),
+      banConvenioVigente: item.estatus == StatusAgreement.vigente
     );
     appState.user = tmpUser;
 
@@ -192,5 +198,10 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
 
     /// Save user permissions in app state
     appState.userPermissions = permisosMap;
+  }
+
+  void exit() {
+    appState.reset();
+    unawaited(Get.offAllNamed(LoginPage.page.name));
   }
 }

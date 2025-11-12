@@ -13,6 +13,7 @@ class BannerUser extends StatelessWidget {
     required this.name,
     required this.medicalIdentifier,
     required this.onTapChangePhoto,
+    this.canChangeProfile = false,
     this.photo,
     super.key,
   });
@@ -20,6 +21,7 @@ class BannerUser extends StatelessWidget {
   final String name;
   final String medicalIdentifier;
   final String? photo;
+  final bool canChangeProfile;
   final Function()? onTapChangePhoto;
 
   @override
@@ -70,10 +72,13 @@ class BannerUser extends StatelessWidget {
                       ),
                     ),
                     SizedBox(height: context.scale(6, axis: ScaleAxis.height)),
-                    TextButton.icon(
-                      label: Text(esMessages.mx.changeUser.value),
-                      icon: const Icon(Icons.supervised_user_circle_outlined),
-                      onPressed: () => Get.offAndToNamed(HomePage.page.name),
+                    Visibility(
+                      visible: canChangeProfile,
+                      child: TextButton.icon(
+                        label: Text(esMessages.mx.changeUser.value),
+                        icon: const Icon(Icons.supervised_user_circle_outlined),
+                        onPressed: () => Get.offAndToNamed(HomePage.page.name),
+                      ),
                     ),
                   ],
                 ),
@@ -97,6 +102,7 @@ class BannerUser extends StatelessWidget {
           'onTapChangePhoto',
           onTapChangePhoto,
         ),
-      );
+      )
+      ..add(DiagnosticsProperty<bool>('canChangeProfile', canChangeProfile));
   }
 }

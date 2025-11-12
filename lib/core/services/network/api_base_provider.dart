@@ -2,8 +2,8 @@ part of 'network_service.dart';
 
 abstract class ApiBaseProvider extends GetConnect {
   abstract final String url;
-
   abstract final String contextPath;
+  Future<bool> onTokenExpired() => AuthRefreshService.refreshToken(this);
 
   @override
   @mustCallSuper
@@ -23,18 +23,15 @@ abstract class ApiBaseProvider extends GetConnect {
     String? contentType,
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
-  }) async {
-    final Response<T> response = await super.get(
+  }) => _handleRequestWithRetry(
+    () => super.get<T>(
       url,
       headers: headers,
       contentType: contentType,
       query: query,
       decoder: decoder,
-    );
-    _handleResponseStatus(response);
-
-    return response;
-  }
+    ),
+  );
 
   @override
   Future<Response<T>> post<T>(
@@ -45,8 +42,8 @@ abstract class ApiBaseProvider extends GetConnect {
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
     Progress? uploadProgress,
-  }) async {
-    final Response<T> response = await super.post(
+  }) => _handleRequestWithRetry(
+    () => super.post(
       url,
       body,
       contentType: contentType,
@@ -54,11 +51,8 @@ abstract class ApiBaseProvider extends GetConnect {
       query: query,
       decoder: decoder,
       uploadProgress: uploadProgress,
-    );
-    _handleResponseStatus(response);
-
-    return response;
-  }
+    ),
+  );
 
   @override
   Future<Response<T>> put<T>(
@@ -69,8 +63,8 @@ abstract class ApiBaseProvider extends GetConnect {
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
     Progress? uploadProgress,
-  }) async {
-    final Response<T> response = await super.put(
+  }) => _handleRequestWithRetry(
+    () => super.put(
       url,
       body,
       headers: headers,
@@ -78,11 +72,8 @@ abstract class ApiBaseProvider extends GetConnect {
       query: query,
       decoder: decoder,
       uploadProgress: uploadProgress,
-    );
-    _handleResponseStatus(response);
-
-    return response;
-  }
+    ),
+  );
 
   @override
   Future<Response<T>> delete<T>(
@@ -91,18 +82,15 @@ abstract class ApiBaseProvider extends GetConnect {
     String? contentType,
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
-  }) async {
-    final Response<T> response = await super.delete(
+  }) => _handleRequestWithRetry(
+    () => super.delete(
       url,
       headers: headers,
       contentType: contentType,
       query: query,
       decoder: decoder,
-    );
-    _handleResponseStatus(response);
-
-    return response;
-  }
+    ),
+  );
 
   @override
   Future<Response<T>> patch<T>(
@@ -113,8 +101,8 @@ abstract class ApiBaseProvider extends GetConnect {
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
     Progress? uploadProgress,
-  }) async {
-    final Response<T> response = await super.patch(
+  }) => _handleRequestWithRetry(
+    () => super.patch(
       url,
       body,
       headers: headers,
@@ -122,11 +110,8 @@ abstract class ApiBaseProvider extends GetConnect {
       query: query,
       decoder: decoder,
       uploadProgress: uploadProgress,
-    );
-    _handleResponseStatus(response);
-
-    return response;
-  }
+    ),
+  );
 
   Future<Request<T>> _defaultRequestModifier<T>(Request<T> request) async {
     String bodyLog = 'Body: <File Content>';
@@ -198,5 +183,19 @@ abstract class ApiBaseProvider extends GetConnect {
       );
       throw exception;
     }
+  }
+
+  Future<Response<T>> _handleRequestWithRetry<T>(
+    Future<Response<T>> Function() request,
+  ) async {
+    Response<T> response = await request();
+    if (response.statusCode == HttpStatus.unauthorized) {
+      final bool refreshed = await onTokenExpired();
+      if (refreshed) {
+        response = await request();
+      }
+    }
+    _handleResponseStatus(response);
+    return response;
   }
 }

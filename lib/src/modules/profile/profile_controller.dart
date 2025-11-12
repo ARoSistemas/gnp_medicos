@@ -34,7 +34,7 @@ class ProfileController extends GetxController
   @override
   Future<void> onInit() async {
     super.onInit();
-    enableAsisstant.value = user.banVerConvenio && appState.isDoctor;
+    enableAsisstant.value = user.banConvenioVigente && appState.isDoctor;
     await checkBiometricsSupport();
   }
 

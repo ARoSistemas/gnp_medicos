@@ -2,7 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicos/core/extensions/responsive_extension.dart';
-import 'package:medicos/src/modules/directorio/children/filter_results/domain/entities/models/items_results_mdl.dart';
+import 'package:medicos/src/modules/directorio/children/filter_results/domain/entities/models/item_results_mdl.dart';
 
 class CardItemsResults extends StatelessWidget {
   const CardItemsResults({
@@ -10,7 +10,7 @@ class CardItemsResults extends StatelessWidget {
     super.key,
   });
 
-  final ItemsResultsMdl item;
+  final ItemResultsMdl item;
 
   @override
   Widget build(BuildContext context) => Padding(
@@ -57,6 +57,6 @@ class CardItemsResults extends StatelessWidget {
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(DiagnosticsProperty<ItemsResultsMdl>('item', item));
+    properties.add(DiagnosticsProperty<ItemResultsMdl>('item', item));
   }
 }

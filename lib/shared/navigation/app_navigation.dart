@@ -1,6 +1,6 @@
 import 'package:get/get_navigation/src/routes/get_route.dart';
 import 'package:medicos/src/modules/anexos/anexos_page.dart';
-import 'package:medicos/src/modules/beneficios/beneficios_page.dart';
+import 'package:medicos/src/modules/benefits/benefits_page.dart';
 import 'package:medicos/src/modules/contacto/contacto_page.dart';
 import 'package:medicos/src/modules/convenio_medico/children/view_pdf/view_pdf_page.dart';
 import 'package:medicos/src/modules/convenio_medico/convenio_medico_page.dart';
@@ -8,6 +8,7 @@ import 'package:medicos/src/modules/directorio/children/filter_page/filterpage_p
 import 'package:medicos/src/modules/directorio/children/filter_results/filter_results_page.dart';
 import 'package:medicos/src/modules/directorio/children/item_map/item_map_page.dart';
 import 'package:medicos/src/modules/directorio/directorio_page.dart';
+import 'package:medicos/src/modules/formats/formats_page.dart';
 import 'package:medicos/src/modules/home/home_page.dart';
 import 'package:medicos/src/modules/login/login_page.dart';
 import 'package:medicos/src/modules/profile/children/assistants/add_user/add_user_page.dart';
@@ -37,6 +38,7 @@ final class AppNavigation {
     AddUserPage.page,
     TabuladoresPage.page,
     AnexosPage.page,
+    FormatsPage.page,
     BeneficiosPage.page,
     RegistroPage.page,
     AssistantsPage.page,

@@ -63,7 +63,8 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty clabe;
   abstract final MsgProperty numberAccount;
   abstract final MsgProperty pleaseWait;
-
+  abstract final MsgProperty errorLoadingInvites;
+  abstract final MsgProperty errorLoadingContact;
   abstract final MsgProperty noInvites;
   abstract final MsgProperty noActiveInvites;
   abstract final MsgProperty noForm;
@@ -167,15 +168,31 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty fromGroupNational;
   abstract final MsgProperty signUp;
   abstract final MsgProperty homeTerms;
+  abstract final MsgProperty apologize;
+  abstract final MsgProperty noInvitation;
+  abstract final MsgProperty back;
 
   /// Msg error
-  abstract final MsgProperty errorLoadingInvites;
   abstract final MsgProperty errorLoadingAssistants;
   abstract final MsgProperty errorLoadingForm;
   abstract final MsgProperty errorLoadingInfo;
 
   abstract final MsgProperty noResultsFound;
   abstract final MsgProperty selectBtnToContinue;
+
+  /// Modulo: Anexos
+  abstract final MsgProperty noAnnexesAvailable;
+  abstract final MsgProperty errorOccurred;
+  abstract final MsgProperty couldNotRetrieveAnnexes;
+
+  /// Modulo: Directorio
+  abstract final MsgProperty medico;
+  abstract final MsgProperty hospital;
+  abstract final MsgProperty clinica;
+  abstract final MsgProperty otrosServicios;
+  abstract final MsgProperty enconvenio;
+
+  abstract final MsgProperty errorGetting;
 
   @override
   Map<String, String> toJson() => {
@@ -240,8 +257,7 @@ abstract class IAppMessages extends IMessages {
     ...pleaseWait.msgMap,
     ...errorLoadingAssistants.msgMap,
     ...errorLoadingInvites.msgMap,
-    ...errorLoadingForm.msgMap,
-    ...errorLoadingInfo.msgMap,
+    ...errorLoadingContact.msgMap,
     ...noInvites.msgMap,
     ...noActiveInvites.msgMap,
     ...noForm.msgMap,
@@ -335,7 +351,16 @@ abstract class IAppMessages extends IMessages {
     ...notLastName.msgMap,
     ...notSecondLastName.msgMap,
     ...homeTerms.msgMap,
-    ...noResultsFound.msgMap,
-    ...selectBtnToContinue.msgMap,
+    ...view.msgMap,
+    ...apologize.msgMap,
+    ...noInvitation.msgMap,
+    ...back.msgMap,
+    ...medico.msgMap,
+    ...enconvenio.msgMap,
+    ...hospital.msgMap,
+    ...clinica.msgMap,
+    ...otrosServicios.msgMap,
+    ...errorGetting.msgMap,
+    ...noAnnexesAvailable.msgMap,
   };
 }

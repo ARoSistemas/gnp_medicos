@@ -7,21 +7,17 @@ class _AddUserPhonePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBarPhone(
+    appBar: AppBarPhoneWdgt(
       title: _c.isNewUser.value
           ? esMessages.mx.newUser.value
           : esMessages.mx.updateUser.value,
+      name: _c.user.nombreCompleto,
+      medicalIdentifier: _c.user.codigoFiliacion,
     ),
     body: _c.obx(
       (data) => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          BannerMedico(
-            name: _c.user.token.jwtLogin.claims.givenName,
-            medicalIdentifier: _c.user.codigoFiliacion,
-          ),
-
-          /// Header
           Obx(
             () => Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),

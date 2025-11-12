@@ -7,6 +7,7 @@ import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/widgets/appbar_phone.dart';
 import 'package:medicos/shared/widgets/banner_medico.dart';
 import 'package:medicos/shared/widgets/wdgt_image_from_web.dart';
+import 'package:medicos/shared/widgets/wdgt_loading.dart';
 import 'package:medicos/src/modules/contacto/contacto_controller.dart';
 
 part 'contacto_bindings.dart';

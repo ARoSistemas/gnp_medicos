@@ -11,3 +11,6 @@ class FileTypesAgree {
   static const guidelines = 'Lineamientos';
 }
  
+class StatusAgreement {
+  static const vigente = 'VI';
+}

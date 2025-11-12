@@ -4,6 +4,9 @@ class _UploadDocumentsPhonePage extends StatelessWidget {
   _UploadDocumentsPhonePage();
 
   final UploadDocumentsController _c = Get.find<UploadDocumentsController>();
+  final String? idSolicitud = Get.arguments is String
+      ? Get.arguments as String
+      : null;
 
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -63,8 +66,14 @@ class _UploadDocumentsPhonePage extends StatelessWidget {
                     ),
                   ),
                   ElevatedButton(
-                    onPressed: () =>
-                        Get.toNamed(RequestDocumentsPage.page.name),
+                    onPressed: () async{
+                      if (idSolicitud != null) {
+                        await Get.toNamed(
+                          RequestDocumentsPage.page.name,
+                          arguments: idSolicitud,
+                        );
+                      }
+                    },
                     child: Text(esMessages.mx.begin.value),
                   ),
                   Padding(
@@ -82,4 +91,10 @@ class _UploadDocumentsPhonePage extends StatelessWidget {
       ],
     ),
   );
+
+  @override
+  void debugFillProperties(DiagnosticPropertiesBuilder properties) {
+    super.debugFillProperties(properties);
+    properties.add(StringProperty('idSolicitud', idSolicitud));
+  }
 }

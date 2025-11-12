@@ -350,6 +350,12 @@ class _US extends IAppMessages {
       );
 
   @override
+  MsgProperty get errorLoadingContact =>
+      esMessages.mx.errorLoadingInvites.copyWith(
+        value: 'Error Loading Contact Data',
+      );
+
+  @override
   MsgProperty get errorLoadingForm => esMessages.mx.noForm.copyWith(
     value: 'Error loading form',
   );
@@ -851,5 +857,74 @@ class _US extends IAppMessages {
   @override
   MsgProperty get selectBtnToContinue => esMessages.mx.homeTerms.copyWith(
     value: 'Select the "New Search" button to try again.',
+  );
+
+  @override
+  MsgProperty get apologize => esMessages.mx.apologize.copyWith(
+    value: 'Im sorry',
+    pValue: "¡We're sorry!",
+  );
+
+  @override
+  MsgProperty get noInvitation => esMessages.mx.noInvitation.copyWith(
+    value:
+        "It appears you don't have an active invitation at this time. "
+        'We suggest contacting your doctor to obtain access.',
+  );
+
+  @override
+  MsgProperty get back => esMessages.mx.back.copyWith(
+    value: 'Back',
+  );
+
+  /// Modulo: Anexos
+  @override
+  MsgProperty get noAnnexesAvailable =>
+      esMessages.mx.noAnnexesAvailable.copyWith(
+        value: 'noAnnexesAvailable',
+        pValue: 'No annexes available',
+      );
+
+  @override
+  MsgProperty get errorOccurred => esMessages.mx.errorOccurred.copyWith(
+    value: 'Error occurred',
+  );
+
+  @override
+  MsgProperty get couldNotRetrieveAnnexes =>
+      esMessages.mx.couldNotRetrieveAnnexes.copyWith(
+        value: 'Could not retrieve annexes',
+      );
+
+  /// Modulo: Directorio
+  @override
+  MsgProperty get medico => esMessages.mx.medico.copyWith(
+    value: 'Doctor',
+    pValue: 'Doctors',
+  );
+
+  @override
+  MsgProperty get enconvenio => esMessages.mx.enconvenio.copyWith(
+    value: 'in agreement',
+  );
+
+  @override
+  MsgProperty get hospital => esMessages.mx.enconvenio.copyWith(
+    value: 'Hospitals',
+  );
+
+  @override
+  MsgProperty get clinica => esMessages.mx.enconvenio.copyWith(
+    value: 'Clinics',
+  );
+
+  @override
+  MsgProperty get otrosServicios => esMessages.mx.enconvenio.copyWith(
+    value: 'Other health services',
+  );
+
+  @override
+  MsgProperty get errorGetting => esMessages.mx.errorGetting.copyWith(
+    value: 'Error getting ',
   );
 }

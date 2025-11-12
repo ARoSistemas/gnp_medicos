@@ -22,7 +22,9 @@ class CardUploadFormat extends StatelessWidget {
     children: [
       Text(
         titleDocument,
-        style: Get.textTheme.titleMedium
+        overflow: TextOverflow.ellipsis,
+        maxLines: 1,
+        style: Get.textTheme.titleMedium,
       ),
       SizedBox(height: context.scale(20, axis: ScaleAxis.height)),
       Container(
@@ -50,11 +52,16 @@ class CardUploadFormat extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      titleDocument,
-                      style: Get.textTheme.titleMedium?.copyWith(
-                        fontWeight: FontWeight.w600,
-                        color: ColorPalette.textTertiary
+                    SizedBox(
+                      width: context.scale(250),
+                      child: Text(
+                        titleDocument,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 1,
+                        style: Get.textTheme.titleMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          color: ColorPalette.textTertiary,
+                        ),
                       ),
                     ),
                     Text(
@@ -74,7 +81,7 @@ class CardUploadFormat extends StatelessWidget {
                   onTap: onTapDelete,
                   child: const Icon(
                     Icons.delete_outline,
-                    color: ColorPalette.primary
+                    color: ColorPalette.primary,
                   ),
                 ),
                 SizedBox(width: context.scale(15)),

@@ -200,9 +200,11 @@ class AddUserRepository extends ApiBaseProvider {
     '/$idAssistant/medicos/$affiliationCode/permisos',
     decoder: (data) {
       if (data is List) {
-        final List<Map<String, dynamic>> dataList =
-            List<Map<String, dynamic>>.from(data);
-        return dataList.map(PermissionsDto.fromMap).toList();
+        final List<PermissionsDto> list = data
+        .map((item) => PermissionsDto.fromMap(item as Map<String, dynamic>))
+        .toList()
+        ..sort((a, b) => a.orden.compareTo(b.orden));
+        return list;
       }
       return [];
     },

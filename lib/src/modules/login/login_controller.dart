@@ -6,11 +6,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:medicos/core/config/flavor_config.dart';
 import 'package:medicos/core/extensions/null_extensions.dart';
 import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/core/services/threads/threads_service.dart';
 import 'package:medicos/core/utils/exception_manager.dart';
 import 'package:medicos/core/utils/logger.dart';
+import 'package:medicos/shared/constans/constans.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
 import 'package:medicos/shared/models/entities/claims_mdl.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
@@ -59,6 +61,10 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
     await checkBiometricsSupport();
     packageInfo = await PackageInfo.fromPlatform();
     appState.version = packageInfo.version;
+    if (FlavorConfig.flavor == Flavors.qa || 
+    FlavorConfig.flavor == Flavors.uat) {
+      appState.version = '${appState.version}(${packageInfo.buildNumber})';
+    }
   }
 
   @override
@@ -123,6 +129,7 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
           nombre: claims.givenName,
           apePaterno: claims.apePaterno,
           apeMaterno: claims.apeMaterno,
+          banConvenioVigente: userLogged.estatus == StatusAgreement.vigente
         );
 
         /// Si el rol es asistente, isDoctor = false;
@@ -234,6 +241,5 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
     await userStorage.cleanUser();
     userStored.value = userStorage.getUser();
   }
-
   /// EndClass
 }
