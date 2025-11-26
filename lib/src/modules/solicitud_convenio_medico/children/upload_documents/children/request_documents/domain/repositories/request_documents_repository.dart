@@ -94,6 +94,21 @@ class RequestDocumentsRepository extends ApiBaseProvider {
     return ret.body;
   }
 
+  Future<void> sendAgreementRequest({
+    required String jwt,
+    required String idSolicitud,
+  }) async {
+    await put(
+      '/gestor-medico/solicitud',
+      {
+        'cveSolicitud': idSolicitud,
+        'cveEstatus': '03'
+      },
+      headers: finalHeaders(jwt),
+      decoder: (data) => data,
+    );
+  }
+
 
   Map<String, String> finalHeaders(String jwt) => {
     'Authorization': 'Bearer $jwt',

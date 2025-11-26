@@ -6,24 +6,27 @@ import 'dart:convert';
 
 class BenefitDto {
   BenefitDto({
-    required this.id,
-    required this.fileName,
-    required this.contentType,
-    required this.size,
+    required this.orden,
+    required this.nombre,
+    required this.leyenda,
+    required this.imagen,
+    required this.archivo,
   });
 
   factory BenefitDto.fromJson(Map<String, dynamic> json) => BenefitDto(
-    id: json['id'] ?? '',
-    fileName: json['fileName'] ?? '',
-    contentType: json['contentType'] ?? '',
-    size: json['size'] ?? 0,
+    orden: json['orden'] ?? '',
+    nombre: json['nombre'] ?? '',
+    leyenda: json['leyenda'] ?? '',
+    imagen: json['imagen'] ?? '',
+    archivo: json['archivo'] ?? '',
   );
 
   factory BenefitDto.empty() => BenefitDto(
-    id: '',
-    fileName: '',
-    contentType: '',
-    size: 0,
+    orden: 1000,
+    nombre: '',
+    leyenda: '',
+    imagen: '',
+    archivo: ''
   );
 
   BenefitDto benefitDtoFromJson(String str) =>
@@ -33,15 +36,17 @@ class BenefitDto {
     data.toJson(),
   );
 
-  final String id;
-  final String fileName;
-  final String contentType;
-  final int size;
+  final int orden;
+  final String nombre;
+  final String leyenda;
+  final String imagen;
+  final String archivo;
 
   Map<String, dynamic> toJson() => {
-    'id': id,
-    'fileName': fileName,
-    'contentType': contentType,
-    'size': size,
+    'orden': orden,
+    'nombre': nombre,
+    'leyenda': leyenda,
+    'imagen': imagen,
+    'archivo': archivo,
   };
 }

@@ -16,12 +16,12 @@ class _HomePhonePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 80, bottom: 20),
               child: Text(
-                esMessages.mx.welcomeHome.value,
+                msg.welcomeHome.value,
                 style: Get.textTheme.titleMedium,
               ),
             ),
             Text(
-              esMessages.mx.selectProfile.value,
+              msg.selectProfile.value,
               style: Get.textTheme.titleSmall?.copyWith(
                 color: ColorPalette.textTertiary,
               ),
@@ -38,7 +38,7 @@ class _HomePhonePage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 10, bottom: 10),
                       child: SectionTitle(
-                        title: esMessages.mx.myProfile.value.toUpperCase(),
+                        title: msg.myProfile.value.toUpperCase(),
                       ),
                     ),
                     ItemAssitants(
@@ -55,7 +55,7 @@ class _HomePhonePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 10),
               child: SectionTitle(
-                title: esMessages.mx.myAccess.value.toUpperCase(),
+                title: msg.myAccess.value.toUpperCase(),
               ),
             ),
             Expanded(
@@ -88,21 +88,21 @@ class _HomePhonePage extends StatelessWidget {
               const SizedBox(height: 30),
               Text(
                 msg.apologize.pValue.value(),
-                style: Get.textTheme.titleLarge
+                style: Get.textTheme.titleLarge,
               ),
               const SizedBox(height: 50),
               ImageFromWeb(
                 height: 300,
                 width: double.infinity,
                 imageName: 'imagen_mensaje_ups.png',
-                jwt: _c.appState.user.token.jwt
+                jwt: _c.appState.user.token.jwt,
               ),
               const SizedBox(height: 30),
               Text(
                 msg.noInvitation.value,
                 style: Get.textTheme.titleMedium,
                 textAlign: TextAlign.justify,
-              )
+              ),
             ],
           ),
         ),
@@ -113,8 +113,8 @@ class _HomePhonePage extends StatelessWidget {
               size: 70,
               color: ColorPalette.primary,
             ),
-            title: esMessages.mx.errorLoadingInvites.value,
-            subtitle: esMessages.mx.pleaseTryAgainLater.value,
+            title: msg.errorLoadingInvites.value,
+            subtitle: msg.pleaseTryAgainLater.value,
           ),
         ),
         onLoading: const Center(child: LoadingGnp()),

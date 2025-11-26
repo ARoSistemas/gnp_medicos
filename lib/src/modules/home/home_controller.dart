@@ -39,8 +39,9 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
   /// - [RxStatus.empty] if the list is empty.
   /// - [RxStatus.error] if an error occurs during the fetch.
   Future<void> getAssistantList() async {
-    andIsDoctor.value = appState.user.token.
-    jwtLogin.claims.roles.contains('Proveedor');
+    andIsDoctor.value = appState.user.token.jwtLogin.claims.roles.contains(
+      'Proveedor',
+    );
     await threadsService.execute(
       func: () async {
         final Response<List<AsisstantDto>> res = await apiConn.fetchListado(
@@ -56,7 +57,7 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
           /// Autoselect unique assistant to use
           await selectUser(newState.asisstantList.first);
           return;
-        } 
+        }
 
         /// Validate if no has invitatios
         if (newState.asisstantList.isEmpty) {
@@ -148,7 +149,9 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
       banVerAviso: item.banVerAviso,
       banConvenioActualizado: item.banConvenioActualizado,
       permisos: permisos.where((permiso) => permiso.activo).toList(),
-      banConvenioVigente: item.estatus == StatusAgreement.vigente
+      banConvenioVigente: item.estatus == StatusAgreement.vigente,
+      email: item.email,
+      uid: item.uid,
     );
     appState.user = tmpUser;
 
@@ -191,9 +194,17 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
         '/asistentes': true,
       };
     } else {
-      permisosMap = {
-        for (final PermissionsDto p in appState.user.permisos) p.id: p.activo,
-      };
+      /// Load permissions from user data
+      for (final PermissionsDto p in appState.user.permisos) {
+        permisosMap[p.id] = p.activo;
+
+        /// Load submodules permissions if exist
+        if (p.submodulos.isNotEmpty) {
+          for (final PermissionsDto sub in p.submodulos) {
+            permisosMap[sub.id] = sub.activo;
+          }
+        }
+      }
     }
 
     /// Save user permissions in app state

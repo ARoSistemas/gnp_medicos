@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
-import 'package:medicos/shared/messages/es/es_messages.dart';
+import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
 import 'package:medicos/src/modules/contacto/contacto_page.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -36,13 +36,13 @@ class ContactoController extends GetxController
 
     items = [
       ItemsContacts(
-        title: esMessages.mx.webSite.value,
+        title: msg.webSite.value,
         contact: 'gnp.com.mx',
         isLink: true,
         onTap: () => launchWeb(dataFirebase['pagina']),
       ),
       ItemsContacts(
-        title: esMessages.mx.gnpLine.value,
+        title: msg.gnpLine.value,
         contact: '5552279000',
         isLink: true,
         onTap: () => launchPhoneContact(dataFirebase['telefono']),

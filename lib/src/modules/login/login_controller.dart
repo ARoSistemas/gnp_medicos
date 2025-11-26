@@ -129,7 +129,8 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
           nombre: claims.givenName,
           apePaterno: claims.apePaterno,
           apeMaterno: claims.apeMaterno,
-          banConvenioVigente: userLogged.estatus == StatusAgreement.vigente
+          banConvenioVigente: userLogged.estatus == StatusAgreement.vigente,
+          uid: userLogged.token.jwtLogin.uid
         );
 
         /// Si el rol es asistente, isDoctor = false;

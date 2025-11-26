@@ -36,7 +36,7 @@ class NuevaSolicitudController extends GetxController
   TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController officeAddressController = TextEditingController();
-
+  final formKey = GlobalKey<FormState>();
   final Rx<String?> selectedSpecialty = Rx<String?>(null);
   final Rx<String?> selectedSubSpecialty = Rx<String?>(null);
   final Rx<String?> selectedState = Rx<String?>(null);
@@ -153,9 +153,6 @@ class NuevaSolicitudController extends GetxController
           appState.user.token.jwt,
         );
       },
-      onError: () {
-        throw Exception('Error al cargar especialidades');
-      },
     );
   }
 
@@ -165,9 +162,6 @@ class NuevaSolicitudController extends GetxController
         subSpecialtyCatalog = await apiConn.getSubspecialty(
           appState.user.token.jwt,
         );
-      },
-      onError: () {
-        throw Exception('Error al cargar sub-especialidades');
       },
     );
   }
@@ -179,9 +173,6 @@ class NuevaSolicitudController extends GetxController
           appState.user.token.jwt,
         );
       },
-      onError: () {
-        throw Exception('Error al cargar estados');
-      },
     );
   }
 
@@ -192,48 +183,48 @@ class NuevaSolicitudController extends GetxController
           appState.user.token.jwt,
         );
       },
-      onError: () {
-        throw Exception('Error al cargar hospitales');
-      },
     );
   }
 
   Future<String> newRequestAgreegament() async {
-    change(state, status: RxStatus.loading());
-    await threadsService.execute(
-      func: () async {
-        final Response<String> res = await apiConn.newRequestAgreegament(
-          AgreementRegistration(
-            nombreMedico: nameController.text,
-            apellidoPaterno: lastNameController.text,
-            apellidoMaterno: secondLastNameController.text,
-            cveEspecialidad: selectedSpecialty.value.value(),
-            cveSubespecialidad: selectedSubSpecialty.value.value(),
-            numeroTelefonoDirecto: phoneNumberController.text,
-            direccionConsultorioMedico: officeAddressController.text,
-            cvesHospitalesAtencion: selectedHospitals.map(int.parse).toList(),
-            cveEstatus: statusRequestConvenio,
-            correo: emailController.text,
-            rfc: rfcController.text,
-            cveEstado: selectedState.value.value(),
-            codigoAfiliacion: appState.user.codigoFiliacion,
-            uid: appState.user.token.jwtLogin.uid,
-          ),
-          appState.user.token.jwt,
-        );
+    if (formKey.currentState!.validate()) {
+      change(state, status: RxStatus.loading());
+      await threadsService.execute(
+        func: () async {
+          final Response<String> res = await apiConn.newRequestAgreegament(
+            AgreementRegistration(
+              nombreMedico: nameController.text,
+              apellidoPaterno: lastNameController.text,
+              apellidoMaterno: secondLastNameController.text,
+              cveEspecialidad: selectedSpecialty.value.value(),
+              cveSubespecialidad: selectedSubSpecialty.value.value(),
+              numeroTelefonoDirecto: phoneNumberController.text,
+              direccionConsultorioMedico: officeAddressController.text,
+              cvesHospitalesAtencion: selectedHospitals.map(int.parse).toList(),
+              cveEstatus: statusRequestConvenio,
+              correo: emailController.text,
+              rfc: rfcController.text,
+              cveEstado: selectedState.value.value(),
+              codigoAfiliacion: appState.user.codigoFiliacion,
+              uid: appState.user.uid,
+            ),
+            appState.user.token.jwt,
+          );
 
-        _notification.show(
-          title: 'Registro de Asistentes',
-          message: res.bodyString!.isEmpty
-              ? 'La solciitud no fue registrada.'
-              : 'La solicitud fue registrada.',
-          type: res.bodyString!.isEmpty ? AlertType.error : AlertType.success,
-        );
-      },
-    );
-    
-    change(state, status: RxStatus.success());
-    Get.back();
+          _notification.show(
+            title: 'Registro de Asistentes',
+            message: res.bodyString!.isEmpty
+                ? 'La solciitud no fue registrada.'
+                : 'La solicitud fue registrada.',
+            type: res.bodyString!.isEmpty ? AlertType.error : AlertType.success,
+          );
+        },
+      );
+
+      change(state, status: RxStatus.success());
+      Get.back();
+      return '';
+    }
     return '';
   }
 }

@@ -4,6 +4,7 @@
   "cipherKey": "3yY@7P8laL%TBYuPTJni4lCtyYS4%B#n",
   "cipherIV": "olh21%SeKvv*zea@Mq#hwyBjWj2WSy6P",
   "baseUrlMedicos": "https://admonproveedoressalud-services-qa.gnp.com.mx",
+  "baseUrlCuentasGnp": "https://cuentas-qa.gnp.com.mx",
   "firebaseProjectId": "gnp-admonproveedoressalud-qa",
   "firebaseAuthDomain": "gnp-admonproveedoressalud-qa.firebaseapp.com",
   "firebaseStorageBucket": "gnp-admonproveedoressalud-qa.firebasestorage.app",
@@ -15,13 +16,6 @@
   "iosFirebaseAppId": "1:98788189690:ios:ba77edc6a356413c997043",
   "webFirebaseApiKey": "AIzaSyCKNyuIZoyrKq-SjB9PnWyA5DxMwim7z6s",
   "webFirebaseAppId": "1:98788189690:web:f46f52f14ff7c5a1997043",
-  "baseUrlDirectorio": "https://cuentas-qa.gnp.com.mx/auth/login/refresh",
-  "baseOSCP": "https://api.service.gnp.com.mx",
-  "baseBCA": "https://bca-ws-pro.gnp.com.mx",
-  "baseGoogleApis": "https://maps.googleapis.com/maps/api",
-  "shareLocation": "https://www.google.com/maps/place/",
-  "baseIntegracion": "https://soycliente.gnp.com.mx/",
-  "urlPoliza": "https://api.service.gnp.com.mx",
-  "urlDirectorioUAT": "https://api-uat.oscpuat.gnp.com.mx",
+  "baseGoogleApis": "https://maps.googleapis.com",
   "urlDirectorio": "https://soycliente.gnp.com.mx"
 }

@@ -89,6 +89,9 @@ class UserGeneralData extends StatelessWidget {
               counterText: ''
             ),
             autovalidateMode: AutovalidateMode.onUserInteraction,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.allow(RegExp(regexFilterEmail)),
+            ],
           ),
         ),
 
@@ -116,6 +119,8 @@ class UserGeneralData extends StatelessWidget {
           child: TextFormField(
             controller: _c.birthdateController,
             validator: Validators.date,
+            readOnly: true,
+            onTap: () => _c.selectDateCalendar(context), 
             decoration: InputDecoration(
               labelText: esMessages.mx.birthdate.value,
               hintText: esMessages.mx.birthdate.value,

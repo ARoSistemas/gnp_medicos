@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:medicos/core/extensions/null_extensions.dart';
 import 'package:medicos/core/services/navigation/route_params.dart';
-import 'package:medicos/shared/messages/es/es_messages.dart';
+import 'package:medicos/shared/constans/constans.dart';
+import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/utils/validators.dart';
 import 'package:medicos/shared/widgets/appbar_phone.dart';
@@ -28,7 +31,7 @@ class NuevaSolicitudPage extends GetResponsiveView<NuevaSolicitudController> {
     name: '/nueva-solicitud',
     page: NuevaSolicitudPage.new,
     binding: _NuevaSolicitudBindings(),
-    middlewares: [_NuevaSolicitudMiddleware()]
+    middlewares: [_NuevaSolicitudMiddleware()],
   );
 
   @override

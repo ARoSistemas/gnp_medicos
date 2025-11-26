@@ -159,7 +159,9 @@ class _RequestDocumentsPhonePage extends StatelessWidget {
                         height: context.scale(30, axis: ScaleAxis.height),
                       ),
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: _c.areAllDocumentsUploaded.value
+                            ? _c.sendAgreement
+                            : null,
                         child: Text(
                           esMessages.mx.requestAgreement.value,
                         ),

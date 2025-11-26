@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicos/core/extensions/responsive_extension.dart';
-import 'package:medicos/shared/messages/es/es_messages.dart';
+import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/src/modules/profile/children/assistants/add_user/add_user_controller.dart';
 import 'package:medicos/src/modules/profile/profile_page.dart';
 import 'package:medicos/src/modules/profile/widgets/dropdown_permisos.dart';
@@ -57,6 +57,13 @@ class UserPermissions extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsetsGeometry.only(bottom: 30),
                     child: DropdownPermission(
+                      value: permiso.submodulos
+                          .where(
+                            (sub) =>
+                                _c.permisosSeleccionadosIds.contains(sub.id),
+                          )
+                          .map((sub) => sub.descripcion)
+                          .join(', '),
                       title: permiso.descripcion,
                       items: [
                         ...permiso.submodulos.map(
@@ -95,8 +102,8 @@ class UserPermissions extends StatelessWidget {
               onPressed: _c.saveUserComplete,
               child: Text(
                 _c.isNewUser.value
-                    ? esMessages.mx.registerUser.value
-                    : esMessages.mx.updateUser.value,
+                    ? msg.registerUser.value
+                    : msg.updateUser.value,
               ),
             ),
           ),

@@ -191,8 +191,32 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty clinica;
   abstract final MsgProperty otrosServicios;
   abstract final MsgProperty enconvenio;
-
   abstract final MsgProperty errorGetting;
+  abstract final MsgProperty lookingforHospital;
+  abstract final MsgProperty optionalName;
+  abstract final MsgProperty circle;
+  abstract final MsgProperty circleOrTab;
+  abstract final MsgProperty estado;
+  abstract final MsgProperty healthPlan;
+  abstract final MsgProperty clinicType;
+  abstract final MsgProperty servicesType;
+  abstract final MsgProperty municipality;
+  abstract final MsgProperty selectMunicipalityAfterState;
+  abstract final MsgProperty lookingforClinicaName;
+  abstract final MsgProperty lookingforOtrosServiciosName;
+
+  // Msg error nueva solicitud
+  abstract final MsgProperty pleaseSelectASpecialty;
+  abstract final MsgProperty pleaseSelectASubspecialty;
+  abstract final MsgProperty pleaseSelectAState;
+  abstract final MsgProperty careHospitals;
+  abstract final MsgProperty pleaseSelectAtLeastOneHospital;
+  abstract final MsgProperty pleaseEnterYourOfficeAddress;
+
+  // Nueva solicitud
+  abstract final MsgProperty newRequest;
+  abstract final MsgProperty medicalOfficeAddress;
+  abstract final MsgProperty sendRequest;
 
   @override
   Map<String, String> toJson() => {
@@ -342,12 +366,12 @@ abstract class IAppMessages extends IMessages {
     ...rfcDigitsTwelveThirteen.msgMap,
     ...reTabulationsLegend.msgMap,
     ...bankingInfoLegend.msgMap,
-    ...personalizedAssistanceLegend.msgMap,
     ...onlyAlphabeticCharacters.msgMap,
     ...toRegisterYouAccept.msgMap,
     ...termsAndConditions.msgMap,
     ...fromGroupNational.msgMap,
     ...signUp.msgMap,
+    ...personalizedAssistanceLegend.msgMap,
     ...notLastName.msgMap,
     ...notSecondLastName.msgMap,
     ...homeTerms.msgMap,
@@ -362,5 +386,28 @@ abstract class IAppMessages extends IMessages {
     ...otrosServicios.msgMap,
     ...errorGetting.msgMap,
     ...noAnnexesAvailable.msgMap,
+    ...lookingforHospital.msgMap,
+    ...optionalName.msgMap,
+    ...circle.msgMap,
+    ...errorOccurred.msgMap,
+    ...couldNotRetrieveAnnexes.msgMap,
+    ...circleOrTab.msgMap,
+    ...estado.msgMap,
+    ...healthPlan.msgMap,
+    ...clinicType.msgMap,
+    ...servicesType.msgMap,
+    ...municipality.msgMap,
+    ...selectMunicipalityAfterState.msgMap,
+    ...lookingforClinicaName.msgMap,
+    ...lookingforOtrosServiciosName.msgMap,
+    ...newRequest.msgMap,
+    ...pleaseSelectASpecialty.msgMap,
+    ...pleaseSelectASubspecialty.msgMap,
+    ...pleaseSelectAState.msgMap,
+    ...careHospitals.msgMap,
+    ...pleaseSelectAtLeastOneHospital.msgMap,
+    ...medicalOfficeAddress.msgMap,
+    ...pleaseEnterYourOfficeAddress.msgMap,
+    ...sendRequest.msgMap,
   };
 }

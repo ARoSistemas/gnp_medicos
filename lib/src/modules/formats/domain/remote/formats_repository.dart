@@ -18,10 +18,7 @@ class FormatsRepository extends ApiBaseProvider {
   final String contextPath = '/gestor-medico/documentacion';
 
 
-  Future<Response<List<FormatDto>>> getFormats(
-    String idAssistant,
-    String affiliationCode
-  ) => get(
+  Future<Response<List<FormatDto>>> getFormats() => get(
     '/formatos',
     headers: _getHeaders(stateControllers.user.token.jwt),
     decoder: (data) {

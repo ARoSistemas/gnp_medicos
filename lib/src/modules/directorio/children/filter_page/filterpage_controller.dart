@@ -253,7 +253,7 @@ class FilterPageController extends GetxController
     customExceptionMessages: {
       Exception(): ExceptionAlertProperties(
         message:
-            'Error al obtener círculos médicos. Inténtalo de nuevo más tarde',
+            '''${msg.errorGetting.value} ${msg.circle.pValue}. ${msg.pleaseTryAgainLater.value}''',
       ),
     },
     func: () async {
@@ -299,7 +299,7 @@ class FilterPageController extends GetxController
     customExceptionMessages: {
       Exception(): ExceptionAlertProperties(
         message:
-            '''${msg.errorGetting.value}${msg.specialty.pValue} ${msg.pleaseTryAgainLater.value}''',
+            '''${msg.errorGetting.value} ${msg.specialty.pValue}. ${msg.pleaseTryAgainLater.value}''',
       ),
     },
     func: () async {
@@ -325,13 +325,13 @@ class FilterPageController extends GetxController
 
       /// We set the initial values for the search
       keyToSearch.value = 'especialidad';
-      titleSearchby = 'MÉDICO';
+      titleSearchby = msg.medico.value;
 
       /// Hint text for the search input List
       hintTextSearch = 'Buscar por especialidad';
 
       /// Label text for the search input
-      labelSearchby = 'Nombre (Opcional)';
+      labelSearchby = msg.optionalName.value;
 
       /// Complete list for the search
       _itemsToSearch = catEspecialidades;
@@ -346,7 +346,7 @@ class FilterPageController extends GetxController
     customExceptionMessages: {
       Exception(): ExceptionAlertProperties(
         message:
-            '''Error al obtener planes hospitalarios. Inténtalo de nuevo más tarde''',
+            '''${msg.errorGetting.value} ${msg.healthPlan.pValue}. ${msg.pleaseTryAgainLater.value}''',
       ),
     },
     func: () async {
@@ -374,13 +374,13 @@ class FilterPageController extends GetxController
       keyToSearch.value = 'plan';
 
       /// Hint text for the search input List
-      hintTextSearch = 'Buscar por nombre del hospital';
+      hintTextSearch = msg.lookingforHospital.value;
 
       /// Label text for the search input
-      titleSearchby = 'HOSPITAL';
+      titleSearchby = msg.hospital.value;
 
       /// Label text for the search input
-      labelSearchby = 'Buscar por nombre del hospital';
+      labelSearchby = hintTextSearch;
 
       /// Complete list for the search
       _itemsToSearch = catPlanHospitalario;
@@ -394,7 +394,9 @@ class FilterPageController extends GetxController
   Future<bool> fetchDataClinicas() => appService.threads.execute(
     customExceptionMessages: {
       Exception(): ExceptionAlertProperties(
-        message: 'Error al obtener clínicas. Inténtalo de nuevo más tarde',
+        message:
+            '${msg.errorGetting.value} ${msg.clinicType.pValue}. '
+            '${msg.pleaseTryAgainLater.value}',
       ),
     },
     func: () async {
@@ -422,13 +424,13 @@ class FilterPageController extends GetxController
       keyToSearch.value = 'tipoClinica';
 
       /// Hint text for the search input List
-      hintTextSearch = 'Buscar por nombre de la clínica';
+      hintTextSearch = msg.lookingforClinicaName.value;
 
       /// Label text for the search input
-      titleSearchby = 'CLÍNICA';
+      titleSearchby = msg.clinica.value;
 
       /// Label text for the search input
-      labelSearchby = 'Buscar por nombre de la clínica';
+      labelSearchby = hintTextSearch;
 
       /// Complete list for the search
       _itemsToSearch = catClinicas;
@@ -443,7 +445,7 @@ class FilterPageController extends GetxController
     customExceptionMessages: {
       Exception(): ExceptionAlertProperties(
         message:
-            'Error al obtener otros servicios. Inténtalo de nuevo más tarde',
+            '''${msg.errorGetting.value} ${msg.servicesType.pValue}. ${msg.pleaseTryAgainLater.value}''',
       ),
     },
     func: () async {
@@ -471,10 +473,10 @@ class FilterPageController extends GetxController
       keyToSearch.value = 'tipoProveedor';
 
       /// Hint text for the search input
-      hintTextSearch = 'Buscar por nombre...';
+      hintTextSearch = msg.lookingforOtrosServiciosName.value;
 
-      titleSearchby = 'OTROS SERVICIOS';
-      labelSearchby = 'Buscar por nombre del establecimiento';
+      titleSearchby = msg.otrosServicios.value;
+      labelSearchby = hintTextSearch;
 
       /// Complete list for the search
       _itemsToSearch = catOtrosServicios;

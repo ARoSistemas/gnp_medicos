@@ -51,7 +51,7 @@ class _SolicitudConvenioMedicoPhonePage extends StatelessWidget {
                         final SolicitudModel requestAgreement =
                             _c.requestsAgreement[index];
                         StatusSolicitud status;
-                        switch(requestAgreement.cveEstatus){
+                        switch (requestAgreement.cveEstatus) {
                           case '01':
                             status = StatusSolicitud.success;
                           case '02':
@@ -65,7 +65,16 @@ class _SolicitudConvenioMedicoPhonePage extends StatelessWidget {
                             nameDoctor: requestAgreement.nombreMedico,
                             dateRequest: requestAgreement.fechaSolicitud,
                             status: status,
+                            descriptionStatus:
+                                requestAgreement.descripcionEstatus,
                             folio: requestAgreement.cveSolicitud,
+                            onTapUpload: () async {
+                              await Get.toNamed(
+                                UploadDocumentsPage.page.name,
+                                arguments: requestAgreement.cveSolicitud,
+                              );
+                              await _c.getRequestsAgreement();
+                            },
                           ),
                         );
                       },

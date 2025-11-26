@@ -458,6 +458,8 @@ class _US extends IAppMessages {
   @override
   MsgProperty get specialty => esMessages.mx.specialty.copyWith(
     value: 'Specialty',
+    eValue: 'No specialty',
+    pValue: 'Specialties',
   );
 
   @override
@@ -927,4 +929,122 @@ class _US extends IAppMessages {
   MsgProperty get errorGetting => esMessages.mx.errorGetting.copyWith(
     value: 'Error getting ',
   );
+
+  @override
+  MsgProperty get lookingforHospital =>
+      esMessages.mx.lookingforHospital.copyWith(
+        value: 'Looking for hospital by name',
+      );
+
+  @override
+  MsgProperty get optionalName => esMessages.mx.optionalName.copyWith(
+    value: 'Optional name',
+  );
+
+  @override
+  MsgProperty get circle => esMessages.mx.circle.copyWith(
+    value: 'circle',
+  );
+
+  @override
+  MsgProperty get circleOrTab => esMessages.mx.circleOrTab.copyWith(
+    value: 'Circle or tabulator',
+  );
+
+  @override
+  MsgProperty get estado => esMessages.mx.estado.copyWith(
+    value: 'State',
+  );
+
+  @override
+  MsgProperty get healthPlan => esMessages.mx.healthPlan.copyWith(
+    value: 'Health Plan',
+  );
+
+  @override
+  MsgProperty get clinicType => esMessages.mx.clinicType.copyWith(
+    value: 'Clinic Type',
+  );
+
+  @override
+  MsgProperty get servicesType => esMessages.mx.servicesType.copyWith(
+    value: 'Services Type',
+  );
+
+  @override
+  MsgProperty get municipality => esMessages.mx.municipality.copyWith(
+    value: 'Municipality',
+  );
+
+  @override
+  MsgProperty get selectMunicipalityAfterState =>
+      esMessages.mx.selectMunicipalityAfterState.copyWith(
+        value: 'To show municipalities, select a state',
+      );
+
+  @override
+  MsgProperty get lookingforClinicaName =>
+      esMessages.mx.lookingforClinicaName.copyWith(
+        value: 'Looking for clinic by name',
+      );
+
+  @override
+  MsgProperty get lookingforOtrosServiciosName =>
+      esMessages.mx.lookingforOtrosServiciosName.copyWith(
+        value: 'Looking for other health services by name',
+      );
+
+  @override
+  MsgProperty get careHospitals =>
+      esMessages.mx.lookingforOtrosServiciosName.copyWith(
+        value: 'Care Hospitals.',
+      );
+
+  @override
+  MsgProperty get medicalOfficeAddress =>
+      esMessages.mx.lookingforOtrosServiciosName.copyWith(
+        value: 'Medical office Address.',
+      );
+
+  @override
+  MsgProperty get newRequest =>
+      esMessages.mx.lookingforOtrosServiciosName.copyWith(
+        value: 'New request',
+      );
+
+  @override
+  MsgProperty get pleaseEnterYourOfficeAddress =>
+      esMessages.mx.lookingforOtrosServiciosName.copyWith(
+        value: 'Please, enter your office address',
+      );
+
+  @override
+  MsgProperty get pleaseSelectASpecialty =>
+      esMessages.mx.lookingforOtrosServiciosName.copyWith(
+        value: 'Please select a specialty',
+      );
+
+  @override
+  MsgProperty get pleaseSelectAState =>
+      esMessages.mx.lookingforOtrosServiciosName.copyWith(
+        value: 'Please select a state',
+      );
+
+  @override
+  MsgProperty get pleaseSelectASubspecialty =>
+      esMessages.mx.lookingforOtrosServiciosName.copyWith(
+        value: 'Please select a subspecialty',
+      );
+
+  @override
+  MsgProperty get pleaseSelectAtLeastOneHospital =>
+      esMessages.mx.lookingforOtrosServiciosName.copyWith(
+        value: 'Please select at least one hospital',
+      );
+
+  @override
+  MsgProperty get sendRequest =>
+      esMessages.mx.lookingforOtrosServiciosName.copyWith(
+        value: 'Send request',
+      );
 }

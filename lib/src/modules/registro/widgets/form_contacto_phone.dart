@@ -39,15 +39,15 @@ class FormContactoPhone extends StatelessWidget {
             decoration: InputDecoration(
               labelText: esMessages.mx.name.pValue,
               hintText: esMessages.mx.name.pValue,
-              counterText: ''
+              counterText: '',
             ),
             validator: Validators.name,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.allow(
-                RegExp(regexNamesChar, unicode: true)
+                RegExp(regexNamesChar, unicode: true),
               ),
-            ]
+            ],
           ),
           SizedBox(height: context.scale(30, axis: ScaleAxis.height)),
 
@@ -58,15 +58,15 @@ class FormContactoPhone extends StatelessWidget {
             decoration: InputDecoration(
               labelText: esMessages.mx.notLastName.value,
               hintText: esMessages.mx.notLastName.value,
-              counterText: ''
+              counterText: '',
             ),
             validator: Validators.lastName,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.allow(
-                RegExp(regexNamesChar, unicode: true)
+                RegExp(regexNamesChar, unicode: true),
               ),
-            ]
+            ],
           ),
           SizedBox(height: context.scale(30, axis: ScaleAxis.height)),
 
@@ -77,15 +77,15 @@ class FormContactoPhone extends StatelessWidget {
             decoration: InputDecoration(
               labelText: esMessages.mx.notSecondLastName.value,
               hintText: esMessages.mx.notSecondLastName.value,
-              counterText: ''
+              counterText: '',
             ),
             validator: Validators.secondLastName,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.allow(
-                RegExp(regexNamesChar, unicode: true)
+                RegExp(regexNamesChar, unicode: true),
               ),
-            ]
+            ],
           ),
           SizedBox(height: context.scale(30, axis: ScaleAxis.height)),
 
@@ -96,15 +96,13 @@ class FormContactoPhone extends StatelessWidget {
             decoration: InputDecoration(
               labelText: esMessages.mx.email.value,
               hintText: esMessages.mx.email.value,
-              counterText: ''
+              counterText: '',
             ),
             validator: Validators.email,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.allow(
-                RegExp(regexFilterEmail)
-              ),
-            ]
+              FilteringTextInputFormatter.allow(RegExp(regexFilterEmail)),
+            ],
           ),
           SizedBox(height: context.scale(30, axis: ScaleAxis.height)),
 
@@ -115,7 +113,7 @@ class FormContactoPhone extends StatelessWidget {
             decoration: InputDecoration(
               labelText: esMessages.mx.phoneNumber.value,
               hintText: esMessages.mx.phoneNumber.value,
-              counterText: ''
+              counterText: '',
             ),
             keyboardType: TextInputType.phone,
             validator: Validators.phone,
@@ -133,16 +131,16 @@ class FormContactoPhone extends StatelessWidget {
             decoration: const InputDecoration(
               labelText: 'RFC',
               hintText: 'RFC',
-              counterText: ''
+              counterText: '',
             ),
             validator: _c.validaRfc,
             autovalidateMode: AutovalidateMode.onUserInteraction,
             inputFormatters: <TextInputFormatter>[
-            FilteringTextInputFormatter.allow(
-              RegExp(regexAlphanumeric, unicode: true)
-            ),
-            UpperCaseTextFormatter(),
-          ]
+              FilteringTextInputFormatter.allow(
+                RegExp(regexAlphanumeric, unicode: true),
+              ),
+              UpperCaseTextFormatter(),
+            ],
           ),
           Padding(
             padding: const EdgeInsets.only(top: 4, left: 10),

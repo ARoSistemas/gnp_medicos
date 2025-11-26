@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:medicos/core/config/app_config.dart';
 
 /// A widget that displays a cached network image from a predefined base URL,
 /// authenticating the request with a JSON Web Token (JWT).
@@ -31,6 +32,7 @@ class ImageFromWeb extends StatelessWidget {
     this.height = 24,
     this.width = 24,
     this.borderRadius = BorderRadius.zero,
+    this.path = '/assets',
     super.key,
   });
 
@@ -49,6 +51,8 @@ class ImageFromWeb extends StatelessWidget {
 
   /// The border radius to clip the image. Defaults to [BorderRadius.zero].
   final BorderRadiusGeometry borderRadius;
+  
+  final String path;
 
   @override
   Widget build(BuildContext context) => ClipRRect(
@@ -63,8 +67,7 @@ class ImageFromWeb extends StatelessWidget {
             height: height,
             width: width,
             fit: BoxFit.cover,
-            imageUrl:
-                'https://admonproveedoressalud-services-qa.gnp.com.mx/gestor-medico/assets/$imageName',
+            imageUrl: '${AppConfig.baseUrlMedicos}/gestor-medico$path/$imageName',
             httpHeaders: {'Authorization': 'Bearer $jwt'},
             errorWidget: (context, url, error) =>
                 const Icon(Icons.question_mark_outlined),
@@ -81,6 +84,7 @@ class ImageFromWeb extends StatelessWidget {
       ..add(DoubleProperty('width', width))
       ..add(
         DiagnosticsProperty<BorderRadiusGeometry>('borderRadius', borderRadius),
-      );
+      )
+      ..add(StringProperty('path', path));
   }
 }

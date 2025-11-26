@@ -7,6 +7,7 @@ import 'package:medicos/shared/utils/colors/color_palette.dart';
 class CardDocumentUpload extends StatelessWidget {
   const CardDocumentUpload({
     required this.title,
+    required this.loading, 
     this.description,
     this.onTap,
     super.key,
@@ -14,6 +15,7 @@ class CardDocumentUpload extends StatelessWidget {
 
   final String title;
   final String? description;
+  final bool loading;
   final Function()? onTap;
 
   @override
@@ -28,7 +30,7 @@ class CardDocumentUpload extends StatelessWidget {
     child: Column(
       children: [
         GestureDetector(
-          onTap: onTap ?? () {},
+          onTap: onTap,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -37,6 +39,14 @@ class CardDocumentUpload extends StatelessWidget {
                 children: [
                   Text(title, style: Get.textTheme.titleMedium),
                   if (onTap != null)
+                    loading ?
+                    const SizedBox(
+                      width: 22,
+                      height: 22,
+                      child: CircularProgressIndicator(
+                        color: ColorPalette.primary,
+                      ),
+                    ) :
                     const Icon(
                       Icons.download_outlined,
                       color: ColorPalette.primary,
@@ -64,6 +74,7 @@ class CardDocumentUpload extends StatelessWidget {
     properties
       ..add(StringProperty('title', title))
       ..add(ObjectFlagProperty<Function()?>.has('onTap', onTap))
-      ..add(StringProperty('description', description));
+      ..add(StringProperty('description', description))
+      ..add(DiagnosticsProperty<bool>('loading', loading));
   }
 }

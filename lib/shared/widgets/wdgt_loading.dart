@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:medicos/shared/messages/es/es_messages.dart';
+import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 
 /// A widget that displays a loading indicator with
@@ -62,14 +62,14 @@ class LoadingGnp extends StatelessWidget {
       Padding(
         padding: const EdgeInsets.all(20),
         child: Text(
-          title == null ? esMessages.mx.loadingData.value : title!,
+          title == null ? msg.loadingData.value : title!,
           style: const TextStyle(fontSize: 20),
         ),
       ),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Text(
-          subtitle == null ? esMessages.mx.pleaseWait.value : subtitle!,
+          subtitle == null ? msg.pleaseWait.value : subtitle!,
           style: const TextStyle(fontSize: 20),
         ),
       ),

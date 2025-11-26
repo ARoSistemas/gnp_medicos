@@ -97,8 +97,8 @@ class _MX extends IAppMessages {
 
   @override
   MsgProperty get registerNow => MsgProperty(
-    key: 'registerNow',
-    value: 'Registrate ahora',
+    key: 'createAccount',
+    value: 'Crear cuenta',
   );
 
   @override
@@ -122,7 +122,7 @@ class _MX extends IAppMessages {
   @override
   MsgProperty get identify => MsgProperty(
     key: 'identify',
-    value: 'Identificate',
+    value: 'Identifícate',
   );
 
   @override
@@ -696,7 +696,7 @@ class _MX extends IAppMessages {
   @override
   MsgProperty get paymentByTransfer => MsgProperty(
     key: 'paymentByTransfer',
-    value: 'Ata para pago por transferencia',
+    value: 'Alta para pago por transferencia',
   );
 
   @override
@@ -925,7 +925,7 @@ class _MX extends IAppMessages {
   MsgProperty get reTabulationsLegend => MsgProperty(
     key: 'reTabulationsLegend',
     value:
-        '''Re Tabulaciones, dudas de tus pagos, aclaraciones de carta pase para comunicarse al Cam:''',
+        '''Re Tabulaciones, dudas de tus pagos, aclaraciones de carta pase para comunicarte al Cam:''',
   );
 
   @override
@@ -1034,7 +1034,7 @@ class _MX extends IAppMessages {
   @override
   MsgProperty get medico => MsgProperty(
     key: 'medico',
-    value: 'Médicos',
+    value: 'Médico',
     pValue: 'Médicos',
   );
 
@@ -1061,12 +1061,143 @@ class _MX extends IAppMessages {
   @override
   MsgProperty get otrosServicios => MsgProperty(
     key: 'otrosServicios',
-    value: 'Otros servicios',
+    value: 'Otros servicios de salud',
+    pValue: 'Otros servicios de salud',
   );
 
   @override
   MsgProperty get errorGetting => MsgProperty(
     key: 'errorGetting',
-    value: 'Error al obtener ',
+    value: 'Error al obtener',
   );
+
+  @override
+  MsgProperty get lookingforHospital => MsgProperty(
+    key: 'lookingforHospital',
+    value: 'Buscar por nombre del hospital',
+  );
+
+  @override
+  MsgProperty get optionalName => MsgProperty(
+    key: 'optionalName',
+    value: 'Nombre (Opcional)',
+  );
+  @override
+  MsgProperty get circle => MsgProperty(
+    key: 'circle',
+    value: 'Círculo',
+    pValue: 'Círculos',
+  );
+  @override
+  MsgProperty get circleOrTab => MsgProperty(
+    key: 'circleOrTab',
+    value: 'Círculo o tabulador',
+  );
+
+  @override
+  MsgProperty get estado => MsgProperty(
+    key: 'estado',
+    value: 'Estado',
+    pValue: 'Estados',
+  );
+
+  @override
+  MsgProperty get healthPlan => MsgProperty(
+    key: 'healthPlan',
+    value: 'Plan hospitalario',
+    pValue: 'Planes hospitalarios',
+  );
+
+  @override
+  MsgProperty get clinicType => MsgProperty(
+    key: 'clinicType',
+    value: 'Tipo de clínica',
+    pValue: 'Tipos de clínicas',
+  );
+
+  @override
+  MsgProperty get servicesType => MsgProperty(
+    key: 'servicesType',
+    value: 'Tipo Servicios',
+    pValue: 'Tipos de Servicios',
+  );
+
+  @override
+  MsgProperty get municipality => MsgProperty(
+    key: 'municipality',
+    value: 'Municipio',
+    pValue: 'Municipios',
+  );
+
+  @override
+  MsgProperty get selectMunicipalityAfterState => MsgProperty(
+    key: 'selectMunicipalityAfterState',
+    value: 'Para mostrar municipios, seleccione un estado',
+  );
+
+  @override
+  MsgProperty get lookingforClinicaName => MsgProperty(
+    key: 'lookingforClinicaName',
+    value: 'Buscar por nombre de la clínica',
+  );
+
+  @override
+  MsgProperty get lookingforOtrosServiciosName => MsgProperty(
+    key: 'lookingforOtrosServiciosName',
+    value: 'Buscar por nombre del establecimiento',
+  );
+
+  @override
+  MsgProperty get pleaseSelectASpecialty => MsgProperty(
+    key: 'please select a specialty.',
+    value: 'Please select a specialty.',
+  );
+
+  @override
+  MsgProperty get pleaseSelectASubspecialty => MsgProperty(
+    key: 'pleaseSlectASubspecialty',
+    value: 'Please select a subspecialty',
+  );
+
+  @override
+  MsgProperty get newRequest =>
+      MsgProperty(key: 'newRequest', value: 'Nueva solicitud');
+
+  @override
+  MsgProperty get pleaseSelectAState => MsgProperty(
+    key: 'pleaseSelectAState',
+    value: 'Por favor, selecciona un estado',
+  );
+
+  @override
+  MsgProperty get careHospitals => MsgProperty(
+    key: 'careHospitals',
+    value: 'Hospitales de atención.',
+  );
+
+  @override
+  MsgProperty get pleaseSelectAtLeastOneHospital => MsgProperty(
+    key: 'pleaseSelectAtLeastOneHospital',
+    value: 'Por favor, selecciona al menos un hospital.',
+  );
+
+  @override
+  MsgProperty get medicalOfficeAddress => MsgProperty(
+    key: 'medicalOfficeAddress',
+    value: 'Dirección de consultorio médico.',
+  );
+
+  @override
+  MsgProperty get pleaseEnterYourOfficeAddress => MsgProperty(
+    key: 'pleaseEnterYourOfficeAddress',
+    value: 'Por favor, ingresa la dirección de tu consultorio.',
+  );
+
+  @override
+  MsgProperty get sendRequest => MsgProperty(
+    key: 'sendRequest',
+    value: 'Enviar solicitud.',
+  );
+
+  ///
 }

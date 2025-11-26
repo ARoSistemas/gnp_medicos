@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:medicos/core/utils/logger.dart';
+import 'package:medicos/core/services/threads/threads_service.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
 import 'package:medicos/shared/models/incoming/solicitudes_model.dart';
@@ -17,6 +17,7 @@ class SolicitudConvenioMedicoController extends GetxController
 
   final RxBool isLoading = false.obs;
   List<SolicitudModel> requestsAgreement = [];
+  final ThreadsService threadsService = Get.find();
 
   @override
   Future<void> onInit() async {
@@ -24,31 +25,23 @@ class SolicitudConvenioMedicoController extends GetxController
     const _SolicitudConvenioMedicoModel nuevaSolicitudModel =
         _SolicitudConvenioMedicoModel();
     change(nuevaSolicitudModel, status: RxStatus.success());
-     await getRequestsAgreement();
+    await getRequestsAgreement();
   }
-
-  /* 
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  } */
 
   Future<void> getRequestsAgreement() async {
-    try {
-      isLoading.value = true;
-      requestsAgreement = await _requestAgreementRepository
-          .getRequestsAgreement(
-            user.token.jwtLogin.uid,
-            user.token.jwt,
-          );
-      isLoading.value = false;
-    } on Exception catch (e) {
-      logger.d(e);
-    }
+    await threadsService.execute(
+      func: () async {
+        isLoading.value = true;
+        requestsAgreement = await _requestAgreementRepository
+            .getRequestsAgreement(
+              user.uid,
+              user.token.jwt,
+            );
+        isLoading.value = false;
+      },
+      onError: () {
+        isLoading.value = false;
+      }
+    );
   }
 }

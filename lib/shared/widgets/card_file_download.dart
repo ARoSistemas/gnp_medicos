@@ -28,7 +28,14 @@ class CardFileDownload extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(nombre, style: Get.textTheme.titleMedium),
+          Flexible(
+            child: Text(
+              nombre,
+              style: Get.textTheme.titleMedium,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            ),
+          ),
           GestureDetector(
             onTap: onDownload,
             child: const Icon(

@@ -8,7 +8,7 @@ class _AnexosPhonePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBarPhoneWdgt(
-      title: esMessages.mx.annexes.value,
+      title: msg.annexes.value,
       name: _c.user.nombreCompleto,
       medicalIdentifier: _c.user.codigoFiliacion,
     ),
@@ -26,7 +26,7 @@ class _AnexosPhonePage extends StatelessWidget {
                 right: 16,
               ),
               child: CardFileDownload(
-                nombre: item.fileName.split('.').first,
+                nombre: item.description.split('.').first,
                 onDownload: () => _c.downloadAnexo(item.fileName),
               ),
             ),

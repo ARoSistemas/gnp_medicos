@@ -16,6 +16,8 @@ class AsisstantDto {
     required this.banDescargaConvenio,
     required this.banVerAviso,
     required this.banConvenioActualizado,
+    required this.email,
+    required this.uid,
   });
 
   factory AsisstantDto.fromMap(Map<String, dynamic> json) => AsisstantDto(
@@ -35,6 +37,8 @@ class AsisstantDto {
     banDescargaConvenio: json['banDescargaConvenio'] ?? false,
     banVerAviso: json['banVerAviso'] ?? false,
     banConvenioActualizado: json['banConvenioActualizado'] ?? false,
+    email: json['email'] ?? '',
+    uid: json['uid'] ?? '',
   );
 
   factory AsisstantDto.empty() => AsisstantDto(
@@ -54,6 +58,8 @@ class AsisstantDto {
     banDescargaConvenio: false,
     banVerAviso: false,
     banConvenioActualizado: false,
+    email: '',
+    uid: '',
   );
 
   AsisstantDto copyWith({
@@ -73,6 +79,8 @@ class AsisstantDto {
     bool? banDescargaConvenio,
     bool? banVerAviso,
     bool? banConvenioActualizado,
+    String? email,
+    String? uid,
   }) => AsisstantDto(
     codigoFiliacion: codigoFiliacion ?? this.codigoFiliacion,
     nombre: nombre ?? this.nombre,
@@ -91,6 +99,8 @@ class AsisstantDto {
     banVerAviso: banVerAviso ?? this.banVerAviso,
     banConvenioActualizado:
         banConvenioActualizado ?? this.banConvenioActualizado,
+    email: email ?? this.email,
+    uid: uid ?? this.uid
   );
 
   Map<String, dynamic> toMap() => {
@@ -110,6 +120,8 @@ class AsisstantDto {
     'banDescargaConvenio': banDescargaConvenio,
     'banVerAviso': banVerAviso,
     'banConvenioActualizado': banConvenioActualizado,
+    'email': email,
+    'uid': uid,
   };
 
   String codigoFiliacion;
@@ -128,6 +140,8 @@ class AsisstantDto {
   bool banDescargaConvenio;
   bool banVerAviso;
   bool banConvenioActualizado;
+  String email;
+  String uid;
 
   static String rResponseOk = '''
 [

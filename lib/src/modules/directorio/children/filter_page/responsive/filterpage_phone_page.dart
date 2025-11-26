@@ -6,238 +6,246 @@ class _FilterPagePhonePage extends StatelessWidget {
   final FilterPageController _c = Get.find<FilterPageController>();
 
   @override
-  Widget build(BuildContext context) => PopScope(
-    canPop: false,
-    onPopInvokedWithResult: (didPop, result) {
-      if (!didPop) {
-        Get.back(
-          result: {
-            'catEspecialidades': _c.catEspecialidades,
-            'catCirculos': _c.catCirculos,
-            'catPlanHospitalario': _c.catPlanHospitalario,
-            'catClinicas': _c.catClinicas,
-            'catOtrosServicios': _c.catOtrosServicios,
-          },
-        );
-      }
-    },
-    child: Scaffold(
-      appBar: AppBarPhoneWdgt(
-        title: _c.itemSelected.subtitle,
-        name: _c.user.nombreCompleto,
-        medicalIdentifier: _c.user.codigoFiliacion,
-      ),
-      body: _c.obx(
-        (state) => SizedBox(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: SingleChildScrollView(
-              child: Column(
-                spacing: 25,
-                children: [
-                  /// Input search on List
-                  if (_c.state!.itemSelected == 'medicos')
-                    _buildSearch(height: context.pHeight(41)),
+  Widget build(BuildContext context) {
+    void goBack() {
+      Get.back(
+        result: {
+          'catEspecialidades': _c.catEspecialidades,
+          'catCirculos': _c.catCirculos,
+          'catPlanHospitalario': _c.catPlanHospitalario,
+          'catClinicas': _c.catClinicas,
+          'catOtrosServicios': _c.catOtrosServicios,
+        },
+      );
+    }
 
-                  /// Input to search general
-                  TextFieldWithBorderInBottom(
-                    title: _c.titleSearchby,
-                    label: _c.labelSearchby,
-                    colorBorde: const Color(0xFFB0BEC5),
-                    controller: _c.searchByCtrler,
-                  ),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, result) {
+        if (!didPop) {
+          goBack();
+        }
+      },
+      child: Scaffold(
+        appBar: AppBarPhoneWdgt(
+          title: _c.itemSelected.subtitle,
+          name: _c.user.nombreCompleto,
+          medicalIdentifier: _c.user.codigoFiliacion,
+          onBack: goBack,
+        ),
+        body: _c.obx(
+          (state) => SizedBox(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: SingleChildScrollView(
+                child: Column(
+                  spacing: 25,
+                  children: [
+                    /// Input search on List
+                    if (_c.state!.itemSelected == 'medicos')
+                      _buildSearch(height: context.pHeight(41)),
 
-                  /// Dropdown Circulo
-                  if (_c.state!.itemSelected == 'medicos')
+                    /// Input to search general
+                    TextFieldWithBorderInBottom(
+                      title: _c.titleSearchby,
+                      label: _c.labelSearchby,
+                      colorBorde: const Color(0xFFB0BEC5),
+                      controller: _c.searchByCtrler,
+                    ),
+
+                    /// Dropdown Circulo
+                    if (_c.state!.itemSelected == 'medicos')
+                      Obx(
+                        () => DropdownSearchField(
+                          title: msg.circleOrTab.value,
+                          hintText: _c.circuloSelected['circuloMedico'],
+                          items: _c.catCirculos,
+                          labelKey: 'circuloMedico',
+                          onChanged: (value) {
+                            _c.circuloSelected.value =
+                                value ??
+                                {
+                                  'claveCirculoMedico': '0',
+                                  'circuloMedico': 'Todos',
+                                };
+                          },
+                        ),
+                      ),
+
+                    /// Dropdown Especialidad
+                    if (_c.state!.itemSelected == 'medicos')
+                      Obx(
+                        () => DropdownSearchField(
+                          title: msg.specialty.value,
+                          hintText: _c.especialidadSelected['especialidad'],
+                          items: _c.catEspecialidades,
+                          labelKey: 'especialidad',
+                          onChanged: (value) {
+                            _c.especialidadSelected.value =
+                                value ??
+                                {
+                                  'claveEspecialidad': '0',
+                                  'especialidad': 'Todos',
+                                };
+                          },
+                        ),
+                      ),
+
+                    /// Dropdown Plan hospitalario
+                    if (_c.state!.itemSelected == 'hospitales')
+                      Obx(
+                        () => DropdownSearchField(
+                          title: msg.healthPlan.value,
+                          hintText: _c.planHospitalarioSelected['plan'],
+                          items: _c.catPlanHospitalario,
+                          labelKey: 'plan',
+                          onChanged: (value) {
+                            _c.planHospitalarioSelected.value =
+                                value ?? {'clavePlan': '0', 'plan': 'Todos'};
+                          },
+                        ),
+                      ),
+
+                    /// Dropdown Clinicas
+                    if (_c.state!.itemSelected == 'clinicas')
+                      Obx(
+                        () => DropdownSearchField(
+                          title: msg.clinicType.value,
+                          hintText: _c.clinicasSelected['tipoClinica'],
+                          items: _c.catClinicas,
+                          labelKey: 'tipoClinica',
+                          onChanged: (value) {
+                            _c.clinicasSelected.value =
+                                value ??
+                                {
+                                  'claveTipoClinica': '0',
+                                  'tipoClinica': 'Todos',
+                                };
+                          },
+                        ),
+                      ),
+
+                    /// Dropdown Otros Servicios
+                    if (_c.state!.itemSelected == 'otros_servicios')
+                      Obx(
+                        () => DropdownSearchField(
+                          title: msg.servicesType.value,
+                          hintText: _c.otrosServiciosSelected['tipoProveedor'],
+                          items: _c.catOtrosServicios,
+                          labelKey: 'tipoProveedor',
+                          onChanged: (value) {
+                            _c.otrosServiciosSelected.value =
+                                value ??
+                                {
+                                  'claveTipoProveedor': '0',
+                                  'tipoProveedor': 'Todos',
+                                };
+                          },
+                        ),
+                      ),
+
+                    /// Dropdown Estados
                     Obx(
                       () => DropdownSearchField(
-                        title: 'Circulo o tabulador médico',
-                        hintText: _c.circuloSelected['circuloMedico'],
-                        items: _c.catCirculos,
-                        labelKey: 'circuloMedico',
-                        onChanged: (value) {
-                          _c.circuloSelected.value =
+                        title: msg.estado.value,
+                        hintText: _c.itemSelectedEstado['estado'],
+                        items: _c.catEstados,
+                        labelKey: 'estado',
+                        onChanged: (value) async {
+                          _c.itemSelectedEstado.value =
                               value ??
                               {
-                                'claveCirculoMedico': '0',
-                                'circuloMedico': 'Todos',
+                                'claveEstado': '0',
+                                'estado': 'Todos',
                               };
+                          _c.catMunicipios.clear();
+                          if (_c.itemSelectedEstado['claveEstado'] == '0') {
+                            _c.municipiosSelected.value = {};
+                            return;
+                          }
+                          await _c.fetchDataMunicipios();
                         },
                       ),
                     ),
 
-                  /// Dropdown Especiality
-                  if (_c.state!.itemSelected == 'medicos')
+                    /// Dropdown Municipios
                     Obx(
-                      () => DropdownSearchField(
-                        title: msg.specialty.value,
-                        hintText: _c.especialidadSelected['especialidad'],
-                        items: _c.catEspecialidades,
-                        labelKey: 'especialidad',
-                        onChanged: (value) {
-                          _c.especialidadSelected.value =
-                              value ??
-                              {
-                                'claveEspecialidad': '0',
-                                'especialidad': 'Todos',
-                              };
-                        },
-                      ),
-                    ),
-
-                  /// Dropdown Plan hospitalario
-                  if (_c.state!.itemSelected == 'hospitales')
-                    Obx(
-                      () => DropdownSearchField(
-                        title: 'Plan hospitalario',
-                        hintText: _c.planHospitalarioSelected['plan'],
-                        items: _c.catPlanHospitalario,
-                        labelKey: 'plan',
-                        onChanged: (value) {
-                          _c.planHospitalarioSelected.value =
-                              value ?? {'clavePlan': '0', 'plan': 'Todos'};
-                        },
-                      ),
-                    ),
-
-                  /// Dropdown Clinicas
-                  if (_c.state!.itemSelected == 'clinicas')
-                    Obx(
-                      () => DropdownSearchField(
-                        title: 'Tipo de clínica',
-                        hintText: _c.clinicasSelected['tipoClinica'],
-                        items: _c.catClinicas,
-                        labelKey: 'tipoClinica',
-                        onChanged: (value) {
-                          _c.clinicasSelected.value =
-                              value ??
-                              {
-                                'claveTipoClinica': '0',
-                                'tipoClinica': 'Todos',
-                              };
-                        },
-                      ),
-                    ),
-
-                  /// Dropdown Otros Servicios
-                  if (_c.state!.itemSelected == 'otros_servicios')
-                    Obx(
-                      () => DropdownSearchField(
-                        title: 'Tipo Servicios',
-                        hintText: _c.otrosServiciosSelected['tipoProveedor'],
-                        items: _c.catOtrosServicios,
-                        labelKey: 'tipoProveedor',
-                        onChanged: (value) {
-                          _c.otrosServiciosSelected.value =
-                              value ??
-                              {
-                                'claveTipoProveedor': '0',
-                                'tipoProveedor': 'Todos',
-                              };
-                        },
-                      ),
-                    ),
-
-                  /// Dropdown Estados
-                  Obx(
-                    () => DropdownSearchField(
-                      title: 'Estado',
-                      hintText: _c.itemSelectedEstado['estado'],
-                      items: _c.catEstados,
-                      labelKey: 'estado',
-                      onChanged: (value) async {
-                        _c.itemSelectedEstado.value =
-                            value ??
-                            {
-                              'claveEstado': '0',
-                              'estado': 'Todos',
-                            };
-                        _c.catMunicipios.clear();
-                        if (_c.itemSelectedEstado['claveEstado'] == '0') {
-                          _c.municipiosSelected.value = {};
-                          return;
-                        }
-                        await _c.fetchDataMunicipios();
-                      },
-                    ),
-                  ),
-
-                  /// Dropdown Municipios
-                  Obx(
-                    () =>
-                        (_c.state!.itemSelected != 'modulos_gnp' &&
-                            _c.municipiosSelected.isEmpty)
-                        ? const SizedBox()
-                        : DropdownSearchField(
-                            title: 'Municipio',
-                            hintText: _c.municipiosSelected['municipio'] ?? '',
-                            items: _c.catMunicipios,
-                            labelKey: 'municipio',
-                            onChanged: (value) {
-                              _c.municipiosSelected.value =
-                                  value ??
-                                  {
-                                    'claveMunicipio': '0',
-                                    'municipio': 'Todos',
-                                  };
-                            },
-                          ),
-                  ),
-                  Obx(
-                    () => _c.municipiosSelected.isNotEmpty
-                        ? const SizedBox()
-                        : Padding(
-                            padding: const EdgeInsets.only(bottom: 8),
-                            child: Text(
-                              'Para mostrar municipios, seleccione un estado',
-                              style: Theme.of(context).textTheme.titleMedium,
+                      () =>
+                          (_c.state!.itemSelected != 'modulos_gnp' &&
+                              _c.municipiosSelected.isEmpty)
+                          ? const SizedBox()
+                          : DropdownSearchField(
+                              title: msg.municipality.value,
+                              hintText:
+                                  _c.municipiosSelected['municipio'] ?? '',
+                              items: _c.catMunicipios,
+                              labelKey: 'municipio',
+                              onChanged: (value) {
+                                _c.municipiosSelected.value =
+                                    value ??
+                                    {
+                                      'claveMunicipio': '0',
+                                      'municipio': 'Todos',
+                                    };
+                              },
                             ),
-                          ),
-                  ),
-                ],
+                    ),
+                    Obx(
+                      () => _c.municipiosSelected.isNotEmpty
+                          ? const SizedBox()
+                          : Padding(
+                              padding: const EdgeInsets.only(bottom: 8),
+                              child: Text(
+                                msg.selectMunicipalityAfterState.value,
+                                style: Theme.of(context).textTheme.titleMedium,
+                              ),
+                            ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-        onLoading: const Center(child: LoadingGnp()),
-        onEmpty: Center(
-          child: LoadingGnp(
-            icon: const Icon(
-              Icons.warning,
-              size: 70,
-              color: ColorPalette.primary,
+          onLoading: const Center(child: LoadingGnp()),
+          onEmpty: Center(
+            child: LoadingGnp(
+              icon: const Icon(
+                Icons.warning,
+                size: 70,
+                color: ColorPalette.primary,
+              ),
+              title: msg.noInformationToShow.value,
+              subtitle: '',
             ),
-            title: msg.noInformationToShow.value,
-            subtitle: '',
+          ),
+          onError: (_) => Center(
+            child: LoadingGnp(
+              icon: const Icon(
+                Icons.error,
+                size: 70,
+                color: ColorPalette.primary,
+              ),
+              title: msg.errorLoadingInfo.value,
+              subtitle: msg.pleaseTryAgainLater.value,
+            ),
           ),
         ),
-        onError: (_) => Center(
-          child: LoadingGnp(
-            icon: const Icon(
-              Icons.error,
-              size: 70,
-              color: ColorPalette.primary,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: _c.obx(
+            (state) => ElevatedButton(
+              onPressed: _c.goToFilterResultsPage,
+              child: const Text('Buscar'),
             ),
-            title: msg.errorLoadingInfo.value,
-            subtitle: msg.pleaseTryAgainLater.value,
+            onLoading: const SizedBox(),
+            onError: (_) => const SizedBox(),
+            onEmpty: const SizedBox(),
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: _c.obx(
-          (state) => ElevatedButton(
-            onPressed: _c.goToFilterResultsPage,
-            child: const Text('Buscar'),
-          ),
-          onLoading: const SizedBox(),
-          onError: (_) => const SizedBox(),
-          onEmpty: const SizedBox(),
-        ),
-      ),
-    ),
-  );
+    );
+  }
 
   Widget _buildSearch({double height = 350}) {
     /// Action on tap search item

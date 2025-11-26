@@ -39,13 +39,12 @@ class DirectorioController extends GetxController
 
   /// Items in the directory
   final List<ItemDirectoryMdl> items = [
-    ItemDirectoryMdl(
-      title: msg.medico.pValue!,
-      subtitle: '${msg.medico.pValue!} ${msg.enconvenio.value}',
-      idPage: 'medicos',
-      img: 'icono_modulo_directorio_doctores.png',
-    ),
-
+    // ItemDirectoryMdl(
+    //   title: msg.medico.pValue!,
+    //   subtitle: '${msg.medico.pValue!} ${msg.enconvenio.value}',
+    //   idPage: 'medicos',
+    //   img: 'icono_modulo_directorio_doctores.png',
+    // ),
     ItemDirectoryMdl(
       title: msg.hospital.pValue!,
       subtitle: '${msg.hospital.pValue!} ${msg.enconvenio.value}',

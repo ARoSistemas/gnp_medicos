@@ -84,7 +84,9 @@ class RegistroController extends GetxController
 
     _notification.show(
       title: res ? 'Éxito' : 'Error',
-      message: res ? 'Registro exitoso.' : 'Credenciales inválidas.',
+      message: res ? 'Registro exitoso.' : 
+      'El correo que intentas usar ya está registrado. Por favor, '
+      'utiliza otro para continuar con tu registro.',
       type: res ? AlertType.success : AlertType.error,
     );
 

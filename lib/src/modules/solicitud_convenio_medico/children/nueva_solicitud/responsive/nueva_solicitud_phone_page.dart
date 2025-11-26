@@ -4,12 +4,11 @@ class _NuevaSolicitudPhonePage extends StatelessWidget {
   _NuevaSolicitudPhonePage();
 
   final NuevaSolicitudController _c = Get.find<NuevaSolicitudController>();
-
   @override
   Widget build(BuildContext context) {
     const colorTextReadOnly = TextStyle(color: ColorPalette.black);
     return Scaffold(
-      appBar: const AppBarPhone(title: 'Nueva solicitud'),
+      appBar: AppBarPhone(title: msg.newRequest.value),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
@@ -28,323 +27,394 @@ class _NuevaSolicitudPhonePage extends StatelessWidget {
                     horizontal: 16,
                     vertical: 10,
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10, bottom: 30),
-                        child: TextFormField(
-                          style: colorTextReadOnly,
-                          controller: _c.nameController,
-                          decoration: InputDecoration(
-                            hintText: esMessages.mx.name.value,
-                            labelText: '${esMessages.mx.name.value}(s)',
+                  child: Form(
+                    key: _c.formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 10, bottom: 30),
+                          child: TextFormField(
+                            style: colorTextReadOnly,
+                            controller: _c.nameController,
+                            decoration: InputDecoration(
+                              hintText: msg.name.value,
+                              labelText: '${msg.name.value}(s)',
+                              enabled: false,
+                              floatingLabelStyle: Get.textTheme.titleMedium
+                                  ?.copyWith(
+                                    color: ColorPalette.labelText,
+                                  ),
+                              enabledBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: ColorPalette.backgroundCard,
+                                ),
+                              ),
+                            ),
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                RegExp(regexNamesChar, unicode: true),
+                              ),
+                            ],
+                            readOnly: true,
+                            validator: (v) => null,
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 30),
+                          child: TextFormField(
+                            style: colorTextReadOnly,
+                            controller: _c.lastNameController,
+                            decoration: InputDecoration(
+                              hintText: msg.notLastName.value,
+                              labelText: msg.notLastName.value,
+                              floatingLabelStyle: Get.textTheme.titleMedium
+                                  ?.copyWith(
+                                    color: ColorPalette.labelText,
+                                  ),
+                              enabledBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: ColorPalette.backgroundCard,
+                                ),
+                              ),
+                            ),
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                RegExp(regexNamesChar, unicode: true),
+                              ),
+                            ],
                             enabled: false,
-                            floatingLabelStyle: Get.textTheme.titleMedium
-                                ?.copyWith(
-                                  color: ColorPalette.labelText,
-                                ),
-                            enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: ColorPalette.backgroundCard,
-                              ),
-                            ),
-                          ),
-                          readOnly: true,
-                          validator: (v) => null,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 30),
-                        child: TextFormField(
-                          style: colorTextReadOnly,
-                          controller: _c.lastNameController,
-                          decoration: InputDecoration(
-                            hintText: 'Primer apellido',
-                            labelText: 'Primer apellido',
-                            floatingLabelStyle: Get.textTheme.titleMedium
-                                ?.copyWith(
-                                  color: ColorPalette.labelText,
-                                ),
-                            enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: ColorPalette.backgroundCard,
-                              ),
-                            ),
-                          ),
-                          enabled: false,
-                          readOnly: true,
-                          validator: (v) => null,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 30),
-                        child: TextFormField(
-                          style: colorTextReadOnly,
-                          controller: _c.lastNameController,
-                          decoration: InputDecoration(
-                            hintText: 'Segundo apellido',
-                            labelText: 'Segundo apellido',
-                            floatingLabelStyle: Get.textTheme.titleMedium
-                                ?.copyWith(
-                                  color: ColorPalette.labelText,
-                                ),
-                            enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: ColorPalette.backgroundCard,
-                              ),
-                            ),
-                          ),
-                          enabled: false,
-                          readOnly: true,
-                          validator: (v) => null,
-                        ),
-                      ),
-                      TextFormField(
-                        controller: _c.rfcController,
-                        decoration: InputDecoration(
-                          hintText: esMessages.mx.rfc.value,
-                          labelText: esMessages.mx.rfc.value,
-                          floatingLabelStyle: Get.textTheme.titleMedium
-                              ?.copyWith(
-                                color: ColorPalette.labelText,
-                              ),
-                          enabledBorder: const UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: ColorPalette.backgroundCard,
-                            ),
+                            readOnly: true,
+                            validator: (v) => null,
                           ),
                         ),
-                        validator: _c.validaRfc,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 4,
-                          left: 10,
-                          bottom: 30,
-                        ),
-                        child: Text(
-                          esMessages.mx.withHomoclave.value,
-                          style: Get.textTheme.labelMedium?.copyWith(
-                            fontWeight: FontWeight.w400,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 30),
-                        child: TextFormField(
-                          controller: _c.emailController,
-                          decoration: InputDecoration(
-                            hintText: esMessages.mx.email.value,
-                            labelText: esMessages.mx.email.value,
-                            floatingLabelStyle: Get.textTheme.titleMedium
-                                ?.copyWith(
-                                  color: ColorPalette.labelText,
-                                ),
-                            enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: ColorPalette.backgroundCard,
-                              ),
-                            ),
-                          ),
-                          validator: Validators.email,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 30),
-                        child: TextFormField(
-                          controller: _c.phoneNumberController,
-                          decoration: InputDecoration(
-                            hintText: esMessages.mx.phoneNumber.value,
-                            labelText: esMessages.mx.phoneNumber.value,
-                            floatingLabelStyle: Get.textTheme.titleMedium
-                                ?.copyWith(
-                                  color: ColorPalette.labelText,
-                                ),
-                            enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: ColorPalette.backgroundCard,
-                              ),
-                            ),
-                          ),
-                          keyboardType: TextInputType.phone,
-                          validator: Validators.phone,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 30),
-                        child: Obx(
-                          () => DropdownButtonFormField<String>(
-                            initialValue: _c.selectedSpecialty.value,
-                            focusColor: ColorPalette.white,
-                            hint: Text(
-                              esMessages.mx.specialty.value,
-                              style: context.textTheme.titleMedium?.copyWith(
-                                color: ColorPalette.labelText,
-                              ),
-                            ),
-                            isExpanded: true,
-                            onChanged: _c.onSpecialtyChanged,
-                            items: state!.specialties
-                                .map(
-                                  (type) => DropdownMenuItem(
-                                    value: type.clave,
-                                    child: Text(
-                                      type.descripcion,
-                                      style: context.textTheme.titleMedium
-                                          ?.copyWith(
-                                            color: ColorPalette.black,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                    ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 30),
+                          child: TextFormField(
+                            style: colorTextReadOnly,
+                            controller: _c.lastNameController,
+                            decoration: InputDecoration(
+                              hintText: msg.notSecondLastName.value,
+                              labelText: msg.notSecondLastName.value,
+                              floatingLabelStyle: Get.textTheme.titleMedium
+                                  ?.copyWith(
+                                    color: ColorPalette.labelText,
                                   ),
-                                )
-                                .toList(),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 30),
-                        child: Obx(
-                          () => DropdownButtonFormField<String>(
-                            initialValue: _c.selectedSubSpecialty.value,
-                            focusColor: ColorPalette.white,
-                            hint: Text(
-                              esMessages.mx.subSpecialty.value,
-                              style: context.textTheme.titleMedium?.copyWith(
-                                color: ColorPalette.labelText,
+                              enabledBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: ColorPalette.backgroundCard,
+                                ),
                               ),
                             ),
-                            isExpanded: true,
-                            onChanged: _c.onSubSpecialtyChanged,
-                            items: _c.state?.subSpecialties
-                                .map(
-                                  (type) => DropdownMenuItem(
-                                    value: type.clave,
-                                    child: Text(
-                                      type.descripcion,
-                                      style: context.textTheme.titleMedium
-                                          ?.copyWith(
-                                            color: ColorPalette.labelText,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                    ),
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                RegExp(regexNamesChar, unicode: true),
+                              ),
+                            ],
+                            enabled: false,
+                            readOnly: true,
+                            validator: (v) => null,
+                          ),
+                        ),
+                        TextFormField(
+                          controller: _c.rfcController,
+                          decoration: InputDecoration(
+                            hintText: msg.rfc.value,
+                            labelText: msg.rfc.value,
+                            floatingLabelStyle: Get.textTheme.titleMedium
+                                ?.copyWith(
+                                  color: ColorPalette.labelText,
+                                ),
+                            enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: ColorPalette.backgroundCard,
+                              ),
+                            ),
+                          ),
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                              RegExp(regexAlphanumeric, unicode: true),
+                            ),
+                          ],
+                          autovalidateMode: AutovalidateMode.onUserInteraction,
+                          validator: _c.validaRfc,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            top: 4,
+                            left: 10,
+                            bottom: 30,
+                          ),
+                          child: Text(
+                            msg.withHomoclave.value,
+                            style: Get.textTheme.labelMedium?.copyWith(
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 30),
+                          child: TextFormField(
+                            controller: _c.emailController,
+                            maxLength: 100,
+                            decoration: InputDecoration(
+                              counterText: '',
+                              hintText: msg.email.value,
+                              labelText: msg.email.value,
+                              floatingLabelStyle: Get.textTheme.titleMedium
+                                  ?.copyWith(
+                                    color: ColorPalette.labelText,
                                   ),
-                                )
-                                .toList(),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 30),
-                        child: Obx(
-                          () => DropdownButtonFormField<String>(
-                            initialValue: _c.selectedState.value,
-                            focusColor: ColorPalette.white,
-                            hint: Text(
-                              'Estado',
-                              style: context.textTheme.titleMedium?.copyWith(
-                                color: ColorPalette.labelText,
-                                fontWeight: FontWeight.w400,
+                              enabledBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: ColorPalette.backgroundCard,
+                                ),
                               ),
                             ),
-                            isExpanded: true,
-                            onChanged: _c.onStateChanged,
-                            items: _c.state?.states
-                                .map(
-                                  (type) => DropdownMenuItem(
-                                    value: type.cveEstado,
-                                    child: Text(
-                                      type.descripcion,
-                                      style: context.textTheme.titleMedium
-                                          ?.copyWith(
-                                            color: ColorPalette.labelText,
-                                            fontWeight: FontWeight.w400,
-                                          ),
-                                    ),
+                            validator: Validators.email,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                RegExp(regexFilterEmail),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 30),
+                          child: TextFormField(
+                            controller: _c.phoneNumberController,
+                            maxLength: 10,
+                            decoration: InputDecoration(
+                              counterText: '',
+                              hintText: msg.phoneNumber.value,
+                              labelText: msg.phoneNumber.value,
+                              floatingLabelStyle: Get.textTheme.titleMedium
+                                  ?.copyWith(
+                                    color: ColorPalette.labelText,
                                   ),
-                                )
-                                .toList(),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 30),
-                        child: Obx(
-                          () => DropdownButtonFormField<String>(
-                            isExpanded: true,
-                            focusColor: Colors.white,
-                            hint: Text(
-                              _c.selectedHospitalNames.isEmpty
-                                  ? 'Hospitales de atención'
-                                  : _c.selectedHospitalNames,
-                              style: context.textTheme.titleMedium?.copyWith(
-                                color: ColorPalette.labelText,
-                                fontWeight: FontWeight.w400,
+                              enabledBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: ColorPalette.backgroundCard,
+                                ),
                               ),
                             ),
-                            onChanged: (value) {},
-                            items: state?.hospitalAttention
-                                .map(
-                                  (hospital) => DropdownMenuItem<String>(
-                                    value: hospital.clave,
-                                    enabled: false,
-                                    child: StatefulBuilder(
-                                      builder: (context, menuSetState) =>
-                                          TitleSections(
-                                            id: hospital.clave,
-                                            title: hospital.descripcion,
-                                            value: _c.selectedHospitals
-                                                .contains(
+                            keyboardType: TextInputType.phone,
+                            autovalidateMode:
+                                AutovalidateMode.onUserInteraction,
+                            validator: Validators.phone,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 30),
+                          child: Obx(
+                            () => DropdownButtonFormField<String>(
+                              initialValue: _c.selectedSpecialty.value,
+                              focusColor: ColorPalette.white,
+                              hint: Text(
+                                msg.specialty.value,
+                                style: context.textTheme.bodyLarge?.copyWith(
+                                  color: ColorPalette.black,
+                                ),
+                              ),
+                              isExpanded: true,
+                              onChanged: _c.onSpecialtyChanged,
+                              items: _c.state?.specialties
+                                  .map(
+                                    (type) => DropdownMenuItem(
+                                      value: type.clave,
+                                      child: Text(
+                                        type.descripcion,
+                                        style: context.textTheme.titleMedium
+                                            ?.copyWith(
+                                              color: ColorPalette.black,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                              validator: (value) {
+                                if (value == null || value == '0') {
+                                  return msg.pleaseSelectASpecialty.value;
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 30),
+                          child: Obx(
+                            () => DropdownButtonFormField<String>(
+                              initialValue: _c.selectedSubSpecialty.value,
+                              focusColor: ColorPalette.white,
+                              hint: Text(
+                                msg.subSpecialty.value,
+                                style: context.textTheme.bodyLarge?.copyWith(
+                                  color: ColorPalette.black,
+                                ),
+                              ),
+                              isExpanded: true,
+                              onChanged: _c.onSubSpecialtyChanged,
+                              items: _c.state?.subSpecialties
+                                  .map(
+                                    (type) => DropdownMenuItem(
+                                      value: type.clave,
+                                      child: Text(
+                                        type.descripcion,
+                                        style: context.textTheme.titleMedium
+                                            ?.copyWith(
+                                              color: ColorPalette.labelText,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                              validator: (value) {
+                                if (value == null || value == '0') {
+                                  return msg.pleaseSelectASubspecialty.value;
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 30),
+                          child: Obx(
+                            () => DropdownButtonFormField<String>(
+                              initialValue: _c.selectedState.value,
+                              focusColor: ColorPalette.white,
+                              hint: Text(
+                                msg.state.value,
+                                style: context.textTheme.bodyLarge?.copyWith(
+                                  color: ColorPalette.black,
+                                ),
+                              ),
+                              isExpanded: true,
+                              onChanged: _c.onStateChanged,
+                              items: _c.state?.states
+                                  .map(
+                                    (type) => DropdownMenuItem(
+                                      value: type.cveEstado,
+                                      child: Text(
+                                        type.descripcion,
+                                        style: context.textTheme.titleMedium
+                                            ?.copyWith(
+                                              color: ColorPalette.labelText,
+                                              fontWeight: FontWeight.w400,
+                                            ),
+                                      ),
+                                    ),
+                                  )
+                                  .toList(),
+                              validator: (value) {
+                                if (value == null || value == '0') {
+                                  return msg.pleaseSelectAState.value;
+                                }
+                                return null;
+                              },
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 30),
+                          child: Obx(
+                            () => DropdownButtonFormField<String>(
+                              isExpanded: true,
+                              focusColor: Colors.white,
+                              hint: Text(
+                                _c.selectedHospitalNames.isEmpty
+                                    ? msg.careHospitals.value
+                                    : _c.selectedHospitalNames,
+                                style: context.textTheme.bodyLarge?.copyWith(
+                                  color: ColorPalette.black,
+                                ),
+                              ),
+                              onChanged: (value) {},
+                              items: _c.state?.hospitalAttention
+                                  .map(
+                                    (hospital) => DropdownMenuItem<String>(
+                                      value: hospital.clave,
+                                      enabled: false,
+                                      child: StatefulBuilder(
+                                        builder: (context, menuSetState) =>
+                                            TitleSections(
+                                              id: hospital.clave,
+                                              title: hospital.descripcion,
+                                              value: _c.selectedHospitals
+                                                  .contains(
+                                                    hospital.clave,
+                                                  ),
+                                              onChanged: (value) {
+                                                _c.onHospitalSelectionChanged(
                                                   hospital.clave,
-                                                ),
-                                            onChanged: (value) {
-                                              _c.onHospitalSelectionChanged(
-                                                hospital.clave,
-                                                selected: value!,
-                                              );
-                                              menuSetState(() {});
-                                            },
-                                          ),
+                                                  selected: value.value(),
+                                                );
+                                                menuSetState(() {});
+                                              },
+                                            ),
+                                      ),
                                     ),
-                                  ),
-                                )
-                                .toList(),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 30),
-                        child: TextFormField(
-                          controller: _c.officeAddressController,
-                          decoration: InputDecoration(
-                            hintText: 'Dirección de consultorio médico',
-                            labelText: 'Dirección de consultorio médico',
-                            floatingLabelStyle: Get.textTheme.titleMedium
-                                ?.copyWith(
-                                  color: ColorPalette.labelText,
-                                ),
-                            enabledBorder: const UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: ColorPalette.backgroundCard,
-                              ),
+                                  )
+                                  .toList(),
+                              validator: (value) {
+                                if (_c.selectedHospitals.isEmpty) {
+                                  return msg
+                                      .pleaseSelectAtLeastOneHospital
+                                      .value;
+                                }
+                                return null;
+                              },
                             ),
                           ),
-                          validator: (v) => null,
                         ),
-                      ),
-                      ElevatedButton(
-                        onPressed: _c.newRequestAgreegament,
-                        child: const Text('Enviar solicitud'),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 20, bottom: 30),
-                        child: TextButton(
-                          onPressed: () {},
-                          child: const Text('Cancelar'),
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 30),
+                          child: TextFormField(
+                            maxLength: 100,
+                            controller: _c.officeAddressController,
+                            decoration: InputDecoration(
+                              counterText: '',
+                              hintText: msg.medicalOfficeAddress.value,
+                              labelText: msg.medicalOfficeAddress.value,
+                              floatingLabelStyle: Get.textTheme.titleMedium
+                                  ?.copyWith(
+                                    color: ColorPalette.labelText,
+                                  ),
+                              enabledBorder: const UnderlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: ColorPalette.backgroundCard,
+                                ),
+                              ),
+                            ),
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return msg.pleaseEnterYourOfficeAddress.value;
+                              }
+                              return null;
+                            },
+                          ),
                         ),
-                      ),
-                    ],
+                        ElevatedButton(
+                          onPressed: _c.newRequestAgreegament,
+                          child: Text(msg.sendRequest.value),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20, bottom: 30),
+                          child: TextButton(
+                            onPressed: Get.back,
+                            child: Text(msg.cancel.value),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

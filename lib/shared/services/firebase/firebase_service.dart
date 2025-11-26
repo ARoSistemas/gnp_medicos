@@ -24,4 +24,12 @@ class FirebaseService extends GetxService {
   }
 
 
+  Future<bool> setDataOnce(String path, dynamic data) async {
+    try {
+      await _db.ref(path).set(data);
+      return true;
+    } on Exception catch (_) {
+      return false;
+    }
+  }
 }

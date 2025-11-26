@@ -29,10 +29,7 @@ class FormatsController extends GetxController with StateMixin<_FormatsModel> {
    Future<void> getFormatos() async {
     await threadsService.execute(
       func: () async {
-        final Response<List<FormatDto>> res = await apiConn.getFormats(
-          appState.user.token.jwtLogin.uid,
-          appState.user.token.jwt,
-        );
+        final Response<List<FormatDto>> res = await apiConn.getFormats();
         final _FormatsModel newState = _FormatsModel.empty().copyWith(
           formatsList: res.body,
         );
@@ -66,7 +63,7 @@ class FormatsController extends GetxController with StateMixin<_FormatsModel> {
       } else {
         _notification.show(
           title: 'Error',
-          message: 'No se logró obtener el beneficio.',
+          message: 'No se logró obtener el formato.',
           type: AlertType.error,
         );
       }

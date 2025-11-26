@@ -27,7 +27,7 @@ class _WelcomePhonePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 10),
             child: Text(
-              '''¡Buen día, ${_c.user.nombreCompleto.split(' ').first} !''',
+              '''¡Buen día, ${_c.user.nombreCompleto.trim().split(' ').first}!''',
               style: context.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 fontSize: context.fontSize(18),

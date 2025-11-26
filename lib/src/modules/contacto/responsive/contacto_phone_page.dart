@@ -7,8 +7,9 @@ class _ContactoPhonePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBarPhone(title: esMessages.mx.gnpContact.value),
-    body: _c.obx((data) => SingleChildScrollView(
+    appBar: AppBarPhone(title: msg.gnpContact.value),
+    body: _c.obx(
+      (data) => SingleChildScrollView(
         child: Column(
           children: <Widget>[
             /// Banner
@@ -19,7 +20,7 @@ class _ContactoPhonePage extends StatelessWidget {
                 medicalIdentifier: _c.user.codigoFiliacion,
               ),
             ),
-      
+
             /// Links
             ..._c.items.map(
               (e) => Padding(
@@ -39,12 +40,12 @@ class _ContactoPhonePage extends StatelessWidget {
                 ),
               ),
             ),
-      
+
             const Divider(color: Colors.transparent),
-      
+
             /// Re Tabulaciones...
             ThisTitles(
-              title: esMessages.mx.reTabulationsLegend.value,
+              title: msg.reTabulationsLegend.value,
             ),
             LastItems(
               title: (_c.contacto!['aclaraciones'] as Map)['telefono'],
@@ -58,15 +59,15 @@ class _ContactoPhonePage extends StatelessWidget {
               },
               onTapSubTitle: () async {
                 await _c.launchEmail(
-                   (_c.contacto!['aclaraciones'] as Map)['correo'],
+                  (_c.contacto!['aclaraciones'] as Map)['correo'],
                   subject: 'Dudas sobre ReTabulaciones/Aclaraciones',
                 );
               },
             ),
-      
+
             /// Información bancaria...
             ThisTitles(
-              title: esMessages.mx.bankingInfoLegend.value,
+              title: msg.bankingInfoLegend.value,
             ),
             LastItems(
               leading: 'icono_contactanos_mail.png',
@@ -79,19 +80,19 @@ class _ContactoPhonePage extends StatelessWidget {
                 );
               },
             ),
-      
+
             /// Asistencia ...
             ThisTitles(
-              title: esMessages.mx.personalizedAssistanceLegend.value,
+              title: msg.personalizedAssistanceLegend.value,
             ),
             LastItems(
               leading: 'icono_contactanos_phone.png',
-              title: 
-              (_c.contacto!['asistenciaPersonalizada'] as Map)['telefono'],
+              title:
+                  (_c.contacto!['asistenciaPersonalizada'] as Map)['telefono'],
               jwt: _c.items[2].jwt,
               onTapTitle: () async {
                 await _c.launchPhoneContact(
-                  (_c.contacto!['asistenciaPersonalizada'] as Map)['telefono']
+                  (_c.contacto!['asistenciaPersonalizada'] as Map)['telefono'],
                 );
               },
             ),
@@ -106,8 +107,8 @@ class _ContactoPhonePage extends StatelessWidget {
             size: 70,
             color: ColorPalette.primary,
           ),
-          title: esMessages.mx.errorLoadingContact.value,
-          subtitle: esMessages.mx.pleaseTryAgainLater.value,
+          title: msg.errorLoadingContact.value,
+          subtitle: msg.pleaseTryAgainLater.value,
         ),
       ),
     ),

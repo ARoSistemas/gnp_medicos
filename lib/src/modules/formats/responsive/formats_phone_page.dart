@@ -7,25 +7,30 @@ class _FormatsPhonePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBarPhone(
-      title: esMessages.mx.formats.value,
+    appBar: AppBarPhoneWdgt(
+      title: msg.formats.value,
+      name: _c.user.nombreCompleto,
+      medicalIdentifier: _c.user.codigoFiliacion,
     ),
     body: _c.obx(
        (data) => Column(
         children: <Widget>[
-          BannerMedico(
-            name: _c.user.nombreCompleto,
-            medicalIdentifier: _c.user.codigoFiliacion,
-          ),
           SizedBox(height: context.scale(20, axis: ScaleAxis.height)),
           Expanded(
             child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.only(
+                bottom: context.scale(10, axis: ScaleAxis.height),
+                left: 16,
+                right: 16,
+              ),
               itemCount: data?.formatsList.length,
-              itemBuilder: (context, index) => CardFileDownload(
-                nombre: data!.formatsList[index].fileName,
-                onDownload: () => 
-                _c.downloadFormato(data.formatsList[index].fileName),
+              itemBuilder: (context, index) => Padding(
+                padding: const EdgeInsets.all(8),
+                child: CardFileDownload(
+                  nombre: data!.formatsList[index].description.split('.').first,
+                  onDownload: () => 
+                  _c.downloadFormato(data.formatsList[index].fileName),
+                ),
               )
             ),
           ),

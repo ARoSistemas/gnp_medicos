@@ -24,7 +24,6 @@ class TextFieldWithBorderInBottom extends StatelessWidget {
         child: Text(
           title,
           style: const TextStyle(
-            // color: colorTituloSeccion,
             fontWeight: FontWeight.w600,
             letterSpacing: 0.5,
           ),

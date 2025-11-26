@@ -27,6 +27,7 @@ class RequestDocumentsController extends GetxController
   String idSolicitud = '';
 
   RxBool isLoading = false.obs;
+  RxBool areAllDocumentsUploaded = false.obs;
 
   @override
   Future<void> onInit() async {
@@ -155,6 +156,7 @@ class RequestDocumentsController extends GetxController
           );
         },
       );
+      _checkAllDocumentsUploaded();
     } on Exception catch (_) {
       _notification.show(
         title: 'Error',
@@ -204,5 +206,50 @@ class RequestDocumentsController extends GetxController
     } finally {
       isLoading.value = false;
     }
+  }
+
+  Future<void> sendAgreement() async {
+    isLoading.value = true;
+    try {
+      await threadsService.execute(
+        func: () async {
+          await apiConn.sendAgreementRequest(
+            jwt: user.token.jwt,
+            idSolicitud: idSolicitud,
+          );
+        },
+      );
+      _notification.show(
+        title: 'Éxito',
+        message: 'La solicitud de convenio ha sido enviada correctamente.',
+        type: AlertType.success,
+      );
+      Get..back()
+      ..back(result: true);
+    } on Exception catch (_) {
+      _notification.show(
+        title: 'Error',
+        message: 'No se pudo enviar la solicitud. Inténtalo de nuevo.',
+        type: AlertType.error,
+      );
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  void _checkAllDocumentsUploaded() {
+    if (state == null) {
+      areAllDocumentsUploaded.value = false;
+      return;
+    }
+
+    final List<TypeDocumentModel> requiredDocs = state!.listTypeDocuments;
+    final List<TypeDocumentModel> uploadedDocs = state!.listUploadedDocuments;
+
+    if (requiredDocs.isEmpty) {
+      areAllDocumentsUploaded.value = false;
+      return;
+    }
+    areAllDocumentsUploaded.value = uploadedDocs.length >= requiredDocs.length;
   }
 }

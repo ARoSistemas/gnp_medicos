@@ -8,7 +8,7 @@ class _AssistantsPhonePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBarPhoneWdgt(
-      title: esMessages.mx.assistants.value,
+      title: msg.assistants.value,
       name: _c.user.nombreCompleto,
       medicalIdentifier: _c.user.codigoFiliacion,
     ),
@@ -44,7 +44,7 @@ class _AssistantsPhonePage extends StatelessWidget {
               padding: const EdgeInsetsGeometry.symmetric(horizontal: 16),
               child: ElevatedButton(
                 onPressed: _c.addAssistant,
-                child: Text(esMessages.mx.addAssistant.value),
+                child: Text(msg.addAssistant.value),
               ),
             ),
           ),
@@ -52,7 +52,7 @@ class _AssistantsPhonePage extends StatelessWidget {
       ),
       onEmpty: Center(
         child: LoadingGnp(
-          title: esMessages.mx.noAssistantsToShow.value,
+          title: msg.noAssistantsToShow.value,
           icon: const Icon(
             Icons.warning,
             size: 70,
@@ -62,8 +62,8 @@ class _AssistantsPhonePage extends StatelessWidget {
       ),
       onError: (_) => Center(
         child: LoadingGnp(
-          title: esMessages.mx.errorLoadingAssistants.value,
-          subtitle: esMessages.mx.pleaseTryAgainLater.value,
+          title: msg.errorLoadingAssistants.value,
+          subtitle: msg.pleaseTryAgainLater.value,
           icon: const Icon(
             Icons.error,
             size: 70,

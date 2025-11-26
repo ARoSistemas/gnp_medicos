@@ -6,6 +6,7 @@ class AnnexesDto {
     required this.fileName,
     required this.contentType,
     required this.size,
+    required this.description,
   });
 
   factory AnnexesDto.fromJson(String str) =>
@@ -16,23 +17,27 @@ class AnnexesDto {
     fileName: json['fileName'] ?? '',
     contentType: json['contentType'] ?? '',
     size: json['size'] ?? 0,
+    description: json['description'] ?? '',
   );
 
   String id;
   String fileName;
   String contentType;
   int size;
+  String description;
 
   AnnexesDto copyWith({
     String? id,
     String? fileName,
     String? contentType,
     int? size,
+    String? description,
   }) => AnnexesDto(
     id: id ?? this.id,
     fileName: fileName ?? this.fileName,
     contentType: contentType ?? this.contentType,
     size: size ?? this.size,
+    description: description ?? this.description,
   );
 
   String toJson() => json.encode(toMap());
@@ -42,5 +47,6 @@ class AnnexesDto {
     'fileName': fileName,
     'contentType': contentType,
     'size': size,
+    'description': description,
   };
 }

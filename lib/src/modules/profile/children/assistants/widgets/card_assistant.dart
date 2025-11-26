@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medicos/shared/messages/es/es_messages.dart';
+import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/src/modules/profile/children/assistants/add_user/add_user_page.dart';
 import 'package:medicos/src/modules/profile/children/assistants/add_user/domain/dtos/assistant_dto.dart';
@@ -33,9 +33,7 @@ class CardAsistente extends StatelessWidget {
             children: [
               /// Title
               Text(
-                assistant.activo
-                    ? esMessages.mx.disableUser.value
-                    : esMessages.mx.enableUser.value,
+                assistant.activo ? msg.disableUser.value : msg.enableUser.value,
 
                 style: context.textTheme.titleMedium,
               ),
@@ -47,8 +45,8 @@ class CardAsistente extends StatelessWidget {
                   alignment: Alignment.topLeft,
                   child: Text(
                     assistant.activo
-                        ? '''${esMessages.mx.disableAssistant.value} ${assistant.nombre}'''
-                        : '''${esMessages.mx.enableAssistant.value} ${assistant.nombre}''',
+                        ? '''${msg.disableAssistant.value} ${assistant.nombre}'''
+                        : '''${msg.enableAssistant.value} ${assistant.nombre}''',
 
                     textAlign: TextAlign.start,
                     style: context.textTheme.titleMedium?.copyWith(
@@ -64,14 +62,14 @@ class CardAsistente extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 10, bottom: 10),
                 child: ElevatedButton(
                   onPressed: onPressed,
-                  child: Text(esMessages.mx.accept.value),
+                  child: Text(msg.accept.value),
                 ),
               ),
 
               /// Button Cancelar
               TextButton(
                 onPressed: Get.back,
-                child: Text(esMessages.mx.cancel.value),
+                child: Text(msg.cancel.value),
               ),
 
               ///

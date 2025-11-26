@@ -7,24 +7,55 @@ class _BeneficiosPhonePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppBarPhone(title: esMessages.mx.benefits.value),
+    appBar: AppBarPhoneWdgt(
+      title: msg.benefits.value,
+      name: _c.user.nombreCompleto,
+      medicalIdentifier: _c.user.codigoFiliacion,
+    ),
     body: _c.obx(
       (data) => Column(
         children: <Widget>[
-          BannerMedico(
-            name: _c.user.nombreCompleto,
-            medicalIdentifier: _c.user.codigoFiliacion,
-          ),
           SizedBox(height: context.scale(20, axis: ScaleAxis.height)),
           Expanded(
-            child: ListView.builder(
+            child: ListView.separated(
+              separatorBuilder: (context, index) => const SizedBox(height: 12),
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: data?.benefitsList.length,
-              itemBuilder: (context, index) => CardFileDownload(
-                  nombre: data!.benefitsList[index].fileName,
-                  onDownload: () => 
-                  _c.downloadBeneficio(data.benefitsList[index]),
-                )
+              itemCount: (data?.benefitsList.length).value(),
+              itemBuilder: (context, index) => GestureDetector(
+                child: GestureDetector(
+                  child: Card(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                (data?.benefitsList[index].nombre).value(), 
+                                style: Get.textTheme.titleMedium
+                              ),
+                               Text(
+                                (data?.benefitsList[index].leyenda).value(), 
+                                style: Get.textTheme.bodyMedium
+                              ),
+                            ],
+                          ),
+                        ),
+                        ImageFromWeb(
+                          height: 200,
+                          imageName: (data?.benefitsList[index].imagen).value(),
+                          jwt: _c.appState.user.token.jwt,
+                          path: '/beneficios/archivos',
+                          width: double.infinity,
+                        )
+                      ],
+                    ),
+                  ),
+                  onTap: () => _c.downloadBeneficio(data!.benefitsList[index]),
+                ),
+              ),
             ),
           ),
         ],

@@ -7,6 +7,7 @@ class _FilterResultsPhonePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    /// Set item results based on the selected page and current item
     ItemResultsMdl setItem(String idPage, dynamic currentItem) {
       ItemResultsMdl cardItemResults = ItemResultsMdl.empty();
 
@@ -242,9 +243,8 @@ class _FilterResultsPhonePage extends StatelessWidget {
               size: 70,
               color: ColorPalette.primary,
             ),
-            title: esMessages.mx.noResultsFound.value,
+            title: msg.noResultsFound.value,
             subtitle: '',
-            // subtitle: esMessages.mx.selectBtnToContinue.value,
           ),
         ),
         onError: (_) => Center(
@@ -254,8 +254,8 @@ class _FilterResultsPhonePage extends StatelessWidget {
               size: 70,
               color: ColorPalette.primary,
             ),
-            title: esMessages.mx.errorLoadingInfo.value,
-            subtitle: esMessages.mx.pleaseTryAgainLater.value,
+            title: msg.errorLoadingInfo.value,
+            subtitle: msg.pleaseTryAgainLater.value,
           ),
         ),
       ),

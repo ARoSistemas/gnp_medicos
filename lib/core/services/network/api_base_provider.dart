@@ -10,9 +10,9 @@ abstract class ApiBaseProvider extends GetConnect {
   void onInit() {
     httpClient.baseUrl = '$url$contextPath';
     httpClient.timeout = const Duration(seconds: 20);
-    httpClient
-      ..addRequestModifier(_defaultRequestModifier)
-      ..addResponseModifier(_defaultResponseModifier);
+    httpClient..addResponseModifier(_handleUnauthorized)
+    ..addRequestModifier(_defaultRequestModifier)
+    ..addResponseModifier(_defaultResponseModifier);
     super.onInit();
   }
 
@@ -23,15 +23,18 @@ abstract class ApiBaseProvider extends GetConnect {
     String? contentType,
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
-  }) => _handleRequestWithRetry(
-    () => super.get<T>(
+  }) async {
+    final Response<T> response = await super.get(
       url,
       headers: headers,
       contentType: contentType,
       query: query,
       decoder: decoder,
-    ),
-  );
+    );
+    _handleResponseStatus(response);
+
+    return response;
+  }
 
   @override
   Future<Response<T>> post<T>(
@@ -42,8 +45,8 @@ abstract class ApiBaseProvider extends GetConnect {
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
     Progress? uploadProgress,
-  }) => _handleRequestWithRetry(
-    () => super.post(
+  }) async {
+    final Response<T> response = await super.post(
       url,
       body,
       contentType: contentType,
@@ -51,8 +54,11 @@ abstract class ApiBaseProvider extends GetConnect {
       query: query,
       decoder: decoder,
       uploadProgress: uploadProgress,
-    ),
-  );
+    );
+    _handleResponseStatus(response);
+
+    return response;
+  }
 
   @override
   Future<Response<T>> put<T>(
@@ -63,8 +69,8 @@ abstract class ApiBaseProvider extends GetConnect {
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
     Progress? uploadProgress,
-  }) => _handleRequestWithRetry(
-    () => super.put(
+  }) async {
+    final Response<T> response = await super.put(
       url,
       body,
       headers: headers,
@@ -72,8 +78,11 @@ abstract class ApiBaseProvider extends GetConnect {
       query: query,
       decoder: decoder,
       uploadProgress: uploadProgress,
-    ),
-  );
+    );
+    _handleResponseStatus(response);
+
+    return response;
+  }
 
   @override
   Future<Response<T>> delete<T>(
@@ -82,15 +91,18 @@ abstract class ApiBaseProvider extends GetConnect {
     String? contentType,
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
-  }) => _handleRequestWithRetry(
-    () => super.delete(
+  }) async {
+    final Response<T> response = await super.delete(
       url,
       headers: headers,
       contentType: contentType,
       query: query,
       decoder: decoder,
-    ),
-  );
+    );
+    _handleResponseStatus(response);
+
+    return response;
+  }
 
   @override
   Future<Response<T>> patch<T>(
@@ -101,8 +113,8 @@ abstract class ApiBaseProvider extends GetConnect {
     Map<String, dynamic>? query,
     Decoder<T>? decoder,
     Progress? uploadProgress,
-  }) => _handleRequestWithRetry(
-    () => super.patch(
+  }) async {
+    final Response<T> response = await super.patch(
       url,
       body,
       headers: headers,
@@ -110,8 +122,11 @@ abstract class ApiBaseProvider extends GetConnect {
       query: query,
       decoder: decoder,
       uploadProgress: uploadProgress,
-    ),
-  );
+    );
+    _handleResponseStatus(response);
+
+    return response;
+  }
 
   Future<Request<T>> _defaultRequestModifier<T>(Request<T> request) async {
     String bodyLog = 'Body: <File Content>';
@@ -185,17 +200,14 @@ abstract class ApiBaseProvider extends GetConnect {
     }
   }
 
-  Future<Response<T>> _handleRequestWithRetry<T>(
-    Future<Response<T>> Function() request,
+  Future<Response> _handleUnauthorized(
+    Request request,
+    Response response,
   ) async {
-    Response<T> response = await request();
-    if (response.statusCode == HttpStatus.unauthorized) {
-      final bool refreshed = await onTokenExpired();
-      if (refreshed) {
-        response = await request();
-      }
+    if (response.statusCode != HttpStatus.unauthorized) {
+      return response;
     }
-    _handleResponseStatus(response);
+    await onTokenExpired();
     return response;
   }
 }

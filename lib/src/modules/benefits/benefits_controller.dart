@@ -29,17 +29,25 @@ class BeneficiosController extends GetxController
   Future<void> getBeneficios() async {
     await threadsService.execute(
       func: () async {
-        final Response<List<BenefitDto>> res = await apiConn.getBeneficios(
-          appState.user.token.jwtLogin.uid,
-          appState.user.token.jwt,
-        );
-        final _BeneficiosModel newState = _BeneficiosModel.empty().copyWith(
-          benefitsList: res.body,
-        );
-        if (newState.benefitsList.isEmpty) {
-          change(newState, status: RxStatus.empty());
+        final Map? dataFirebase = await appService.shared.firebaseService
+        .getDataOnce('appConfig/modulos/beneficios');
+        if (dataFirebase != null) {
+          final List<BenefitDto> res = (dataFirebase['lista'] as List).map(
+            (bene) => BenefitDto.fromJson(Map<String, dynamic>.from(bene))
+          ).toList();
+          final _BeneficiosModel newState = _BeneficiosModel.empty().copyWith(
+            benefitsList: res,
+          );
+          if (newState.benefitsList.isEmpty) {
+            change(newState, status: RxStatus.empty());
+          } else {
+            change(newState, status: RxStatus.success());
+          }
         } else {
-          change(newState, status: RxStatus.success());
+          change(
+            _BeneficiosModel.empty(),
+            status: RxStatus.empty(),
+          );
         }
       },
       onError: () {
@@ -53,15 +61,18 @@ class BeneficiosController extends GetxController
 
 
   Future<void> downloadBeneficio(BenefitDto dto) async {
+    if (dto.archivo.isEmpty) {
+      return;
+    }
     try {
       change(state, status: RxStatus.loading());
       final Uint8List? response = await apiConn
-      .downloadBeneficio(dto.id);
+      .downloadBeneficio(dto.archivo);
      change(state, status: RxStatus.success());
       if (response != null) {
         await appService.fileStorage.downloadAndShareFile(
           data: response, 
-          fileName: dto.fileName
+          fileName: dto.archivo
         );
       } else {
         _notification.show(
