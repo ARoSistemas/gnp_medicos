@@ -11,18 +11,6 @@ class DirectoryRepository extends ApiBaseProvider {
   final String contextPath = '/integracion/catalogo';
 
   /// Fetch data for Estados
-  // url:: https://api-uat.oscpuat.gnp.com.mx/redesMedicas/catalogo/estados
-  // Respuesta de apiResponseEstados ::
-  // [
-  //    {
-  //       "claveEstado":"01",
-  //       "estado":"AGUASCALIENTES"
-  //    },
-  //    {
-  //       "claveEstado":"02",
-  //       "estado":"BAJA CALIFORNIA"
-  //    }
-  // ]
   Future<Response<List<EstadoMdl>>> fetchEstados() => get(
     '/estados',
     headers: {

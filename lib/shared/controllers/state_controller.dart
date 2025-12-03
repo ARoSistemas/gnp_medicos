@@ -9,6 +9,7 @@ import 'package:medicos/shared/models/entities/user_mdl.dart';
 /// It is intended to be a single source of truth for the user's session state.
 class AppStateController extends GetxController {
   final Rx<UserModel> _user = UserModel.empty().obs;
+  final Rx<UserModel> _userLogued = UserModel.empty().obs;
   final Rx<bool> _isDoctor = true.obs;
   final RxMap<String, dynamic> _userPermissions = <String, dynamic>{}.obs;
   final Rx<String> _version = ''.obs;
@@ -24,6 +25,8 @@ class AppStateController extends GetxController {
   /// Sets the currently authenticated user model.
   set user(UserModel newUser) => _user.value = newUser;
 
+  set userLogued(UserModel newUser) => _userLogued.value = newUser;
+
   /// Sets whether the current user has a doctor role.
   set isDoctor(bool value) => _isDoctor.value = value;
   
@@ -35,6 +38,8 @@ class AppStateController extends GetxController {
 
   /// The currently authenticated user's data.
   UserModel get user => _user.value;
+
+  UserModel get userLogued => _userLogued.value;
 
   /// Returns `true` if the user is a doctor, `false` otherwise.
   bool get isDoctor => _isDoctor.value;

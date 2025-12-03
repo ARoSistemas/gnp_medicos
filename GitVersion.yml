@@ -1,0 +1,36 @@
+branches:
+  main:
+    tag: ''  
+    increment: Inherit
+    source-branches:
+      - major
+      - feature
+      - minor
+    prevent-increment-of-merged-branch-version: true  
+
+  major:
+    regex: ^[Mm]ajor.*
+    tag: ''
+    increment: Major
+    source-branches:
+      - main
+    prevent-increment-of-merged-branch-version: true
+
+  feature:
+    regex: ^[Ff]eature.*
+    tag: ''
+    increment: Minor
+    source-branches:
+      - main
+    prevent-increment-of-merged-branch-version: true
+
+  minor:
+    regex: ^[Mm]inor.*
+    tag: ''
+    increment: Patch
+    source-branches:
+      - main
+    prevent-increment-of-merged-branch-version: true
+
+ignore:
+  sha: [ ]

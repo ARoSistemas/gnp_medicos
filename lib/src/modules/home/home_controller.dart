@@ -63,7 +63,7 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
         if (newState.asisstantList.isEmpty) {
           if (andIsDoctor.value) {
             /// Validate if isDoctor and autoselect profile
-            selectprofile();
+            selectprofile(autoselect: true);
           } else {
             /// Logout and mssge
             change(newState, status: RxStatus.empty());
@@ -83,9 +83,13 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
     );
   }
 
-  void selectprofile() {
+  void selectprofile({bool autoselect = false}) {
     appState.isDoctor = true;
     loadUserPermissions(isDoctor: true);
+    appState.user = appState.userLogued;
+    if(!autoselect) {
+      appState.user = appState.user.copyWith(canChangeProfile: true);
+    }
     unawaited(Get.offAllNamed(WelcomePage.page.name));
   }
 

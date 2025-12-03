@@ -140,6 +140,7 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
         final UserModel userStored = appState.user.copyWith(
           pass: password
         );
+        appState.userLogued = appState.user;
         userStorage.saveUser(userStored);
       },
     );

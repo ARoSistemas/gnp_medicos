@@ -49,7 +49,12 @@ class ItemAssitants extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(name, style: Get.textTheme.titleMedium),
+                    Text(
+                      name,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: Get.textTheme.titleMedium,
+                    ),
                     SizedBox(height: context.scale(3, axis: ScaleAxis.height)),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.5,

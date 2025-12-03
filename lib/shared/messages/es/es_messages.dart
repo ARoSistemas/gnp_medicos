@@ -1172,7 +1172,7 @@ class _MX extends IAppMessages {
   @override
   MsgProperty get careHospitals => MsgProperty(
     key: 'careHospitals',
-    value: 'Hospitales de atención.',
+    value: 'Hospitales de atención',
   );
 
   @override
@@ -1184,7 +1184,7 @@ class _MX extends IAppMessages {
   @override
   MsgProperty get medicalOfficeAddress => MsgProperty(
     key: 'medicalOfficeAddress',
-    value: 'Dirección de consultorio médico.',
+    value: 'Dirección de consultorio médico',
   );
 
   @override
@@ -1196,7 +1196,7 @@ class _MX extends IAppMessages {
   @override
   MsgProperty get sendRequest => MsgProperty(
     key: 'sendRequest',
-    value: 'Enviar solicitud.',
+    value: 'Enviar solicitud',
   );
 
   ///

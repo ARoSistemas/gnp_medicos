@@ -42,8 +42,8 @@ class _HomePhonePage extends StatelessWidget {
                       ),
                     ),
                     ItemAssitants(
-                      name: _c.appState.user.nombreCompleto,
-                      subTitle: _c.appState.user.especialidad,
+                      name: _c.appState.userLogued.nombreCompleto,
+                      subTitle: _c.appState.userLogued.especialidad,
                       urlPhoto: '',
                       onTap: _c.selectprofile,
                     ),
