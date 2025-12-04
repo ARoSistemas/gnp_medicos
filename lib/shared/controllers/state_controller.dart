@@ -13,6 +13,7 @@ class AppStateController extends GetxController {
   final Rx<bool> _isDoctor = true.obs;
   final RxMap<String, dynamic> _userPermissions = <String, dynamic>{}.obs;
   final Rx<String> _version = ''.obs;
+  final RxBool _isExpandedMenu = true.obs;
 
   /// *******************************************************
   /// Setters
@@ -29,8 +30,11 @@ class AppStateController extends GetxController {
 
   /// Sets whether the current user has a doctor role.
   set isDoctor(bool value) => _isDoctor.value = value;
-  
+
   set version(String value) => _version.value = value;
+
+  /// Sets whether the desktop side menu is currently expanded.
+  set isExpandedMenu(bool value) => _isExpandedMenu.value = value;
 
   /// *******************************************************
   /// Getters
@@ -56,6 +60,12 @@ class AppStateController extends GetxController {
 
   String get version => _version.value;
 
+  /// Returns `true` when the desktop side menu is expanded.
+  bool get isExpandedMenu => _isExpandedMenu.value;
+
+  /// Toggles the expanded state of the desktop side menu.
+  void toggleMenuExpansion() => _isExpandedMenu.toggle();
+
   /// Resets all state variables to their initial empty state.
   ///
   /// This is typically called during a sign-out process to clear the
@@ -64,5 +74,6 @@ class AppStateController extends GetxController {
     _user.value = UserModel.empty();
     _isDoctor.value = true;
     _userPermissions.value = {};
+    _isExpandedMenu.value = true;
   }
 }
