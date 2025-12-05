@@ -61,8 +61,8 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
     await checkBiometricsSupport();
     packageInfo = await PackageInfo.fromPlatform();
     appState.version = packageInfo.version;
-    if (FlavorConfig.flavor == Flavors.qa || 
-    FlavorConfig.flavor == Flavors.uat) {
+    if (FlavorConfig.flavor == Flavors.qa ||
+        FlavorConfig.flavor == Flavors.uat) {
       appState.version = '${appState.version}(${packageInfo.buildNumber})';
     }
   }
@@ -93,6 +93,11 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
       biometric ? (userStored.value?.pass).value() : passwordController.text,
     ).then((value) {
       if (value) {
+        if (kIsWeb || GetPlatform.isDesktop) {
+          /// Construir el menú web
+          appState.buildMenuWeb('Inicio', []);
+        }
+
         unawaited(Get.offAllNamed(HomePage.page.name));
       }
     });
@@ -105,7 +110,8 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
     final bool ret = await appService.threads.execute(
       customExceptionMessages: {
         Exception(): ExceptionAlertProperties(
-          message: 'Usuario y/o contraseña incorrectos. '
+          message:
+              'Usuario y/o contraseña incorrectos. '
               'Verifícala e inténtalo de nuevo.',
         ),
       },
@@ -117,6 +123,7 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
 
         final LoginModel loginData = hasUser.body!;
         final UserModel userLogged = loginData.toEntity().user;
+
         /// Se guarda en el estado global el usuario logeado
         final Claims claims = userLogged.token.jwtLogin.claims;
         appState.user = userLogged.copyWith(
@@ -130,16 +137,14 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
           apePaterno: claims.apePaterno,
           apeMaterno: claims.apeMaterno,
           banConvenioVigente: userLogged.estatus == StatusAgreement.vigente,
-          uid: userLogged.token.jwtLogin.uid
+          uid: userLogged.token.jwtLogin.uid,
         );
 
         /// Si el rol es asistente, isDoctor = false;
         appState.isDoctor = !claims.roles.contains('Asistente Medico');
 
         /// Se guarda en el storage temporalmente
-        final UserModel userStored = appState.user.copyWith(
-          pass: password
-        );
+        final UserModel userStored = appState.user.copyWith(pass: password);
         appState.userLogued = appState.user;
         userStorage.saveUser(userStored);
       },
@@ -169,7 +174,8 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
     if (res) {
       _notification.show(
         title: 'Envió exitoso',
-      message: 'Se envió un enlace de recuperación de contraseña a tu correo.',
+        message:
+            'Se envió un enlace de recuperación de contraseña a tu correo.',
         type: AlertType.success,
       );
     }
@@ -243,5 +249,6 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
     await userStorage.cleanUser();
     userStored.value = userStorage.getUser();
   }
+
   /// EndClass
 }

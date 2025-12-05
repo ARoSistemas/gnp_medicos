@@ -83,7 +83,7 @@ class UserModel {
     uid: '',
     banVerAviso: false,
     banConvenioActualizado: false,
-    banConvenioVigente: false,
+    banConvenioVigente: true,
     email: '',
     pass: '',
     permisos: [],
@@ -192,6 +192,6 @@ class UserModel {
     'token': token.toJson(),
     'email': email,
     'pass': pass,
-    'biometric': biometric
+    'biometric': biometric,
   };
 }

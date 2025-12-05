@@ -8,13 +8,10 @@ import 'package:medicos/shared/widgets/wdgt_image_from_web.dart';
 import 'package:medicos/src/modules/welcome/welcome_controller.dart';
 import 'package:medicos/src/modules/welcome/widgets/appbar_welcome_phone.dart';
 
-part 'welcome_bindings.dart';
-
 part 'responsive/welcome_desktop_page.dart';
-
 part 'responsive/welcome_phone_page.dart';
-
 part 'responsive/welcome_tablet_page.dart';
+part 'welcome_bindings.dart';
 
 class WelcomePage extends GetResponsiveView<WelcomeController> {
   WelcomePage({super.key});
@@ -31,11 +28,16 @@ class WelcomePage extends GetResponsiveView<WelcomeController> {
   Widget? phone() => _WelcomePhonePage();
 
   @override
-  Widget? tablet() => _WelcomeTabletPage();
+  Widget? tablet() => MenuWeb(
+    menuItems: controller.appState.menuItems,
+    breadcrumbs: controller.breadcrumbsInicio,
+    child: _WelcomeTabletPage(),
+  );
 
   @override
   Widget? desktop() => MenuWeb(
-    menuItems: controller.menuItems,
+    menuItems: controller.appState.menuItems,
+    breadcrumbs: controller.breadcrumbsInicio,
     child: const _WelcomeDesktopPage(),
   );
 }

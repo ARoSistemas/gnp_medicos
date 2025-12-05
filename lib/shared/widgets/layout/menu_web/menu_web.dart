@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
+import 'package:medicos/shared/widgets/wdgt_image_from_web.dart';
 
 /// Data required to render a breadcrumb node inside [MenuWeb].
 class MenuWebBreadcrumb {
@@ -10,14 +11,6 @@ class MenuWebBreadcrumb {
 
   final String label;
   final String? route;
-
-  MenuWebBreadcrumb copyWith({
-    String? label,
-    String? route,
-  }) => MenuWebBreadcrumb(
-    label ?? this.label,
-    route: route ?? this.route,
-  );
 }
 
 /// Represents a single item displayed in the [MenuWeb] sidebar.
@@ -45,6 +38,38 @@ class MenuWebItem {
   final VoidCallback? onTap;
   final bool replaceRoute;
   final bool isEnabled;
+
+  /// Returns a new instance with the provided values overridden.
+  MenuWebItem copyWith({
+    String? label,
+    String? route,
+    Widget? icon,
+    String? tooltip,
+    List<String>? routeAliases,
+    bool? includeChildRoutes,
+    List<MenuWebBreadcrumb>? breadcrumbs,
+    VoidCallback? onTap,
+    bool? replaceRoute,
+    bool? isEnabled,
+  }) => MenuWebItem(
+    label: label ?? this.label,
+    route: route ?? this.route,
+    icon: icon ?? this.icon,
+    tooltip: tooltip ?? this.tooltip,
+    routeAliases: routeAliases != null
+        ? _cloneList<String>(routeAliases)
+        : _cloneList<String>(this.routeAliases),
+    includeChildRoutes: includeChildRoutes ?? this.includeChildRoutes,
+    breadcrumbs: breadcrumbs != null
+        ? _cloneList<MenuWebBreadcrumb>(breadcrumbs)
+        : _cloneList<MenuWebBreadcrumb>(this.breadcrumbs),
+    onTap: onTap ?? this.onTap,
+    replaceRoute: replaceRoute ?? this.replaceRoute,
+    isEnabled: isEnabled ?? this.isEnabled,
+  );
+
+  static List<T> _cloneList<T>(List<T> source) =>
+      List<T>.unmodifiable(List<T>.from(source));
 
   bool matchesRoute(String currentRoute) {
     if (route != null && _matchesValue(route!, currentRoute)) {
@@ -107,6 +132,7 @@ class MenuWeb extends StatelessWidget {
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Column(
         children: [
+          /// Barra superior con el logo y acciones.
           Obx(
             () => _TopBar(
               logoAssetPath: logoAssetPath,
@@ -115,36 +141,13 @@ class MenuWeb extends StatelessWidget {
               isExpandedMenu: _appState.isExpandedMenu,
             ),
           ),
-          if (effectiveBreadcrumbs.isNotEmpty)
-            Obx(
-              () {
-                final bool isExpanded = _appState.isExpandedMenu;
-                final double menuWidth = isExpanded
-                    ? expandedWidth
-                    : collapsedWidth;
-                return Container(
-                  color: theme.colorScheme.surface,
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                  child: Row(
-                    children: <Widget>[
-                      SizedBox(width: menuWidth),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: _BreadcrumbRow(
-                            breadcrumbs: effectiveBreadcrumbs,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
+
+          /// Contenido principal con el menú lateral y el área de contenido.
           Expanded(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: <Widget>[
+                /// Menú lateral
                 Obx(
                   () {
                     final bool isExpanded = _appState.isExpandedMenu;
@@ -162,47 +165,56 @@ class MenuWeb extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: <Widget>[
-                          const SizedBox(height: 12),
-                          Expanded(
-                            child: ListView.builder(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 12,
-                              ),
-                              itemCount: menuItems.length,
-                              itemBuilder: (_, index) {
-                                final MenuWebItem item = menuItems[index];
-                                final bool isActive = item.matchesRoute(
-                                  currentRoute,
-                                );
-                                return _MenuTile(
-                                  item: item,
-                                  isActive: isActive,
-                                  isExpanded: isExpanded,
-                                  onTap: () => _handleItemTap(
-                                    item,
-                                    currentRoute,
-                                  ),
-                                );
-                              },
+                      child: ListView.builder(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 16,
+                        ),
+                        itemCount: menuItems.length,
+                        itemBuilder: (_, index) {
+                          final MenuWebItem item = menuItems[index];
+                          final bool isActive = item.matchesRoute(
+                            currentRoute,
+                          );
+                          return _MenuTile(
+                            item: item,
+                            isActive: isActive,
+                            isExpanded: isExpanded,
+                            onTap: () => _handleItemTap(
+                              item,
+                              currentRoute,
                             ),
-                          ),
-                          const SizedBox(height: 12),
-                        ],
+                          );
+                        },
                       ),
                     );
                   },
                 ),
+
+                /// Área de contenido principal
                 Expanded(
-                  child: ColoredBox(
-                    color:
-                        contentBackgroundColor ??
-                        theme.colorScheme.surfaceContainerHighest.withValues(
-                          alpha: 0.2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: [
+                      /// Los breadcrumbs
+                      if (effectiveBreadcrumbs.isNotEmpty)
+                        Padding(
+                          padding: const EdgeInsets.only(
+                            left: 24,
+                            top: 16,
+                            right: 24,
+                            bottom: 16,
+                          ),
+                          child: _BreadcrumbRow(
+                            breadcrumbs: effectiveBreadcrumbs,
+                          ),
                         ),
-                    child: child,
+
+                      /// El widget hijo que contiene el contenido principal
+                      Expanded(
+                        child: child,
+                      ),
+                    ],
                   ),
                 ),
               ],
@@ -262,6 +274,7 @@ class MenuWeb extends StatelessWidget {
   }
 }
 
+/// El appbar superior que contiene el logo y las acciones.
 class _TopBar extends StatelessWidget {
   const _TopBar({
     required this.logoAssetPath,
@@ -328,6 +341,7 @@ class _TopBar extends StatelessWidget {
   }
 }
 
+/// Fila de breadcrumbs que muestra la ruta de navegación actual.
 class _BreadcrumbRow extends StatelessWidget {
   const _BreadcrumbRow({required this.breadcrumbs});
 
@@ -339,24 +353,35 @@ class _BreadcrumbRow extends StatelessWidget {
     final TextStyle baseStyle = theme.textTheme.bodyMedium!.copyWith(
       color: ColorPalette.primary,
     );
-    return Row(
-      children: <Widget>[
-        for (int index = 0; index < breadcrumbs.length; index++) ...[
-          if (index > 0)
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8),
-              child: Icon(
-                Icons.chevron_right,
-                size: 18,
-                color: Colors.grey.shade300,
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: Colors.transparent,
+        border: Border(
+          bottom: BorderSide(color: Colors.grey.shade300),
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: Row(
+          children: [
+            for (int index = 0; index < breadcrumbs.length; index++) ...[
+              if (index > 0)
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  child: Icon(
+                    Icons.chevron_right,
+                    size: 18,
+                    color: Colors.grey.shade300,
+                  ),
+                ),
+              _BreadcrumbLabel(
+                breadcrumb: breadcrumbs[index],
+                style: baseStyle,
               ),
-            ),
-          _BreadcrumbLabel(
-            breadcrumb: breadcrumbs[index],
-            style: baseStyle,
-          ),
-        ],
-      ],
+            ],
+          ],
+        ),
+      ),
     );
   }
 
@@ -369,6 +394,7 @@ class _BreadcrumbRow extends StatelessWidget {
   }
 }
 
+/// Los items de cada breadcrumb individual.
 class _BreadcrumbLabel extends StatelessWidget {
   const _BreadcrumbLabel({
     required this.breadcrumb,
@@ -417,6 +443,7 @@ class _BreadcrumbLabel extends StatelessWidget {
   }
 }
 
+/// Tile individual del menú lateral.
 class _MenuTile extends StatelessWidget {
   const _MenuTile({
     required this.item,
@@ -554,3 +581,65 @@ class MenuWebAdaptiveTransition extends CustomTransition {
     );
   }
 }
+
+class MenuWebModule {
+  const MenuWebModule({
+    required this.label,
+    required this.route,
+    required this.iconName,
+    this.breadcrumbs = const <MenuWebBreadcrumb>[],
+  });
+
+  final String label;
+  final String route;
+  final String iconName;
+  final List<MenuWebBreadcrumb> breadcrumbs;
+
+  MenuWebModule copyWith({
+    String? label,
+    String? route,
+    String? iconName,
+    List<MenuWebBreadcrumb>? breadcrumbs,
+  }) => MenuWebModule(
+    label: label ?? this.label,
+    route: route ?? this.route,
+    iconName: iconName ?? this.iconName,
+    breadcrumbs: breadcrumbs ?? this.breadcrumbs,
+  );
+
+  MenuWebItem toMenuItem(String jwt) => MenuWebItem(
+    label: label,
+    route: route,
+    tooltip: label,
+    icon: ImageFromWeb(imageName: iconName, jwt: jwt),
+    breadcrumbs: breadcrumbs,
+  );
+}
+
+// class MenuWebDefinition {
+//   const MenuWebDefinition({
+//     required this.label,
+//     required this.route,
+//     required this.iconName,
+//     this.breadcrumbs = const <MenuWebBreadcrumb>[],
+//   });
+
+//   final String label;
+//   final String route;
+//   final String iconName;
+//   final List<MenuWebBreadcrumb> breadcrumbs;
+
+//   MenuWebDefinition copyWith({
+//     String? label,
+//     String? route,
+//     String? iconName,
+//     List<MenuWebBreadcrumb>? breadcrumbs,
+//   }) => MenuWebDefinition(
+//     label: label ?? this.label,
+//     route: route ?? this.route,
+//     iconName: iconName ?? this.iconName,
+//     breadcrumbs: breadcrumbs != null
+//         ? List<MenuWebBreadcrumb>.unmodifiable(breadcrumbs)
+//         : List<MenuWebBreadcrumb>.unmodifiable(this.breadcrumbs),
+//   );
+// }
