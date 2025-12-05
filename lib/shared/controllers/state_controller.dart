@@ -27,8 +27,8 @@ class AppStateController extends GetxController {
   final Rx<bool> _isDoctor = true.obs;
   final RxMap<String, dynamic> _userPermissions = <String, dynamic>{}.obs;
   final Rx<String> _version = ''.obs;
-  final RxBool _isExpandedMenu = true.obs;
 
+  final RxBool _isExpandedMenu = true.obs;
   /// *******************************************************
   /// Setters
   /// *******************************************************
@@ -186,6 +186,7 @@ class AppStateController extends GetxController {
       rootTrail,
       rootLabel,
     )..add(MenuWebBreadcrumb(moduleLabel));
+
     return List<MenuWebBreadcrumb>.unmodifiable(baseTrail);
   }
 
@@ -226,11 +227,6 @@ class AppStateController extends GetxController {
         label: 'Inicio',
         route: WelcomePage.page.name,
         iconName: 'icono_modulo_convenio_medico.png',
-      ),
-      'contacto': MenuWebModule(
-        label: 'Contacto GNP',
-        route: ContactoPage.page.name,
-        iconName: 'icono_modulo_contacto.png',
       ),
     };
 
@@ -308,6 +304,11 @@ class AppStateController extends GetxController {
       );
     }
 
+    items['contacto'] = MenuWebModule(
+      label: 'Contacto GNP',
+      route: ContactoPage.page.name,
+      iconName: 'icono_modulo_contacto.png',
+    );
     return items;
   }
 
