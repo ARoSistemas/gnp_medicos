@@ -52,7 +52,7 @@ class BannerUser extends StatelessWidget {
                       child: Text(
                         name,
                         overflow: TextOverflow.ellipsis,
-                        maxLines: 1,
+                        maxLines: 2,
                         style: TextStyle(
                           color: ColorPalette.textSecondary,
                           fontSize: context.fontSize(18),

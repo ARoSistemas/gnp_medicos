@@ -5,6 +5,7 @@ import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/widgets/wdgt_appbar_phone.dart';
 import 'package:medicos/shared/widgets/wdgt_loading.dart';
+import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
 import 'package:medicos/src/modules/directorio/children/filter_page/filterpage_page.dart';
 import 'package:medicos/src/modules/directorio/directorio_controller.dart';
 import 'package:medicos/src/modules/directorio/domain/entities/items_directory_mdl.dart';
@@ -27,6 +28,8 @@ class DirectorioPage extends GetResponsiveView<DirectorioController> {
   static final GetPage page = GetPage(
     name: '/directorio-medico',
     page: DirectorioPage.new,
+    transition: Transition.rightToLeft,
+    customTransition: MenuWebAdaptiveTransition(),
     binding: _DirectorioBindings(),
     middlewares: [_DirectorioMiddleware()],
   );
@@ -35,8 +38,14 @@ class DirectorioPage extends GetResponsiveView<DirectorioController> {
   Widget? phone() => _DirectorioPhonePage();
 
   @override
-  Widget? tablet() => _DirectorioTabletPage();
+  Widget? tablet() => MenuWeb(
+    breadcrumbs: controller.breadcrumbs,
+    child: _DirectorioTabletPage(),
+  );
 
   @override
-  Widget? desktop() => _DirectorioDesktopPage();
+  Widget? desktop() => MenuWeb(
+    breadcrumbs: controller.breadcrumbs,
+    child: _DirectorioDesktopPage(),
+  );
 }

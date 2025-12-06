@@ -4,9 +4,11 @@ import 'package:medicos/core/utils/exception_manager.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
 import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
+import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
 import 'package:medicos/src/modules/directorio/children/filter_page/domain/entities/models/estado_mdl.dart';
 import 'package:medicos/src/modules/directorio/domain/entities/items_directory_mdl.dart';
 import 'package:medicos/src/modules/directorio/domain/repository/directory_repository.dart';
+import 'package:medicos/src/modules/welcome/welcome_page.dart';
 
 part 'directorio_model.dart';
 
@@ -17,6 +19,11 @@ class DirectorioController extends GetxController
 
   UserModel get user => appState.user;
   String get jwt => appState.user.token.jwt;
+
+  List<BreadcrumbWeb> breadcrumbs = [
+    BreadcrumbWeb('Inicio', route: WelcomePage.page.name),
+    const BreadcrumbWeb('Directorio Médico'),
+  ];
 
   /// Catalogs
   /// Catalog for specialties

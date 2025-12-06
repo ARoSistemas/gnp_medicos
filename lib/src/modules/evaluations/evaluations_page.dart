@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicos/core/services/navigation/route_params.dart';
+import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
 import 'package:medicos/src/modules/evaluations/evaluations_controller.dart';
 
 part 'evaluations_bindings.dart';
@@ -21,16 +22,24 @@ class EvaluationsPage extends GetResponsiveView<EvaluationsController> {
   static final GetPage page = GetPage(
     name: '/evaluaciones',
     page: EvaluationsPage.new,
+    transition: Transition.rightToLeft,
+    customTransition: MenuWebAdaptiveTransition(),
     binding: _EvaluationsBindings(),
-    middlewares: [_EvaluationsMiddleware()]
+    middlewares: [_EvaluationsMiddleware()],
   );
 
   @override
   Widget? phone() => _EvaluationsPhonePage();
 
   @override
-  Widget? tablet() => _EvaluationsTabletPage();
+  Widget? tablet() => MenuWeb(
+    breadcrumbs: controller.breadcrumbs,
+    child: _EvaluationsTabletPage(),
+  );
 
   @override
-  Widget? desktop() => _EvaluationsDesktopPage();
+  Widget? desktop() => MenuWeb(
+    breadcrumbs: controller.breadcrumbs,
+    child: _EvaluationsDesktopPage(),
+  );
 }

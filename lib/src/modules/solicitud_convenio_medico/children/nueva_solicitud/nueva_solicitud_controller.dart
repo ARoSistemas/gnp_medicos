@@ -188,6 +188,7 @@ class NuevaSolicitudController extends GetxController
 
   Future<String> newRequestAgreegament() async {
     if (formKey.currentState!.validate()) {
+      bool wasSuccessful = false;
       change(state, status: RxStatus.loading());
       await threadsService.execute(
         func: () async {
@@ -211,19 +212,20 @@ class NuevaSolicitudController extends GetxController
             appState.user.token.jwt,
           );
 
+          wasSuccessful = res.bodyString?.isNotEmpty ?? false;
           _notification.show(
-            title: 'Registro de Asistentes',
-            message: res.bodyString!.isEmpty
-                ? 'La solciitud no fue registrada.'
-                : 'La solicitud fue registrada.',
-            type: res.bodyString!.isEmpty ? AlertType.error : AlertType.success,
+            title: 'Registro de solicitud',
+            message: wasSuccessful
+                ? 'La solicitud fue registrada.'
+                : 'La solicitud no fue registrada.',
+            type: wasSuccessful ? AlertType.success : AlertType.error,
           );
         },
       );
 
       change(state, status: RxStatus.success());
-      Get.back();
-      return '';
+
+      Get.back(result: wasSuccessful);
     }
     return '';
   }

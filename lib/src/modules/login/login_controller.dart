@@ -18,6 +18,7 @@ import 'package:medicos/shared/models/entities/claims_mdl.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
 import 'package:medicos/shared/services/alerts/notification_service.dart';
 import 'package:medicos/shared/services/storage/user_storage.dart';
+import 'package:medicos/shared/utils/tools.dart';
 import 'package:medicos/shared/widgets/custom_notification.dart';
 import 'package:medicos/src/modules/home/home_page.dart';
 import 'package:medicos/src/modules/login/domain/repositories/auth_repository.dart';
@@ -93,12 +94,14 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
       biometric ? (userStored.value?.pass).value() : passwordController.text,
     ).then((value) {
       if (value) {
-        if (kIsWeb || GetPlatform.isDesktop) {
-          /// Construir el menú web
-          appState.buildMenuWeb('Inicio', []);
-        }
-
-        unawaited(Get.offAllNamed(HomePage.page.name));
+        unawaited(
+          Get.offAllNamed(HomePage.page.name)!.then((_) {
+            if (kIsWeb || GetPlatform.isDesktop) {
+              /// Construir el menú web
+              appState.buildMenuWeb('Inicio', []);
+            }
+          }),
+        );
       }
     });
   }
@@ -136,7 +139,11 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
           nombre: claims.givenName,
           apePaterno: claims.apePaterno,
           apeMaterno: claims.apeMaterno,
-          banConvenioVigente: userLogged.estatus == StatusAgreement.vigente,
+          banConvenioVigenteEstatus:
+              userLogged.estatus == StatusAgreement.vigente,
+          banConvenioVigenteFecha: Tools.isAgreedByString(
+            userLogged.vigenciaConvenio,
+          ),
           uid: userLogged.token.jwtLogin.uid,
         );
 

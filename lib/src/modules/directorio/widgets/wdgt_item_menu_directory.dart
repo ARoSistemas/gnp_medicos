@@ -63,9 +63,14 @@ class ItemsMenuDirectory extends StatelessWidget {
 
               Padding(
                 padding: const EdgeInsets.only(left: 20),
-                child: Text(
-                  title,
-                  style: Get.textTheme.titleLarge,
+                child: SizedBox(
+                  width: context.scale(250),
+                  child: Text(
+                    title,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: Get.textTheme.titleLarge,
+                  ),
                 ),
               ),
             ],

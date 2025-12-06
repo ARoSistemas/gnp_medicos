@@ -1,14 +1,19 @@
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicos/core/extensions/null_extensions.dart';
+import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/core/services/threads/threads_service.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
+import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
 import 'package:medicos/shared/services/alerts/notification_service.dart';
-import 'package:medicos/shared/services/select_file/select_file.dart';
+import 'package:medicos/shared/utils/tools.dart';
 import 'package:medicos/shared/widgets/custom_notification.dart';
 import 'package:medicos/src/modules/solicitud_convenio_medico/children/upload_documents/children/request_documents/domain/dtos/tipye_documents_dto.dart';
 import 'package:medicos/src/modules/solicitud_convenio_medico/children/upload_documents/children/request_documents/domain/repositories/request_documents_repository.dart';
+import 'package:medicos/src/modules/welcome/widgets/modal_informative.dart';
 
 part 'request_documents_model.dart';
 
@@ -16,7 +21,6 @@ class RequestDocumentsController extends GetxController
     with StateMixin<_RequestDocumentsModel> {
   final ThreadsService threadsService = Get.find();
   final RequestDocumentsRepository apiConn = Get.find();
-  final SelectFileService _selectFileService = Get.find();
   final NotificationServiceImpl _notification = Get.find();
 
   final AppStateController appState = Get.find<AppStateController>();
@@ -54,6 +58,12 @@ class RequestDocumentsController extends GetxController
       func: () async {
         final List<TypeDocumentModel> typeDocuments = await apiConn
             .getTypeDocuments(user.token.jwt);
+        typeDocuments.sort((a, b) {
+          final String nombreA = Tools().removeDiacritics(a.descripcion);
+          final String nombreB = Tools().removeDiacritics(b.descripcion);
+          return nombreA.compareTo(nombreB);
+        });
+
         change(
           (state ?? _RequestDocumentsModel.empty()).copyWith(
             listTypeDocuments: typeDocuments,
@@ -69,10 +79,19 @@ class RequestDocumentsController extends GetxController
   }
 
   Future<void> pickDocument() async {
-    final PlatformFile? file = await _selectFileService.pickFile(
-      allowedExtensions: ['jpg', 'png', 'pdf', 'xml', 'doc'],
-    );
+    if ((state?.listUploadedDocuments ?? []).any((doc) => 
+    doc.tipo == selectedDocumentType.value)) {
+      await _showModalReplace();
+    } else {
+      await _uploadFile();
+    }
+  }
 
+  Future<void> _uploadFile() async {
+    final PlatformFile? file = await appService.fileStorage.pickFile(
+      allowedExtensions: ['jpg', 'png', 'pdf', 'xml', 'doc'],
+      mbSize: 3
+    );
     if (file != null) {
       selectedFile.value = file;
       await uploadSelectedDocument(idSolicitud);
@@ -224,8 +243,9 @@ class RequestDocumentsController extends GetxController
         message: 'La solicitud de convenio ha sido enviada correctamente.',
         type: AlertType.success,
       );
-      Get..back()
-      ..back(result: true);
+      Get
+        ..back()
+        ..back(result: true);
     } on Exception catch (_) {
       _notification.show(
         title: 'Error',
@@ -251,5 +271,23 @@ class RequestDocumentsController extends GetxController
       return;
     }
     areAllDocumentsUploaded.value = uploadedDocs.length >= requiredDocs.length;
+  }
+
+  Future<void> _showModalReplace() async {
+    if (!kIsWeb) {
+          await showModalBottomSheet(
+        context: Get.context!,
+        builder: (context) => ModalInformative(
+          message: 'Estimado usuario, ya se encuentra ese'
+          ' tipo de archivo cargado.\n\n'
+          ' ¿Está seguro de actualizarlo?',
+          okMessage: msg.accept.value,
+          onOk: _uploadFile,
+          onCancel: Get.back,
+        ),
+        isScrollControlled: true,
+        isDismissible: false,
+      );
+    }
   }
 }

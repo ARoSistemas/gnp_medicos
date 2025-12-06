@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:medicos/core/config/app_config.dart';
 import 'package:medicos/core/services/network/network_service.dart';
 import 'package:medicos/core/services/threads/threads_service.dart';
 import 'package:medicos/shared/models/incoming/solicitudes_model.dart';
@@ -9,7 +10,7 @@ class SolicitudConvenioMedicoRepository extends ApiBaseProvider {
   final ThreadsService threadsService = Get.find<ThreadsService>();
 
   @override
-  final String url = 'https://admonproveedoressalud-services-qa.gnp.com.mx';
+  final String url = AppConfig.baseUrlMedicos;
 
   @override
   String contextPath = '';
@@ -156,6 +157,20 @@ class SolicitudConvenioMedicoRepository extends ApiBaseProvider {
     decoder: (data) {
       if (data is Map) {
         return data['solicitud']?.toString() ?? '';
+      }
+      return '';
+    },
+  );
+
+  Future<Response<String>> getCommentsRequest(
+    String idRequest,
+    String jwt,
+  ) => get(
+    headers: finalHeaders(jwt),
+    '/gestor-medico/solicitud/$idRequest/comentarios',
+    decoder: (data) {
+      if (data is Map) {
+        return data['comentario'] ?? '';
       }
       return '';
     },

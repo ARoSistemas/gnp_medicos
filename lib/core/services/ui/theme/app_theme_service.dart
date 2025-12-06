@@ -1,4 +1,5 @@
 import 'package:flex_color_scheme/flex_color_scheme.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -69,6 +70,7 @@ class AppThemeService extends GetxService {
         checkboxTheme: _checkBoxTheme(),
         dropdownMenuTheme: _dropdownMenuTheme(),
         bottomSheetTheme: _bottomSheetTheme(),
+        dialogTheme: _dialogTheme(),
         datePickerTheme: _datePickerTheme()
       );
 
@@ -145,7 +147,7 @@ class AppThemeService extends GetxService {
 
   ElevatedButtonThemeData _elevatedButtonTheme() => ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      minimumSize: const Size(double.infinity, 20),
+      minimumSize: const Size(double.infinity, kIsWeb ? 48: 20),
       backgroundColor: ColorPalette.primary,
       foregroundColor: ColorPalette.white,
       elevation: 2,
@@ -159,7 +161,7 @@ class AppThemeService extends GetxService {
 
   OutlinedButtonThemeData _outlineButtonTheme() => OutlinedButtonThemeData(
     style: OutlinedButton.styleFrom(
-      minimumSize: const Size(double.infinity, 20),
+      minimumSize: const Size(double.infinity, kIsWeb ? 48: 20),
       foregroundColor: ColorPalette.primary,
       iconSize: 25,
       side: const BorderSide(
@@ -175,7 +177,7 @@ class AppThemeService extends GetxService {
 
   TextButtonThemeData _textButtonTheme() => TextButtonThemeData(
     style: TextButton.styleFrom(
-      minimumSize: const Size(double.infinity, 20),
+      minimumSize: const Size(double.infinity, kIsWeb ? 48: 20),
       foregroundColor: ColorPalette.primary,
       iconSize: 25,
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
@@ -201,6 +203,13 @@ class AppThemeService extends GetxService {
 
   BottomSheetThemeData _bottomSheetTheme() => BottomSheetThemeData(
     modalBarrierColor: ColorPalette.textPrimary.withValues(alpha: 0.7)
+  );
+
+  DialogThemeData _dialogTheme() => DialogThemeData(
+    barrierColor: ColorPalette.textPrimary.withValues(alpha: 0.7),
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(20),
+    ),
   );
 
   DatePickerThemeData _datePickerTheme() => DatePickerThemeData(

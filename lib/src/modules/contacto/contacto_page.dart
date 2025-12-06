@@ -6,9 +6,9 @@ import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/widgets/appbar_phone.dart';
 import 'package:medicos/shared/widgets/banner_medico.dart';
-import 'package:medicos/shared/widgets/layout/menu_web/menu_web.dart';
 import 'package:medicos/shared/widgets/wdgt_image_from_web.dart';
 import 'package:medicos/shared/widgets/wdgt_loading.dart';
+import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
 import 'package:medicos/src/modules/contacto/contacto_controller.dart';
 
 part 'contacto_bindings.dart';
@@ -37,11 +37,14 @@ class ContactoPage extends GetResponsiveView<ContactoController> {
   Widget? phone() => _ContactoPhonePage();
 
   @override
-  Widget? tablet() => _ContactoTabletPage();
+  Widget? tablet() => MenuWeb(
+    breadcrumbs: controller.breadcrumbs,
+    child: _ContactoTabletPage(),
+  );
 
   @override
   Widget? desktop() => MenuWeb(
-    menuItems: controller.menuItems,
+    breadcrumbs: controller.breadcrumbs,
     child: _ContactoDesktopPage(),
   );
 }

@@ -9,6 +9,7 @@ import 'package:medicos/shared/widgets/item_assistants.dart';
 import 'package:medicos/shared/widgets/section_title.dart';
 import 'package:medicos/shared/widgets/wdgt_image_from_web.dart';
 import 'package:medicos/shared/widgets/wdgt_loading.dart';
+import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
 import 'package:medicos/src/modules/home/domain/entities/dtos/asisstant_dto.dart';
 import 'package:medicos/src/modules/home/domain/repositories/home_repository.dart';
 
@@ -26,6 +27,7 @@ class HomePage extends GetResponsiveView<HomeController> {
     name: '/home',
     page: HomePage.new,
     transition: Transition.rightToLeft,
+    customTransition: MenuWebAdaptiveTransition(),
     binding: _HomeBindings(),
   );
 
@@ -33,8 +35,14 @@ class HomePage extends GetResponsiveView<HomeController> {
   Widget? phone() => _HomePhonePage();
 
   @override
-  Widget? tablet() => _HomeTabletPage();
+  Widget? tablet() => MenuWeb(
+    breadcrumbs: controller.breadcrumbs,
+    child: _HomeTabletPage(),
+  );
 
   @override
-  Widget? desktop() => _HomeDesktopPage();
+  Widget? desktop() => MenuWeb(
+    breadcrumbs: controller.breadcrumbs,
+    child: _HomeDesktopPage(),
+  );
 }

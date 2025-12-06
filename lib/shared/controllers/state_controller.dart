@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
-import 'package:medicos/shared/widgets/layout/menu_web/menu_web.dart';
 import 'package:medicos/shared/widgets/wdgt_image_from_web.dart';
+import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
 import 'package:medicos/src/modules/anexos/anexos_page.dart';
 import 'package:medicos/src/modules/benefits/benefits_page.dart';
 import 'package:medicos/src/modules/contacto/contacto_page.dart';
@@ -27,8 +27,8 @@ class AppStateController extends GetxController {
   final Rx<bool> _isDoctor = true.obs;
   final RxMap<String, dynamic> _userPermissions = <String, dynamic>{}.obs;
   final Rx<String> _version = ''.obs;
-
   final RxBool _isExpandedMenu = true.obs;
+
   /// *******************************************************
   /// Setters
   /// *******************************************************
@@ -46,11 +46,6 @@ class AppStateController extends GetxController {
   set isDoctor(bool value) => _isDoctor.value = value;
 
   set version(String value) => _version.value = value;
-
-  /// Sets whether the desktop side menu is currently expanded.
-  set isExpandedMenu(bool value) => _isExpandedMenu.value = value;
-
-  final List<MenuWebItem> menuItems = <MenuWebItem>[];
 
   /// *******************************************************
   /// Getters
@@ -76,12 +71,6 @@ class AppStateController extends GetxController {
 
   String get version => _version.value;
 
-  /// Returns `true` when the desktop side menu is expanded.
-  bool get isExpandedMenu => _isExpandedMenu.value;
-
-  /// Toggles the expanded state of the desktop side menu.
-  void toggleMenuExpansion() => _isExpandedMenu.toggle();
-
   /// Resets all state variables to their initial empty state.
   ///
   /// This is typically called during a sign-out process to clear the
@@ -90,23 +79,31 @@ class AppStateController extends GetxController {
     _user.value = UserModel.empty();
     _isDoctor.value = true;
     _userPermissions.value = {};
-    _isExpandedMenu.value = true;
   }
+
+  /// A list of menu items to be displayed in the web application's side menu.
+  final List<ItemForMenuWeb> menuWebOk = <ItemForMenuWeb>[];
+
+  /// Returns `true` when the desktop side menu is expanded.
+  bool get isExpandedMenu => _isExpandedMenu.value;
+
+  /// Toggles the expanded state of the desktop side menu.
+  void toggleMenuExpansion() => _isExpandedMenu.toggle();
 
   void buildMenuWeb(
     String rootLabel,
-    List<MenuWebBreadcrumb> breadcrumbs, {
-    Map<String, MenuWebItem Function(MenuWebItem base)>? overrides,
+    List<BreadcrumbWeb> breadcrumbs, {
+    Map<String, ItemForMenuWeb Function(ItemForMenuWeb base)>? overrides,
   }) {
-    final Map<String, MenuWebItem Function(MenuWebItem base)>
+    final Map<String, ItemForMenuWeb Function(ItemForMenuWeb base)>
     effectiveOverrides =
-        overrides ?? <String, MenuWebItem Function(MenuWebItem base)>{};
+        overrides ?? <String, ItemForMenuWeb Function(ItemForMenuWeb base)>{};
 
-    final List<MenuWebBreadcrumb> rootTrail = breadcrumbs.isNotEmpty
+    final List<BreadcrumbWeb> rootTrail = breadcrumbs.isNotEmpty
         ? _cloneBreadcrumbs(breadcrumbs)
-        : const <MenuWebBreadcrumb>[];
+        : const <BreadcrumbWeb>[];
 
-    final List<MenuWebItem> builtItems = <MenuWebItem>[];
+    final List<ItemForMenuWeb> builtItems = <ItemForMenuWeb>[];
 
     itemsMenuWeb.forEach((key, definition) {
       if (!_shouldIncludeMenuRoute(definition.route)) {
@@ -116,7 +113,7 @@ class AppStateController extends GetxController {
       final bool isRoot = definition.route == WelcomePage.page.name;
       final String baseLabel = isRoot ? rootLabel : definition.label;
 
-      final List<MenuWebBreadcrumb> itemBreadcrumbs =
+      final List<BreadcrumbWeb> itemBreadcrumbs =
           definition.breadcrumbs.isNotEmpty
           ? _cloneBreadcrumbs(definition.breadcrumbs)
           : _buildBreadcrumbsForModule(
@@ -126,7 +123,7 @@ class AppStateController extends GetxController {
               rootTrail: rootTrail,
             );
 
-      MenuWebItem item = MenuWebItem(
+      ItemForMenuWeb item = ItemForMenuWeb(
         label: baseLabel,
         route: definition.route,
         tooltip: baseLabel,
@@ -137,7 +134,7 @@ class AppStateController extends GetxController {
         breadcrumbs: itemBreadcrumbs,
       );
 
-      final MenuWebItem Function(MenuWebItem base)? transform =
+      final ItemForMenuWeb Function(ItemForMenuWeb base)? transform =
           effectiveOverrides[key] ?? effectiveOverrides[definition.route];
       if (transform != null) {
         item = transform(item);
@@ -146,7 +143,7 @@ class AppStateController extends GetxController {
       builtItems.add(item);
     });
 
-    menuItems
+    menuWebOk
       ..clear()
       ..addAll(builtItems);
   }
@@ -157,7 +154,7 @@ class AppStateController extends GetxController {
     }
     if (route == ConvenioMedicoPage.page.name ||
         route == TabuladoresPage.page.name) {
-      return _hasPermission(route) && user.banConvenioVigente;
+      return _hasPermission(route) && user.banConvenioVigenteEstatus;
     }
     if (route == ContactoPage.page.name) {
       return true;
@@ -167,42 +164,42 @@ class AppStateController extends GetxController {
 
   bool _hasPermission(String route) => userPermissions[route] == true;
 
-  List<MenuWebBreadcrumb> _buildBreadcrumbsForModule({
+  List<BreadcrumbWeb> _buildBreadcrumbsForModule({
     required bool isRoot,
     required String moduleLabel,
     required String rootLabel,
-    required List<MenuWebBreadcrumb> rootTrail,
+    required List<BreadcrumbWeb> rootTrail,
   }) {
     if (isRoot) {
       if (rootTrail.isNotEmpty) {
         return _cloneBreadcrumbs(rootTrail);
       }
-      return List<MenuWebBreadcrumb>.unmodifiable(
-        <MenuWebBreadcrumb>[MenuWebBreadcrumb(moduleLabel)],
+      return List<BreadcrumbWeb>.unmodifiable(
+        <BreadcrumbWeb>[BreadcrumbWeb(moduleLabel)],
       );
     }
 
-    final List<MenuWebBreadcrumb> baseTrail = _normalizeRootTrail(
+    final List<BreadcrumbWeb> baseTrail = _normalizeRootTrail(
       rootTrail,
       rootLabel,
-    )..add(MenuWebBreadcrumb(moduleLabel));
+    )..add(BreadcrumbWeb(moduleLabel));
 
-    return List<MenuWebBreadcrumb>.unmodifiable(baseTrail);
+    return List<BreadcrumbWeb>.unmodifiable(baseTrail);
   }
 
-  List<MenuWebBreadcrumb> _normalizeRootTrail(
-    List<MenuWebBreadcrumb> rootTrail,
+  List<BreadcrumbWeb> _normalizeRootTrail(
+    List<BreadcrumbWeb> rootTrail,
     String rootLabel,
   ) {
     if (rootTrail.isEmpty) {
-      return <MenuWebBreadcrumb>[
-        MenuWebBreadcrumb(rootLabel, route: WelcomePage.page.name),
+      return <BreadcrumbWeb>[
+        BreadcrumbWeb(rootLabel, route: WelcomePage.page.name),
       ];
     }
 
     return rootTrail
         .map(
-          (crumb) => MenuWebBreadcrumb(
+          (crumb) => BreadcrumbWeb(
             crumb.label,
             route:
                 crumb.route ??
@@ -212,108 +209,166 @@ class AppStateController extends GetxController {
         .toList();
   }
 
-  List<MenuWebBreadcrumb> _cloneBreadcrumbs(
-    Iterable<MenuWebBreadcrumb> breadcrumbs,
-  ) => List<MenuWebBreadcrumb>.unmodifiable(
+  List<BreadcrumbWeb> _cloneBreadcrumbs(
+    Iterable<BreadcrumbWeb> breadcrumbs,
+  ) => List<BreadcrumbWeb>.unmodifiable(
     breadcrumbs.map(
-      (crumb) => MenuWebBreadcrumb(crumb.label, route: crumb.route),
+      (crumb) => BreadcrumbWeb(crumb.label, route: crumb.route),
     ),
   );
 
-  Map<String, MenuWebModule> get itemsMenuWeb {
-    /// Menus fijos
-    final Map<String, MenuWebModule> items = <String, MenuWebModule>{
-      'inicio': MenuWebModule(
-        label: 'Inicio',
-        route: WelcomePage.page.name,
-        iconName: 'icono_modulo_convenio_medico.png',
-      ),
-    };
-
-    /// Menus condicionales
-    if ((userPermissions[ConvenioMedicoPage.page.name] ?? false) &&
-        user.banConvenioVigente) {
-      items['convenio'] = MenuWebModule(
-        label: 'Convenio Médico',
-        route: ConvenioMedicoPage.page.name,
-        iconName: 'icono_modulo_convenio_medico.png',
-      );
-    }
-    if ((userPermissions[TabuladoresPage.page.name] ?? false) &&
-        user.banConvenioVigente) {
-      items['tabuladores'] = MenuWebModule(
-        label: 'Tabuladores',
-        route: TabuladoresPage.page.name,
-        iconName: 'icono_modulo_tabuladores.png',
-      );
-    }
-    if (userPermissions[PaymentsPage.page.name] ?? false) {
-      items['mispagos'] = MenuWebModule(
-        label: 'Mis Pagos',
-        route: PaymentsPage.page.name,
-        iconName: 'icono_modulo_mis_pagos.png',
-      );
-    }
-    if (userPermissions[PaymentsPage.page.name] ?? false) {
-      items['solicitudconveniomedico'] = MenuWebModule(
-        label: 'Solicitud convenio médico',
-        route: SolicitudConvenioMedicoPage.page.name,
-        iconName: 'icono_modulo_solicitud_convenio_medico.png',
-      );
-    }
-    if (userPermissions[ProceduresPage.page.name] ?? false) {
-      items['mistramites'] = MenuWebModule(
-        label: 'Mis Trámites',
-        route: ProceduresPage.page.name,
-        iconName: 'icono_modulo_mis_tramites.png',
-      );
-    }
-    if (userPermissions[BeneficiosPage.page.name] ?? false) {
-      items['beneficios'] = MenuWebModule(
-        label: 'Beneficios',
-        route: BeneficiosPage.page.name,
-        iconName: 'icono_modulo_beneficios.png',
-      );
-    }
-    if (userPermissions[AnexosPage.page.name] ?? false) {
-      items['anexos'] = MenuWebModule(
-        label: 'Anexos',
-        route: AnexosPage.page.name,
-        iconName: 'icono_modulo_anexos.png',
-      );
-    }
-    if (userPermissions[FormatsPage.page.name] ?? false) {
-      items['formatos'] = MenuWebModule(
-        label: 'Formatos',
-        route: FormatsPage.page.name,
-        iconName: 'icono_modulo_formatos.png',
-      );
-    }
-    if (userPermissions[EvaluationsPage.page.name] ?? false) {
-      items['evaluacion'] = MenuWebModule(
-        label: 'Evaluación',
-        route: EvaluationsPage.page.name,
-        iconName: 'icono_modulo_evaluacion.png',
-      );
-    }
-    if (userPermissions[EvaluationsPage.page.name] ?? false) {
-      items['directorio'] = MenuWebModule(
-        label: 'Directorio médico',
-        route: DirectorioPage.page.name,
-        iconName: 'icono_modulo_directorio_medico.png',
-      );
-    }
-
-    items['contacto'] = MenuWebModule(
+  Map<String, MenuWebModule> get itemsMenuWeb => {
+    'inicio': MenuWebModule(
+      label: 'Inicio',
+      route: WelcomePage.page.name,
+      iconName: 'icono_modulo_convenio_medico.png',
+    ),
+    'convenio': MenuWebModule(
+      label: 'Convenio Médico',
+      route: ConvenioMedicoPage.page.name,
+      iconName: 'icono_modulo_convenio_medico.png',
+    ),
+    'tabuladores': MenuWebModule(
+      label: 'Tabuladores',
+      route: TabuladoresPage.page.name,
+      iconName: 'icono_modulo_tabuladores.png',
+    ),
+    'mispagos': MenuWebModule(
+      label: 'Mis Pagos',
+      route: PaymentsPage.page.name,
+      iconName: 'icono_modulo_mis_pagos.png',
+    ),
+    'solicitudconveniomedico': MenuWebModule(
+      label: 'Solicitud convenio médico',
+      route: SolicitudConvenioMedicoPage.page.name,
+      iconName: 'icono_modulo_solicitud_convenio_medico.png',
+    ),
+    'mistramites': MenuWebModule(
+      label: 'Mis Trámites',
+      route: ProceduresPage.page.name,
+      iconName: 'icono_modulo_mis_tramites.png',
+    ),
+    'beneficios': MenuWebModule(
+      label: 'Beneficios',
+      route: BeneficiosPage.page.name,
+      iconName: 'icono_modulo_beneficios.png',
+    ),
+    'anexos': MenuWebModule(
+      label: 'Anexos',
+      route: AnexosPage.page.name,
+      iconName: 'icono_modulo_anexos.png',
+    ),
+    'formatos': MenuWebModule(
+      label: 'Formatos',
+      route: FormatsPage.page.name,
+      iconName: 'icono_modulo_formatos.png',
+    ),
+    'evaluacion': MenuWebModule(
+      label: 'Evaluación',
+      route: EvaluationsPage.page.name,
+      iconName: 'icono_modulo_evaluacion.png',
+    ),
+    'directorio': MenuWebModule(
+      label: 'Directorio médico',
+      route: DirectorioPage.page.name,
+      iconName: 'icono_modulo_directorio_medico.png',
+    ),
+    'contacto': MenuWebModule(
       label: 'Contacto GNP',
       route: ContactoPage.page.name,
       iconName: 'icono_modulo_contacto.png',
-    );
-    return items;
-  }
+    ),
+  };
 
-  // List<MenuWebBreadcrumb> _buildBreadcrumbs(String label) => [
-  //   MenuWebBreadcrumb('Inicio', route: WelcomePage.page.name),
-  //   MenuWebBreadcrumb(label),
-  // ];
+  // Map<String, MenuWebModule> get itemsMenuWeb {
+  //   /// Menus fijos
+  //   final Map<String, MenuWebModule> items = <String, MenuWebModule>{
+  //     'inicio': MenuWebModule(
+  //       label: 'Inicio',
+  //       route: WelcomePage.page.name,
+  //       iconName: 'icono_modulo_convenio_medico.png',
+  //     ),
+  //   };
+
+  //   /// Menus condicionales
+  //   if ((userPermissions[ConvenioMedicoPage.page.name] ?? false) &&
+  //       user.banConvenioVigenteEstatus) {
+  //     items['convenio'] = MenuWebModule(
+  //       label: 'Convenio Médico',
+  //       route: ConvenioMedicoPage.page.name,
+  //       iconName: 'icono_modulo_convenio_medico.png',
+  //     );
+  //   }
+  //   if ((userPermissions[TabuladoresPage.page.name] ?? false) &&
+  //       user.banConvenioVigenteEstatus) {
+  //     items['tabuladores'] = MenuWebModule(
+  //       label: 'Tabuladores',
+  //       route: TabuladoresPage.page.name,
+  //       iconName: 'icono_modulo_tabuladores.png',
+  //     );
+  //   }
+  //   if (userPermissions[PaymentsPage.page.name] ?? false) {
+  //     items['mispagos'] = MenuWebModule(
+  //       label: 'Mis Pagos',
+  //       route: PaymentsPage.page.name,
+  //       iconName: 'icono_modulo_mis_pagos.png',
+  //     );
+  //   }
+  //   if (userPermissions[PaymentsPage.page.name] ?? false) {
+  //     items['solicitudconveniomedico'] = MenuWebModule(
+  //       label: 'Solicitud convenio médico',
+  //       route: SolicitudConvenioMedicoPage.page.name,
+  //       iconName: 'icono_modulo_solicitud_convenio_medico.png',
+  //     );
+  //   }
+  //   if (userPermissions[ProceduresPage.page.name] ?? false) {
+  //     items['mistramites'] = MenuWebModule(
+  //       label: 'Mis Trámites',
+  //       route: ProceduresPage.page.name,
+  //       iconName: 'icono_modulo_mis_tramites.png',
+  //     );
+  //   }
+  //   if (userPermissions[BeneficiosPage.page.name] ?? false) {
+  //     items['beneficios'] = MenuWebModule(
+  //       label: 'Beneficios',
+  //       route: BeneficiosPage.page.name,
+  //       iconName: 'icono_modulo_beneficios.png',
+  //     );
+  //   }
+  //   if (userPermissions[AnexosPage.page.name] ?? false) {
+  //     items['anexos'] = MenuWebModule(
+  //       label: 'Anexos',
+  //       route: AnexosPage.page.name,
+  //       iconName: 'icono_modulo_anexos.png',
+  //     );
+  //   }
+  //   if (userPermissions[FormatsPage.page.name] ?? false) {
+  //     items['formatos'] = MenuWebModule(
+  //       label: 'Formatos',
+  //       route: FormatsPage.page.name,
+  //       iconName: 'icono_modulo_formatos.png',
+  //     );
+  //   }
+  //   if (userPermissions[EvaluationsPage.page.name] ?? false) {
+  //     items['evaluacion'] = MenuWebModule(
+  //       label: 'Evaluación',
+  //       route: EvaluationsPage.page.name,
+  //       iconName: 'icono_modulo_evaluacion.png',
+  //     );
+  //   }
+  //   if (userPermissions[EvaluationsPage.page.name] ?? false) {
+  //     items['directorio'] = MenuWebModule(
+  //       label: 'Directorio médico',
+  //       route: DirectorioPage.page.name,
+  //       iconName: 'icono_modulo_directorio_medico.png',
+  //     );
+  //   }
+
+  //   items['contacto'] = MenuWebModule(
+  //     label: 'Contacto GNP',
+  //     route: ContactoPage.page.name,
+  //     iconName: 'icono_modulo_contacto.png',
+  //   );
+  //   return items;
+  // }
 }

@@ -32,6 +32,7 @@ class _AddUserPhonePage extends StatelessWidget {
                         onTap: () => _c.changeTab(0),
                         child: ItemTabBarView(
                           isSelected: _c.selectedIndex.value == 0,
+                          isCompleted: _c.selectedIndex.value > 0,
                           iconName: Icons.person_outline,
                           title: esMessages.mx.generalData.value,
                         ),

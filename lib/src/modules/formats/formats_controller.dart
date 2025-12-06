@@ -7,9 +7,10 @@ import 'package:medicos/shared/controllers/state_controller.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
 import 'package:medicos/shared/services/alerts/notification_service.dart';
 import 'package:medicos/shared/widgets/custom_notification.dart';
+import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
 import 'package:medicos/src/modules/formats/domain/remote/formats_repository.dart';
 import 'package:medicos/src/modules/formats/entities/dto/format_dto.dart';
-
+import 'package:medicos/src/modules/welcome/welcome_page.dart';
 
 part 'formats_model.dart';
 
@@ -20,13 +21,18 @@ class FormatsController extends GetxController with StateMixin<_FormatsModel> {
   final FormatsRepository apiConn = Get.find();
   UserModel get user => appState.user;
 
+  List<BreadcrumbWeb> breadcrumbs = [
+    BreadcrumbWeb('Inicio', route: WelcomePage.page.name),
+    const BreadcrumbWeb('Formatos'),
+  ];
+
   @override
   Future<void> onInit() async {
     super.onInit();
     await getFormatos();
   }
 
-   Future<void> getFormatos() async {
+  Future<void> getFormatos() async {
     await threadsService.execute(
       func: () async {
         final Response<List<FormatDto>> res = await apiConn.getFormats();
@@ -48,17 +54,15 @@ class FormatsController extends GetxController with StateMixin<_FormatsModel> {
     );
   }
 
-
   Future<void> downloadFormato(String filename) async {
     try {
       change(state, status: RxStatus.loading());
-      final Uint8List? response = await apiConn
-      .downloadFormat(filename);
-     change(state, status: RxStatus.success());
+      final Uint8List? response = await apiConn.downloadFormat(filename);
+      change(state, status: RxStatus.success());
       if (response != null) {
         await appService.fileStorage.downloadAndShareFile(
-          data: response, 
-          fileName: filename
+          data: response,
+          fileName: filename,
         );
       } else {
         _notification.show(

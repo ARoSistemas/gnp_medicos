@@ -1,5 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:get/get.dart'; // Importamos GetPlatform
+import 'package:get/get.dart';
 
 /// Clase estática para acceder a todas las
 /// variables de configuración de Firebase

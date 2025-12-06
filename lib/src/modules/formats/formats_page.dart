@@ -4,9 +4,11 @@ import 'package:medicos/core/extensions/responsive_extension.dart';
 import 'package:medicos/core/services/navigation/route_params.dart';
 import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
+import 'package:medicos/shared/widgets/appbar_web.dart';
 import 'package:medicos/shared/widgets/card_file_download.dart';
 import 'package:medicos/shared/widgets/wdgt_appbar_phone.dart';
 import 'package:medicos/shared/widgets/wdgt_loading.dart';
+import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
 import 'package:medicos/src/modules/formats/domain/remote/formats_repository.dart';
 import 'package:medicos/src/modules/formats/formats_controller.dart';
 
@@ -28,16 +30,24 @@ class FormatsPage extends GetResponsiveView<FormatsController> {
   static final GetPage page = GetPage(
     name: '/formatos',
     page: FormatsPage.new,
+    transition: Transition.rightToLeft,
+    customTransition: MenuWebAdaptiveTransition(),
     binding: _FormatsBindings(),
-    middlewares: [_FormatsMiddleware()]
+    middlewares: [_FormatsMiddleware()],
   );
 
   @override
   Widget? phone() => _FormatsPhonePage();
 
   @override
-  Widget? tablet() => _FormatsTabletPage();
+  Widget? tablet() => MenuWeb(
+    breadcrumbs: controller.breadcrumbs,
+    child: const _FormatsTabletPage(),
+  );
 
   @override
-  Widget? desktop() => _FormatsDesktopPage();
+  Widget? desktop() => MenuWeb(
+    breadcrumbs: controller.breadcrumbs,
+    child: _FormatsDesktopPage(),
+  );
 }

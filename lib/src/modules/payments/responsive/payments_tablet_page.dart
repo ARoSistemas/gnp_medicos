@@ -9,7 +9,7 @@ class _PaymentsTabletPage extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       backgroundColor: Get.theme.colorScheme.inversePrimary,
-      title: Text(_c.state!.name),
+      title: Text(_c.state?.name ?? 'Mis Pagos'),
     ),
     body: Center(
       child: Column(

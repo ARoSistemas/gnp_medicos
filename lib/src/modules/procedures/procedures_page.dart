@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicos/core/services/navigation/route_params.dart';
+import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
 import 'package:medicos/src/modules/procedures/procedures_controller.dart';
 
 part 'procedures_bindings.dart';
@@ -21,16 +22,24 @@ class ProceduresPage extends GetResponsiveView<ProceduresController> {
   static final GetPage page = GetPage(
     name: '/mis-tramites',
     page: ProceduresPage.new,
+    transition: Transition.rightToLeft,
+    customTransition: MenuWebAdaptiveTransition(),
     binding: _ProceduresBindings(),
-    middlewares: [_ProceduresMiddleware()]
+    middlewares: [_ProceduresMiddleware()],
   );
 
   @override
   Widget? phone() => _ProceduresPhonePage();
 
   @override
-  Widget? tablet() => _ProceduresTabletPage();
+  Widget? tablet() => MenuWeb(
+    breadcrumbs: controller.breadcrumbs,
+    child: _ProceduresTabletPage(),
+  );
 
   @override
-  Widget? desktop() => _ProceduresDesktopPage();
+  Widget? desktop() => MenuWeb(
+    breadcrumbs: controller.breadcrumbs,
+    child: _ProceduresDesktopPage(),
+  );
 }

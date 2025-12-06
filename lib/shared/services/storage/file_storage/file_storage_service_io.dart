@@ -27,7 +27,4 @@ class FileStorageService extends FileStorageBase {
       );
     }
   }
-
-  @override
-  void pickFile() {}
 }

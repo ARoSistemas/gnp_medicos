@@ -5,6 +5,7 @@ import 'package:medicos/core/extensions/responsive_extension.dart';
 import 'package:medicos/core/services/navigation/route_params.dart';
 import 'package:medicos/shared/messages/es/es_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
+import 'package:medicos/shared/widgets/logo_gnp.dart';
 import 'package:medicos/src/modules/registro/domain/remote/registro_repository.dart';
 import 'package:medicos/src/modules/registro/registro_controller.dart';
 import 'package:medicos/src/modules/registro/widgets/form_contacto_phone.dart';

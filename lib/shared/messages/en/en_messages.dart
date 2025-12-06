@@ -173,6 +173,11 @@ class _US extends IAppMessages {
   );
 
   @override
+  MsgProperty get acceptAndContinue => esMessages.mx.acceptAndContinue.copyWith(
+    value: 'Accept and continue',
+  );
+
+  @override
   MsgProperty get addAssistant => esMessages.mx.addAssistant.copyWith(
     value: 'Add assistant',
   );

@@ -10,6 +10,7 @@ class AvatarUser extends StatelessWidget {
     required this.onTap,
     required this.isPerfil,
     this.urlPhoto,
+    this.isMovile = true,
     super.key,
   });
 
@@ -18,6 +19,7 @@ class AvatarUser extends StatelessWidget {
   final double radius;
   final Function()? onTap;
   final bool isPerfil;
+  final bool isMovile;
 
   @override
   Widget build(BuildContext context) => Stack(
@@ -46,17 +48,17 @@ class AvatarUser extends StatelessWidget {
           ),
         ),
       ),
-      if (isPerfil)
-        const Positioned(
+      if (isPerfil && isMovile)
+        Positioned(
           bottom: -5,
           right: -5,
           child: CircleAvatar(
-            radius: 18,
+            radius: isMovile ? 18 : 15,
             backgroundColor: Colors.white,
             child: Icon(
               Icons.photo_camera_outlined,
               color: ColorPalette.primary,
-              size: 25,
+              size: isMovile ? 25 : 15,
             ),
           ),
         ),
@@ -71,6 +73,7 @@ class AvatarUser extends StatelessWidget {
       ..add(StringProperty('urlPhoto', urlPhoto))
       ..add(DoubleProperty('radius', radius))
       ..add(ObjectFlagProperty<Function()?>.has('onTap', onTap))
-      ..add(DiagnosticsProperty<bool>('isPerfil', isPerfil));
+      ..add(DiagnosticsProperty<bool>('isPerfil', isPerfil))
+      ..add(DiagnosticsProperty<bool>('isMovile', isMovile));
   }
 }

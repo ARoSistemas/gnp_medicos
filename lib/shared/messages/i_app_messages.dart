@@ -45,6 +45,7 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty pleaseTryAgainLater;
   abstract final MsgProperty loadingData;
   abstract final MsgProperty accept;
+  abstract final MsgProperty acceptAndContinue;
   abstract final MsgProperty disableUser;
   abstract final MsgProperty enableUser;
   abstract final MsgProperty disableAssistant;
@@ -258,6 +259,7 @@ abstract class IAppMessages extends IMessages {
     ...pleaseTryAgainLater.msgMap,
     ...loadingData.msgMap,
     ...accept.msgMap,
+    ...acceptAndContinue.msgMap,
     ...disableUser.msgMap,
     ...enableUser.msgMap,
     ...disableAssistant.msgMap,

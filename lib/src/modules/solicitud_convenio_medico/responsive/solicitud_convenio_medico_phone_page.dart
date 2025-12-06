@@ -24,7 +24,7 @@ class _SolicitudConvenioMedicoPhonePage extends StatelessWidget {
             title: esMessages.mx.requestLog.value.toUpperCase(),
             widget: IconButton(
               visualDensity: VisualDensity.compact,
-              onPressed: () => Get.toNamed(NuevaSolicitudPage.page.name),
+              onPressed: _c.goToNewRequest,
               icon: const Icon(Icons.add, color: ColorPalette.primary),
             ),
           ),
@@ -53,9 +53,11 @@ class _SolicitudConvenioMedicoPhonePage extends StatelessWidget {
                         StatusSolicitud status;
                         switch (requestAgreement.cveEstatus) {
                           case '01':
-                            status = StatusSolicitud.success;
+                            status = StatusSolicitud.inProgress;
                           case '02':
-                            status = StatusSolicitud.error;
+                            status = StatusSolicitud.incompleted;
+                          case '08':
+                            status = StatusSolicitud.incompleted;
                           default:
                             status = StatusSolicitud.success;
                         }
@@ -75,6 +77,9 @@ class _SolicitudConvenioMedicoPhonePage extends StatelessWidget {
                               );
                               await _c.getRequestsAgreement();
                             },
+                            onTapUploadIncompleted: () => _c.getComment(
+                              requestAgreement.cveSolicitud,
+                            ),
                           ),
                         );
                       },

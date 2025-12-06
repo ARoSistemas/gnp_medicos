@@ -281,11 +281,11 @@ class LastItems extends StatelessWidget {
         child: Text(
           title,
           maxLines: 1,
+          overflow: TextOverflow.ellipsis,
           style: Get.textTheme.titleMedium?.copyWith(
             color: ColorPalette.primary,
             decoration: TextDecoration.underline,
             decorationColor: ColorPalette.primary,
-            overflow: TextOverflow.ellipsis,
           ),
         ),
       ),
@@ -299,11 +299,11 @@ class LastItems extends StatelessWidget {
               child: Text(
                 subtitle!,
                 maxLines: 1,
+                overflow: TextOverflow.ellipsis,
                 style: Get.textTheme.titleMedium?.copyWith(
                   color: ColorPalette.primary,
                   decoration: TextDecoration.underline,
                   decorationColor: ColorPalette.primary,
-                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ),

@@ -19,8 +19,8 @@ class Tools {
       final DateTime fin = formato.parse(finStr);
       final hoy = DateTime.now();
       return hoy.isAfter(inicio) && hoy.isBefore(fin) ||
-      hoy.isAtSameMomentAs(inicio) ||
-      hoy.isAtSameMomentAs(fin);
+          hoy.isAtSameMomentAs(inicio) ||
+          hoy.isAtSameMomentAs(fin);
     } on FormatException {
       return false;
     }
@@ -35,10 +35,29 @@ class Tools {
       final DateTime fin = DateTime.parse(finStr);
       final hoy = DateTime.now();
       return (hoy.isAfter(inicio) && hoy.isBefore(fin)) ||
-      hoy.isAtSameMomentAs(inicio) ||
-      hoy.isAtSameMomentAs(fin);
+          hoy.isAtSameMomentAs(inicio) ||
+          hoy.isAtSameMomentAs(fin);
     } on FormatException {
       return false;
     }
+  }
+
+  String removeDiacritics(String? str) {
+    if (str == null) {
+      return '';
+    }
+
+    const withDiacritics = 'áàäâãéèëêíìïîóòöôõúùüûñÁÀÄÂÃÉÈËÊÍÌÏÎÓÒÖÔÕÚÙÜÛÑ';
+    const withoutDiacritics = 'aaaaaeeeeiiiiooooouuuunAAAAAEEEEIIIIOOOOOUUUUN';
+
+    return str
+      .split('')
+      .map((char) {
+        final int index = withDiacritics.indexOf(char);
+        return index == -1
+            ? char.toLowerCase()
+            : withoutDiacritics[index].toLowerCase();
+      })
+      .join();
   }
 }

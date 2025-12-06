@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:get/get.dart';
 import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
+import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
 import 'package:medicos/shared/services/alerts/notification_service.dart';
 import 'package:medicos/shared/widgets/custom_notification.dart';
@@ -19,9 +20,22 @@ class UploadDocumentsController extends GetxController
 
   final RxInt selectedIndex = 0.obs;
   final Rx<String?> selectedItem = Rx<String?>(null);
-  final RxBool loading = false.obs;
+  final Rx<String?> downloading = Rx<String?>(null);
 
-  final List<String> items = ['Carta de adhesión', 'Opción 2', 'Opción 3'];
+  final List<Map<String, String>> files = [
+    {
+      'title': msg.accessionLetter.value,
+      'file': 'Carta_de_adhesion.pdf'
+    },
+    {
+      'title': msg.generalData.value,
+      'file': 'Formato_de_datos_generales.pdf'
+    },
+    {
+      'title': msg.paymentByTransfer.value,
+      'file': 'Formato_de_alta_para_pago_por_transferencia.pdf'
+    }
+  ];
 
   List<Map<String, String>> documentCardsWithoutOnTap = [
     {
@@ -82,10 +96,13 @@ class UploadDocumentsController extends GetxController
 
   Future<void> downloadFormato(String filename) async {
     try {
-      loading.value = true;
+      if (downloading.value != null) {
+        return;
+      }
+      downloading.value = filename;
       final Uint8List? response = await apiConn
       .downloadFormat(filename);
-     loading.value = false;
+     downloading.value = null;
       if (response != null) {
         await appService.fileStorage.downloadAndShareFile(
           data: response, 
@@ -99,7 +116,7 @@ class UploadDocumentsController extends GetxController
         );
       }
     } on Exception catch (e) {
-      loading.value = false;
+      downloading.value = null;
       _notification.show(
         title: 'Error',
         message: 'Ocurrió el detalle $e.',

@@ -104,7 +104,7 @@ class _MX extends IAppMessages {
   @override
   MsgProperty get enterYourEmail => MsgProperty(
     key: 'enterYourEmail',
-    value: 'Ingresa tu correo electrónico',
+    value: 'Ingresa el correo electrónico',
   );
 
   @override
@@ -275,6 +275,12 @@ class _MX extends IAppMessages {
   MsgProperty get accept => MsgProperty(
     key: 'accept',
     value: 'Aceptar',
+  );
+
+  @override
+  MsgProperty get acceptAndContinue => MsgProperty(
+    key: 'acceptAndContinue',
+    value: 'Aceptar y continuar',
   );
 
   @override
@@ -846,25 +852,25 @@ class _MX extends IAppMessages {
   @override
   MsgProperty get enterYourNameContinue => MsgProperty(
     key: 'enterYourNameContinue',
-    value: 'Ingresa tu nombre para continuar.',
+    value: 'Ingresa el nombre para continuar.',
   );
 
   @override
   MsgProperty get enterYourLastNameContinue => MsgProperty(
     key: 'enterYourLastNameContinue',
-    value: 'Ingresa tu apellido para continuar',
+    value: 'Ingresa el apellido para continuar',
   );
 
   @override
   MsgProperty get enterYourSecondLastNameContinue => MsgProperty(
     key: 'enterYourSecondLastNameContinue',
-    value: 'Ingresa tu apellido materno para continuar',
+    value: 'Ingresa el apellido materno para continuar',
   );
 
   @override
   MsgProperty get enterYourPassword => MsgProperty(
     key: 'enterYourPassword',
-    value: 'Ingresa tu contraseña',
+    value: 'Ingresa la contraseña',
   );
 
   @override
@@ -925,7 +931,7 @@ class _MX extends IAppMessages {
   MsgProperty get reTabulationsLegend => MsgProperty(
     key: 'reTabulationsLegend',
     value:
-        '''Re Tabulaciones, dudas de tus pagos, aclaraciones de carta pase para comunicarte al Cam:''',
+        '''Re Tabulaciones, dudas de tus pagos, aclaraciones de carta pase comunicarte al Cam:''',
   );
 
   @override
@@ -1150,13 +1156,13 @@ class _MX extends IAppMessages {
   @override
   MsgProperty get pleaseSelectASpecialty => MsgProperty(
     key: 'please select a specialty.',
-    value: 'Please select a specialty.',
+    value: 'Por favor, selecciona una especialidad.',
   );
 
   @override
   MsgProperty get pleaseSelectASubspecialty => MsgProperty(
     key: 'pleaseSlectASubspecialty',
-    value: 'Please select a subspecialty',
+    value: 'Por favor, selecciona una subespecialidad.',
   );
 
   @override

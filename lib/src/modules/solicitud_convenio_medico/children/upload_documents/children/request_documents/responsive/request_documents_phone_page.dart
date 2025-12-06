@@ -43,18 +43,34 @@ class _RequestDocumentsPhonePage extends StatelessWidget {
                                   .map(
                                     (document) => DropdownMenuItem<String>(
                                       value: document.cveTipoDocumento,
-                                      child: Text(
-                                        document.descripcion.value(),
-                                        style: Get.textTheme.titleMedium
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                          vertical: 8
+                                        ),
+                                        child: Text(
+                                          document.descripcion.value(),
+                                          style: Get.textTheme.titleMedium
                                             ?.copyWith(
                                               fontSize: 16,
                                               fontWeight: FontWeight.w400,
                                               color: ColorPalette.textTertiary,
                                             ),
+                                        ),
                                       ),
                                     ),
                                   )
                                   .toList(),
+                              selectedItemBuilder: (context) => 
+                                data.listTypeDocuments.map((document) => Text(
+                                  document.descripcion.value(),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Get.textTheme.titleMedium?.copyWith(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w400,
+                                    color: ColorPalette.textTertiary,
+                                  ),
+                                )).toList(),
                               onChanged: _c.onDocumentTypeChanged,
                               hint: Text(
                                 esMessages.mx.selectDocumentUpload.value,
@@ -86,10 +102,21 @@ class _RequestDocumentsPhonePage extends StatelessWidget {
                       SizedBox(
                         height: context.scale(30, axis: ScaleAxis.height),
                       ),
-                      OutlinedButton.icon(
-                        label: Text(esMessages.mx.uploadFile.value),
-                        icon: const Icon(Icons.cloud_upload_outlined),
-                        onPressed: _c.pickDocument,
+                      Obx(
+                        () => OutlinedButton.icon(
+                          style: OutlinedButton.styleFrom(
+                            side: BorderSide(
+                              color: _c.selectedDocumentType.value != null
+                                  ? ColorPalette.primary
+                                  : ColorPalette.marginCard,
+                            ),
+                          ),
+                          label: Text(esMessages.mx.uploadFile.value),
+                          icon: const Icon(Icons.cloud_upload_outlined),
+                          onPressed: _c.selectedDocumentType.value != null
+                              ? _c.pickDocument
+                              : null,
+                        ),
                       ),
                       SizedBox(
                         height: context.scale(10, axis: ScaleAxis.height),
@@ -216,9 +243,9 @@ class _RequestDocumentsPhonePage extends StatelessWidget {
                                           .any(
                                             (uploadedDoc) =>
                                                 (uploadedDoc.nombre
-                                                        .value()
-                                                        .split('.')
-                                                        .first) ==
+                                                    .value()
+                                                    .split('.')
+                                                    .first) ==
                                                 document.descripcion.value(),
                                           );
                                       return Padding(

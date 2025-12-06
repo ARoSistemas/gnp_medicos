@@ -66,7 +66,9 @@ class _HomePhonePage extends StatelessWidget {
                   final AsisstantDto item =
                       data?.asisstantList[i] ?? AsisstantDto.empty();
                   return ItemAssitants(
-                    name: item.nombre,
+                    name: '${item.nombre} '
+                    '${item.apellidoPaterno} '
+                    '${item.apellidoMaterno}',
                     subTitle: item.especialidad,
                     onTap: () async {
                       await _c.selectUser(item);

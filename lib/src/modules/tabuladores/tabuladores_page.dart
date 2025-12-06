@@ -5,6 +5,7 @@ import 'package:medicos/shared/messages/es/es_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/widgets/appbar_phone.dart';
 import 'package:medicos/shared/widgets/banner_medico.dart';
+import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
 import 'package:medicos/src/modules/tabuladores/tabuladores_controller.dart';
 
 part 'tabuladores_bindings.dart';
@@ -23,6 +24,8 @@ class TabuladoresPage extends GetResponsiveView<TabuladoresController> {
   static final GetPage page = GetPage(
     name: '/tabuladores',
     page: TabuladoresPage.new,
+    transition: Transition.rightToLeft,
+    customTransition: MenuWebAdaptiveTransition(),
     binding: _TabuladoresBindings(),
     middlewares: [_TabuladoresMiddleware()],
   );
@@ -31,8 +34,14 @@ class TabuladoresPage extends GetResponsiveView<TabuladoresController> {
   Widget? phone() => _TabuladoresPhonePage();
 
   @override
-  Widget? tablet() => _TabuladoresTabletPage();
+  Widget? tablet() => MenuWeb(
+    breadcrumbs: controller.breadcrumbs,
+    child: _TabuladoresTabletPage(),
+  );
 
   @override
-  Widget? desktop() => _TabuladoresDesktopPage();
+  Widget? desktop() => MenuWeb(
+    breadcrumbs: controller.breadcrumbs,
+    child: _TabuladoresDesktopPage(),
+  );
 }

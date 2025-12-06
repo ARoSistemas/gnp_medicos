@@ -18,6 +18,7 @@ class CardSolicitud extends StatelessWidget {
     this.titleButton,
     super.key,
     this.onTapUpload,
+    this.onTapUploadIncompleted,
   });
 
   final String nameDoctor;
@@ -27,6 +28,7 @@ class CardSolicitud extends StatelessWidget {
   final String folio;
   final Function()? onTapButton;
   final Function()? onTapUpload;
+  final Function()? onTapUploadIncompleted;
   final String? titleButton;
 
   @override
@@ -39,7 +41,9 @@ class CardSolicitud extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.only(
+            left: 15, right: 10, top: 10, bottom: 10
+          ),
           margin: const EdgeInsets.all(1),
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.only(
@@ -48,8 +52,7 @@ class CardSolicitud extends StatelessWidget {
             ),
             color: colorCard(status),
           ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          child: Column(
             children: [
               Row(
                 children: [
@@ -63,53 +66,64 @@ class CardSolicitud extends StatelessWidget {
                       size: 17,
                     ),
                   ),
-                  SizedBox(
-                    width: 130,
-                    child: Text(
-                      descriptionStatus,
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: Get.textTheme.bodyMedium,
-                    ),
+                  Text(
+                    descriptionStatus,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                    style: Get.textTheme.bodyMedium,
                   ),
                 ],
               ),
-              Flexible(
-                child: Row(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(right: 10, left: 50),
-                      child: Text(
-                        '${esMessages.mx.applicationSheet.value}:',
-                        style: Get.textTheme.bodyMedium,
+              SizedBox(height: context.scale(16, axis: ScaleAxis.height)),
+              Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10),
+                    child: GestureDetector(
+                      onTap: () async {
+                        await Clipboard.setData(
+                          ClipboardData(text: folio.value()),
+                        );
+                      },
+                      child: Icon(
+                        Icons.copy,
+                        color: colorIcon(status),
+                        size: 17,
                       ),
                     ),
-                    Expanded(
-                      child: Tooltip(
-                        message: folio.value(),
-                        child: GestureDetector(
-                          onTap: () async {
-                            await Clipboard.setData(
-                              ClipboardData(text: folio.value()),
-                            );
-                          },
-                          child: Text(
-                            folio.value(),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            style: Get.textTheme.bodyMedium,
-                          ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(right: 10, ),
+                    child: Text(
+                      '${esMessages.mx.applicationSheet.value}:',
+                      style: Get.textTheme.bodyMedium,
+                    ),
+                  ),
+                  Expanded(
+                    child: Tooltip(
+                      message: folio.value(),
+                      child: GestureDetector(
+                        onTap: () async {
+                          await Clipboard.setData(
+                            ClipboardData(text: folio.value()),
+                          );
+                        },
+                        child: Text(
+                          folio.value(),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: Get.textTheme.bodyMedium,
                         ),
                       ),
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),
         ),
         Container(
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -154,6 +168,42 @@ class CardSolicitud extends StatelessWidget {
                     ),
                   ],
                 ),
+              if (status == StatusSolicitud.incompleted)
+                Column(
+                  children: [
+                    SizedBox(height: context.scale(16, axis: ScaleAxis.height)),
+                    Row(
+                      children: [
+                        Flexible(
+                          flex: 4,
+                          child: ElevatedButton(
+                            onPressed: onTapUpload,
+                            child: Text(esMessages.mx.uploadInformation.value),
+                          ),
+                        ),
+                        SizedBox(
+                          width: context.scale(10, axis: ScaleAxis.height),
+                        ),
+                        IconButton(
+                          padding: const EdgeInsets.all(8),
+                          style: OutlinedButton.styleFrom(
+                            side: const BorderSide(color: ColorPalette.primary),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          onPressed: onTapUploadIncompleted,
+                          icon: const Icon(
+                            Icons.help_outline_rounded,
+                            size: 30,
+                            color: ColorPalette.primary,
+                            weight: 1.30,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
             ],
           ),
         ),
@@ -172,24 +222,28 @@ class CardSolicitud extends StatelessWidget {
       ..add(StringProperty('nameDoctor', nameDoctor))
       ..add(StringProperty('dateRequest', dateRequest))
       ..add(StringProperty('folio', folio))
-      ..add(StringProperty('descriptionStatus', descriptionStatus));
+      ..add(StringProperty('descriptionStatus', descriptionStatus))
+      ..add(
+        ObjectFlagProperty<Function()?>.has(
+          'onTapUploadIncompleted',
+          onTapUploadIncompleted,
+        ),
+      );
   }
 
   Color colorCard(StatusSolicitud statusSolicitud) => switch (status) {
     StatusSolicitud.inProgress => ColorPalette.backgroundCard,
     StatusSolicitud.error => ColorPalette.bannerCardRed,
+    StatusSolicitud.incompleted => ColorPalette.bannerCardRed,
     StatusSolicitud.success => ColorPalette.bannerCardGreen,
   };
 
   Color colorIcon(StatusSolicitud statusSolicitud) => switch (status) {
     StatusSolicitud.inProgress => ColorPalette.iconBlue,
     StatusSolicitud.error => ColorPalette.errorText,
+    StatusSolicitud.incompleted => ColorPalette.errorText,
     StatusSolicitud.success => ColorPalette.success,
   };
 }
 
-enum StatusSolicitud {
-  inProgress,
-  success,
-  error,
-}
+enum StatusSolicitud { inProgress, success, error, incompleted }

@@ -36,40 +36,46 @@ class ItemAssitants extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                AvatarUser(
-                  name: name,
-                  urlPhoto: urlPhoto,
-                  isPerfil: false,
-                  radius: 40,
-                  onTap: onTap,
-                ),
-                SizedBox(width: context.scale(16)),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      name,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: Get.textTheme.titleMedium,
-                    ),
-                    SizedBox(height: context.scale(3, axis: ScaleAxis.height)),
-                    SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      child: Text(
-                        subTitle,
-                        maxLines: 1,
+            Expanded(
+              child: Row(
+                children: [
+                  AvatarUser(
+                    name: name,
+                    urlPhoto: urlPhoto,
+                    isPerfil: false,
+                    radius: 40,
+                    onTap: onTap,
+                  ),
+                  SizedBox(width: context.scale(16)),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                        name,
+                        maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: Get.textTheme.labelMedium?.copyWith(
-                          color: ColorPalette.textTertiary,
-                        ),
+                        style: Get.textTheme.titleMedium
                       ),
+                        SizedBox(
+                          height: context.scale(3, axis: ScaleAxis.height)
+                        ),
+                        SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.5,
+                          child: Text(
+                            subTitle,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: Get.textTheme.labelMedium?.copyWith(
+                              color: ColorPalette.textTertiary,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ],
+                  ),
+                ],
+              ),
             ),
             const Icon(
               Icons.chevron_right,

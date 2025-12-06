@@ -11,7 +11,6 @@ class LogoGnp extends StatelessWidget {
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
       SizedBox(
-        // width: context.scale(115),
         width: width ?? context.scale(115),
         child: Image.asset(
           'assets/logo-gnp.png',

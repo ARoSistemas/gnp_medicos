@@ -6,6 +6,7 @@ import 'package:medicos/shared/constans/constans.dart';
 import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/widgets/appbar_phone.dart';
+import 'package:medicos/shared/widgets/appbar_web.dart';
 import 'package:medicos/src/modules/convenio_medico/children/view_pdf/view_pdf_controller.dart';
 import 'package:pdfrx/pdfrx.dart';
 
@@ -35,7 +36,7 @@ class ViewPdfPage extends GetResponsiveView<ViewPdfController> {
   Widget? phone() => _ViewPdfPhonePage();
 
   @override
-  Widget? tablet() => _ViewPdfTabletPage();
+  Widget? tablet() => const _ViewPdfTabletPage();
 
   @override
   Widget? desktop() => _ViewPdfDesktopPage();

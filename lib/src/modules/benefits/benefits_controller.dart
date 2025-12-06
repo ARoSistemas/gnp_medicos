@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/core/services/threads/threads_service.dart';
@@ -7,8 +8,10 @@ import 'package:medicos/shared/controllers/state_controller.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
 import 'package:medicos/shared/services/alerts/notification_service.dart';
 import 'package:medicos/shared/widgets/custom_notification.dart';
+import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
 import 'package:medicos/src/modules/benefits/domain/remote/benefits_repository.dart';
 import 'package:medicos/src/modules/benefits/entities/dtos/benefit_dto.dart';
+import 'package:medicos/src/modules/welcome/welcome_page.dart';
 
 part 'benefits_model.dart';
 
@@ -19,6 +22,12 @@ class BeneficiosController extends GetxController
   final BeneficiosRepository apiConn = Get.find();
   UserModel get user => appState.user;
   final NotificationServiceImpl _notification = AppService.i.notifications;
+  final ScrollController scrollCtrl = ScrollController();
+
+  List<BreadcrumbWeb> breadcrumbs = [
+    BreadcrumbWeb('Inicio', route: WelcomePage.page.name),
+    const BreadcrumbWeb('Beneficios'),
+  ];
 
   @override
   Future<void> onInit() async {
@@ -29,12 +38,14 @@ class BeneficiosController extends GetxController
   Future<void> getBeneficios() async {
     await threadsService.execute(
       func: () async {
-        final Map? dataFirebase = await appService.shared.firebaseService
-        .getDataOnce('appConfig/modulos/beneficios');
+        final Map? dataFirebase = await appService.shared.realtimeService
+            .getDataOnce('appConfig/modulos/beneficios');
         if (dataFirebase != null) {
-          final List<BenefitDto> res = (dataFirebase['lista'] as List).map(
-            (bene) => BenefitDto.fromJson(Map<String, dynamic>.from(bene))
-          ).toList();
+          final List<BenefitDto> res = (dataFirebase['lista'] as List)
+              .map(
+                (bene) => BenefitDto.fromJson(Map<String, dynamic>.from(bene)),
+              )
+              .toList();
           final _BeneficiosModel newState = _BeneficiosModel.empty().copyWith(
             benefitsList: res,
           );
@@ -59,20 +70,18 @@ class BeneficiosController extends GetxController
     );
   }
 
-
   Future<void> downloadBeneficio(BenefitDto dto) async {
     if (dto.archivo.isEmpty) {
       return;
     }
     try {
       change(state, status: RxStatus.loading());
-      final Uint8List? response = await apiConn
-      .downloadBeneficio(dto.archivo);
-     change(state, status: RxStatus.success());
+      final Uint8List? response = await apiConn.downloadBeneficio(dto.archivo);
+      change(state, status: RxStatus.success());
       if (response != null) {
         await appService.fileStorage.downloadAndShareFile(
-          data: response, 
-          fileName: dto.archivo
+          data: response,
+          fileName: dto.archivo,
         );
       } else {
         _notification.show(
@@ -89,5 +98,21 @@ class BeneficiosController extends GetxController
         type: AlertType.error,
       );
     }
+  }
+
+  Future<void> moveRight() async {
+    await scrollCtrl.animateTo(
+      scrollCtrl.offset + 200,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
+  }
+
+  Future<void> moveLeft() async {
+    await scrollCtrl.animateTo(
+      scrollCtrl.offset - 200,
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeOut,
+    );
   }
 }

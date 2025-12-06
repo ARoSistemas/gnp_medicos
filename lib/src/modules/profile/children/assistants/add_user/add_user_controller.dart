@@ -347,6 +347,11 @@ class AddUserController extends GetxController
               permissions: permisosSeleccionadosIds,
               jwt: appState.user.token.jwt,
             );
+            _notification.show(
+              title: 'Actualización exitosa',
+              message: 'Se registró al usuario correctamente.',
+              type: AlertType.success,
+            );
           }
         } else {
           await updateAssistant();

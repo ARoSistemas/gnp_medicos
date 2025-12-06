@@ -4,9 +4,11 @@ import 'package:medicos/core/extensions/null_extensions.dart';
 import 'package:medicos/core/extensions/responsive_extension.dart';
 import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
+import 'package:medicos/shared/widgets/appbar_web.dart';
+import 'package:medicos/shared/widgets/card_benefit.dart';
 import 'package:medicos/shared/widgets/wdgt_appbar_phone.dart';
-import 'package:medicos/shared/widgets/wdgt_image_from_web.dart';
 import 'package:medicos/shared/widgets/wdgt_loading.dart';
+import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
 import 'package:medicos/src/modules/benefits/benefits_controller.dart';
 import 'package:medicos/src/modules/benefits/domain/remote/benefits_repository.dart';
 
@@ -26,6 +28,8 @@ class BeneficiosPage extends GetResponsiveView<BeneficiosController> {
   static final GetPage page = GetPage(
     name: '/beneficios',
     page: BeneficiosPage.new,
+    transition: Transition.rightToLeft,
+    customTransition: MenuWebAdaptiveTransition(),
     binding: _BeneficiosBindings(),
     middlewares: [_BeneficiosMiddleware()],
   );
@@ -34,8 +38,14 @@ class BeneficiosPage extends GetResponsiveView<BeneficiosController> {
   Widget? phone() => _BeneficiosPhonePage();
 
   @override
-  Widget? tablet() => _BeneficiosTabletPage();
+  Widget? tablet() => MenuWeb(
+    breadcrumbs: controller.breadcrumbs,
+    child: const _BeneficiosTabletPage(),
+  );
 
   @override
-  Widget? desktop() => _BeneficiosDesktopPage();
+  Widget? desktop() => MenuWeb(
+    breadcrumbs: controller.breadcrumbs,
+    child: _BeneficiosDesktopPage(),
+  );
 }

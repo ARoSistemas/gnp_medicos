@@ -9,7 +9,7 @@ class _ContactoTabletPage extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBar(
       backgroundColor: Get.theme.colorScheme.inversePrimary,
-      title: Text(_c.state!.name),
+      title: Text(_c.state?.name ?? 'Contacto'),
     ),
     body: Center(
       child: Column(

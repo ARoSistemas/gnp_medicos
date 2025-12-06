@@ -7,6 +7,8 @@ import 'package:medicos/core/utils/exception_manager.dart';
 import 'package:medicos/shared/constans/constans.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
+import 'package:medicos/shared/utils/tools.dart';
+import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
 import 'package:medicos/src/modules/home/domain/entities/dtos/asisstant_dto.dart';
 import 'package:medicos/src/modules/home/domain/repositories/home_repository.dart';
 import 'package:medicos/src/modules/login/login_page.dart';
@@ -20,6 +22,11 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
   final HomeRepository apiConn = Get.find();
   final AppStateController appState = Get.find();
   RxBool andIsDoctor = false.obs;
+
+  List<BreadcrumbWeb> breadcrumbs = [
+    BreadcrumbWeb('Inicio', route: WelcomePage.page.name),
+    const BreadcrumbWeb('Home'),
+  ];
 
   @override
   Future<void> onInit() async {
@@ -87,7 +94,7 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
     appState.isDoctor = true;
     loadUserPermissions(isDoctor: true);
     appState.user = appState.userLogued;
-    if(!autoselect) {
+    if (!autoselect) {
       appState.user = appState.user.copyWith(canChangeProfile: true);
     }
     unawaited(Get.offAllNamed(WelcomePage.page.name));
@@ -153,7 +160,11 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
       banVerAviso: item.banVerAviso,
       banConvenioActualizado: item.banConvenioActualizado,
       permisos: permisos.where((permiso) => permiso.activo).toList(),
-      banConvenioVigente: item.estatus == StatusAgreement.vigente,
+      banConvenioVigenteEstatus: item.estatus == StatusAgreement.vigente,
+      banConvenioVigenteFecha: Tools.isAgreedByDates(
+        item.fechaInicio,
+        item.fechaFin,
+      ),
       email: item.email,
       uid: item.uid,
     );

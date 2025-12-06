@@ -5,8 +5,10 @@ import 'package:medicos/core/utils/exception_manager.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
 import 'package:medicos/shared/widgets/custom_notification.dart';
+import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
 import 'package:medicos/src/modules/anexos/domain/dtos/anneses_dto.dart';
 import 'package:medicos/src/modules/anexos/domain/repository/annexes_repository.dart';
+import 'package:medicos/src/modules/welcome/welcome_page.dart';
 
 part 'anexos_model.dart';
 
@@ -15,6 +17,11 @@ class AnexosController extends GetxController with StateMixin<AnexosModel> {
   final AnnexesRepository _apiConn = Get.find();
 
   UserModel get user => appState.user;
+
+  List<BreadcrumbWeb> breadcrumbs = [
+    BreadcrumbWeb('Inicio', route: WelcomePage.page.name),
+    const BreadcrumbWeb('Anexos'),
+  ];
 
   @override
   Future<void> onInit() async {

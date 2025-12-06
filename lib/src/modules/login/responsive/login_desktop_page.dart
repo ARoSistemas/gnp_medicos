@@ -14,16 +14,27 @@ class _LoginDesktopPage extends StatelessWidget {
         body: Stack(
           children: [
             /// Header: Logo GNP
-            const Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 20,
-                    horizontal: 15,
+            Container(
+              height: 64,
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                border: Border(
+                  bottom: BorderSide(
+                    color: ColorPalette.textPrimary
+                  )
+                )
+              ),
+              child: Row(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 12,
+                      horizontal: 24,
+                    ),
+                    child: LogoGnp(width: context.scale(85)),
                   ),
-                  child: LogoGnp(),
-                ),
-              ],
+                ],
+              ),
             ),
 
             /// background image
@@ -60,189 +71,199 @@ class _LoginDesktopPage extends StatelessWidget {
                   width: width * 0.25,
                   height: height * 0.6,
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.9),
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.1),
+                        blurRadius: 10,
+                        spreadRadius: 5,
+                      ),
+                    ],
                   ),
                   alignment: Alignment.center,
                   child: Form(
                     key: _c.formKey,
                     child: Obx(
-                      () => Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(10),
-                            child: Text(
-                              'Bienvenido, por favor inicia sesión',
-                              style: Get.textTheme
-                                  .copyWith(
-                                    titleMedium: Get.textTheme.titleMedium
-                                        ?.copyWith(
-                                          fontWeight: FontWeight.w600,
-                                          letterSpacing: 0.15,
-                                        ),
-                                  )
-                                  .titleMedium,
-                              textAlign: TextAlign.center,
-                            ),
-                          ),
-                          const Divider(
-                            color: ColorPalette.primary,
-                          ),
-                          const Divider(color: Colors.transparent),
-
-                          if (_c.userStored.value != null)
-                            Container(
-                              alignment: Alignment.center,
-                              child: RichText(
-                                textAlign: TextAlign.center,
-                                text: TextSpan(
-                                  text: '¡Te damos la bienvenida!\n',
-                                  style: context.textTheme.titleMedium
-                                      ?.copyWith(
-                                        fontWeight: FontWeight.w600,
-                                        letterSpacing: 0.15,
-                                      ),
-                                  children: [
-                                    TextSpan(
-                                      text: _c
-                                          .userStored
-                                          .value
-                                          ?.token
-                                          .jwtLogin
-                                          .claims
-                                          .givenName,
-                                      style: context.textTheme.titleLarge
+                      () => SingleChildScrollView(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.all(10),
+                              child: Text(
+                                'Bienvenido, por favor inicia sesión',
+                                style: Get.textTheme
+                                    .copyWith(
+                                      titleMedium: Get.textTheme.titleMedium
                                           ?.copyWith(
                                             fontWeight: FontWeight.w600,
                                             letterSpacing: 0.15,
                                           ),
-                                    ),
-                                  ],
-                                ),
+                                    )
+                                    .titleMedium,
+                                textAlign: TextAlign.center,
                               ),
                             ),
-                          if (_c.userStored.value != null)
-                            TextButton(
-                              onPressed: _c.changeUser,
-                              child: Text(
-                                msg.changeUser.value,
-                                style: Get.textTheme.titleSmall?.copyWith(
-                                  color: ColorPalette.primary,
-                                  letterSpacing: 1.25,
-                                ),
-                              ),
+                            const Divider(
+                              color: ColorPalette.primary,
                             ),
-
-                          ///  Input: Correo Válido
-                          if (_c.userStored.value == null)
-                            Padding(
-                              padding: const EdgeInsetsGeometry.only(
-                                bottom: 40,
-                              ),
-                              child: TextFormField(
-                                controller: _c.emailController,
-                                validator: Validators.email,
-                                decoration: InputDecoration(
-                                  labelText: msg.email.value,
-                                  hintText: msg.email.value,
-                                ),
-                              ),
-                            ),
-
-                          /// Input: Ingresa tu contraseña
-                          Padding(
-                            padding: const EdgeInsetsGeometry.only(
-                              bottom: 20,
-                            ),
-                            child: TextFormField(
-                              obscureText: !_c.isPasswordVisible.value,
-                              decoration: InputDecoration(
-                                labelText: msg.password.value,
-                                hintText: msg.password.value,
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    _c.isPasswordVisible.value
-                                        ? Icons.visibility
-                                        : Icons.visibility_off_outlined,
+                            const Divider(color: Colors.transparent),
+                        
+                            if (_c.userStored.value != null)
+                              Container(
+                                alignment: Alignment.center,
+                                child: RichText(
+                                  textAlign: TextAlign.center,
+                                  text: TextSpan(
+                                    text: '¡Te damos la bienvenida!\n',
+                                    style: context.textTheme.titleMedium
+                                        ?.copyWith(
+                                          fontWeight: FontWeight.w600,
+                                          letterSpacing: 0.15,
+                                        ),
+                                    children: [
+                                      TextSpan(
+                                        text: _c
+                                            .userStored
+                                            .value
+                                            ?.token
+                                            .jwtLogin
+                                            .claims
+                                            .givenName,
+                                        style: context.textTheme.titleLarge
+                                            ?.copyWith(
+                                              fontWeight: FontWeight.w600,
+                                              letterSpacing: 0.15,
+                                            ),
+                                      ),
+                                    ],
                                   ),
-                                  onPressed: _c.togglePasswordVisibility,
                                 ),
                               ),
-                              keyboardType: TextInputType.visiblePassword,
-                              controller: _c.passwordController,
-                              validator: Validators.password,
-                            ),
-                          ),
-
-                          /// Btn: Olvidaste tu contraseña
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 20),
-                            child: TextButton(
-                              style: ButtonStyle(
-                                padding: WidgetStateProperty.all(
-                                  EdgeInsets.zero,
-                                ),
-                                alignment: Alignment.centerLeft,
-                              ),
-                              onPressed: _c.isLoading.value
-                                  ? null
-                                  : () async {
-                                      await showModalBottomSheet(
-                                        context: context,
-                                        isScrollControlled: true,
-                                        backgroundColor: ColorPalette.white,
-                                        builder: (context) =>
-                                            ModalForgotPassword(),
-                                      );
-                                    },
-                              child: Text(
-                                msg.forgotPassword.value,
-                              ),
-                            ),
-                          ),
-
-                          /// Btn: Continuar
-                          ElevatedButton(
-                            onPressed: _c.isLoading.value ? null : _c.doLogin,
-                            child: _c.isLoading.value
-                                ? const CircularProgressIndicator(
-                                    color: ColorPalette.primary,
-                                  )
-                                : Text(msg.continueB.value),
-                          ),
-
-                          Visibility(
-                            visible:
-                                _c.canCheckBiometrics.value &&
-                                (_c.userStored.value?.biometric ?? false),
-                            child: Padding(
-                              padding: const EdgeInsets.only(top: 10),
-                              child: TextButton(
-                                onPressed: _c.authenticateBiometric,
+                            if (_c.userStored.value != null)
+                              TextButton(
+                                onPressed: _c.changeUser,
                                 child: Text(
-                                  msg.loginBiometrics.value,
+                                  msg.changeUser.value,
                                   style: Get.textTheme.titleSmall?.copyWith(
                                     color: ColorPalette.primary,
+                                    letterSpacing: 1.25,
+                                  ),
+                                ),
+                              ),
+                        
+                            ///  Input: Correo Válido
+                            if (_c.userStored.value == null)
+                              Padding(
+                                padding: const EdgeInsetsGeometry.only(
+                                  bottom: 40,
+                                ),
+                                child: TextFormField(
+                                  controller: _c.emailController,
+                                  validator: Validators.email,
+                                  decoration: InputDecoration(
+                                    labelText: msg.email.value,
+                                    hintText: msg.email.value,
+                                  ),
+                                ),
+                              ),
+                        
+                            /// Input: Ingresa tu contraseña
+                            Padding(
+                              padding: const EdgeInsetsGeometry.only(
+                                bottom: 20,
+                              ),
+                              child: TextFormField(
+                                obscureText: !_c.isPasswordVisible.value,
+                                decoration: InputDecoration(
+                                  labelText: msg.password.value,
+                                  hintText: msg.password.value,
+                                  suffixIcon: IconButton(
+                                    icon: Icon(
+                                      _c.isPasswordVisible.value
+                                          ? Icons.visibility
+                                          : Icons.visibility_off_outlined,
+                                    ),
+                                    onPressed: _c.togglePasswordVisibility,
+                                  ),
+                                ),
+                                keyboardType: TextInputType.visiblePassword,
+                                controller: _c.passwordController,
+                                validator: Validators.password,
+                              ),
+                            ),
+                        
+                            /// Btn: Olvidaste tu contraseña
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 20),
+                              child: TextButton(
+                                style: ButtonStyle(
+                                  padding: WidgetStateProperty.all(
+                                    EdgeInsets.zero,
+                                  ),
+                                  alignment: Alignment.centerLeft,
+                                ),
+                                onPressed: _c.isLoading.value
+                                    ? null
+                                    : () async {
+                                        await showDialog(
+                                          context: context,
+                                          builder: (context) => AlertDialog(
+                                            content: ModalForgotPassword(),
+                                            contentPadding: EdgeInsets.zero,
+                                            backgroundColor: Colors.transparent,
+                                          ),
+                                        );
+                                      },
+                                child: Text(
+                                  msg.forgotPassword.value,
+                                ),
+                              ),
+                            ),
+                        
+                            /// Btn: Continuar
+                            ElevatedButton(
+                              onPressed: _c.isLoading.value ? null : _c.doLogin,
+                              child: _c.isLoading.value
+                                  ? const CircularProgressIndicator(
+                                      color: ColorPalette.primary,
+                                    )
+                                  : Text(msg.continueB.value),
+                            ),
+                        
+                            Visibility(
+                              visible:
+                                  _c.canCheckBiometrics.value &&
+                                  (_c.userStored.value?.biometric ?? false),
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 10),
+                                child: TextButton(
+                                  onPressed: _c.authenticateBiometric,
+                                  child: Text(
+                                    msg.loginBiometrics.value,
+                                    style: Get.textTheme.titleSmall?.copyWith(
+                                      color: ColorPalette.primary,
+                                    ),
                                   ),
                                 ),
                               ),
                             ),
-                          ),
-
-                          /// Btn: Registrate
-                          Padding(
-                            padding: const EdgeInsets.only(
-                              top: 50,
-                              bottom: 30,
-                            ),
-                            child: OutlinedButton(
-                              onPressed: _c.navigateRegister,
-                              child: Text(
-                                msg.registerNow.value,
+                        
+                            /// Btn: Registrate
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                top: 50,
+                                bottom: 30,
+                              ),
+                              child: OutlinedButton(
+                                onPressed: _c.navigateRegister,
+                                child: Text(
+                                  msg.registerNow.value,
+                                ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),

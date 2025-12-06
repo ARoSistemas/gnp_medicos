@@ -21,40 +21,12 @@ class _BeneficiosPhonePage extends StatelessWidget {
               separatorBuilder: (context, index) => const SizedBox(height: 12),
               padding: const EdgeInsets.symmetric(horizontal: 16),
               itemCount: (data?.benefitsList.length).value(),
-              itemBuilder: (context, index) => GestureDetector(
-                child: GestureDetector(
-                  child: Card(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(16),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                (data?.benefitsList[index].nombre).value(), 
-                                style: Get.textTheme.titleMedium
-                              ),
-                               Text(
-                                (data?.benefitsList[index].leyenda).value(), 
-                                style: Get.textTheme.bodyMedium
-                              ),
-                            ],
-                          ),
-                        ),
-                        ImageFromWeb(
-                          height: 200,
-                          imageName: (data?.benefitsList[index].imagen).value(),
-                          jwt: _c.appState.user.token.jwt,
-                          path: '/beneficios/archivos',
-                          width: double.infinity,
-                        )
-                      ],
-                    ),
-                  ),
-                  onTap: () => _c.downloadBeneficio(data!.benefitsList[index]),
-                ),
+              itemBuilder: (context, index) => CardBenefit(
+                title: data?.benefitsList[index].nombre,
+                description: data?.benefitsList[index].leyenda,
+                image: data?.benefitsList[index].imagen,
+                onTap: () => _c.downloadBeneficio(data!.benefitsList[index]),
+                jwt: _c.appState.user.token.jwt
               ),
             ),
           ),

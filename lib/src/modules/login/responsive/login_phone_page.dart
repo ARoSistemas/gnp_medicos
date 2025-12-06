@@ -19,7 +19,7 @@ class _LoginPhonePage extends StatelessWidget {
               children: [
                 const Divider(color: Colors.transparent),
                 const Padding(
-                  padding: EdgeInsets.only(top: 100, bottom: 60),
+                  padding: EdgeInsets.only(top: 60, bottom: 60),
                   child: LogoGnp(),
                 ),
                 if (_c.userStored.value == null)

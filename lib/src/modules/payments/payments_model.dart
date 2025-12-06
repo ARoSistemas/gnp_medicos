@@ -2,7 +2,7 @@ part of 'payments_controller.dart';
 
 final class _PaymentsModel {
   const _PaymentsModel({
-    this.name = 'Payments',
+    this.name = 'Mis Pagos',
   });
 
   _PaymentsModel copyWith({

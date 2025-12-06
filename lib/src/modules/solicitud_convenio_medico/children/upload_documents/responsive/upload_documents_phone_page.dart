@@ -24,8 +24,8 @@ class _UploadDocumentsPhonePage extends StatelessWidget {
           child: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Obx(() =>
-                Column(
+              child: Obx(
+                () => Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Padding(
@@ -48,32 +48,25 @@ class _UploadDocumentsPhonePage extends StatelessWidget {
                         ),
                       ),
                     ),
-                    CardDocumentUpload(
-                      loading: _c.loading.value,
-                      title: esMessages.mx.accessionLetter.value,
-                      onTap: () => _c.downloadFormato('Carta_de_adhesion.pdf'),
-                    ),
-                    CardDocumentUpload(
-                      loading: _c.loading.value,
-                      title: esMessages.mx.generalData.value,
-                      onTap: () {},
-                    ),
-                    CardDocumentUpload(
-                      loading: _c.loading.value,
-                      title: esMessages.mx.paymentByTransfer.value,
-                      onTap: () => _c.downloadFormato(
-                        'Formato_de_alta_para_pago_por_transferencia.pdf'
+
+                    ..._c.files.map(
+                      (data) => CardDocumentUpload(
+                        downloading: _c.downloading.value == data['file'],
+                        title: data['title'].toString(),
+                        onTap: () => _c.downloadFormato(
+                          data['file'].toString()
+                        ),
                       ),
                     ),
+                    
                     ..._c.documentCardsWithoutOnTap.map(
                       (data) => CardDocumentUpload(
-                        loading: _c.loading.value,
                         title: data['title']!,
                         description: data['description'],
                       ),
                     ),
                     ElevatedButton(
-                      onPressed: () async{
+                      onPressed: () async {
                         if (idSolicitud != null) {
                           await Get.toNamed(
                             RequestDocumentsPage.page.name,

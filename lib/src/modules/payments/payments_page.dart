@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicos/core/services/navigation/route_params.dart';
+import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
 import 'package:medicos/src/modules/payments/payments_controller.dart';
 
 part 'payments_bindings.dart';
@@ -21,16 +22,24 @@ class PaymentsPage extends GetResponsiveView<PaymentsController> {
   static final GetPage page = GetPage(
     name: '/mis-pagos',
     page: PaymentsPage.new,
+    transition: Transition.rightToLeft,
+    customTransition: MenuWebAdaptiveTransition(),
     binding: _PaymentsBindings(),
-    middlewares: [_PaymentsMiddleware()]
+    middlewares: [_PaymentsMiddleware()],
   );
 
   @override
   Widget? phone() => _PaymentsPhonePage();
 
   @override
-  Widget? tablet() => _PaymentsTabletPage();
+  Widget? tablet() => MenuWeb(
+    breadcrumbs: controller.breadcrumbs,
+    child: _PaymentsTabletPage(),
+  );
 
   @override
-  Widget? desktop() => _PaymentsDesktopPage();
+  Widget? desktop() => MenuWeb(
+    breadcrumbs: controller.breadcrumbs,
+    child: _PaymentsDesktopPage(),
+  );
 }

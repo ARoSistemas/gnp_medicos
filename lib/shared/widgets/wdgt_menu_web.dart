@@ -4,25 +4,26 @@ import 'package:get/get.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/widgets/wdgt_image_from_web.dart';
+import 'package:medicos/src/modules/profile/widgets/banner_user_web.dart';
 
 /// Data required to render a breadcrumb node inside [MenuWeb].
-class MenuWebBreadcrumb {
-  const MenuWebBreadcrumb(this.label, {this.route});
+class BreadcrumbWeb {
+  const BreadcrumbWeb(this.label, {this.route});
 
   final String label;
   final String? route;
 }
 
 /// Represents a single item displayed in the [MenuWeb] sidebar.
-class MenuWebItem {
-  const MenuWebItem({
+class ItemForMenuWeb {
+  const ItemForMenuWeb({
     required this.label,
     required this.icon,
     this.route,
     this.tooltip,
     this.routeAliases = const <String>[],
     this.includeChildRoutes = true,
-    this.breadcrumbs = const <MenuWebBreadcrumb>[],
+    this.breadcrumbs = const <BreadcrumbWeb>[],
     this.onTap,
     this.replaceRoute = true,
     this.isEnabled = true,
@@ -34,24 +35,24 @@ class MenuWebItem {
   final String? tooltip;
   final List<String> routeAliases;
   final bool includeChildRoutes;
-  final List<MenuWebBreadcrumb> breadcrumbs;
+  final List<BreadcrumbWeb> breadcrumbs;
   final VoidCallback? onTap;
   final bool replaceRoute;
   final bool isEnabled;
 
   /// Returns a new instance with the provided values overridden.
-  MenuWebItem copyWith({
+  ItemForMenuWeb copyWith({
     String? label,
     String? route,
     Widget? icon,
     String? tooltip,
     List<String>? routeAliases,
     bool? includeChildRoutes,
-    List<MenuWebBreadcrumb>? breadcrumbs,
+    List<BreadcrumbWeb>? breadcrumbs,
     VoidCallback? onTap,
     bool? replaceRoute,
     bool? isEnabled,
-  }) => MenuWebItem(
+  }) => ItemForMenuWeb(
     label: label ?? this.label,
     route: route ?? this.route,
     icon: icon ?? this.icon,
@@ -61,8 +62,8 @@ class MenuWebItem {
         : _cloneList<String>(this.routeAliases),
     includeChildRoutes: includeChildRoutes ?? this.includeChildRoutes,
     breadcrumbs: breadcrumbs != null
-        ? _cloneList<MenuWebBreadcrumb>(breadcrumbs)
-        : _cloneList<MenuWebBreadcrumb>(this.breadcrumbs),
+        ? _cloneList<BreadcrumbWeb>(breadcrumbs)
+        : _cloneList<BreadcrumbWeb>(this.breadcrumbs),
     onTap: onTap ?? this.onTap,
     replaceRoute: replaceRoute ?? this.replaceRoute,
     isEnabled: isEnabled ?? this.isEnabled,
@@ -99,23 +100,19 @@ class MenuWebItem {
 class MenuWeb extends StatelessWidget {
   const MenuWeb({
     required this.child,
-    required this.menuItems,
+    super.key,
     this.breadcrumbs,
     this.logoAssetPath = 'assets/logo-gnp.png',
     this.expandedWidth = 280,
-    this.collapsedWidth = 90,
-    this.topBarActions = const <Widget>[],
+    this.collapsedWidth = 80,
     this.contentBackgroundColor,
-    super.key,
   });
 
   final Widget child;
-  final List<MenuWebItem> menuItems;
-  final List<MenuWebBreadcrumb>? breadcrumbs;
+  final List<BreadcrumbWeb>? breadcrumbs;
   final String logoAssetPath;
   final double expandedWidth;
   final double collapsedWidth;
-  final List<Widget> topBarActions;
   final Color? contentBackgroundColor;
 
   AppStateController get _appState => Get.find<AppStateController>();
@@ -124,7 +121,7 @@ class MenuWeb extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final String currentRoute = Get.currentRoute;
-    final List<MenuWebBreadcrumb> effectiveBreadcrumbs = _resolveBreadcrumbs(
+    final List<BreadcrumbWeb> effectiveBreadcrumbs = _resolveBreadcrumbs(
       currentRoute,
     );
 
@@ -136,7 +133,21 @@ class MenuWeb extends StatelessWidget {
           Obx(
             () => _TopBar(
               logoAssetPath: logoAssetPath,
-              actions: topBarActions,
+              actions: [
+                BannerUserWeb(
+                  name: _appState.user.nombreCompleto,
+                  medicalIdentifier: _appState.user.codigoFiliacion,
+                  canChangeProfile: _appState.user.canChangeProfile,
+                ),
+                IconButton(
+                  icon: const Icon(
+                    Icons.notifications_none,
+                    size: 25,
+                    color: ColorPalette.primary,
+                  ),
+                  onPressed: () {},
+                ),
+              ],
               onToggleMenu: _appState.toggleMenuExpansion,
               isExpandedMenu: _appState.isExpandedMenu,
             ),
@@ -170,9 +181,10 @@ class MenuWeb extends StatelessWidget {
                           horizontal: 12,
                           vertical: 16,
                         ),
-                        itemCount: menuItems.length,
+                        itemCount: _appState.menuWebOk.length,
                         itemBuilder: (_, index) {
-                          final MenuWebItem item = menuItems[index];
+                          final ItemForMenuWeb item =
+                              _appState.menuWebOk[index];
                           final bool isActive = item.matchesRoute(
                             currentRoute,
                           );
@@ -180,10 +192,7 @@ class MenuWeb extends StatelessWidget {
                             item: item,
                             isActive: isActive,
                             isExpanded: isExpanded,
-                            onTap: () => _handleItemTap(
-                              item,
-                              currentRoute,
-                            ),
+                            onTap: () => _handleItemTap(item, currentRoute),
                           );
                         },
                       ),
@@ -225,7 +234,7 @@ class MenuWeb extends StatelessWidget {
     );
   }
 
-  Future<void> _handleItemTap(MenuWebItem item, String currentRoute) async {
+  Future<void> _handleItemTap(ItemForMenuWeb item, String currentRoute) async {
     if (!item.isEnabled) {
       return;
     }
@@ -245,25 +254,24 @@ class MenuWeb extends StatelessWidget {
     }
   }
 
-  List<MenuWebBreadcrumb> _resolveBreadcrumbs(String currentRoute) {
+  List<BreadcrumbWeb> _resolveBreadcrumbs(String currentRoute) {
     if (breadcrumbs != null && breadcrumbs!.isNotEmpty) {
       return breadcrumbs!;
     }
-    for (final MenuWebItem item in menuItems) {
+    for (final ItemForMenuWeb item in _appState.menuWebOk) {
       if (item.matchesRoute(currentRoute)) {
         return item.breadcrumbs;
       }
     }
-    return const <MenuWebBreadcrumb>[];
+    return const <BreadcrumbWeb>[];
   }
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(IterableProperty<MenuWebItem>('menuItems', menuItems))
       ..add(
-        IterableProperty<MenuWebBreadcrumb>('breadcrumbs', breadcrumbs),
+        IterableProperty<BreadcrumbWeb>('breadcrumbs', breadcrumbs),
       )
       ..add(StringProperty('logoAssetPath', logoAssetPath))
       ..add(DoubleProperty('expandedWidth', expandedWidth))
@@ -345,7 +353,7 @@ class _TopBar extends StatelessWidget {
 class _BreadcrumbRow extends StatelessWidget {
   const _BreadcrumbRow({required this.breadcrumbs});
 
-  final List<MenuWebBreadcrumb> breadcrumbs;
+  final List<BreadcrumbWeb> breadcrumbs;
 
   @override
   Widget build(BuildContext context) {
@@ -389,7 +397,7 @@ class _BreadcrumbRow extends StatelessWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties.add(
-      IterableProperty<MenuWebBreadcrumb>('breadcrumbs', breadcrumbs),
+      IterableProperty<BreadcrumbWeb>('breadcrumbs', breadcrumbs),
     );
   }
 }
@@ -401,7 +409,7 @@ class _BreadcrumbLabel extends StatelessWidget {
     required this.style,
   });
 
-  final MenuWebBreadcrumb breadcrumb;
+  final BreadcrumbWeb breadcrumb;
   final TextStyle style;
 
   @override
@@ -437,7 +445,7 @@ class _BreadcrumbLabel extends StatelessWidget {
     super.debugFillProperties(properties);
     properties
       ..add(
-        DiagnosticsProperty<MenuWebBreadcrumb>('breadcrumb', breadcrumb),
+        DiagnosticsProperty<BreadcrumbWeb>('breadcrumb', breadcrumb),
       )
       ..add(DiagnosticsProperty<TextStyle>('style', style));
   }
@@ -452,7 +460,7 @@ class _MenuTile extends StatelessWidget {
     required this.onTap,
   });
 
-  final MenuWebItem item;
+  final ItemForMenuWeb item;
   final bool isActive;
   final bool isExpanded;
   final VoidCallback onTap;
@@ -483,6 +491,7 @@ class _MenuTile extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 8),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               // Container(
               //   width: 4,
@@ -495,11 +504,7 @@ class _MenuTile extends StatelessWidget {
               // else
               // if (!isActive) const SizedBox(width: 4),
               // const SizedBox(width: 12),
-              SizedBox(
-                height: 32,
-                width: 32,
-                child: Center(child: item.icon),
-              ),
+              SizedBox(height: 32, width: 32, child: Center(child: item.icon)),
               if (isExpanded) ...[
                 const SizedBox(width: 12),
                 Expanded(
@@ -534,15 +539,16 @@ class _MenuTile extends StatelessWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(DiagnosticsProperty<MenuWebItem>('item', item))
+      ..add(DiagnosticsProperty<ItemForMenuWeb>('item', item))
       ..add(DiagnosticsProperty<bool>('isActive', isActive))
       ..add(DiagnosticsProperty<bool>('isExpanded', isExpanded))
       ..add(ObjectFlagProperty<VoidCallback>.has('onTap', onTap));
   }
 }
 
-/// Custom transition that keeps the slide animation on narrow screens
-/// (phones) but removes it on wider layouts such as tablet or desktop.
+/// Transición personalizada que adapta su comportamiento según la plataforma.
+/// En web y escritorio, no aplica animaciones de transición.
+/// En dispositivos móviles, utiliza una transición deslizante.
 class MenuWebAdaptiveTransition extends CustomTransition {
   MenuWebAdaptiveTransition();
 
@@ -582,24 +588,27 @@ class MenuWebAdaptiveTransition extends CustomTransition {
   }
 }
 
+/// Modelo que representa un módulo del menú web.
+/// Cada módulo contiene la información necesaria para construir un
+/// [ItemForMenuWeb] correspondiente.
 class MenuWebModule {
   const MenuWebModule({
     required this.label,
     required this.route,
     required this.iconName,
-    this.breadcrumbs = const <MenuWebBreadcrumb>[],
+    this.breadcrumbs = const <BreadcrumbWeb>[],
   });
 
   final String label;
   final String route;
   final String iconName;
-  final List<MenuWebBreadcrumb> breadcrumbs;
+  final List<BreadcrumbWeb> breadcrumbs;
 
   MenuWebModule copyWith({
     String? label,
     String? route,
     String? iconName,
-    List<MenuWebBreadcrumb>? breadcrumbs,
+    List<BreadcrumbWeb>? breadcrumbs,
   }) => MenuWebModule(
     label: label ?? this.label,
     route: route ?? this.route,
@@ -607,7 +616,7 @@ class MenuWebModule {
     breadcrumbs: breadcrumbs ?? this.breadcrumbs,
   );
 
-  MenuWebItem toMenuItem(String jwt) => MenuWebItem(
+  ItemForMenuWeb toMenuItem(String jwt) => ItemForMenuWeb(
     label: label,
     route: route,
     tooltip: label,
@@ -615,31 +624,3 @@ class MenuWebModule {
     breadcrumbs: breadcrumbs,
   );
 }
-
-// class MenuWebDefinition {
-//   const MenuWebDefinition({
-//     required this.label,
-//     required this.route,
-//     required this.iconName,
-//     this.breadcrumbs = const <MenuWebBreadcrumb>[],
-//   });
-
-//   final String label;
-//   final String route;
-//   final String iconName;
-//   final List<MenuWebBreadcrumb> breadcrumbs;
-
-//   MenuWebDefinition copyWith({
-//     String? label,
-//     String? route,
-//     String? iconName,
-//     List<MenuWebBreadcrumb>? breadcrumbs,
-//   }) => MenuWebDefinition(
-//     label: label ?? this.label,
-//     route: route ?? this.route,
-//     iconName: iconName ?? this.iconName,
-//     breadcrumbs: breadcrumbs != null
-//         ? List<MenuWebBreadcrumb>.unmodifiable(breadcrumbs)
-//         : List<MenuWebBreadcrumb>.unmodifiable(this.breadcrumbs),
-//   );
-// }

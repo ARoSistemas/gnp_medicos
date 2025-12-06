@@ -92,7 +92,7 @@ class _NuevaSolicitudPhonePage extends StatelessWidget {
                           padding: const EdgeInsets.only(bottom: 30),
                           child: TextFormField(
                             style: colorTextReadOnly,
-                            controller: _c.lastNameController,
+                            controller: _c.secondLastNameController,
                             decoration: InputDecoration(
                               hintText: msg.notSecondLastName.value,
                               labelText: msg.notSecondLastName.value,
@@ -269,7 +269,7 @@ class _NuevaSolicitudPhonePage extends StatelessWidget {
                                         type.descripcion,
                                         style: context.textTheme.titleMedium
                                             ?.copyWith(
-                                              color: ColorPalette.labelText,
+                                              color: ColorPalette.black,
                                               fontWeight: FontWeight.w400,
                                             ),
                                       ),
@@ -307,7 +307,7 @@ class _NuevaSolicitudPhonePage extends StatelessWidget {
                                         type.descripcion,
                                         style: context.textTheme.titleMedium
                                             ?.copyWith(
-                                              color: ColorPalette.labelText,
+                                              color: ColorPalette.black,
                                               fontWeight: FontWeight.w400,
                                             ),
                                       ),
@@ -394,6 +394,11 @@ class _NuevaSolicitudPhonePage extends StatelessWidget {
                                 ),
                               ),
                             ),
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.allow(
+                                RegExp(regexDirectionChar, unicode: true),
+                              ),
+                            ],
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 return msg.pleaseEnterYourOfficeAddress.value;
