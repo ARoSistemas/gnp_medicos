@@ -20,7 +20,7 @@ class _AnexosDesktopPage extends StatelessWidget {
           children: [
             ...(state?.items ?? []).map(
               (item) => SizedBox(
-                width: context.pWidth(37.5),
+                width: context.pWidth(30),
                 child: CardFileDownload(
                   nombre: item.description.split('.').first,
                   onDownload: () => _c.downloadAnexo(item.fileName),

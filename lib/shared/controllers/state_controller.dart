@@ -221,7 +221,7 @@ class AppStateController extends GetxController {
     'inicio': MenuWebModule(
       label: 'Inicio',
       route: WelcomePage.page.name,
-      iconName: 'icono_modulo_convenio_medico.png',
+      iconName: 'icono_modulo_inicio.png',
     ),
     'convenio': MenuWebModule(
       label: 'Convenio Médico',

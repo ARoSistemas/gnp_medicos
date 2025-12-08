@@ -71,7 +71,8 @@ class AppThemeService extends GetxService {
         dropdownMenuTheme: _dropdownMenuTheme(),
         bottomSheetTheme: _bottomSheetTheme(),
         dialogTheme: _dialogTheme(),
-        datePickerTheme: _datePickerTheme()
+        datePickerTheme: _datePickerTheme(),
+        tooltipTheme: _tooltipTheme(),
       );
 
   DropdownMenuThemeData _dropdownMenuTheme() => const DropdownMenuThemeData(
@@ -222,5 +223,11 @@ class AppThemeService extends GetxService {
       }
       return null;
     }),
+  );
+
+  TooltipThemeData _tooltipTheme() => const TooltipThemeData(
+    decoration: BoxDecoration(
+      color: ColorPalette.textPrimary
+    )
   );
 }

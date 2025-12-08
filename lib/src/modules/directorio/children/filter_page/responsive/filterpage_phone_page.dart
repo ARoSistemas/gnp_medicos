@@ -201,6 +201,13 @@ class _FilterPagePhonePage extends StatelessWidget {
                               ),
                             ),
                     ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 8),
+                      child: Text(
+                        msg.toCheckLevelHospital.value,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                    ),
                   ],
                 ),
               ),

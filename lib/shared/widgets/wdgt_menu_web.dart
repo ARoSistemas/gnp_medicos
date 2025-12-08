@@ -135,18 +135,18 @@ class MenuWeb extends StatelessWidget {
               logoAssetPath: logoAssetPath,
               actions: [
                 BannerUserWeb(
-                  name: _appState.user.nombreCompleto,
+                  name: _appState.user.nombre,
                   medicalIdentifier: _appState.user.codigoFiliacion,
                   canChangeProfile: _appState.user.canChangeProfile,
                 ),
-                IconButton(
-                  icon: const Icon(
-                    Icons.notifications_none,
-                    size: 25,
-                    color: ColorPalette.primary,
-                  ),
-                  onPressed: () {},
-                ),
+                // IconButton(
+                //   icon: const Icon(
+                //     Icons.notifications_none,
+                //     size: 25,
+                //     color: ColorPalette.primary,
+                //   ),
+                //   onPressed: () {},
+                // ),
               ],
               onToggleMenu: _appState.toggleMenuExpansion,
               isExpandedMenu: _appState.isExpandedMenu,
@@ -168,13 +168,11 @@ class MenuWeb extends StatelessWidget {
                       width: isExpanded ? expandedWidth : collapsedWidth,
                       decoration: BoxDecoration(
                         color: theme.colorScheme.surface,
-                        boxShadow: <BoxShadow>[
-                          BoxShadow(
-                            color: theme.shadowColor.withValues(alpha: 0.1),
-                            blurRadius: 12,
-                            offset: const Offset(0, 4),
-                          ),
-                        ],
+                        border: const Border(
+                          right: BorderSide(
+                            color: Color(0xffCED8E8)
+                          )
+                        )
                       ),
                       child: ListView.builder(
                         padding: const EdgeInsets.symmetric(
@@ -208,12 +206,7 @@ class MenuWeb extends StatelessWidget {
                       /// Los breadcrumbs
                       if (effectiveBreadcrumbs.isNotEmpty)
                         Padding(
-                          padding: const EdgeInsets.only(
-                            left: 24,
-                            top: 16,
-                            right: 24,
-                            bottom: 16,
-                          ),
+                          padding: const EdgeInsets.symmetric(vertical:  8),
                           child: _BreadcrumbRow(
                             breadcrumbs: effectiveBreadcrumbs,
                           ),
@@ -221,7 +214,10 @@ class MenuWeb extends StatelessWidget {
 
                       /// El widget hijo que contiene el contenido principal
                       Expanded(
-                        child: child,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 24),
+                          child: child,
+                        ),
                       ),
                     ],
                   ),
@@ -300,13 +296,14 @@ class _TopBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     return Container(
+      height: 64,
       decoration: BoxDecoration(
         border: const Border(
-          bottom: BorderSide(color: Colors.blue),
+          bottom: BorderSide(color: ColorPalette.textPrimary),
         ),
         color: theme.colorScheme.surface,
       ),
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
       child: Row(
         children: [
           DecoratedBox(
@@ -360,6 +357,8 @@ class _BreadcrumbRow extends StatelessWidget {
     final ThemeData theme = Theme.of(context);
     final TextStyle baseStyle = theme.textTheme.bodyMedium!.copyWith(
       color: ColorPalette.primary,
+      letterSpacing: 1.5,
+      fontSize: 10
     );
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -369,7 +368,7 @@ class _BreadcrumbRow extends StatelessWidget {
         ),
       ),
       child: Padding(
-        padding: const EdgeInsets.only(bottom: 8),
+        padding: const EdgeInsets.only(bottom: 8, left: 8),
         child: Row(
           children: [
             for (int index = 0; index < breadcrumbs.length; index++) ...[
@@ -417,11 +416,13 @@ class _BreadcrumbLabel extends StatelessWidget {
     final TextStyle activeStyle = style.copyWith(
       fontWeight: FontWeight.w600,
       color: ColorPalette.textPrimary,
+      letterSpacing: 1.5,
+      fontSize: 10
     );
 
     if (breadcrumb.route == null) {
       return Text(
-        breadcrumb.label,
+        breadcrumb.label.toUpperCase(),
         style: breadcrumb.label == 'Inicio' ? style : activeStyle,
       );
     }
@@ -433,7 +434,7 @@ class _BreadcrumbLabel extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
         child: Text(
-          breadcrumb.label,
+          breadcrumb.label.toUpperCase(),
           style: style,
         ),
       ),

@@ -984,8 +984,15 @@ class _US extends IAppMessages {
   @override
   MsgProperty get selectMunicipalityAfterState =>
       esMessages.mx.selectMunicipalityAfterState.copyWith(
-        value: 'To show municipalities, select a state',
+        value: 'To show municipalities, select a state.',
       );
+
+  @override
+  MsgProperty
+  get toCheckLevelHospital => esMessages.mx.toCheckLevelHospital.copyWith(
+    value:
+        '''Note that the hospital level depends on the policy the insured has purchased.''',
+  );
 
   @override
   MsgProperty get lookingforClinicaName =>

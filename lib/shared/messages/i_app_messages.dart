@@ -203,6 +203,7 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty servicesType;
   abstract final MsgProperty municipality;
   abstract final MsgProperty selectMunicipalityAfterState;
+  abstract final MsgProperty toCheckLevelHospital;
   abstract final MsgProperty lookingforClinicaName;
   abstract final MsgProperty lookingforOtrosServiciosName;
 
@@ -400,6 +401,7 @@ abstract class IAppMessages extends IMessages {
     ...servicesType.msgMap,
     ...municipality.msgMap,
     ...selectMunicipalityAfterState.msgMap,
+    ...toCheckLevelHospital.msgMap,
     ...lookingforClinicaName.msgMap,
     ...lookingforOtrosServiciosName.msgMap,
     ...newRequest.msgMap,

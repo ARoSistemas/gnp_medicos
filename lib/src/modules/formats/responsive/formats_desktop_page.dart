@@ -20,7 +20,7 @@ class _FormatsDesktopPage extends StatelessWidget {
           children: [
             ...(state?.formatsList ?? []).map(
               (item) => SizedBox(
-                width: context.pWidth(37.5),
+                width: context.pWidth(30),
                 child: CardFileDownload(
                   nombre: item.description.split('.').first,
                   onDownload: () => _c.downloadFormato(item.fileName),

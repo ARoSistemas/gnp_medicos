@@ -1,11 +1,14 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/core/services/threads/threads_service.dart';
 import 'package:medicos/core/utils/exception_manager.dart';
 import 'package:medicos/shared/constans/constans.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
+import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
 import 'package:medicos/shared/utils/tools.dart';
 import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
@@ -14,6 +17,7 @@ import 'package:medicos/src/modules/home/domain/repositories/home_repository.dar
 import 'package:medicos/src/modules/login/login_page.dart';
 import 'package:medicos/src/modules/profile/children/assistants/add_user/domain/dtos/permissions_dto.dart';
 import 'package:medicos/src/modules/welcome/welcome_page.dart';
+import 'package:medicos/src/modules/welcome/widgets/modal_informative.dart';
 
 part 'home_model.dart';
 
@@ -70,7 +74,7 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
         if (newState.asisstantList.isEmpty) {
           if (andIsDoctor.value) {
             /// Validate if isDoctor and autoselect profile
-            selectprofile(autoselect: true);
+            await selectprofile(autoselect: true);
           } else {
             /// Logout and mssge
             change(newState, status: RxStatus.empty());
@@ -90,14 +94,14 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
     );
   }
 
-  void selectprofile({bool autoselect = false}) {
+  Future<void> selectprofile({bool autoselect = false}) async {
     appState.isDoctor = true;
     loadUserPermissions(isDoctor: true);
     appState.user = appState.userLogued;
     if (!autoselect) {
       appState.user = appState.user.copyWith(canChangeProfile: true);
     }
-    unawaited(Get.offAllNamed(WelcomePage.page.name));
+    await _gotToMain();
   }
 
   /// Selects a user and updates the application state.
@@ -130,7 +134,7 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
     );
 
     if (isOk) {
-      unawaited(Get.offAllNamed(WelcomePage.page.name));
+      await _gotToMain();
     }
   }
 
@@ -224,6 +228,32 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
 
     /// Save user permissions in app state
     appState.userPermissions = permisosMap;
+  }
+
+  Future<void> _gotToMain() async {
+    unawaited(Get.offAllNamed(WelcomePage.page.name));
+    if (!kIsWeb) {
+      await showModalBottomSheet(
+        context: Get.context!,
+        builder: (context) => ModalInformative(
+          message: msg.homeTerms.value,
+          okMessage: msg.acceptAndContinue.value,
+        ),
+        isScrollControlled: true,
+        isDismissible: false,
+      );
+    } else {
+      await showDialog(
+        barrierDismissible: false,
+        context: Get.context!,
+        builder: (context) =>  Dialog(
+          child: ModalInformative(
+            message: msg.homeTerms.value,
+            okMessage: msg.acceptAndContinue.value,
+          ),
+        ),
+      );
+    }
   }
 
   void exit() {

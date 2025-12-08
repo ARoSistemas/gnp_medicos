@@ -1,0 +1,110 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Medicos QA",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--flavor",
+                "qa",
+                "--dart-define-from-file=config.json"
+            ]
+        },
+        {
+            "name": "Medicos UAT",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--flavor",
+                "uat",
+                "--dart-define-from-file=config.json"
+            ]
+        },
+        {
+            "name": "Medicos PRO",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--flavor",
+                "pro",
+                "--dart-define-from-file=config.json"
+            ]
+        },
+        {
+            "name": "Medicos QA (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile",
+            "program": "lib/main.dart",
+            "args": [
+                "--flavor",
+                "qa",
+                "--dart-define-from-file=config.json"
+            ]
+        },
+        {
+            "name": "Medicos UAT (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile",
+            "program": "lib/main.dart",
+            "args": [
+                "--flavor",
+                "uat",
+                "--dart-define-from-file=config.json"
+            ]
+        },
+        {
+            "name": "Medicos PRO (profile mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "profile",
+            "program": "lib/main.dart",
+            "args": [
+                "--flavor",
+                "pro",
+                "--dart-define-from-file=config.json"
+            ]
+        },
+        {
+            "name": "Medicos QA (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "program": "lib/main.dart",
+            "args": [
+                "--flavor",
+                "qa",
+                "--dart-define-from-file=config.json"
+            ]
+        },
+        {
+            "name": "Medicos UAT (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "program": "lib/main.dart",
+            "args": [
+                "--flavor",
+                "uat",
+                "--dart-define-from-file=config.json"
+            ]
+        },
+        {
+            "name": "Medicos PRO (release mode)",
+            "request": "launch",
+            "type": "dart",
+            "flutterMode": "release",
+            "program": "lib/main.dart",
+            "args": [
+                "--flavor",
+                "pro",
+                "--dart-define-from-file=config.json"
+            ]
+        }
+    ]
+}

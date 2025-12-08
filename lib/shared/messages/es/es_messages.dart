@@ -1138,19 +1138,26 @@ class _MX extends IAppMessages {
   @override
   MsgProperty get selectMunicipalityAfterState => MsgProperty(
     key: 'selectMunicipalityAfterState',
-    value: 'Para mostrar municipios, seleccione un estado',
+    value: 'Para mostrar municipios, seleccione un estado.',
+  );
+
+  @override
+  MsgProperty get toCheckLevelHospital => MsgProperty(
+    key: 'toCheckLevelHospital',
+    value:
+        '''Considera que el nivel hospitalario está en función de la póliza contratada del asegurado.''',
   );
 
   @override
   MsgProperty get lookingforClinicaName => MsgProperty(
     key: 'lookingforClinicaName',
-    value: 'Buscar por nombre de la clínica',
+    value: 'Buscar por nombre de la clínica.',
   );
 
   @override
   MsgProperty get lookingforOtrosServiciosName => MsgProperty(
     key: 'lookingforOtrosServiciosName',
-    value: 'Buscar por nombre del establecimiento',
+    value: 'Buscar por nombre del establecimiento.',
   );
 
   @override

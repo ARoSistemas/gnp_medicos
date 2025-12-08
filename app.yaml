@@ -1,19 +1,19 @@
 runtime: python312
 service: app-medicos
-service_account: id-apps-convenmed-bucket@gnp-admonproveedoressalud-qa.iam.gserviceaccount.com
+service_account: app-medico@gnp-admonproveedoressalud-qa.iam.gserviceaccount.com
 handlers:
   - url: /(.*\.(css|gif|png|jpg|js|woff2|json))$
-    static_files: build/web/\1
-    upload: build/web/.*\.(css|gif|png|jpg|js|woff2|json)$
+    static_files: web/\1
+    upload: web/.*\.(css|gif|png|jpg|js|woff2|json)$
   - url: /assets/(.*)
-    static_files: build/web/assets/\1
-    upload: build/web/assets/.*
+    static_files: web/assets/\1
+    upload: web/assets/.*
   - url: /canvaskit/(.*)
-    static_files: build/web/canvaskit/\1
-    upload: build/web/canvaskit/.*
+    static_files: web/canvaskit/\1
+    upload: web/canvaskit/.*
   - url: /icons/(.*)
-    static_files: build/web/icons/\1
-    upload: build/web/icons/.*
+    static_files: web/icons/\1
+    upload: web/icons/.*
   - url: /(.*)
-    static_files: build/web/index.html
-    upload: build/web/index.html
+    static_files: web/index.html
+    upload: web/index.html

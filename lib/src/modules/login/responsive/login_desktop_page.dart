@@ -68,7 +68,7 @@ class _LoginDesktopPage extends StatelessWidget {
                     horizontal: 32,
                     vertical: 24,
                   ),
-                  width: width * 0.25,
+                  width: 450,
                   height: height * 0.6,
                   decoration: BoxDecoration(
                     color: Colors.white,
