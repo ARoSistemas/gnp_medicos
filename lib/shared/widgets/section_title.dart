@@ -29,7 +29,9 @@ class SectionTitle extends StatelessWidget {
             SizedBox(width: context.scale(10)),
             Text(
               title,
-              style: Get.textTheme.titleSmall
+              style: Get.textTheme.titleSmall?.copyWith(
+                fontWeight: FontWeight.bold
+              )
             ),
           ],
         ),

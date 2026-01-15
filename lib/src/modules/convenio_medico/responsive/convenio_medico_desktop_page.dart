@@ -12,73 +12,116 @@ class _ConvenioMedicoDesktopPage extends StatelessWidget {
     );
 
     return Scaffold(
-      appBar: AppBarWeb(title: esMessages.mx.agreement.value),
-      body: Padding(
-        padding: EdgeInsets.symmetric(
-          horizontal: context.pWidth(10),
-          vertical: context.pHeight(5)
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            SectionTitle(
-              title: 'mis datos'.toUpperCase(),
-              widget: GestureDetector(
-                onTap: () => _c.onView(FileTypesAgree.agreement),
-                child: Row(
-                  children: [
-                    Text(
-                      esMessages.mx.view.value,
-                      style: Get.textTheme.titleMedium?.copyWith(
-                        color: ColorPalette.primary,
-                        letterSpacing: 1.25,
-                      ),
+      appBar: AppBarWeb(title: msg.agreement.tr()),
+      body: _c.obx(
+        (state) => Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: context.pWidth(10),
+            vertical: context.pHeight(5),
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SectionTitle(
+                  title: msg.agreement.tr().toUpperCase(),
+                  widget: TextButton(
+                    style: Get.theme.textButtonTheme.style?.copyWith(
+                      minimumSize: WidgetStateProperty.all(const Size(0, 48)),
                     ),
-                    const SizedBox(width: 8),
-                    const Icon(
-                      Icons.remove_red_eye_outlined,
-                      color: ColorPalette.primary,
+                    child: Row(
+                      spacing: 8,
+                      children: [
+                        Text(
+                          msg.view.tr(),
+                          style: Get.textTheme.titleMedium?.copyWith(
+                            color: ColorPalette.primary,
+                            letterSpacing: 1.25,
+                          ),
+                        ),
+                        const Icon(
+                          Icons.remove_red_eye_outlined,
+                          color: ColorPalette.primary,
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              ),
-            ),
-            SizedBox(height: context.scale(15, axis: ScaleAxis.height)),
-            GridView.count(
-              crossAxisCount: 3,
-              crossAxisSpacing: 12,
-              mainAxisSpacing: 12,
-              shrinkWrap: true,
-              childAspectRatio: 5,
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                TextFormField(
-                  controller: _c.emailController,
-                  readOnly: true,
-                  enabled: false,
-                  style: styleInput,
-                  decoration: InputDecoration(
-                    labelText: esMessages.mx.email.value,
-                    hintText: esMessages.mx.email.value,
-                    floatingLabelStyle: Get.textTheme.titleMedium?.copyWith(
-                      color: ColorPalette.labelText,
-                    ),
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: ColorPalette.backgroundCard,
-                      ),
-                    ),
+                    onPressed: () => _c.onView(FileTypesAgree.agreement),
                   ),
-                  validator: (v) => null,
                 ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                SizedBox(height: context.scale(15, axis: ScaleAxis.height)),
+                GridView(
+                  gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                    maxCrossAxisExtent: 400,
+                    mainAxisExtent: 100,
+                    crossAxisSpacing: 24,
+                  ),
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
                   children: [
                     TextFormField(
-                      controller: _c.rfcController,
+                      controller: _c.emailController,
+                      readOnly: true,
+                      enabled: false,
+                      style: styleInput,
                       decoration: InputDecoration(
-                        hintText: esMessages.mx.rfc.value,
-                        labelText: esMessages.mx.rfc.value,
+                        labelText: msg.email.tr(),
+                        hintText: msg.email.tr(),
+                        floatingLabelStyle: Get.textTheme.titleMedium?.copyWith(
+                          color: ColorPalette.labelText,
+                        ),
+                        enabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: ColorPalette.backgroundCard,
+                          ),
+                        ),
+                      ),
+                      validator: (v) => null,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextFormField(
+                          controller: _c.rfcController,
+                          decoration: InputDecoration(
+                            hintText: msg.rfc.tr(),
+                            labelText: msg.rfc.tr(),
+                            floatingLabelStyle: Get.textTheme.titleMedium
+                                ?.copyWith(
+                                  color: ColorPalette.labelText,
+                                ),
+                            enabledBorder: const UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: ColorPalette.backgroundCard,
+                              ),
+                            ),
+                          ),
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.allow(
+                              RegExp(regexAlphanumeric, unicode: true),
+                            ),
+                          ],
+                          readOnly: true,
+                          enabled: false,
+                          style: styleInput,
+                          validator: (v) => null,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 4, left: 10),
+                          child: Text(
+                            msg.withHomoclave.tr(),
+                            style: Get.textTheme.labelMedium?.copyWith(
+                              fontWeight: FontWeight.w400,
+                              color: ColorPalette.textSecondary,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    TextFormField(
+                      controller: _c.doctorsNameController,
+                      decoration: InputDecoration(
+                        hintText: msg.doctorsName.tr(),
+                        labelText: msg.doctorsName.tr(),
                         floatingLabelStyle: Get.textTheme.titleMedium?.copyWith(
                           color: ColorPalette.labelText,
                         ),
@@ -90,7 +133,7 @@ class _ConvenioMedicoDesktopPage extends StatelessWidget {
                       ),
                       inputFormatters: <TextInputFormatter>[
                         FilteringTextInputFormatter.allow(
-                          RegExp(regexAlphanumeric, unicode: true),
+                          RegExp(regexNamesChar, unicode: true),
                         ),
                       ],
                       readOnly: true,
@@ -98,184 +141,170 @@ class _ConvenioMedicoDesktopPage extends StatelessWidget {
                       style: styleInput,
                       validator: (v) => null,
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 4, left: 10),
-                      child: Text(
-                        esMessages.mx.withHomoclave.value,
-                        style: Get.textTheme.labelMedium?.copyWith(
-                          fontWeight: FontWeight.w400,
+                    TextFormField(
+                      controller: _c.specialtyController,
+                      decoration: InputDecoration(
+                        hintText: msg.specialty.tr(),
+                        labelText: msg.specialty.tr(),
+                        floatingLabelStyle: Get.textTheme.titleMedium?.copyWith(
                           color: ColorPalette.labelText,
                         ),
+                        enabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: ColorPalette.backgroundCard,
+                          ),
+                        ),
                       ),
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(
+                          RegExp(regexNamesChar, unicode: true),
+                        ),
+                      ],
+                      readOnly: true,
+                      enabled: false,
+                      style: styleInput,
+                      validator: (v) => null,
+                    ),
+                    TextFormField(
+                      controller: _c.stateController,
+                      decoration: InputDecoration(
+                        hintText: msg.state.tr(),
+                        labelText: msg.state.tr(),
+                        floatingLabelStyle: Get.textTheme.titleMedium?.copyWith(
+                          color: ColorPalette.labelText,
+                        ),
+                        enabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: ColorPalette.backgroundCard,
+                          ),
+                        ),
+                      ),
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(
+                          RegExp(regexNamesChar, unicode: true),
+                        ),
+                      ],
+                      readOnly: true,
+                      enabled: false,
+                      style: styleInput,
+                      validator: (v) => null,
+                    ),
+                    TextFormField(
+                      controller: _c.medicalCircleController,
+                      decoration: InputDecoration(
+                        hintText: msg.medicalCircle.tr(),
+                        labelText: msg.medicalCircle.tr(),
+                        floatingLabelStyle: Get.textTheme.titleMedium?.copyWith(
+                          color: ColorPalette.labelText,
+                        ),
+                        enabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: ColorPalette.backgroundCard,
+                          ),
+                        ),
+                      ),
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.allow(
+                          RegExp(regexNamesChar, unicode: true),
+                        ),
+                      ],
+                      readOnly: true,
+                      enabled: false,
+                      style: styleInput,
+                      validator: (v) => null,
+                    ),
+                    TextFormField(
+                      controller: _c.medicalChartController,
+                      decoration: InputDecoration(
+                        hintText: msg.medicalTabulator.tr(),
+                        labelText: msg.medicalTabulator.tr(),
+                        floatingLabelStyle: Get.textTheme.titleMedium?.copyWith(
+                          color: ColorPalette.labelText,
+                        ),
+                        enabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: ColorPalette.backgroundCard,
+                          ),
+                        ),
+                      ),
+                      readOnly: true,
+                      enabled: false,
+                      style: styleInput,
+                      validator: (v) => null,
+                    ),
+                    TextFormField(
+                      controller: _c.statusController,
+                      decoration: InputDecoration(
+                        hintText: msg.status.tr(),
+                        labelText: msg.status.tr(),
+                        floatingLabelStyle: Get.textTheme.titleMedium?.copyWith(
+                          color: ColorPalette.labelText,
+                        ),
+                        enabledBorder: const UnderlineInputBorder(
+                          borderSide: BorderSide(
+                            color: ColorPalette.backgroundCard,
+                          ),
+                        ),
+                      ),
+                      readOnly: true,
+                      enabled: false,
+                      style: styleInput,
+                      validator: (v) => null,
                     ),
                   ],
                 ),
-                TextFormField(
-                  controller: _c.doctorsNameController,
-                  decoration: InputDecoration(
-                    hintText: esMessages.mx.doctorsName.value,
-                    labelText: esMessages.mx.doctorsName.value,
-                    floatingLabelStyle: Get.textTheme.titleMedium?.copyWith(
-                      color: ColorPalette.labelText,
-                    ),
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: ColorPalette.backgroundCard,
+                SizedBox(height: context.scale(15, axis: ScaleAxis.height)),
+                Wrap(
+                  spacing: 16,
+                  runSpacing: 12,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => _c.onView(FileTypesAgree.guidelines),
+                      style: Get.theme.elevatedButtonTheme.style?.copyWith(
+                        minimumSize: WidgetStateProperty.all(const Size(0, 48)),
+                      ),
+                      child: Text(
+                        msg.consultGuidelines.tr(),
                       ),
                     ),
-                  ),
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(
-                      RegExp(regexNamesChar, unicode: true),
+                    OutlinedButton(
+                      onPressed: _c.updateAgreement,
+                      style: Get.theme.outlinedButtonTheme.style?.copyWith(
+                        minimumSize: WidgetStateProperty.all(const Size(0, 48)),
+                      ),
+                      child: Text(msg.updateInformation.tr()),
+                    ),
+                    TextButton(
+                      onPressed: _c.launcLowAgreement,
+                      style: Get.theme.textButtonTheme.style?.copyWith(
+                        minimumSize: WidgetStateProperty.all(const Size(0, 48)),
+                      ),
+                      child: Text(msg.terminationAgreement.tr()),
                     ),
                   ],
-                  readOnly: true,
-                  enabled: false,
-                  style: styleInput,
-                  validator: (v) => null,
-                ),
-                TextFormField(
-                  controller: _c.specialtyController,
-                  decoration: InputDecoration(
-                    hintText: esMessages.mx.specialty.value,
-                    labelText: esMessages.mx.specialty.value,
-                    floatingLabelStyle: Get.textTheme.titleMedium?.copyWith(
-                      color: ColorPalette.labelText,
-                    ),
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: ColorPalette.backgroundCard,
-                      ),
-                    ),
-                  ),
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(
-                      RegExp(regexNamesChar, unicode: true),
-                    ),
-                  ],
-                  readOnly: true,
-                  enabled: false,
-                  style: styleInput,
-                  validator: (v) => null,
-                ),
-                TextFormField(
-                  controller: _c.stateController,
-                  decoration: InputDecoration(
-                    hintText: esMessages.mx.state.value,
-                    labelText: esMessages.mx.state.value,
-                    floatingLabelStyle: Get.textTheme.titleMedium?.copyWith(
-                      color: ColorPalette.labelText,
-                    ),
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: ColorPalette.backgroundCard,
-                      ),
-                    ),
-                  ),
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(
-                      RegExp(regexNamesChar, unicode: true),
-                    ),
-                  ],
-                  readOnly: true,
-                  enabled: false,
-                  style: styleInput,
-                  validator: (v) => null,
-                ),
-                TextFormField(
-                  controller: _c.medicalCircleController,
-                  decoration: InputDecoration(
-                    hintText: esMessages.mx.medicalCircle.value,
-                    labelText: esMessages.mx.medicalCircle.value,
-                    floatingLabelStyle: Get.textTheme.titleMedium?.copyWith(
-                      color: ColorPalette.labelText,
-                    ),
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: ColorPalette.backgroundCard,
-                      ),
-                    ),
-                  ),
-                  inputFormatters: <TextInputFormatter>[
-                    FilteringTextInputFormatter.allow(
-                      RegExp(regexNamesChar, unicode: true),
-                    ),
-                  ],
-                  readOnly: true,
-                  enabled: false,
-                  style: styleInput,
-                  validator: (v) => null,
-                ),
-                TextFormField(
-                  controller: _c.medicalChartController,
-                  decoration: InputDecoration(
-                    hintText: esMessages.mx.medicalTabulator.value,
-                    labelText: esMessages.mx.medicalTabulator.value,
-                    floatingLabelStyle: Get.textTheme.bodySmall?.copyWith(
-                      color: ColorPalette.labelText,
-                    ),
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: ColorPalette.backgroundCard,
-                      ),
-                    ),
-                  ),
-                  readOnly: true,
-                  enabled: false,
-                  style: styleInput,
-                  validator: (v) => null,
-                ),
-                TextFormField(
-                  controller: _c.statusController,
-                  decoration: InputDecoration(
-                    hintText: esMessages.mx.status.value,
-                    labelText: esMessages.mx.status.value,
-                    floatingLabelStyle: Get.textTheme.titleMedium?.copyWith(
-                      color: ColorPalette.labelText,
-                    ),
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(
-                        color: ColorPalette.backgroundCard,
-                      ),
-                    ),
-                  ),
-                  readOnly: true,
-                  enabled: false,
-                  style: styleInput,
-                  validator: (v) => null,
                 ),
               ],
             ),
-            SizedBox(height: context.scale(15, axis: ScaleAxis.height)),
-            Row(
-              spacing: 16,
-              children: [
-                ElevatedButton(
-                  onPressed: () => _c.onView(FileTypesAgree.guidelines),
-                  style: Get.theme.elevatedButtonTheme.style?.copyWith(
-                    minimumSize: WidgetStateProperty.all(const Size(0, 48)),
-                  ),
-                  child: Text(
-                    esMessages.mx.consultGuidelines.value,
-                  ),
-                ),
-                OutlinedButton(
-                  onPressed: _c.updateAgreement,
-                  style: Get.theme.outlinedButtonTheme.style?.copyWith(
-                    minimumSize: WidgetStateProperty.all(const Size(0, 48)),
-                  ),
-                  child: Text(esMessages.mx.updateInformation.value),
-                ),
-                TextButton(
-                  onPressed: _c.launcLowAgreement,
-                  style: Get.theme.textButtonTheme.style?.copyWith(
-                    minimumSize:WidgetStateProperty.all(const Size(0, 48)),
-                  ),
-                  child: Text(esMessages.mx.terminationAgreement.value),
-                ),
-              ],
+          ),
+        ),
+        onLoading: const Center(child: LoadingGnp()),
+        onEmpty: Center(
+          child: LoadingGnp(
+            icon: const Icon(
+              Icons.warning,
+              size: 70,
+              color: ColorPalette.primary,
             ),
-          ],
+            title: msg.noInformationToShow.tr(),
+            subtitle: '',
+          ),
+        ),
+        onError: (_) => Center(
+          child: LoadingGnp(
+            isError: true,
+            title: msg.errorLoadingInfo.tr(),
+            subtitle: msg.pleaseTryAgainLater.tr(),
+          ),
         ),
       ),
     );

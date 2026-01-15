@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicos/core/extensions/responsive_extension.dart';
@@ -99,11 +100,14 @@ class UserPermissions extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20),
             child: ElevatedButton(
+               style: kIsWeb ? Get.theme.elevatedButtonTheme.style?.copyWith(
+                minimumSize: WidgetStateProperty.all(const Size(0, 48)),
+              ) : null,
               onPressed: _c.saveUserComplete,
               child: Text(
                 _c.isNewUser.value
-                    ? msg.registerUser.value
-                    : msg.updateUser.value,
+                    ? msg.registerUser.tr()
+                    : msg.updateUser.tr(),
               ),
             ),
           ),

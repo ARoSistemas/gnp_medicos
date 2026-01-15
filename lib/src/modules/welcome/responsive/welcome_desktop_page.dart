@@ -9,7 +9,9 @@ class _WelcomeDesktopPage extends StatelessWidget {
   Widget build(BuildContext context) => Scaffold(
     body: SingleChildScrollView(
       padding: EdgeInsets.symmetric(
-        vertical: 32, horizontal: MediaQuery.of(context).size.width * .15),
+        vertical: 32,
+        horizontal: context.pWidth(8),
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -20,8 +22,10 @@ class _WelcomeDesktopPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 16),
                   child: Text(
-                    '''¡Buen día, ${_c.user.nombreCompleto.trim().split(' ').first}!''',
-                    style: context.textTheme.titleMedium?.copyWith(
+                    msg.goodDay.tr(
+                      args: [_c.user.nombreCompleto.trim().split(' ').first],
+                    ),
+                    style: Get.textTheme.titleMedium?.copyWith(
                       fontWeight: FontWeight.bold,
                       fontSize: context.fontSize(18),
                     ),
@@ -30,8 +34,8 @@ class _WelcomeDesktopPage extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 24),
                   child: Text(
-                    '''Eres un pilar fundamental para GNP Seguros, gracias a tu compromiso y gran vocación de servicio, hemos respaldado y brindado tranquilidad a las familias mexicanas cuando más lo necesitan, por ello, queremos seguir haciendo equipo contigo y brindarte las herramientas que optimicen tus tiempos administrativos.''',
-                    style: context.textTheme.titleMedium,
+                    msg.welcomeMessageBody.tr(),
+                    style: Get.textTheme.titleMedium,
                   ),
                 ),
                 Container(
@@ -41,8 +45,8 @@ class _WelcomeDesktopPage extends StatelessWidget {
                     color: ColorPalette.backgroundCardTwo,
                   ),
                   child: Text(
-                    '''Ser aliados de nuestros médicos en convenio, y también de quienes no lo son, manteniéndonos comprometidos con la recuperación de la salud de los pacientes mientras cumplimos con los indicadores de eficiencia y servicio de GNP.''',
-                    style: context.textTheme.titleMedium,
+                    msg.welcomeMessageFooter.tr(),
+                    style: Get.textTheme.titleMedium,
                   ),
                 ),
               ],
@@ -51,9 +55,8 @@ class _WelcomeDesktopPage extends StatelessWidget {
           const SizedBox(width: 40),
           Expanded(
             child: ImageFromWeb(
-              height: 300,
+              height: 329,
               width: double.infinity,
-              borderRadius: BorderRadius.circular(10),
               imageName: 'imagen_inicio_bienvenida.png',
               jwt: _c.user.token.jwt,
             ),

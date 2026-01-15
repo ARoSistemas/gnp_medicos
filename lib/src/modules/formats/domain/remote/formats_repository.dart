@@ -50,7 +50,6 @@ class FormatsRepository extends ApiBaseProvider {
   }
 
   Map<String, String> _getHeaders(String jwt) => {
-    'Content-Type': 'application/json',
     'Authorization': 'Bearer $jwt',
   };
 }

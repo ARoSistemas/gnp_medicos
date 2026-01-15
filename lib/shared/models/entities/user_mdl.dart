@@ -33,6 +33,7 @@ class UserModel {
     required this.pass,
     required this.permisos,
     required this.biometric,
+    required this.rememberUser,
     required this.canChangeProfile,
   });
 
@@ -61,8 +62,11 @@ class UserModel {
     banConvenioVigenteFecha: json['banConvenioVigenteFecha'] ?? false,
     email: json['email'] ?? '',
     pass: json['pass'] ?? '',
-    permisos: [],
+    permisos: ((json['permisos'] ?? []) as List<dynamic>)
+      .map((e) => PermissionsDto.fromMap(e))
+      .toList(),
     biometric: json['biometric'] ?? false,
+    rememberUser: json['rememberUser'] ?? false,
     canChangeProfile: json['canChangeProfile'] ?? false,
   );
 
@@ -91,6 +95,7 @@ class UserModel {
     pass: '',
     permisos: [],
     biometric: false,
+    rememberUser: false,
     canChangeProfile: false,
   );
 
@@ -118,6 +123,7 @@ class UserModel {
   final String pass;
   final List<PermissionsDto> permisos;
   final bool biometric;
+  bool rememberUser;
   final bool canChangeProfile;
 
   UserModel copyWith({
@@ -145,6 +151,7 @@ class UserModel {
     String? pass,
     List<PermissionsDto>? permisos,
     bool? biometric,
+    bool? rememberUser,
     bool? canChangeProfile,
   }) => UserModel(
     token: token ?? this.token,
@@ -174,6 +181,7 @@ class UserModel {
     pass: pass ?? this.pass,
     permisos: permisos ?? this.permisos,
     biometric: biometric ?? this.biometric,
+    rememberUser: rememberUser ?? this.rememberUser,
     canChangeProfile: canChangeProfile ?? this.canChangeProfile,
   );
 
@@ -182,6 +190,9 @@ class UserModel {
     'codigoFiliacion': codigoFiliacion,
     'rfc': rfc,
     'nombreCompleto': nombreCompleto,
+    'nombre': nombre,
+    'apePaterno': apePaterno,
+    'apeMaterno': apeMaterno,
     'especialidad': especialidad,
     'estado': estado,
     'circulo': circulo,
@@ -195,6 +206,9 @@ class UserModel {
     'banConvenioActualizado': banConvenioActualizado,
     'banConvenioVigenteEstatus': banConvenioVigenteEstatus,
     'banConvenioVigenteFecha': banConvenioVigenteFecha,
+    'email': email,
+    'permisos': permisos.map((e) => e.toJson()).toList(),
+    'canChangeProfile': canChangeProfile,
   };
 
   Map<String, dynamic> toJsonStored() => {

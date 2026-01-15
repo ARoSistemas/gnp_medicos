@@ -10,18 +10,18 @@ class _HomePhonePage extends StatelessWidget {
     body: Padding(
       padding: const EdgeInsetsGeometry.symmetric(horizontal: 16),
       child: _c.obx(
-        (data) => Column(
+        (state) => Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Padding(
               padding: const EdgeInsets.only(top: 80, bottom: 20),
               child: Text(
-                msg.welcomeHome.value,
+                msg.welcomeHome.tr(),
                 style: Get.textTheme.titleMedium,
               ),
             ),
             Text(
-              msg.selectProfile.value,
+              msg.selectProfile.tr(),
               style: Get.textTheme.titleSmall?.copyWith(
                 color: ColorPalette.textTertiary,
               ),
@@ -38,13 +38,15 @@ class _HomePhonePage extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 10, bottom: 10),
                       child: SectionTitle(
-                        title: msg.myProfile.value.toUpperCase(),
+                        title: msg.myProfile.tr().toUpperCase(),
                       ),
                     ),
                     ItemAssitants(
                       name: _c.appState.userLogued.nombreCompleto,
+                      lastname: _c.appState.userLogued.apePaterno,
                       subTitle: _c.appState.userLogued.especialidad,
-                      urlPhoto: '',
+                      rfc: _c.appState.userLogued.rfc,
+                      jwt: _c.appState.userLogued.token.jwt,
                       onTap: _c.selectprofile,
                     ),
                   ],
@@ -55,21 +57,25 @@ class _HomePhonePage extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(top: 10, bottom: 10),
               child: SectionTitle(
-                title: msg.myAccess.value.toUpperCase(),
+                title: msg.myAccess.tr().toUpperCase(),
               ),
             ),
             Expanded(
               child: ListView.builder(
                 padding: EdgeInsets.zero,
-                itemCount: data?.asisstantList.length,
+                itemCount: state?.asisstantList.length,
                 itemBuilder: (context, i) {
                   final AsisstantDto item =
-                      data?.asisstantList[i] ?? AsisstantDto.empty();
+                      state?.asisstantList[i] ?? AsisstantDto.empty();
                   return ItemAssitants(
-                    name: '${item.nombre} '
-                    '${item.apellidoPaterno} '
-                    '${item.apellidoMaterno}',
+                    name:
+                        '${item.nombre} '
+                        '${item.apellidoPaterno} '
+                        '${item.apellidoMaterno}',
+                    lastname: item.apellidoPaterno,
                     subTitle: item.especialidad,
+                    rfc: item.rfc,
+                    jwt: _c.appState.user.token.jwt,
                     onTap: () async {
                       await _c.selectUser(item);
                     },
@@ -79,10 +85,11 @@ class _HomePhonePage extends StatelessWidget {
             ),
           ],
         ),
+        onLoading: const Center(child: LoadingGnp()),
         onEmpty: Scaffold(
           appBar: AppBarPhone(
             elevation: 8,
-            title: msg.back.value,
+            title: msg.back.tr(),
             onBack: _c.exit,
           ),
           body: Column(
@@ -101,7 +108,7 @@ class _HomePhonePage extends StatelessWidget {
               ),
               const SizedBox(height: 30),
               Text(
-                msg.noInvitation.value,
+                msg.noInvitation.tr(),
                 style: Get.textTheme.titleMedium,
                 textAlign: TextAlign.justify,
               ),
@@ -110,16 +117,11 @@ class _HomePhonePage extends StatelessWidget {
         ),
         onError: (_) => Center(
           child: LoadingGnp(
-            icon: const Icon(
-              Icons.error,
-              size: 70,
-              color: ColorPalette.primary,
-            ),
-            title: msg.errorLoadingInvites.value,
-            subtitle: msg.pleaseTryAgainLater.value,
+            isError: true,
+            title: msg.errorLoadingInvites.tr(),
+            subtitle: msg.pleaseTryAgainLater.tr(),
           ),
         ),
-        onLoading: const Center(child: LoadingGnp()),
       ),
     ),
   );

@@ -8,14 +8,18 @@ import 'package:medicos/shared/widgets/avatar_user.dart';
 class ItemAssitants extends StatelessWidget {
   const ItemAssitants({
     required this.name,
+    required this.lastname,
     required this.subTitle,
     required this.onTap,
-    this.urlPhoto,
+    required this.rfc,
+    required this.jwt,
     super.key,
   });
   final String name;
+  final String lastname;
   final String subTitle;
-  final String? urlPhoto;
+  final String rfc;
+  final String jwt;
   final void Function()? onTap;
 
   @override
@@ -41,7 +45,9 @@ class ItemAssitants extends StatelessWidget {
                 children: [
                   AvatarUser(
                     name: name,
-                    urlPhoto: urlPhoto,
+                    lastname: lastname,
+                    rfc: rfc,
+                    jwt: jwt,
                     isPerfil: false,
                     radius: 40,
                     onTap: onTap,
@@ -52,13 +58,13 @@ class ItemAssitants extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                        name,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: Get.textTheme.titleMedium
-                      ),
+                          name,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis,
+                          style: Get.textTheme.titleMedium,
+                        ),
                         SizedBox(
-                          height: context.scale(3, axis: ScaleAxis.height)
+                          height: context.scale(3, axis: ScaleAxis.height),
                         ),
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.5,
@@ -92,9 +98,11 @@ class ItemAssitants extends StatelessWidget {
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
     properties
-      ..add(StringProperty('urlPhoto', urlPhoto))
       ..add(StringProperty('name', name))
+      ..add(StringProperty('lastname', lastname))
       ..add(StringProperty('subTitle', subTitle))
-      ..add(ObjectFlagProperty<void Function()?>.has('onTap', onTap));
+      ..add(ObjectFlagProperty<void Function()?>.has('onTap', onTap))
+      ..add(StringProperty('rfc', rfc))
+      ..add(StringProperty('jwt', jwt));
   }
 }

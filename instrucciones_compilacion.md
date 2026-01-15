@@ -16,27 +16,37 @@ Para obtener esta información se puede ejecutar el comando:
 
 ## Instrucciones de compilación
 
-Ingresar a la ruta del proyecto y ejecutar el comando:
-`flutter clean`
+1. Ingresar a la ruta del proyecto y ejecutar el comando:
+   `flutter clean`
 
-Luego ejecutar el comando:
-`flutter pub get`
+2. Luego ejecutar el comando:
+   `flutter pub get`
+
+
+### [Config.json]
+---------
+
+El archivo config.json se encuentra en la siguiente ruta, tomar el respectivo dentro de la carpeta según el ambiente seleccionado y reemplazarlo por el archivo en raíz antes de compilar.
+
+https://gitlab.com/gitgnp/gcp/nueva-administracion-proveedores/documentacion/-/tree/feature-DMND0057446/gnp-admonproveedoressalud/gae-gnp-admonproveedoressalud-medicos-front?ref_type=heads
+
 
 ### [IOS]
-
----
+---------
 
 Ir a la ruta /ios del proyecto desde la terminal y ejecutar:
 `pod deintegrate`
 `pod install`
 
-#### Compilación
+En el archivo de ios/Runner/AppDelegate.swift ingresar dentro del bloque "application() { (aqui).. }" la siguiente línea:
+GMSServices.provideAPIKey("{iosFirebaseApiKey}")
+donde el valor de iosFirebaseApiKey (reemplazar con todo y corchetes {}) se encuentra en el archivo de config.json
 
-`flutter build ios --release --dart-define-from-file="config.json" --flavor qa`
+#### Compilación ambientes previos
 
-`flutter build ios --release --dart-define-from-file="config.json" --flavor uat`
+`flutter build ios --release --flavor qa --dart-define-from-file="config.json" --obfuscate --split-debug-info=./symbols`
 
-`flutter build ios --release --dart-define-from-file="config.json" --flavor prod`
+`flutter build ios --release --flavor uat --dart-define-from-file="config.json" --obfuscate --split-debug-info=./symbols`
 
 En Xcode, abre **Runner.xcworkspace** en la carpeta ios de tu aplicación.
 Selecciona **Product > Scheme > (ambiente necesario qa, uat, prod).**
@@ -59,20 +69,64 @@ En todos los capabilites seleccionar el team la cuenta de GNP.
 7. Completa los pasos restantes (opciones de post-procesamiento) y hacer clic en **Export** o **Next** .
 8. Xcode te pedirá una ubicación para guardar el paquete. El resultado final será la carpeta exportada que contiene el archivo **Runner-qa.ipa** (o el nombre definido en Xcode).
 
+#### Compilación y despliegue ambiente de producción
+
+`flutter build ios --release --flavor prod --dart-define-from-file="config.json" --obfuscate --split-debug-info=./symbols`
+
+1. En Xcode, abre **Runner.xcworkspace**.
+2. Selecciona **Product > Scheme > Edit Scheme...**. En la sección **Archive**, asegúrate de que el **Build Configuration** sea **Release**.
+3. Selecciona **Product > Scheme > prod**.
+4. Selecciona **Product > Destination > Any iOS Device (arm64)**.
+5. Selecciona **Product > Archive**.
+6. En la ventana **Organizer**, selecciona el archivo recién creado y haz clic en **Distribute App**.
+7. Selecciona el método de distribución **App Store Connect**.
+8. Selecciona **Upload** y sigue los pasos para subir la aplicación a TestFlight/App Store.
+9. **Certificados:** Para este proceso se requiere un certificado de tipo **Distribution**, la cuenta de GNP debe asignarlo automaticamente.
+
 ### [Android]
 ---------
 
+#### Compilación ambientes previos
+
 La release APK para su aplicación se crea en <appdir>/build/app/outputs/flutter-apk/app-{ambiente}-release.apk
 
-`flutter build apk --release --dart-define-from-file="config.json" --flavor qa`
+`flutter build apk --release --flavor qa --dart-define-from-file="config.json" --obfuscate --split-debug-info=./symbols --target-platform android-arm64`
 
-`flutter build apk --release --dart-define-from-file="config.json" --flavor uat`
+`flutter build apk --release --flavor uat --dart-define-from-file="config.json" --obfuscate --split-debug-info=./symbols --target-platform android-arm64`
 
-`flutter build apk --release --dart-define-from-file="config.json" --flavor prod`
+#### Compilación y despliegue ambiente de producción
 
+Para generar el bundle de producción, es indispensable contar con el archivo del almacén de llaves (.jks) y el archivo `android/key.properties` correctamente configurados con los certificados de producción de GNP.
 
-### [Web] 
+*   **Generación del Keystore:** Para generar el almacén de llaves se puede utilizar el comando `keytool`. Para más detalles consulta la [documentación oficial de Flutter](https://docs.flutter.dev/deployment/android#sign-the-app).
+*   **Responsabilidad:** El **equipo de liberación** será el único responsable de generar, administrar, resguardar y mantener la vigencia de la llave (.jks) y sus credenciales.
+*   **Ubicación de la llave:** El archivo `.jks` se debe colocar directamente en la carpeta `android/` del proyecto.
+*   **Archivo android/key.properties:** Este archivo se debe generar y contener las siguientes propiedades:
+    ```properties
+    storePassword=<password-super-secreto-del-almacen>
+    keyPassword=<password-super-secreto-de-la-llave>
+    keyAlias=<alias-de-la-llave>
+    storeFile=<nombre-del-archivo>.jks
+    ```
+    *(Nota: Al colocar el archivo .jks en la carpeta `android/`, el valor de `storeFile` solo requiere el nombre del archivo).*
+
+*   **Nota de Seguridad:** Los archivos `android/key.properties` y el archivo `.jks` **NUNCA** deben ser subidos al repositorio de código.
+
+El release de AAB para el despliegue en tienda se genera en <appdir>/build/app/outputs/bundle/prodRelease/app-prod-release.aab
+
+`flutter build appbundle --release --flavor prod --target-platform android-arm,android-arm64,android-x64 --dart-define-from-file="config.json" --obfuscate --split-debug-info=./symbols`
+
+1. Ingresa a [Google Play Console](https://play.google.com/console/).
+2. Selecciona la aplicación y navega a la sección de **Producción**.
+3. Cargar el archivo `.aab` generado.
+4. Carga los símbolos de depuración (archivos generados dentro de la carpeta `./symbols`) para visualizar errores legibles en la consola.
+
+Dudas sobre el despliegue en la siguiente liga:
+https://docs.flutter.dev/deployment/android
+
+### [Web]
 ---------
 
 
 `flutter build web --release --dart-define-from-file="config.json"`
+

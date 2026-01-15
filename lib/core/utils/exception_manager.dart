@@ -1,11 +1,11 @@
 import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/core/services/network/network_service.dart';
-import 'package:medicos/shared/services/alerts/notification_service.dart';
-import 'package:medicos/shared/widgets/custom_notification.dart';
+import 'package:medicos/shared/widgets/custom_alert.dart';
 
 class ExceptionAlertProperties {
   ExceptionAlertProperties({
-    required this.message, this.title = 'Error',
+    required this.message,
+    this.title = 'Error',
   });
 
   final String title;
@@ -17,15 +17,13 @@ final class ExceptionManager {
     Exception e,
     Map<Exception, ExceptionAlertProperties>? customExceptionMessages,
   ) {
-    final NotificationServiceImpl notification = AppService.i.notifications;
-
     if (customExceptionMessages != null) {
       final Iterable<MapEntry<Exception, ExceptionAlertProperties>> entries =
           customExceptionMessages.entries;
       final Type ert = e.runtimeType;
       for (final entry in entries) {
         if (ert == entry.key.runtimeType) {
-          notification.show(
+          appService.alert.show(
             title: entry.value.title,
             message: entry.value.message,
             type: AlertType.error,
@@ -42,7 +40,7 @@ final class ExceptionManager {
               (element) => element.key.runtimeType == Exception().runtimeType,
             );
 
-        notification.show(
+        appService.alert.show(
           title: entry.value.title,
           message: entry.value.message,
           type: AlertType.error,
@@ -52,19 +50,19 @@ final class ExceptionManager {
     }
 
     if (e is HttpException) {
-      notification.show(
+      appService.alert.show(
         title: 'Error',
         message: e.message,
         type: AlertType.error,
       );
     } else if (e is ApiException) {
-      notification.show(
+      appService.alert.show(
         title: 'Error',
         message: e.message,
         type: AlertType.error,
       );
     } else {
-      notification.show(
+      appService.alert.show(
         title: 'Error',
         message: 'Ocurrió un error inesperado.',
         type: AlertType.error,

@@ -66,6 +66,13 @@ class _MX extends IAppMessages {
   );
 
   @override
+  MsgProperty get user => MsgProperty(
+    key: 'user',
+    value: 'Usuario',
+    pValue: 'Usuarios',
+  );
+
+  @override
   MsgProperty get email => MsgProperty(
     key: 'email',
     value: 'Correo electrónico',
@@ -75,6 +82,12 @@ class _MX extends IAppMessages {
   MsgProperty get forgotPassword => MsgProperty(
     key: 'forgotPassword',
     value: '¿Olvidaste tu contraseña?',
+  );
+
+  @override
+  MsgProperty get changePassword => MsgProperty(
+    key: 'changePassword',
+    value: 'Cambiar contraseña',
   );
 
   @override
@@ -97,7 +110,7 @@ class _MX extends IAppMessages {
 
   @override
   MsgProperty get registerNow => MsgProperty(
-    key: 'createAccount',
+    key: 'registerNow',
     value: 'Crear cuenta',
   );
 
@@ -168,6 +181,12 @@ class _MX extends IAppMessages {
   );
 
   @override
+  MsgProperty get taxData => MsgProperty(
+    key: 'taxData',
+    value: 'Datos fiscales',
+  );
+
+  @override
   MsgProperty get taxDataAccounts => MsgProperty(
     key: 'taxDataAccounts',
     value: 'Datos Fiscales - Cuentas',
@@ -182,9 +201,23 @@ class _MX extends IAppMessages {
   );
 
   @override
+  MsgProperty get myUsers => MsgProperty(
+    key: 'myUsers',
+    value: 'Mis usuarios',
+    pValue: 'Mi usuario',
+    eValue: 'Sin usuarios',
+  );
+
+  @override
   MsgProperty get continueB => MsgProperty(
-    key: 'continue',
+    key: 'continueB',
     value: 'Continuar',
+  );
+
+  @override
+  MsgProperty get login => MsgProperty(
+    key: 'login',
+    value: 'Iniciar sesión',
   );
 
   @override
@@ -232,7 +265,7 @@ class _MX extends IAppMessages {
   @override
   MsgProperty get addAssistant => MsgProperty(
     key: 'addAssistant',
-    value: 'Agregar asistente',
+    value: 'Agregar usuario',
   );
 
   @override
@@ -458,6 +491,21 @@ class _MX extends IAppMessages {
   );
 
   @override
+  MsgProperty get requestMedicalAgreement => MsgProperty(
+    key: 'requestMedicalAgreement',
+    value:
+        'Sube todos los documentos '
+        'requeridos para complementar tu solicitud '
+        'de convenio. Los archivos deben estar en formato PDF o JPG.',
+  );
+
+  @override
+  MsgProperty get paymentNumber => MsgProperty(
+    key: 'paymentNumber',
+    value: 'Número de pago',
+  );
+
+  @override
   MsgProperty get paymentManual => MsgProperty(
     key: 'paymentManual',
     value: 'Manual de pagos',
@@ -497,6 +545,18 @@ class _MX extends IAppMessages {
   MsgProperty get gnpLine => MsgProperty(
     key: 'gnpLine',
     value: 'Línea GNP',
+  );
+
+  @override
+  MsgProperty get contactGnp => MsgProperty(
+    key: 'contactGnp',
+    value: 'Contacto GNP',
+  );
+
+  @override
+  MsgProperty get contact => MsgProperty(
+    key: 'contact',
+    value: 'Contacto',
   );
 
   @override
@@ -558,19 +618,25 @@ class _MX extends IAppMessages {
   @override
   MsgProperty get medicalCircle => MsgProperty(
     key: 'medicalCircle',
-    value: 'Circulo Médico',
+    value: 'Círculo médico',
   );
 
   @override
   MsgProperty get medicalTabulator => MsgProperty(
     key: 'medicalTabulator',
-    value: 'Tabulador Médico',
+    value: 'Tabulador médico',
   );
 
   @override
   MsgProperty get status => MsgProperty(
     key: 'status',
     value: 'Estatus',
+  );
+
+  @override
+  MsgProperty get tabulators => MsgProperty(
+    key: 'tabulators',
+    value: 'Tabuladores',
   );
 
   @override
@@ -598,6 +664,12 @@ class _MX extends IAppMessages {
   );
 
   @override
+  MsgProperty get downloadFormats => MsgProperty(
+    key: 'downloadFormats',
+    value: 'Descargar formatos',
+  );
+
+  @override
   MsgProperty get directory => MsgProperty(
     key: 'directory',
     value: 'Directorio',
@@ -605,7 +677,7 @@ class _MX extends IAppMessages {
 
   @override
   MsgProperty get medicalRegister => MsgProperty(
-    key: 'medicalRecord',
+    key: 'medicalRegister',
     value: 'Registrar médico',
   );
 
@@ -628,6 +700,18 @@ class _MX extends IAppMessages {
   );
 
   @override
+  MsgProperty get createRegister => MsgProperty(
+    key: 'createRegister',
+    value: 'Crea tu registro',
+  );
+
+  @override
+  MsgProperty get rememberUser => MsgProperty(
+    key: 'rememberUser',
+    value: 'Recordar usuario',
+  );
+
+  @override
   MsgProperty get formats => MsgProperty(
     key: 'formats',
     value: 'Formatos',
@@ -641,7 +725,7 @@ class _MX extends IAppMessages {
 
   @override
   MsgProperty get transferFormat => MsgProperty(
-    key: 'transparentFormat',
+    key: 'transferFormat',
     value: 'Formato de transparencia para pa...',
   );
 
@@ -712,6 +796,12 @@ class _MX extends IAppMessages {
   );
 
   @override
+  MsgProperty get requestDocumentation => MsgProperty(
+    key: 'requestDocumentation',
+    value: 'Solicitud de documentación',
+  );
+
+  @override
   MsgProperty get begin => MsgProperty(
     key: 'begin',
     value: 'Comenzar',
@@ -736,6 +826,12 @@ class _MX extends IAppMessages {
   );
 
   @override
+  MsgProperty get documentsUploaded => MsgProperty(
+    key: 'documentsUploaded',
+    value: 'Documentos cargados',
+  );
+
+  @override
   MsgProperty get uploadFile => MsgProperty(
     key: 'uploadFile',
     value: 'Subir archivo',
@@ -743,7 +839,7 @@ class _MX extends IAppMessages {
 
   @override
   MsgProperty get fileMaximum => MsgProperty(
-    key: 'fileMaximun',
+    key: 'fileMaximum',
     value: 'Archivo de máximo de ',
   );
 
@@ -762,7 +858,7 @@ class _MX extends IAppMessages {
   @override
   MsgProperty get formatsForUpload => MsgProperty(
     key: 'formatsForUpload',
-    value: 'JPG, PNG, PDF, XML, DOC',
+    value: 'JPG, PNG, PDF, XML, DOCX',
   );
 
   @override
@@ -792,7 +888,7 @@ class _MX extends IAppMessages {
   @override
   MsgProperty get medicalCircleTab => MsgProperty(
     key: 'medicalCircleTab',
-    value: 'Circulo / tabulador médico',
+    value: 'Círculo/Tabulador Médico',
   );
 
   @override
@@ -886,6 +982,12 @@ class _MX extends IAppMessages {
   );
 
   @override
+  MsgProperty get enterMinDigits => MsgProperty(
+    key: 'enterMinDigits',
+    value: 'Debe tener al menos 6 caracteres',
+  );
+
+  @override
   MsgProperty get enterYourOption => MsgProperty(
     key: 'enterYourOption',
     value: 'Selecciona una opción valida',
@@ -928,22 +1030,40 @@ class _MX extends IAppMessages {
   );
 
   @override
-  MsgProperty get reTabulationsLegend => MsgProperty(
-    key: 'reTabulationsLegend',
-    value:
-        '''Re Tabulaciones, dudas de tus pagos, aclaraciones de carta pase comunicarte al Cam:''',
+  MsgProperty get reTabulationsTitle => MsgProperty(
+    key: 'reTabulationsTitle',
+    value: '''Dudas sobre pagos, tabulaciones o aclaraciones de cartas pase''',
+  );
+  @override
+  MsgProperty get reTabulationsSubtitle => MsgProperty(
+    key: 'reTabulationsSubtitle',
+    value: '''Comunícate al Centro de Atención a Médicos (CAM):''',
   );
 
   @override
-  MsgProperty get bankingInfoLegend => MsgProperty(
-    key: 'bankingInfoLegend',
+  MsgProperty get bankingInfoTitle => MsgProperty(
+    key: 'bankingInfoTitle',
     value:
-        '''Información Bancaria, datos fiscales, actualización de estados de cuenta:''',
+        '''Actualización de datos (fiscales, bancarios o estados de cuenta)''',
   );
+
   @override
-  MsgProperty get personalizedAssistanceLegend => MsgProperty(
-    key: 'personalizedAssistanceLegend',
-    value: 'Asistencia personalizada, médico de confianza con ejecutivo:',
+  MsgProperty get bankingInfoSubtitle => MsgProperty(
+    key: 'bankingInfoSubtitle',
+    value: '''Favor de contactar al área de Información Proveedores:''',
+  );
+
+  @override
+  MsgProperty get personalizedAssistanceTitle => MsgProperty(
+    key: 'personalizedAssistanceTitle',
+    value: 'Asistencia Personalizada',
+  );
+
+  @override
+  MsgProperty get personalizedAssistanceSubtitle => MsgProperty(
+    key: 'personalizedAssistanceSubtitle',
+    value:
+        '''Si requieres el contacto del ejecutivo asignado a tu especialidad, por favor envía un correo al CAM solicitando esta información:''',
   );
 
   @override
@@ -1017,13 +1137,6 @@ class _MX extends IAppMessages {
     value: 'Volver',
   );
 
-  /// Modulo: Anexos
-  @override
-  MsgProperty get noAnnexesAvailable => MsgProperty(
-    key: 'noAnnexesAvailable',
-    value: 'Sin anexos disponibles',
-  );
-
   @override
   MsgProperty get errorOccurred => MsgProperty(
     key: 'errorOccurred',
@@ -1036,17 +1149,34 @@ class _MX extends IAppMessages {
     value: 'No fue posible recuperar los anexos',
   );
 
-  /// Modulo: Directorio
   @override
-  MsgProperty get medico => MsgProperty(
-    key: 'medico',
+  MsgProperty get couldNotRetrieveBenefits => MsgProperty(
+    key: 'couldNotRetrieveBenefits',
+    value: 'No fue posible recuperar los beneficios',
+  );
+
+  @override
+  MsgProperty get couldNotRetrieveFormats => MsgProperty(
+    key: 'couldNotRetrieveFormats',
+    value: 'No fue posible recuperar los formatos',
+  );
+
+  @override
+  MsgProperty get noDataAvailable => MsgProperty(
+    key: 'noDataAvailable',
+    value: 'Sin @0 disponibles',
+  );
+
+  @override
+  MsgProperty get doctor => MsgProperty(
+    key: 'doctor',
     value: 'Médico',
     pValue: 'Médicos',
   );
 
   @override
-  MsgProperty get enconvenio => MsgProperty(
-    key: 'enconvenio',
+  MsgProperty get inAgreement => MsgProperty(
+    key: 'inAgreement',
     value: 'en convenio',
   );
 
@@ -1065,8 +1195,8 @@ class _MX extends IAppMessages {
   );
 
   @override
-  MsgProperty get otrosServicios => MsgProperty(
-    key: 'otrosServicios',
+  MsgProperty get otherServices => MsgProperty(
+    key: 'otherServices',
     value: 'Otros servicios de salud',
     pValue: 'Otros servicios de salud',
   );
@@ -1155,20 +1285,20 @@ class _MX extends IAppMessages {
   );
 
   @override
-  MsgProperty get lookingforOtrosServiciosName => MsgProperty(
-    key: 'lookingforOtrosServiciosName',
+  MsgProperty get lookingforOtherServicesName => MsgProperty(
+    key: 'lookingforOtherServicesName',
     value: 'Buscar por nombre del establecimiento.',
   );
 
   @override
   MsgProperty get pleaseSelectASpecialty => MsgProperty(
-    key: 'please select a specialty.',
+    key: 'pleaseSelectASpecialty',
     value: 'Por favor, selecciona una especialidad.',
   );
 
   @override
   MsgProperty get pleaseSelectASubspecialty => MsgProperty(
-    key: 'pleaseSlectASubspecialty',
+    key: 'pleaseSelectASubspecialty',
     value: 'Por favor, selecciona una subespecialidad.',
   );
 
@@ -1212,5 +1342,663 @@ class _MX extends IAppMessages {
     value: 'Enviar solicitud',
   );
 
-  ///
+  @override
+  MsgProperty get myProcedures => MsgProperty(
+    key: 'myProcedures',
+    value: 'Mis trámites',
+  );
+
+  @override
+  MsgProperty get notProcedures => MsgProperty(
+    key: 'notProcedures',
+    value: 'No encontramos trámites.',
+  );
+
+  @override
+  MsgProperty get profile => MsgProperty(
+    key: 'profile',
+    value: 'Perfil',
+  );
+
+  @override
+  MsgProperty get errorToGetProcedures => MsgProperty(
+    key: 'errorToGetProcedures',
+    value: 'Error al obtener los trámites. Inténtalo de nuevo más tarde.',
+  );
+
+  @override
+  MsgProperty get myPayments =>
+      MsgProperty(key: 'myPayments', value: 'Mis pagos');
+
+  @override
+  MsgProperty get errorToGetProfile => MsgProperty(
+    key: 'errorToGetProfile',
+    value: 'Error al obtener el perfil. Inténtalo de nuevo más tarde.',
+  );
+
+  @override
+  MsgProperty get errorGettingDoctors => MsgProperty(
+    key: 'errorGettingDoctors',
+    value: 'Error al obtener medicos. Inténtalo de nuevo más tarde',
+  );
+
+  @override
+  MsgProperty get errorGettingHospitals => MsgProperty(
+    key: 'errorGettingHospitals',
+    value: 'Error al obtener hospitales. Inténtalo de nuevo más tarde',
+  );
+
+  @override
+  MsgProperty get errorGettingClinics => MsgProperty(
+    key: 'errorGettingClinics',
+    value: 'Error al obtener clínicas. Inténtalo de nuevo más tarde',
+  );
+  @override
+  MsgProperty get errorGettingOtherServices => MsgProperty(
+    key: 'errorGettingOtherServices',
+    value: 'Error al obtener otros servicios. Inténtalo de nuevo más tarde',
+  );
+
+  @override
+  MsgProperty get evaluations => MsgProperty(
+    key: 'evaluations',
+    value: 'Evaluación',
+  );
+
+  @override
+  MsgProperty get home => MsgProperty(key: 'home', value: 'Inicio');
+
+  @override
+  MsgProperty get all => MsgProperty(key: 'all', value: 'Todos');
+
+  @override
+  MsgProperty get errorLoadingStates => MsgProperty(
+    key: 'errorLoadingStates',
+    value: 'Error al cargar los estados. Inténtalo de nuevo más tarde',
+  );
+
+  @override
+  MsgProperty get errorGettingMunicipalities => MsgProperty(
+    key: 'errorGettingMunicipalities',
+    value: 'Error al obtener municipios. Inténtalo de nuevo más tarde',
+  );
+
+  @override
+  MsgProperty get search => MsgProperty(key: 'search', value: 'Buscar');
+
+  @override
+  MsgProperty get searchForSpecialty =>
+      MsgProperty(key: 'searchForSpecialty', value: 'Buscar por especialidad');
+
+  @override
+  MsgProperty get searchResults =>
+      MsgProperty(key: 'searchResults', value: 'Resultados de Búsqueda');
+
+  @override
+  MsgProperty get resultsFoundPage => MsgProperty(
+    key: 'resultsFoundPage',
+    value: 'Se encontraron @0 resultados Página @1 de @2',
+  );
+
+  @override
+  MsgProperty get selected =>
+      MsgProperty(key: 'selected', value: 'seleccionado');
+
+  @override
+  MsgProperty get noResultsWithFilters => MsgProperty(
+    key: 'noResultsWithFilters',
+    value: 'No se encontraron resultados con los filtros seleccionados.',
+  );
+
+  @override
+  MsgProperty get calculatingPleaseWait => MsgProperty(
+    key: 'calculatingPleaseWait',
+    value: 'Calculando, por favor espere un momento...',
+  );
+
+  @override
+  MsgProperty get goodDay =>
+      MsgProperty(key: 'goodDay', value: '¡Buen día, @0!');
+
+  @override
+  MsgProperty get welcomeMessageBody => MsgProperty(
+    key: 'welcomeMessageBody',
+    value:
+        '''Eres un pilar fundamental para GNP Seguros, gracias a tu compromiso y gran vocación de servicio, hemos respaldado y brindado tranquilidad a las familias mexicanas cuando más lo necesitan, por ello, queremos seguir haciendo equipo contigo y brindarte las herramientas que optimicen tus tiempos administrativos.''',
+  );
+
+  @override
+  MsgProperty get welcomeMessageFooter => MsgProperty(
+    key: 'welcomeMessageFooter',
+    value:
+        '''Ser aliados de nuestros médicos en convenio, y también de quienes no lo son, manteniéndonos comprometidos con la recuperación de la salud de los pacientes mientras cumplimos con los indicadores de eficiencia y servicio de GNP.''',
+  );
+
+  @override
+  MsgProperty get deleteSearchFilters => MsgProperty(
+    key: 'deleteSearchFilters',
+    value: 'Borrar búsqueda',
+  );
+
+  @override
+  MsgProperty get errorGettingAnnexes => MsgProperty(
+    key: 'errorGettingAnnexes',
+    value: 'Error al obtener Anexos. Inténtalo de nuevo más tarde',
+  );
+
+  @override
+  MsgProperty get errorDownloadingAnnex => MsgProperty(
+    key: 'errorDownloadingAnnex',
+    value: 'Error al obtener el Anexo. Inténtalo de nuevo más tarde',
+  );
+
+  @override
+  MsgProperty get couldNotDownloadAnnex => MsgProperty(
+    key: 'couldNotDownloadAnnex',
+    value: 'No se pudo descargar el anexo. Inténtalo de nuevo más tarde.',
+  );
+
+  @override
+  MsgProperty get folio => MsgProperty(key: 'folio', value: 'Folio');
+
+  @override
+  MsgProperty get insuredName =>
+      MsgProperty(key: 'insuredName', value: 'Nombre del asegurado');
+
+  @override
+  MsgProperty get dateOfLoss =>
+      MsgProperty(key: 'dateOfLoss', value: 'Fecha de siniestro');
+
+  @override
+  MsgProperty get condition =>
+      MsgProperty(key: 'condition', value: 'Padecimiento');
+
+  @override
+  MsgProperty get attendingHospital =>
+      MsgProperty(key: 'attendingHospital', value: 'Hospital de atención');
+
+  @override
+  MsgProperty get policy => MsgProperty(key: 'policy', value: 'Póliza');
+
+  @override
+  MsgProperty get noProceduresFoundForDate => MsgProperty(
+    key: 'noProceduresFoundForDate',
+    value: 'No se encontraron trámites para la fecha seleccionada',
+  );
+
+  @override
+  MsgProperty get paymentDate => MsgProperty(
+    key: 'paymentDate',
+    value: 'Fecha de pago',
+  );
+
+  @override
+  MsgProperty get associatedIncident => MsgProperty(
+    key: 'associatedInc',
+    value: 'Siniestro asociado',
+  );
+
+  @override
+  MsgProperty get amountPaid => MsgProperty(
+    key: 'amountPaid',
+    value: 'Monto pagado',
+  );
+
+  @override
+  MsgProperty get paymentAccount => MsgProperty(
+    key: 'paymentAccount',
+    value: 'Cuenta de pago:',
+  );
+
+  @override
+  MsgProperty get paymentStatus => MsgProperty(
+    key: 'paymentStatus',
+    value: 'Estatus del pago',
+  );
+
+  @override
+  MsgProperty get amountClaimed => MsgProperty(
+    key: 'amountClaimed',
+    value: 'Monto reclamado',
+  );
+
+  @override
+  MsgProperty get bankingInstitution => MsgProperty(
+    key: 'bankingInstitution',
+    value: 'Institución bancaria:',
+  );
+
+  @override
+  MsgProperty get notPayments => MsgProperty(
+    key: 'notPayments',
+    value: 'No se encontraron pagos.',
+  );
+
+  @override
+  List<String> get monthAbbreviations => [
+    'Ene',
+    'Feb',
+    'Mar',
+    'Abr',
+    'May',
+    'Jun',
+    'Jul',
+    'Ago',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dic',
+  ];
+
+  @override
+  MsgProperty get noDataReceived => MsgProperty(
+    key: 'noDataReceived',
+    value: 'No se recibieron datos.',
+  );
+
+  @override
+  MsgProperty get locationServicesDisabledTitle => MsgProperty(
+    key: 'locationServicesDisabledTitle',
+    value: 'Servicios de ubicación desactivados',
+  );
+
+  @override
+  MsgProperty get locationServicesDisabledMessage => MsgProperty(
+    key: 'locationServicesDisabledMessage',
+    value: 'Por favor, habilita los servicios de ubicación.',
+  );
+
+  @override
+  MsgProperty get permissionsDeniedTitle => MsgProperty(
+    key: 'permissionsDeniedTitle',
+    value: 'Permisos denegados',
+  );
+
+  @override
+  MsgProperty get permissionsDeniedMessage => MsgProperty(
+    key: 'permissionsDeniedMessage',
+    value: 'No se puede obtener la ubicación actual sin permisos.',
+  );
+
+  @override
+  MsgProperty get permissionsPermanentlyDeniedTitle => MsgProperty(
+    key: 'permissionsPermanentlyDeniedTitle',
+    value: 'Permisos denegados permanentemente',
+  );
+
+  @override
+  MsgProperty get permissionsPermanentlyDeniedMessage => MsgProperty(
+    key: 'permissionsPermanentlyDeniedMessage',
+    value: 'Abre la configuración de la app para habilitar la ubicación.',
+  );
+
+  @override
+  MsgProperty get errorMakingPhoneCall => MsgProperty(
+    key: 'errorMakingPhoneCall',
+    value:
+        '''Error al intentar realizar la llamada telefónica. Por favor, inténtalo de nuevo más tarde.''',
+  );
+
+  @override
+  MsgProperty get routeNotAvailableTitle => MsgProperty(
+    key: 'routeNotAvailableTitle',
+    value: 'Ruta no disponible',
+  );
+
+  @override
+  MsgProperty get routeNotAvailableMsg => MsgProperty(
+    key: 'routeNotAvailableMsg',
+    value:
+        '''No se pudo obtener la ruta al destino. Por favor, inténtalo de nuevo más tarde.''',
+  );
+
+  @override
+  MsgProperty get youAreHere => MsgProperty(
+    key: 'youAreHere',
+    value: 'Aquí te encuentras',
+  );
+
+  @override
+  MsgProperty get errorLoadingProfileTitle => MsgProperty(
+    key: 'errorLoadingProfileTitle',
+    value: 'Error al cargar perfil',
+  );
+
+  @override
+  MsgProperty get error => MsgProperty(key: 'error', value: 'Error');
+
+  @override
+  MsgProperty get success =>
+      MsgProperty(key: 'success', value: 'Envió exitoso');
+
+  @override
+  MsgProperty get failed => MsgProperty(key: 'failed', value: 'Falló');
+
+  @override
+  MsgProperty get endOfList =>
+      MsgProperty(key: 'endOfList', value: 'Final de lista');
+
+  @override
+  MsgProperty get emptyFilters =>
+      MsgProperty(key: 'emptyFilters', value: 'Filtros vacíos');
+
+  @override
+  MsgProperty get invalidUserOrPassword => MsgProperty(
+    key: 'invalidUserOrPassword',
+    value:
+        'Usuario y/o contraseña incorrectos. Verifícala e inténtalo de nuevo.',
+  );
+
+  @override
+  MsgProperty get passwordRecoveryLinkSent => MsgProperty(
+    key: 'passwordRecoveryLinkSent',
+    value: 'Se envió un enlace de recuperación de contraseña a tu correo.',
+  );
+
+  @override
+  MsgProperty get biometricsNotAvailable => MsgProperty(
+    key: 'biometricsNotAvailable',
+    value: 'La biometría no está disponible en este dispositivo.',
+  );
+
+  @override
+  MsgProperty get biometricAuthenticationFailed => MsgProperty(
+    key: 'biometricAuthenticationFailed',
+    value: 'Autenticación Biométrica Fallida.',
+  );
+
+  @override
+  MsgProperty get errorAuthenticating => MsgProperty(
+    key: 'errorAuthenticating',
+    value: 'Ocurrió un error al intentar autenticar.',
+  );
+
+  @override
+  MsgProperty get errorGettingFormat => MsgProperty(
+    key: 'errorGettingFormat',
+    value: 'No se logró obtener el formato.',
+  );
+
+  @override
+  MsgProperty get errorDetail =>
+      MsgProperty(key: 'errorDetail', value: 'Ocurrió el detalle @0.');
+
+  @override
+  MsgProperty get errorLoadingProfile => MsgProperty(
+    key: 'errorLoadingProfile',
+    value:
+        '''Hubo un problema al cargar el perfil. Por favor, inténtalo de nuevo más tarde.''',
+  );
+
+  @override
+  MsgProperty get errorGettingDocument => MsgProperty(
+    key: 'errorGettingDocument',
+    value: 'No se logró obtener el documento.',
+  );
+
+  @override
+  MsgProperty get agreementNotInEffect => MsgProperty(
+    key: 'agreementNotInEffect',
+    value: 'El convenio no se encuentra vigente.',
+  );
+
+  @override
+  MsgProperty get agreementUpdated => MsgProperty(
+    key: 'agreementUpdated',
+    value: 'El convenio ha sido actualizado.',
+  );
+
+  @override
+  MsgProperty get requestRegistered => MsgProperty(
+    key: 'requestRegistered',
+    value: 'La solicitud fue registrada.',
+  );
+
+  @override
+  MsgProperty get requestNotRegistered => MsgProperty(
+    key: 'requestNotRegistered',
+    value: 'La solicitud no fue registrada.',
+  );
+
+  @override
+  MsgProperty get noMoreProceduresToLoad => MsgProperty(
+    key: 'noMoreProceduresToLoad',
+    value: 'No hay más trámites para cargar.',
+  );
+
+  @override
+  MsgProperty get selectFilterAndEnterData => MsgProperty(
+    key: 'selectFilterAndEnterData',
+    value: 'Por favor, selecciona un filtro e ingresa un dato para continuar.',
+  );
+
+  @override
+  MsgProperty get successfulRegistration => MsgProperty(
+    key: 'successfulRegistration',
+    value: 'Registro exitoso',
+  );
+
+  @override
+  MsgProperty get userRegisteredSuccessfully => MsgProperty(
+    key: 'userRegisteredSuccessfully',
+    value: 'Se registró al usuario correctamente.',
+  );
+
+  @override
+  MsgProperty get successfulUpdate => MsgProperty(
+    key: 'successfulUpdate',
+    value: 'Actualización exitosa',
+  );
+
+  @override
+  MsgProperty get assistantNotUpdated => MsgProperty(
+    key: 'assistantNotUpdated',
+    value: 'El asistente no se actualizó.',
+  );
+
+  @override
+  MsgProperty get errorUpdatingAssistantPermissions => MsgProperty(
+    key: 'errorUpdatingAssistantPermissions',
+    value: 'Error al actualizar los permisos del asistente.',
+  );
+
+  @override
+  MsgProperty get noDocumentsUploadedYet => MsgProperty(
+    key: 'noDocumentsUploadedYet',
+    value: 'Aún no has subido documentos.',
+  );
+
+  @override
+  MsgProperty get dataNotLoaded => MsgProperty(
+    key: 'dataNotLoaded',
+    value: 'No se cargaron los datos',
+  );
+
+  @override
+  MsgProperty get errorLoadingData => MsgProperty(
+    key: 'errorLoadingData',
+    value: 'Error: @0',
+  );
+
+  @override
+  MsgProperty get dAtLeast8Chars => MsgProperty(
+    key: 'dAtLeast8Chars',
+    value: 'Debe ser al menos de 8 carácteres.',
+  );
+  @override
+  MsgProperty get dAtLeastOneUppercase => MsgProperty(
+    key: 'dAtLeastOneUppercase',
+    value: 'Debe contener al menos una mayúscula.',
+  );
+  @override
+  MsgProperty get dAtLeastOneLowercase => MsgProperty(
+    key: 'dAtLeastOneLowercase',
+    value: 'Debe contener al menos una minúscula.',
+  );
+  @override
+  MsgProperty get dAtLeast4AlphaChars => MsgProperty(
+    key: 'dAtLeast4AlphaChars',
+    value: 'Debe contener al menos cuatro carácteres alfabéticos.',
+  );
+  @override
+  MsgProperty get dAtLeastOneNumeric => MsgProperty(
+    key: 'dAtLeastOneNumeric',
+    value: 'Debe contener al menos un caracter numérico.',
+  );
+  @override
+  MsgProperty get dAtLeastOneSpecialChar => MsgProperty(
+    key: 'dAtLeastOneSpecialChar',
+    value: 'Debe contener al menos un carácter especial.',
+  );
+  @override
+  MsgProperty get dNoGnpWord => MsgProperty(
+    key: 'dNoGnpWord',
+    value: 'No debe contener la palabra GNP.',
+  );
+  @override
+  MsgProperty get dNoConsecutiveEqualChars => MsgProperty(
+    key: 'dNoConsecutiveEqualChars',
+    value:
+        '''''No debe contener más de dos carácteres consecutivos iguales (p.e. 222, eee).''',
+  );
+  @override
+  MsgProperty get dNoConsecutiveChars => MsgProperty(
+    key: 'dNoConsecutiveChars',
+    value:
+        'No debe contener más de dos carácteres consecutivos (p.e. 123, abc).',
+  );
+  @override
+  MsgProperty get dNoWhiteSpaces => MsgProperty(
+    key: 'dNoWhiteSpaces',
+    value: 'No debe contener espacios en blanco.',
+  );
+
+  @override
+  MsgProperty get dPasswordsDoNotMatch => MsgProperty(
+    key: 'dPasswordsDoNotMatch',
+    value: 'Las contraseñas no coinciden',
+  );
+
+  @override
+  MsgProperty get successfulChange => MsgProperty(
+    key: 'successfulChange',
+    value: 'Cambio Exitoso',
+  );
+  @override
+  MsgProperty get dPasswordUpdated => MsgProperty(
+    key: 'dPasswordUpdated',
+    value: 'Tu contraseña ha sido actualizada.',
+  );
+
+  @override
+  MsgProperty get resetPassword => MsgProperty(
+    key: 'resetPassword',
+    value: 'Restablecer contraseña',
+  );
+
+  @override
+  MsgProperty get tResetPassword => MsgProperty(
+    key: 'tResetPassword',
+    value: 'Restablecimiento de acceso',
+  );
+
+  @override
+  MsgProperty get dResetPassword => MsgProperty(
+    key: 'dResetPassword',
+    value:
+        '''La sesión se cerrará para proceder con el restablecimiento de su '''
+        '''contraseña. Asegúrese de tener acceso al correo electrónico registrado '''
+        '''para recibir la información correspondiente.''',
+  );
+
+  @override
+  MsgProperty get tSignOut => MsgProperty(
+    key: 'tSignOut',
+    value: 'Confirmación de cierre de sesión',
+  );
+
+  @override
+  MsgProperty get dSignOut => MsgProperty(
+    key: 'dSignOut',
+    value: 'Está a punto de cerrar su sesión. ¿Desea continuar?',
+  );
+
+  @override
+  MsgProperty get tDeleteAccount => MsgProperty(
+    key: 'tDeleteAccount',
+    value: 'Confirmación de eliminación de cuenta',
+  );
+
+  @override
+  MsgProperty get dDeleteAccount => MsgProperty(
+    key: 'dDeleteAccount',
+    value:
+        '¿Estás seguro de que deseas eliminar tu cuenta? Esta acción es '
+        'permanente y no podrás recuperarla.',
+  );
+
+  @override
+  MsgProperty get temailAlreadyRegistered =>
+      MsgProperty(key: 'emailAlreadyRegistered', value: 'CORREO YA REGISTRADO');
+
+  @override
+  MsgProperty get demailAlreadyRegistered => MsgProperty(
+    key: 'registeredEmailAregisteredEmailAddressIsAlreadyAssociatedWithAccount',
+    value: 'El correo registrado ya está asociado a su cuenta',
+  );
+
+  @override
+  MsgProperty get errorToGetPayments => MsgProperty(
+    key: 'errorToGetPayments',
+    value: 'Error al obtener los pagos. Inténtalo de nuevo más tarde',
+  );
+
+  @override
+  MsgProperty get professionalLicense => MsgProperty(
+    key: 'professionalLicense',
+    value: 'Cédula profesional',
+  );
+
+  @override
+  MsgProperty get speciality => MsgProperty(
+    key: 'speciality',
+    value: 'Cédula especialidad',
+  );
+  
+  @override
+  MsgProperty get subspeciality => MsgProperty(
+    key: 'subspeciality',
+    value: 'Cédula subespecialidad',
+  );
+
+  @override
+  MsgProperty get fieldRequired => MsgProperty(
+    key: 'fieldRequired',
+    value: 'Este campo es obligatorio.',
+  );
+ 
+  @override
+  MsgProperty
+  get actions => MsgProperty(
+    key: 'actions',
+    value: 'Acciones',
+  );
+
+  @override
+  MsgProperty get tDeletedAccount => MsgProperty(
+    key: 'tDeletedAccount',
+    value: 'Cuenta eliminada',
+  );
+
+  @override
+  MsgProperty get dDeletedAccount => MsgProperty(
+    key: 'dDeletedAccount',
+    value: 'La eliminación de la cuenta se realizó correctamente.',
+  );
+
+  @override
+  MsgProperty get pageNotFound => MsgProperty(
+    key: 'pageNotFound',
+    value: 'Página no encontrada',
+  );
 }

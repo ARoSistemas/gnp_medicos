@@ -5,9 +5,9 @@ import 'package:get/get.dart';
 import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/core/services/threads/threads_service.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
+import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
-import 'package:medicos/shared/services/alerts/notification_service.dart';
-import 'package:medicos/shared/widgets/custom_notification.dart';
+import 'package:medicos/shared/widgets/custom_alert.dart';
 import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
 import 'package:medicos/src/modules/benefits/domain/remote/benefits_repository.dart';
 import 'package:medicos/src/modules/benefits/entities/dtos/benefit_dto.dart';
@@ -18,15 +18,15 @@ part 'benefits_model.dart';
 class BeneficiosController extends GetxController
     with StateMixin<_BeneficiosModel> {
   final ThreadsService threadsService = Get.find();
-  final AppStateController appState = Get.find<AppStateController>();
+  final AppStateController appState = Get.find();
   final BeneficiosRepository apiConn = Get.find();
+
   UserModel get user => appState.user;
-  final NotificationServiceImpl _notification = AppService.i.notifications;
   final ScrollController scrollCtrl = ScrollController();
 
   List<BreadcrumbWeb> breadcrumbs = [
-    BreadcrumbWeb('Inicio', route: WelcomePage.page.name),
-    const BreadcrumbWeb('Beneficios'),
+    BreadcrumbWeb(msg.home.tr(), route: WelcomePage.page.name),
+    BreadcrumbWeb(msg.benefits.tr()),
   ];
 
   @override
@@ -84,17 +84,17 @@ class BeneficiosController extends GetxController
           fileName: dto.archivo,
         );
       } else {
-        _notification.show(
-          title: 'Error',
-          message: 'No se logró obtener el beneficio.',
+        appService.alert.show(
+          title: msg.error.tr(),
+          message: msg.couldNotDownloadAnnex.tr(),
           type: AlertType.error,
         );
       }
     } on Exception catch (e) {
       change(state, status: RxStatus.success());
-      _notification.show(
-        title: 'Error',
-        message: 'Ocurrió el detalle $e.',
+      appService.alert.show(
+        title: msg.error.tr(),
+        message: msg.errorDetail.tr(args: [e.toString()]),
         type: AlertType.error,
       );
     }

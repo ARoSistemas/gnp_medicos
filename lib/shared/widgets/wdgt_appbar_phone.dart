@@ -8,17 +8,21 @@ class AppBarPhoneWdgt extends StatelessWidget implements PreferredSizeWidget {
   const AppBarPhoneWdgt({
     required this.title,
     required this.name,
+    required this.lastname,
     required this.medicalIdentifier,
+    required this.rfc,
+    required this.jwt,
     super.key,
-    this.photo = '',
     this.onBack,
     this.showBanner = true,
   });
 
   final String title;
   final String name;
+  final String lastname;
   final String medicalIdentifier;
-  final String photo;
+  final String rfc;
+  final String jwt;
   final VoidCallback? onBack;
   final bool showBanner;
 
@@ -50,8 +54,10 @@ class AppBarPhoneWdgt extends StatelessWidget implements PreferredSizeWidget {
       if (showBanner)
         BannerMedico(
           name: name,
+          lastname: lastname,
           medicalIdentifier: medicalIdentifier,
-          photo: photo,
+          rfc: rfc,
+          jwt: jwt,
         ),
     ],
   );
@@ -62,9 +68,11 @@ class AppBarPhoneWdgt extends StatelessWidget implements PreferredSizeWidget {
     properties
       ..add(StringProperty('title', title))
       ..add(StringProperty('name', name))
+      ..add(StringProperty('lastname', lastname))
       ..add(StringProperty('medicalIdentifier', medicalIdentifier))
-      ..add(StringProperty('photo', photo))
       ..add(ObjectFlagProperty<VoidCallback?>.has('onBack', onBack))
-      ..add(DiagnosticsProperty<bool>('showBanner', showBanner));
+      ..add(DiagnosticsProperty<bool>('showBanner', showBanner))
+      ..add(StringProperty('rfc', rfc))
+      ..add(StringProperty('jwt', jwt));
   }
 }

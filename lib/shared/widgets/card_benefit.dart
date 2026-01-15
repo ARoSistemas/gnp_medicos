@@ -23,7 +23,7 @@ class CardBenefit extends StatelessWidget {
   final Function()? onTap;
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
+  Widget build(BuildContext context) => InkWell(
     onTap: onTap,
     child: SizedBox(
       width: web ? 350 : null,

@@ -10,7 +10,9 @@ import 'package:medicos/shared/bindings/initial_bindings.dart';
 import 'package:medicos/shared/messages/es/es_messages.dart';
 import 'package:medicos/shared/navigation/app_navigation.dart';
 import 'package:medicos/shared/services/firebase/analytics_route_observer.dart';
+import 'package:medicos/shared/widgets/cover_app.dart';
 import 'package:medicos/src/modules/login/login_page.dart';
+import 'package:medicos/src/modules/not_found/not_found_page.dart';
 
 class App extends StatelessWidget {
   const App({super.key});
@@ -18,29 +20,30 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final AppThemeService theme = appService.ui.appTheme;
-    return GetMaterialApp(
-      title: FlavorConfig.appName,
-      theme: theme.lightTheme,
-      darkTheme: theme.lightTheme,
-      themeMode: theme.themeMode,
-      translations: Messages(),
-      locale: Get.deviceLocale,
-      localizationsDelegates: const [
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('es', ''),
-      ],
-      fallbackLocale: esMessages.mx.locale,
-      logWriterCallback: _logWriter,
-      initialRoute: LoginPage.page.name,
-      initialBinding: InitialBindings(),
-      getPages: AppNavigation.pages,
-      navigatorObservers: [
-        AnalyticsRouteObserver()
-      ],
+    return CoverApp(
+      child: GetMaterialApp(
+        title: FlavorConfig.appName,
+        theme: theme.lightTheme,
+        darkTheme: theme.lightTheme,
+        themeMode: theme.themeMode,
+        translations: Messages(),
+        locale: Get.deviceLocale,
+        localizationsDelegates: const [
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('es', ''),
+        ],
+        fallbackLocale: esMessages.mx.locale,
+        logWriterCallback: _logWriter,
+        initialRoute: LoginPage.page.name,
+        initialBinding: InitialBindings(),
+        getPages: AppNavigation.pages,
+        unknownRoute: NotFoundPage.page,
+        navigatorObservers: [AnalyticsRouteObserver()],
+      ),
     );
   }
 }

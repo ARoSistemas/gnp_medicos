@@ -8,14 +8,15 @@ class _AddUserPhonePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBarPhoneWdgt(
-      title: _c.isNewUser.value
-          ? esMessages.mx.newUser.value
-          : esMessages.mx.updateUser.value,
+      title: _c.isNewUser.value ? msg.newUser.tr() : msg.updateUser.tr(),
       name: _c.user.nombreCompleto,
+      lastname: _c.user.apePaterno,
+      rfc: _c.user.rfc,
+      jwt: _c.user.token.jwt,
       medicalIdentifier: _c.user.codigoFiliacion,
     ),
     body: _c.obx(
-      (data) => Column(
+      (state) => Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           Obx(
@@ -34,7 +35,7 @@ class _AddUserPhonePage extends StatelessWidget {
                           isSelected: _c.selectedIndex.value == 0,
                           isCompleted: _c.selectedIndex.value > 0,
                           iconName: Icons.person_outline,
-                          title: esMessages.mx.generalData.value,
+                          title: msg.generalData.tr(),
                         ),
                       ),
 
@@ -46,7 +47,7 @@ class _AddUserPhonePage extends StatelessWidget {
                           child: ItemTabBarView(
                             isSelected: _c.selectedIndex.value == 1,
                             iconName: Icons.verified_user_outlined,
-                            title: esMessages.mx.permissions.value,
+                            title: msg.permissions.tr(),
                           ),
                         ),
                       ),
@@ -55,8 +56,8 @@ class _AddUserPhonePage extends StatelessWidget {
                   const Divider(color: Colors.transparent),
                   Text(
                     _c.selectedIndex.value == 0
-                        ? esMessages.mx.stepOneOfTwo.value
-                        : esMessages.mx.stepTwoOfTwo.value,
+                        ? msg.stepOneOfTwo.tr()
+                        : msg.stepTwoOfTwo.tr(),
                     style: Get.textTheme.bodySmall?.copyWith(
                       fontWeight: FontWeight.w400,
                     ),
@@ -90,19 +91,15 @@ class _AddUserPhonePage extends StatelessWidget {
             size: 70,
             color: ColorPalette.primary,
           ),
-          title: esMessages.mx.noForm.value,
+          title: msg.noForm.tr(),
           subtitle: '',
         ),
       ),
       onError: (_) => Center(
         child: LoadingGnp(
-          icon: const Icon(
-            Icons.error,
-            size: 70,
-            color: ColorPalette.primary,
-          ),
-          title: esMessages.mx.errorLoadingForm.value,
-          subtitle: esMessages.mx.pleaseTryAgainLater.value,
+          isError: true,
+          title: msg.errorLoadingForm.tr(),
+          subtitle: msg.pleaseTryAgainLater.tr(),
         ),
       ),
     ),

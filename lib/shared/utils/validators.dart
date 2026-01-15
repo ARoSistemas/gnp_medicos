@@ -1,34 +1,41 @@
 import 'package:medicos/core/extensions/null_extensions.dart';
 import 'package:medicos/shared/constans/constans.dart';
-import 'package:medicos/shared/messages/es/es_messages.dart';
+import 'package:medicos/shared/messages/i_app_messages.dart';
 
 class Validators {
   static RegExp validString = RegExp(regexNames, unicode: true);
 
   static String? _validOnlyAlphabeticCharacters(String? value) {
     if (!validString.hasMatch(value!)) {
-      return esMessages.mx.onlyAlphabeticCharacters.value;
+      return msg.onlyAlphabeticCharacters.tr();
     }
     return null;
   }
 
   static String? name(String? value) {
     if (value.value().trim().isEmpty) {
-      return esMessages.mx.enterYourNameContinue.value;
+      return msg.enterYourNameContinue.tr();
     }
     return _validOnlyAlphabeticCharacters(value);
   }
 
   static String? lastName(String? value) {
     if (value.value().trim().isEmpty) {
-      return esMessages.mx.enterYourLastNameContinue.value;
+      return msg.enterYourLastNameContinue.tr();
     }
     return _validOnlyAlphabeticCharacters(value);
   }
 
   static String? secondLastName(String? value) {
     if (value.value().trim().isEmpty) {
-      return esMessages.mx.enterYourLastNameContinue.value;
+      return msg.enterYourLastNameContinue.tr();
+    }
+    return _validOnlyAlphabeticCharacters(value);
+  }
+
+  static String? inputText(String value) {
+    if (value.trim().isEmpty) {
+      return msg.fieldRequired.tr();
     }
     return _validOnlyAlphabeticCharacters(value);
   }
@@ -39,17 +46,17 @@ class Validators {
 
   static String? email(String? value) {
     if (value == null || value.isEmpty) {
-      return esMessages.mx.enterYourEmail.value;
+      return msg.fieldRequired.tr();
     }
     if (!isValidEmail(value)) {
-      return esMessages.mx.enterYourEmail.value;
+      return msg.enterYourEmail.tr();
     }
     return null;
   }
 
   static String? password(String? password) {
     if (password!.isEmpty) {
-      return esMessages.mx.enterYourPassword.value;
+      return msg.enterYourPassword.tr();
     }
     return null;
   }
@@ -63,31 +70,55 @@ class Validators {
 
   static String? phone(String? value) {
     if (value == null || value.isEmpty) {
-      return esMessages.mx.enterYourPhoneNumber.value;
+      return msg.fieldRequired.tr();
     }
     if (!isValidPhone(value)) {
-      return esMessages.mx.enterTenDigits.value;
+      return msg.enterTenDigits.tr();
     }
     return null;
   }
 
+  static String? cedule(String? value, {bool required = false}) {
+  if (required) {
+    if (value == null || value.isEmpty) {
+      return msg.fieldRequired.tr();
+    }
+    if (value.length < 6) {
+      return msg.enterMinDigits.tr();
+    }
+    return null;
+  }
+  if (value != null && value.isNotEmpty && value.length < 6) {
+    return msg.enterMinDigits.tr();
+  }
+
+  return null;
+}
+
   static String? option(String? value) {
     if (value == null || value.isEmpty) {
-      return esMessages.mx.enterYourOption.value;
+      return msg.enterYourOption.tr();
+    }
+    return null;
+  }
+
+  static String? optionObject(dynamic value) {
+    if (value == null) {
+      return msg.enterYourOption.tr();
     }
     return null;
   }
 
   static String? date(String? value) {
     if (value == null || value.isEmpty) {
-      return esMessages.mx.enterYourDate.value;
+      return msg.enterYourDate.tr();
     }
     return null;
   }
 
   static String? rfc(String? value) {
     if (value == null || value.isEmpty) {
-      return esMessages.mx.enterYourRfc.value;
+      return msg.fieldRequired.tr();
     }
 
     final String rfcLimpio = value
@@ -97,17 +128,17 @@ class Validators {
         .replaceAll(' ', '');
 
     if (rfcLimpio.length != 12 && rfcLimpio.length != 13) {
-      return esMessages.mx.rfcDigitsTwelveThirteen.value;
+      return msg.rfcDigitsTwelveThirteen.tr();
     }
 
     final RegExp rfcRegExp = RegExp(r'^([A-ZÑ&]{3,4})\d{6}([A-Z\d]{3})$');
 
     if (!rfcRegExp.hasMatch(rfcLimpio)) {
-      return esMessages.mx.rfcFormatInvalid.value;
+      return msg.rfcFormatInvalid.tr();
     }
 
     if (rfcLimpio.startsWith('XAXX')) {
-      return esMessages.mx.rfcGenericNoAllowed.value;
+      return msg.rfcGenericNoAllowed.tr();
     }
 
     return null;
@@ -163,7 +194,7 @@ class Validators {
 
     final String rfcClean = rfc.trim().toUpperCase();
     if (!rfcClean.startsWith(rfcBase)) {
-      return esMessages.mx.enterYourRfcName.value;
+      return msg.enterYourRfcName.tr();
     }
     return null;
   }

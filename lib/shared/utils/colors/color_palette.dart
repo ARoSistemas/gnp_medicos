@@ -27,4 +27,5 @@ abstract class ColorPalette {
   static const Color contacto = Color(0xFF0C2040);
   static const Color borderInput = Color(0xFF5587DE);
   static const Color hintText = Color(0xFF567099);
+  static const Color chips = Color(0xFF2155AB);
 }

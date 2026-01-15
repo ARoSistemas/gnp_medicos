@@ -10,11 +10,13 @@ class ItemTabBarView extends StatelessWidget {
     required this.title,
     required this.iconName,
     this.isCompleted = false,
+    this.isWeb = false,
     super.key,
   });
 
   final bool isSelected;
   final bool isCompleted;
+  final bool isWeb;
   final String title;
   final IconData iconName;
 
@@ -33,7 +35,8 @@ class ItemTabBarView extends StatelessWidget {
       duration: const Duration(milliseconds: 300),
       curve: Curves.easeInOut,
       padding: const EdgeInsets.symmetric(vertical: 15),
-      width: isSelected ? context.scale(260) : context.scale(60),
+      width: isWeb ? context.scale(260) : isSelected 
+        ? context.scale(260) : context.scale(60),
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
@@ -44,13 +47,13 @@ class ItemTabBarView extends StatelessWidget {
       ),
       alignment: Alignment.center,
       child: Row(
-        mainAxisAlignment: isSelected
+        mainAxisAlignment: (isSelected || isWeb)
             ? MainAxisAlignment.start
             : MainAxisAlignment.center,
         children: [
           Icon(iconName, size: 20, color: activeColor),
-          SizedBox(width: isSelected ? context.scale(10) : 0),
-          if (isSelected)
+          SizedBox(width: (isSelected || isWeb) ? context.scale(10) : 0),
+          if (isSelected || isWeb)
             Flexible(
               child: Text(
                 title,
@@ -69,6 +72,7 @@ class ItemTabBarView extends StatelessWidget {
       ..add(DiagnosticsProperty<bool>('isSelected', isSelected))
       ..add(DiagnosticsProperty<bool>('isCompleted', isCompleted))
       ..add(StringProperty('title', title))
-      ..add(DiagnosticsProperty<IconData>('iconName', iconName));
+      ..add(DiagnosticsProperty<IconData>('iconName', iconName))
+      ..add(DiagnosticsProperty<bool>('isWeb', isWeb));
   }
 }

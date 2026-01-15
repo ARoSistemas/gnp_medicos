@@ -7,7 +7,12 @@ class _WelcomePhonePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Scaffold(
-    appBar: AppbarWelcomePhone(nombre: _c.user.nombreCompleto),
+    appBar: AppbarWelcomePhone(
+      name: _c.user.nombreCompleto,
+      lastname: _c.user.apePaterno,
+      rfc: _c.user.rfc,
+      jwt: _c.user.token.jwt,
+    ),
     drawer: DrawerPhone(
       jwt: _c.jwt,
       permisos: _c.appState.userPermissions,
@@ -27,8 +32,10 @@ class _WelcomePhonePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 10, bottom: 10),
             child: Text(
-              '''¡Buen día, ${_c.user.nombreCompleto.trim().split(' ').first}!''',
-              style: context.textTheme.titleMedium?.copyWith(
+              msg.goodDay.tr(
+                args: [_c.user.nombreCompleto.trim().split(' ').first],
+              ),
+              style: Get.textTheme.titleMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 fontSize: context.fontSize(18),
               ),
@@ -46,8 +53,8 @@ class _WelcomePhonePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 20),
             child: Text(
-              '''Eres un pilar fundamental para GNP Seguros, gracias a tu compromiso y gran vocación de servicio, hemos respaldado y brindado tranquilidad a las familias mexicanas cuando más lo necesitan, por ello, queremos seguir haciendo equipo contigo y brindarte las herramientas que optimicen tus tiempos administrativos.''',
-              style: context.textTheme.titleMedium,
+              msg.welcomeMessageBody.tr(),
+              style: Get.textTheme.titleMedium,
             ),
           ),
 
@@ -60,8 +67,8 @@ class _WelcomePhonePage extends StatelessWidget {
                 color: ColorPalette.backgroundCardTwo,
               ),
               child: Text(
-                '''Ser aliados de nuestros médicos en convenio, y también de quienes no lo son, manteniéndonos comprometidos con la recuperación de la salud de los pacientes mientras cumplimos con los indicadores de eficiencia y servicio de GNP.''',
-                style: context.textTheme.titleMedium,
+                msg.welcomeMessageFooter.tr(),
+                style: Get.textTheme.titleMedium,
               ),
             ),
           ),

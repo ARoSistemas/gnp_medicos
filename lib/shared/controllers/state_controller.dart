@@ -1,18 +1,19 @@
 import 'package:get/get.dart';
+import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
 import 'package:medicos/shared/widgets/wdgt_image_from_web.dart';
 import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
-import 'package:medicos/src/modules/anexos/anexos_page.dart';
+import 'package:medicos/src/modules/annexes/annexes_page.dart';
 import 'package:medicos/src/modules/benefits/benefits_page.dart';
-import 'package:medicos/src/modules/contacto/contacto_page.dart';
+import 'package:medicos/src/modules/contact/contact_page.dart';
 import 'package:medicos/src/modules/convenio_medico/convenio_medico_page.dart';
-import 'package:medicos/src/modules/directorio/directorio_page.dart';
+import 'package:medicos/src/modules/directory/directory_page.dart';
 import 'package:medicos/src/modules/evaluations/evaluations_page.dart';
 import 'package:medicos/src/modules/formats/formats_page.dart';
 import 'package:medicos/src/modules/payments/payments_page.dart';
 import 'package:medicos/src/modules/procedures/procedures_page.dart';
-import 'package:medicos/src/modules/solicitud_convenio_medico/solicitud_convenio_medico_page.dart';
-import 'package:medicos/src/modules/tabuladores/tabuladores_page.dart';
+import 'package:medicos/src/modules/request_medical_agreement/request_medical_agreement_page.dart';
+import 'package:medicos/src/modules/tabulators/tabulators_page.dart';
 import 'package:medicos/src/modules/welcome/welcome_page.dart';
 
 /// A GetX controller that manages the global application state.
@@ -134,8 +135,11 @@ class AppStateController extends GetxController {
         breadcrumbs: itemBreadcrumbs,
       );
 
+      
+
       final ItemForMenuWeb Function(ItemForMenuWeb base)? transform =
           effectiveOverrides[key] ?? effectiveOverrides[definition.route];
+
       if (transform != null) {
         item = transform(item);
       }
@@ -153,10 +157,12 @@ class AppStateController extends GetxController {
       return true;
     }
     if (route == ConvenioMedicoPage.page.name ||
-        route == TabuladoresPage.page.name) {
+        route == TabuladoresPage.page.name ||
+        route == BeneficiosPage.page.name ||
+        route == ProceduresPage.page.name) {
       return _hasPermission(route) && user.banConvenioVigenteEstatus;
     }
-    if (route == ContactoPage.page.name) {
+    if (route == ContactPage.page.name) {
       return true;
     }
     return _hasPermission(route);
@@ -193,7 +199,7 @@ class AppStateController extends GetxController {
   ) {
     if (rootTrail.isEmpty) {
       return <BreadcrumbWeb>[
-        BreadcrumbWeb(rootLabel, route: WelcomePage.page.name),
+        BreadcrumbWeb(msg.home.tr(), route: WelcomePage.page.name),
       ];
     }
 
@@ -218,157 +224,65 @@ class AppStateController extends GetxController {
   );
 
   Map<String, MenuWebModule> get itemsMenuWeb => {
-    'inicio': MenuWebModule(
-      label: 'Inicio',
+    msg.home.key: MenuWebModule(
+      label: msg.home.tr(),
       route: WelcomePage.page.name,
       iconName: 'icono_modulo_inicio.png',
     ),
-    'convenio': MenuWebModule(
-      label: 'Convenio Médico',
+    msg.agreement.key: MenuWebModule(
+      label: msg.agreement.tr(),
       route: ConvenioMedicoPage.page.name,
       iconName: 'icono_modulo_convenio_medico.png',
     ),
-    'tabuladores': MenuWebModule(
-      label: 'Tabuladores',
+    msg.tabulator.key: MenuWebModule(
+      label: msg.tabulator.tr(),
       route: TabuladoresPage.page.name,
       iconName: 'icono_modulo_tabuladores.png',
     ),
-    'mispagos': MenuWebModule(
-      label: 'Mis Pagos',
+    msg.myPayments.key: MenuWebModule(
+      label: msg.myPayments.tr(),
       route: PaymentsPage.page.name,
       iconName: 'icono_modulo_mis_pagos.png',
     ),
     'solicitudconveniomedico': MenuWebModule(
       label: 'Solicitud convenio médico',
-      route: SolicitudConvenioMedicoPage.page.name,
+      route: RequestMedicalAgreementPage.page.name,
       iconName: 'icono_modulo_solicitud_convenio_medico.png',
     ),
-    'mistramites': MenuWebModule(
-      label: 'Mis Trámites',
+    msg.myProcedures.key: MenuWebModule(
+      label: msg.myProcedures.tr(),
       route: ProceduresPage.page.name,
       iconName: 'icono_modulo_mis_tramites.png',
     ),
-    'beneficios': MenuWebModule(
-      label: 'Beneficios',
+    msg.benefits.key: MenuWebModule(
+      label: msg.benefits.tr(),
       route: BeneficiosPage.page.name,
       iconName: 'icono_modulo_beneficios.png',
     ),
-    'anexos': MenuWebModule(
-      label: 'Anexos',
-      route: AnexosPage.page.name,
+    msg.annexes.key: MenuWebModule(
+      label: msg.annexes.tr(),
+      route: AnnexesPage.page.name,
       iconName: 'icono_modulo_anexos.png',
     ),
-    'formatos': MenuWebModule(
-      label: 'Formatos',
+    msg.formats.key: MenuWebModule(
+      label: msg.formats.tr(),
       route: FormatsPage.page.name,
       iconName: 'icono_modulo_formatos.png',
     ),
-    'evaluacion': MenuWebModule(
-      label: 'Evaluación',
+    msg.evaluations.key: MenuWebModule(
+      label: msg.evaluations.tr(),
       route: EvaluationsPage.page.name,
       iconName: 'icono_modulo_evaluacion.png',
     ),
-    'directorio': MenuWebModule(
-      label: 'Directorio médico',
-      route: DirectorioPage.page.name,
+    msg.directory.key: MenuWebModule(
+      label: msg.directory.tr(),
+      route: DirectoryPage.page.name,
       iconName: 'icono_modulo_directorio_medico.png',
     ),
-    'contacto': MenuWebModule(
-      label: 'Contacto GNP',
-      route: ContactoPage.page.name,
+    msg.gnpContact.key: MenuWebModule(
+      label: msg.gnpContact.tr(),
+      route: ContactPage.page.name,
       iconName: 'icono_modulo_contacto.png',
     ),
   };
-
-  // Map<String, MenuWebModule> get itemsMenuWeb {
-  //   /// Menus fijos
-  //   final Map<String, MenuWebModule> items = <String, MenuWebModule>{
-  //     'inicio': MenuWebModule(
-  //       label: 'Inicio',
-  //       route: WelcomePage.page.name,
-  //       iconName: 'icono_modulo_convenio_medico.png',
-  //     ),
-  //   };
-
-  //   /// Menus condicionales
-  //   if ((userPermissions[ConvenioMedicoPage.page.name] ?? false) &&
-  //       user.banConvenioVigenteEstatus) {
-  //     items['convenio'] = MenuWebModule(
-  //       label: 'Convenio Médico',
-  //       route: ConvenioMedicoPage.page.name,
-  //       iconName: 'icono_modulo_convenio_medico.png',
-  //     );
-  //   }
-  //   if ((userPermissions[TabuladoresPage.page.name] ?? false) &&
-  //       user.banConvenioVigenteEstatus) {
-  //     items['tabuladores'] = MenuWebModule(
-  //       label: 'Tabuladores',
-  //       route: TabuladoresPage.page.name,
-  //       iconName: 'icono_modulo_tabuladores.png',
-  //     );
-  //   }
-  //   if (userPermissions[PaymentsPage.page.name] ?? false) {
-  //     items['mispagos'] = MenuWebModule(
-  //       label: 'Mis Pagos',
-  //       route: PaymentsPage.page.name,
-  //       iconName: 'icono_modulo_mis_pagos.png',
-  //     );
-  //   }
-  //   if (userPermissions[PaymentsPage.page.name] ?? false) {
-  //     items['solicitudconveniomedico'] = MenuWebModule(
-  //       label: 'Solicitud convenio médico',
-  //       route: SolicitudConvenioMedicoPage.page.name,
-  //       iconName: 'icono_modulo_solicitud_convenio_medico.png',
-  //     );
-  //   }
-  //   if (userPermissions[ProceduresPage.page.name] ?? false) {
-  //     items['mistramites'] = MenuWebModule(
-  //       label: 'Mis Trámites',
-  //       route: ProceduresPage.page.name,
-  //       iconName: 'icono_modulo_mis_tramites.png',
-  //     );
-  //   }
-  //   if (userPermissions[BeneficiosPage.page.name] ?? false) {
-  //     items['beneficios'] = MenuWebModule(
-  //       label: 'Beneficios',
-  //       route: BeneficiosPage.page.name,
-  //       iconName: 'icono_modulo_beneficios.png',
-  //     );
-  //   }
-  //   if (userPermissions[AnexosPage.page.name] ?? false) {
-  //     items['anexos'] = MenuWebModule(
-  //       label: 'Anexos',
-  //       route: AnexosPage.page.name,
-  //       iconName: 'icono_modulo_anexos.png',
-  //     );
-  //   }
-  //   if (userPermissions[FormatsPage.page.name] ?? false) {
-  //     items['formatos'] = MenuWebModule(
-  //       label: 'Formatos',
-  //       route: FormatsPage.page.name,
-  //       iconName: 'icono_modulo_formatos.png',
-  //     );
-  //   }
-  //   if (userPermissions[EvaluationsPage.page.name] ?? false) {
-  //     items['evaluacion'] = MenuWebModule(
-  //       label: 'Evaluación',
-  //       route: EvaluationsPage.page.name,
-  //       iconName: 'icono_modulo_evaluacion.png',
-  //     );
-  //   }
-  //   if (userPermissions[EvaluationsPage.page.name] ?? false) {
-  //     items['directorio'] = MenuWebModule(
-  //       label: 'Directorio médico',
-  //       route: DirectorioPage.page.name,
-  //       iconName: 'icono_modulo_directorio_medico.png',
-  //     );
-  //   }
-
-  //   items['contacto'] = MenuWebModule(
-  //     label: 'Contacto GNP',
-  //     route: ContactoPage.page.name,
-  //     iconName: 'icono_modulo_contacto.png',
-  //   );
-  //   return items;
-  // }
 }

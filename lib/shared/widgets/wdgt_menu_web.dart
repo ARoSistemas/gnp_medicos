@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
+import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/widgets/wdgt_image_from_web.dart';
 import 'package:medicos/src/modules/profile/widgets/banner_user_web.dart';
@@ -136,17 +137,12 @@ class MenuWeb extends StatelessWidget {
               actions: [
                 BannerUserWeb(
                   name: _appState.user.nombre,
+                  lastname: _appState.user.apePaterno,
+                  rfc: _appState.user.rfc,
+                  jwt: _appState.user.token.jwt,
                   medicalIdentifier: _appState.user.codigoFiliacion,
                   canChangeProfile: _appState.user.canChangeProfile,
                 ),
-                // IconButton(
-                //   icon: const Icon(
-                //     Icons.notifications_none,
-                //     size: 25,
-                //     color: ColorPalette.primary,
-                //   ),
-                //   onPressed: () {},
-                // ),
               ],
               onToggleMenu: _appState.toggleMenuExpansion,
               isExpandedMenu: _appState.isExpandedMenu,
@@ -167,12 +163,10 @@ class MenuWeb extends StatelessWidget {
                       curve: Curves.easeInOut,
                       width: isExpanded ? expandedWidth : collapsedWidth,
                       decoration: BoxDecoration(
-                        color: theme.colorScheme.surface,
+                        color: theme.scaffoldBackgroundColor,
                         border: const Border(
-                          right: BorderSide(
-                            color: Color(0xffCED8E8)
-                          )
-                        )
+                          right: BorderSide(color: Color(0xffCED8E8)),
+                        ),
                       ),
                       child: ListView.builder(
                         padding: const EdgeInsets.symmetric(
@@ -183,9 +177,7 @@ class MenuWeb extends StatelessWidget {
                         itemBuilder: (_, index) {
                           final ItemForMenuWeb item =
                               _appState.menuWebOk[index];
-                          final bool isActive = item.matchesRoute(
-                            currentRoute,
-                          );
+                          final bool isActive = item.matchesRoute(currentRoute);
                           return _MenuTile(
                             item: item,
                             isActive: isActive,
@@ -206,7 +198,7 @@ class MenuWeb extends StatelessWidget {
                       /// Los breadcrumbs
                       if (effectiveBreadcrumbs.isNotEmpty)
                         Padding(
-                          padding: const EdgeInsets.symmetric(vertical:  8),
+                          padding: const EdgeInsets.symmetric(vertical: 8),
                           child: _BreadcrumbRow(
                             breadcrumbs: effectiveBreadcrumbs,
                           ),
@@ -214,10 +206,7 @@ class MenuWeb extends StatelessWidget {
 
                       /// El widget hijo que contiene el contenido principal
                       Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 24),
-                          child: child,
-                        ),
+                        child: child,
                       ),
                     ],
                   ),
@@ -242,12 +231,12 @@ class MenuWeb extends StatelessWidget {
     if (targetRoute == null || item.matchesRoute(currentRoute)) {
       return;
     }
-
-    if (item.replaceRoute) {
-      await Get.offNamed(targetRoute);
-    } else {
-      await Get.toNamed(targetRoute);
-    }
+    await Get.offAllNamed(targetRoute);
+    // if (item.replaceRoute) {
+    //   await Get.offAllNamed(targetRoute);
+    // } else {
+    //   await Get.offAllNamed(targetRoute);
+    // }
   }
 
   List<BreadcrumbWeb> _resolveBreadcrumbs(String currentRoute) {
@@ -349,6 +338,7 @@ class _TopBar extends StatelessWidget {
 /// Fila de breadcrumbs que muestra la ruta de navegación actual.
 class _BreadcrumbRow extends StatelessWidget {
   const _BreadcrumbRow({required this.breadcrumbs});
+  AppStateController get _appState => Get.find<AppStateController>();
 
   final List<BreadcrumbWeb> breadcrumbs;
 
@@ -358,7 +348,7 @@ class _BreadcrumbRow extends StatelessWidget {
     final TextStyle baseStyle = theme.textTheme.bodyMedium!.copyWith(
       color: ColorPalette.primary,
       letterSpacing: 1.5,
-      fontSize: 10
+      fontSize: 10,
     );
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -384,6 +374,7 @@ class _BreadcrumbRow extends StatelessWidget {
               _BreadcrumbLabel(
                 breadcrumb: breadcrumbs[index],
                 style: baseStyle,
+                appState: _appState,
               ),
             ],
           ],
@@ -406,10 +397,12 @@ class _BreadcrumbLabel extends StatelessWidget {
   const _BreadcrumbLabel({
     required this.breadcrumb,
     required this.style,
+    required this.appState,
   });
 
   final BreadcrumbWeb breadcrumb;
   final TextStyle style;
+  final AppStateController appState;
 
   @override
   Widget build(BuildContext context) {
@@ -417,13 +410,13 @@ class _BreadcrumbLabel extends StatelessWidget {
       fontWeight: FontWeight.w600,
       color: ColorPalette.textPrimary,
       letterSpacing: 1.5,
-      fontSize: 10
+      fontSize: 10,
     );
 
     if (breadcrumb.route == null) {
       return Text(
         breadcrumb.label.toUpperCase(),
-        style: breadcrumb.label == 'Inicio' ? style : activeStyle,
+        style: breadcrumb.label == msg.home.tr() ? style : activeStyle,
       );
     }
     return InkWell(
@@ -448,7 +441,8 @@ class _BreadcrumbLabel extends StatelessWidget {
       ..add(
         DiagnosticsProperty<BreadcrumbWeb>('breadcrumb', breadcrumb),
       )
-      ..add(DiagnosticsProperty<TextStyle>('style', style));
+      ..add(DiagnosticsProperty<TextStyle>('style', style))
+      ..add(DiagnosticsProperty<AppStateController>('appState', appState));
   }
 }
 
@@ -476,11 +470,7 @@ class _MenuTile extends StatelessWidget {
 
     final TextStyle labelStyle = theme.textTheme.bodyMedium!.copyWith(
       fontWeight: isActive ? FontWeight.w600 : FontWeight.w500,
-      color: isActive
-          ? ColorPalette.primary
-          : theme.colorScheme.onSurface.withValues(
-              alpha: item.isEnabled ? 0.8 : 0.4,
-            ),
+      color: isActive ? ColorPalette.primary : ColorPalette.textPrimary,
     );
 
     Widget tile = Material(
@@ -513,7 +503,7 @@ class _MenuTile extends StatelessWidget {
                     item.label,
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    style: labelStyle,
+                    style: labelStyle.copyWith(fontWeight: FontWeight.bold),
                   ),
                 ),
               ],

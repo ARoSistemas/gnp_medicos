@@ -6,16 +6,19 @@ import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/core/services/threads/threads_service.dart';
 import 'package:medicos/core/utils/exception_manager.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
+import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
 import 'package:medicos/shared/models/incoming/tipos_assistant_model.dart';
-import 'package:medicos/shared/services/alerts/notification_service.dart';
-import 'package:medicos/shared/widgets/custom_notification.dart';
+import 'package:medicos/shared/widgets/custom_alert.dart';
+import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
 import 'package:medicos/src/modules/profile/children/assistants/add_user/domain/dtos/assistant_dto.dart';
 import 'package:medicos/src/modules/profile/children/assistants/add_user/domain/dtos/permissions_dto.dart';
 import 'package:medicos/src/modules/profile/children/assistants/add_user/domain/dtos/register_assistant_dto.dart';
 import 'package:medicos/src/modules/profile/children/assistants/add_user/domain/entities/assistant_update_model.dart';
 import 'package:medicos/src/modules/profile/children/assistants/add_user/domain/repository/add_user_repository.dart';
 import 'package:medicos/src/modules/profile/children/assistants/domain/remote/add_assistants_repository.dart';
+import 'package:medicos/src/modules/profile/profile_page.dart';
+import 'package:medicos/src/modules/welcome/welcome_page.dart';
 
 part 'add_user_model.dart';
 
@@ -25,7 +28,6 @@ class AddUserController extends GetxController
   final AddUserRepository apiConn = Get.find();
   final AddAssistantsRepository apiConnAsis = Get.find();
   final AppStateController appState = Get.find();
-  final NotificationServiceImpl _notification = AppService.i.notifications;
 
   AssistantDto assistant = AssistantDto.empty();
 
@@ -56,10 +58,13 @@ class AddUserController extends GetxController
   final TextEditingController genderController = TextEditingController();
   final TextEditingController phoneNumberController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
+  List<BreadcrumbWeb> breadcrumbs = [
+    BreadcrumbWeb(msg.home.tr(), route: WelcomePage.page.name),
+    BreadcrumbWeb(msg.myProfile.tr(), route: ProfilePage.page.name),
+  ];
   @override
   Future<void> onInit() async {
     super.onInit();
-
     change(
       _AddUserModel.empty(),
       status: RxStatus.loading(),
@@ -72,6 +77,10 @@ class AddUserController extends GetxController
       isNewUser.value = false;
       assistant = getArguments['assistant'] ?? AssistantDto.empty();
     }
+
+    breadcrumbs.add(
+      BreadcrumbWeb(isNewUser.value ? msg.newUser.tr() : msg.updateUser.tr()),
+    );
 
     /// Get List Type assistant
     final List<TiposAsistentesModel> assistanTypeList =
@@ -193,11 +202,18 @@ class AddUserController extends GetxController
     if (!formKey.currentState!.validate()) {
       return;
     }
-
-    if (!isNewUser.value) {
-      selectedIndex.value = 1;
+    if (appState.userLogued.email == emailController.text) {
+      appService.alert.show(
+        title: msg.temailAlreadyRegistered.tr(),
+        message: msg.demailAlreadyRegistered.tr(),
+        type: AlertType.error,
+      );
     } else {
-      await registerService();
+      if (!isNewUser.value) {
+        selectedIndex.value = 1;
+      } else {
+        await registerService();
+      }
     }
   }
 
@@ -231,9 +247,9 @@ class AddUserController extends GetxController
         );
         newAssistantId = res.body ?? '';
 
-        _notification.show(
-          title: 'Registro exitoso',
-          message: 'Se registró al usuario correctamente.',
+        appService.alert.show(
+          title: msg.successfulRegistration.tr(),
+          message: msg.userRegisteredSuccessfully.tr(),
           type: newAssistantId.isEmpty ? AlertType.error : AlertType.success,
         );
 
@@ -280,16 +296,16 @@ class AddUserController extends GetxController
         );
 
         if (res.statusCode! >= 200) {
-          _notification.show(
-            title: 'Actualización exitosa',
-            message: 'Se registró al usuario correctamente.',
+          appService.alert.show(
+            title: msg.successfulUpdate.tr(),
+            message: msg.userRegisteredSuccessfully.tr(),
             type: AlertType.success,
           );
         }
       },
       customExceptionMessages: {
         Exception(): ExceptionAlertProperties(
-          message: 'El asistente no se actualizó.',
+          message: msg.assistantNotUpdated.tr(),
         ),
       },
     );
@@ -347,9 +363,9 @@ class AddUserController extends GetxController
               permissions: permisosSeleccionadosIds,
               jwt: appState.user.token.jwt,
             );
-            _notification.show(
-              title: 'Actualización exitosa',
-              message: 'Se registró al usuario correctamente.',
+            appService.alert.show(
+              title: msg.successfulUpdate.tr(),
+              message: msg.userRegisteredSuccessfully.tr(),
               type: AlertType.success,
             );
           }
@@ -365,7 +381,7 @@ class AddUserController extends GetxController
       },
       customExceptionMessages: {
         Exception(): ExceptionAlertProperties(
-          message: 'Error al actualizar los permisos del asistente.',
+          message: msg.errorUpdatingAssistantPermissions.tr(),
         ),
       },
     );

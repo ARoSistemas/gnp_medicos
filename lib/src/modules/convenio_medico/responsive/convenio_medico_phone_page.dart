@@ -12,13 +12,16 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
     );
 
     return Scaffold(
-      appBar: AppBarPhone(title: esMessages.mx.agreement.value),
+      appBar: AppBarPhone(title: msg.agreement.tr()),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             BannerMedico(
               name: _c.user.nombreCompleto,
+              lastname: _c.user.apePaterno,
+              rfc: _c.user.rfc,
+              jwt: _c.user.token.jwt,
               medicalIdentifier: _c.user.codigoFiliacion,
             ),
             Container(
@@ -28,25 +31,28 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
                 children: [
                   const SizedBox(height: 20),
                   SectionTitle(
-                    title: esMessages.mx.agreement.value.toUpperCase(),
-                    widget: GestureDetector(
-                      onTap: () => _c.onView(FileTypesAgree.agreement),
+                    title: msg.agreement.tr().toUpperCase(),
+                    widget: TextButton(
+                      style: Get.theme.textButtonTheme.style?.copyWith(
+                        minimumSize: WidgetStateProperty.all(const Size(0, 48)),
+                      ),
                       child: Row(
+                        spacing: 8,
                         children: [
                           Text(
-                            esMessages.mx.view.value,
+                            msg.view.tr(),
                             style: Get.textTheme.titleMedium?.copyWith(
                               color: ColorPalette.primary,
                               letterSpacing: 1.25,
                             ),
                           ),
-                          const SizedBox(width: 8),
                           const Icon(
                             Icons.remove_red_eye_outlined,
                             color: ColorPalette.primary,
                           ),
                         ],
                       ),
+                      onPressed: () => _c.onView(FileTypesAgree.agreement),
                     ),
                   ),
                   SizedBox(height: context.scale(15, axis: ScaleAxis.height)),
@@ -56,8 +62,8 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
                     enabled: false,
                     style: styleInput,
                     decoration: InputDecoration(
-                      labelText: esMessages.mx.email.value,
-                      hintText: esMessages.mx.email.value,
+                      labelText: msg.email.tr(),
+                      hintText: msg.email.tr(),
                       floatingLabelStyle: Get.textTheme.titleMedium?.copyWith(
                         color: ColorPalette.labelText,
                       ),
@@ -73,8 +79,8 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
                   TextFormField(
                     controller: _c.rfcController,
                     decoration: InputDecoration(
-                      hintText: esMessages.mx.rfc.value,
-                      labelText: esMessages.mx.rfc.value,
+                      hintText: msg.rfc.tr(),
+                      labelText: msg.rfc.tr(),
                       floatingLabelStyle: Get.textTheme.titleMedium?.copyWith(
                         color: ColorPalette.labelText,
                       ),
@@ -97,10 +103,10 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(top: 4, left: 10),
                     child: Text(
-                      esMessages.mx.withHomoclave.value,
+                      msg.withHomoclave.tr(),
                       style: Get.textTheme.labelMedium?.copyWith(
                         fontWeight: FontWeight.w400,
-                        color: ColorPalette.labelText,
+                        color: ColorPalette.textSecondary,
                       ),
                     ),
                   ),
@@ -108,8 +114,8 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
                   TextFormField(
                     controller: _c.doctorsNameController,
                     decoration: InputDecoration(
-                      hintText: esMessages.mx.doctorsName.value,
-                      labelText: esMessages.mx.doctorsName.value,
+                      hintText: msg.doctorsName.tr(),
+                      labelText: msg.doctorsName.tr(),
                       floatingLabelStyle: Get.textTheme.titleMedium?.copyWith(
                         color: ColorPalette.labelText,
                       ),
@@ -133,8 +139,8 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
                   TextFormField(
                     controller: _c.specialtyController,
                     decoration: InputDecoration(
-                      hintText: esMessages.mx.specialty.value,
-                      labelText: esMessages.mx.specialty.value,
+                      hintText: msg.specialty.tr(),
+                      labelText: msg.specialty.tr(),
                       floatingLabelStyle: Get.textTheme.titleMedium?.copyWith(
                         color: ColorPalette.labelText,
                       ),
@@ -158,8 +164,8 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
                   TextFormField(
                     controller: _c.stateController,
                     decoration: InputDecoration(
-                      hintText: esMessages.mx.state.value,
-                      labelText: esMessages.mx.state.value,
+                      hintText: msg.state.tr(),
+                      labelText: msg.state.tr(),
                       floatingLabelStyle: Get.textTheme.titleMedium?.copyWith(
                         color: ColorPalette.labelText,
                       ),
@@ -183,8 +189,8 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
                   TextFormField(
                     controller: _c.medicalCircleController,
                     decoration: InputDecoration(
-                      hintText: esMessages.mx.medicalCircle.value,
-                      labelText: esMessages.mx.medicalCircle.value,
+                      hintText: msg.medicalCircle.tr(),
+                      labelText: msg.medicalCircle.tr(),
                       floatingLabelStyle: Get.textTheme.titleMedium?.copyWith(
                         color: ColorPalette.labelText,
                       ),
@@ -208,9 +214,9 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
                   TextFormField(
                     controller: _c.medicalChartController,
                     decoration: InputDecoration(
-                      hintText: esMessages.mx.medicalTabulator.value,
-                      labelText: esMessages.mx.medicalTabulator.value,
-                      floatingLabelStyle: Get.textTheme.bodySmall?.copyWith(
+                      hintText: msg.medicalTabulator.tr(),
+                      labelText: msg.medicalTabulator.tr(),
+                      floatingLabelStyle: Get.textTheme.titleMedium?.copyWith(
                         color: ColorPalette.labelText,
                       ),
                       enabledBorder: const UnderlineInputBorder(
@@ -228,8 +234,8 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
                   TextFormField(
                     controller: _c.statusController,
                     decoration: InputDecoration(
-                      hintText: esMessages.mx.status.value,
-                      labelText: esMessages.mx.status.value,
+                      hintText: msg.status.tr(),
+                      labelText: msg.status.tr(),
                       floatingLabelStyle: Get.textTheme.titleMedium?.copyWith(
                         color: ColorPalette.labelText,
                       ),
@@ -248,13 +254,13 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () => _c.onView(FileTypesAgree.guidelines),
                     child: Text(
-                      esMessages.mx.consultGuidelines.value,
+                      msg.consultGuidelines.tr(),
                     ),
                   ),
                   SizedBox(height: context.scale(15, axis: ScaleAxis.height)),
                   OutlinedButton(
                     onPressed: _c.updateAgreement,
-                    child: Text(esMessages.mx.updateInformation.value),
+                    child: Text(msg.updateInformation.tr()),
                   ),
                   SizedBox(height: context.scale(15, axis: ScaleAxis.height)),
                   TextButton(
@@ -264,7 +270,7 @@ class _ConvenioMedicoPhonePage extends StatelessWidget {
                         Get.textTheme.titleMedium,
                       ),
                     ),
-                    child: Text(esMessages.mx.terminationAgreement.value),
+                    child: Text(msg.terminationAgreement.tr()),
                   ),
                   SizedBox(height: context.scale(30, axis: ScaleAxis.height)),
                 ],

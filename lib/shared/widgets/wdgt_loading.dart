@@ -34,6 +34,7 @@ class LoadingGnp extends StatelessWidget {
     this.subtitle,
     this.icon,
     this.isPositionUp = true,
+    this.isError = false,
     super.key,
   });
 
@@ -50,32 +51,34 @@ class LoadingGnp extends StatelessWidget {
   /// Determines the position of the loading indicator.
   final bool isPositionUp;
 
+  final bool isError;
+
   @override
   Widget build(BuildContext context) => Column(
     mainAxisSize: MainAxisSize.min,
     children: [
-      if (icon == null)
+      if (icon == null && !isError)
         const CircularProgressIndicator(color: ColorPalette.primary),
+      if (isError)
+        const Icon(Icons.error, size: 70, color: ColorPalette.primary),
 
-      if (isPositionUp)
-        if (icon != null) icon!,
+      if (isPositionUp) ?icon,
       Padding(
         padding: const EdgeInsets.all(20),
         child: Text(
-          title == null ? msg.loadingData.value : title!,
+          title == null ? msg.loadingData.tr() : title!,
           style: const TextStyle(fontSize: 20),
         ),
       ),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Text(
-          subtitle == null ? msg.pleaseWait.value : subtitle!,
+          subtitle == null ? msg.pleaseWait.tr() : subtitle!,
           style: const TextStyle(fontSize: 20),
         ),
       ),
 
-      if (!isPositionUp)
-        if (icon != null) icon!,
+      if (!isPositionUp) ?icon,
     ],
   );
 
@@ -85,6 +88,7 @@ class LoadingGnp extends StatelessWidget {
     properties
       ..add(StringProperty('title', title))
       ..add(StringProperty('subtitle', subtitle))
-      ..add(DiagnosticsProperty<bool>('isPositionUp', isPositionUp));
+      ..add(DiagnosticsProperty<bool>('isPositionUp', isPositionUp))
+      ..add(DiagnosticsProperty<bool>('isError', isError));
   }
 }

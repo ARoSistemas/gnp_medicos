@@ -6,7 +6,8 @@ import 'package:medicos/core/services/network/network_service.dart';
 import 'package:medicos/core/services/security/cipher_service.dart';
 import 'package:medicos/core/services/threads/threads_service.dart';
 import 'package:medicos/core/services/ui/ui_service.dart';
-import 'package:medicos/shared/services/alerts/notification_service.dart';
+import 'package:medicos/shared/services/alerts/alert_service.dart';
+import 'package:medicos/shared/services/maps/maps_loader_service.dart';
 import 'package:medicos/shared/services/shared_services.dart';
 import 'package:medicos/shared/services/storage/file_storage/file_storage_service.dart';
 import 'package:medicos/shared/services/storage/user_storage.dart';
@@ -25,13 +26,15 @@ class AppService extends GetxService {
   late final ThreadsService threads;
   late final UIService ui;
   late final UserStorage userStorage;
-  late final NotificationServiceImpl notifications;
+  late final AlertServiceImpl alert;
   late final FileStorageService fileStorage;
 
   late final SharedServices shared;
 
   Future<void> init() async {
     WidgetsFlutterBinding.ensureInitialized();
+
+    MapsLoaderService().injectScript();
 
     cipher = Get.put(CipherService());
     navigation = Get.put(NavigationService());
@@ -41,9 +44,8 @@ class AppService extends GetxService {
     ui = Get.put(UIService());
     shared = Get.put(SharedServices());
 
-    /// Notifications Services
-    notifications = Get.put(NotificationServiceImpl());
-
+    /// Alert Services
+    alert = Get.put(AlertServiceImpl());
     fileStorage = Get.put(FileStorageService());
 
     await storage.init();

@@ -28,7 +28,7 @@ class _LoginPhonePage extends StatelessWidget {
                   child: Container(
                     alignment: Alignment.centerLeft,
                     child: Text(
-                      esMessages.mx.identify.value,
+                      msg.identify.tr(),
                       style: Get.textTheme.titleSmall,
                     ),
                   ),
@@ -62,7 +62,7 @@ class _LoginPhonePage extends StatelessWidget {
                 TextButton(
                   onPressed: _c.changeUser,
                   child: Text(
-                    esMessages.mx.changeUser.value,
+                    msg.changeUser.tr(),
                     style: Get.textTheme.titleSmall?.copyWith(
                       color: ColorPalette.primary,
                       letterSpacing: 1.25
@@ -76,10 +76,11 @@ class _LoginPhonePage extends StatelessWidget {
                   padding: const EdgeInsetsGeometry.only(bottom: 40),
                   child: TextFormField(
                     controller: _c.emailController,
+                    keyboardType: TextInputType.emailAddress,
                     validator: Validators.email,
                     decoration: InputDecoration(
-                      labelText: esMessages.mx.email.value,
-                      hintText: esMessages.mx.email.value,
+                      labelText: msg.email.tr(),
+                      hintText: msg.email.tr(),
                     ),
                   ),
                 ),
@@ -90,8 +91,8 @@ class _LoginPhonePage extends StatelessWidget {
                   child: TextFormField(
                     obscureText: !_c.isPasswordVisible.value,
                     decoration: InputDecoration(
-                      labelText: esMessages.mx.password.value,
-                      hintText: esMessages.mx.password.value,
+                      labelText: msg.password.tr(),
+                      hintText: msg.password.tr(),
                       suffixIcon: IconButton(
                         icon: Icon(
                           _c.isPasswordVisible.value
@@ -117,16 +118,9 @@ class _LoginPhonePage extends StatelessWidget {
                     ),
                     onPressed: _c.isLoading.value
                         ? null
-                        : () async {
-                            await showModalBottomSheet(
-                              context: context,
-                              isScrollControlled: true,
-                              backgroundColor: ColorPalette.white,
-                              builder: (context) => ModalForgotPassword(),
-                            );
-                          },
+                        : _c.showDilaogPassword,
                     child: Text(
-                      esMessages.mx.forgotPassword.value,
+                      msg.forgotPassword.tr(),
                     ),
                   ),
                 ),
@@ -138,7 +132,7 @@ class _LoginPhonePage extends StatelessWidget {
                       ? const CircularProgressIndicator(
                           color: ColorPalette.primary,
                         )
-                      : Text(esMessages.mx.continueB.value),
+                      : Text(msg.continueB.tr()),
                 ),
 
                 Visibility(
@@ -149,7 +143,7 @@ class _LoginPhonePage extends StatelessWidget {
                     child: TextButton(
                       onPressed:_c.authenticateBiometric,
                       child: Text(
-                        esMessages.mx.loginBiometrics.value,
+                        msg.loginBiometrics.tr(),
                         style: Get.textTheme.titleSmall?.copyWith(
                           color: ColorPalette.primary,
                         ),
@@ -178,7 +172,7 @@ class _LoginPhonePage extends StatelessWidget {
                       padding: WidgetStateProperty.all(EdgeInsets.zero),
                       alignment: Alignment.center,
                     ),
-                    child: Text(esMessages.mx.dontHaveAccount.value),
+                    child: Text(msg.dontHaveAccount.tr()),
                   ),
                 ),
 
@@ -187,7 +181,7 @@ class _LoginPhonePage extends StatelessWidget {
                   padding: const EdgeInsets.only(bottom: 30),
                   child: OutlinedButton(
                     onPressed: _c.navigateRegister,
-                    child: Text(esMessages.mx.registerNow.value),
+                    child: Text(msg.registerNow.tr()),
                   ),
                 ),
               ],

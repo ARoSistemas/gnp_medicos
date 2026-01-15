@@ -9,19 +9,23 @@ import 'package:medicos/src/modules/profile/profile_page.dart';
 class BannerUserWeb extends StatelessWidget {
   const BannerUserWeb({
     required this.name,
+    required this.lastname,
     required this.medicalIdentifier,
+    required this.rfc,
+    required this.jwt,
     this.canChangeProfile = false,
-    this.photo,
     super.key,
   });
 
   final String name;
+  final String lastname;
   final String medicalIdentifier;
-  final String? photo;
+  final String rfc;
+  final String jwt;
   final bool canChangeProfile;
 
   @override
-  Widget build(BuildContext context) => GestureDetector(
+  Widget build(BuildContext context) => InkWell(
     child: Container(
       padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
       decoration: const BoxDecoration(
@@ -33,8 +37,8 @@ class BannerUserWeb extends StatelessWidget {
             blurRadius: 6,
             spreadRadius: 1,
             offset: Offset(0, 2),
-          )
-        ]
+          ),
+        ],
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -46,7 +50,7 @@ class BannerUserWeb extends StatelessWidget {
               Container(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  'Buenas tardes, $name',
+                  'Buenas tardes, $name $lastname',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 2,
                   textAlign: TextAlign.right,
@@ -57,12 +61,13 @@ class BannerUserWeb extends StatelessWidget {
                   ),
                 ),
               ),
-    
+
               /// Medical Identifier
               Container(
                 alignment: Alignment.topLeft,
                 child: Text(
-                  medicalIdentifier,
+                  '${medicalIdentifier.isNotEmpty ? 'Filiación' : ''} '
+                  '$medicalIdentifier',
                   textAlign: TextAlign.right,
                   style: context.textTheme.titleSmall?.copyWith(
                     fontWeight: FontWeight.w400,
@@ -72,21 +77,32 @@ class BannerUserWeb extends StatelessWidget {
                   ),
                 ),
               ),
+
+              // Visibility(
+              //   visible: canChangeProfile,
+              //   child: TextButton.icon(
+              //     label: Text(msg.changeUser.tr()),
+              //     icon: const Icon(Icons.supervised_user_circle_outlined),
+              //     onPressed: () => Get.offAndToNamed(HomePage.page.name),
+              //   ),
+              // ),
             ],
           ),
           const SizedBox(width: 10),
           AvatarUser(
             name: name,
-            radius: 25,
+            lastname: lastname,
+            radius: 15,
             isPerfil: true,
-            urlPhoto: photo,
-            onTap: () {},
+            rfc: rfc,
+            jwt: jwt,
+            onTap: () => Get.toNamed(ProfilePage.page.name),
             isMovile: false,
           ),
         ],
       ),
     ),
-    onTap: ()=> Get.toNamed(ProfilePage.page.name),
+    onTap: () => Get.toNamed(ProfilePage.page.name),
   );
 
   @override
@@ -94,14 +110,16 @@ class BannerUserWeb extends StatelessWidget {
     super.debugFillProperties(properties);
     properties
       ..add(StringProperty('name', name))
+      ..add(StringProperty('lastname', lastname))
       ..add(StringProperty('medicalIdentifier', medicalIdentifier))
-      ..add(StringProperty('photo', photo))
       ..add(
         ObjectFlagProperty<Function()?>.has(
           'onTapChangePhoto',
           null,
         ),
       )
-      ..add(DiagnosticsProperty<bool>('canChangeProfile', canChangeProfile));
+      ..add(DiagnosticsProperty<bool>('canChangeProfile', canChangeProfile))
+      ..add(StringProperty('rfc', rfc))
+      ..add(StringProperty('jwt', jwt));
   }
 }

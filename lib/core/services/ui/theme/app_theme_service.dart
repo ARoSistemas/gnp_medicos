@@ -73,6 +73,9 @@ class AppThemeService extends GetxService {
         dialogTheme: _dialogTheme(),
         datePickerTheme: _datePickerTheme(),
         tooltipTheme: _tooltipTheme(),
+        scaffoldBackgroundColor: Colors.white,
+        dividerTheme: _dividerThemeData(),
+        scrollbarTheme: _scrollbarTheme(),
       );
 
   DropdownMenuThemeData _dropdownMenuTheme() => const DropdownMenuThemeData(
@@ -229,5 +232,15 @@ class AppThemeService extends GetxService {
     decoration: BoxDecoration(
       color: ColorPalette.textPrimary
     )
+  );
+
+  DividerThemeData _dividerThemeData() => const DividerThemeData(
+    color: ColorPalette.primary,
+  );
+
+  ScrollbarThemeData _scrollbarTheme() => ScrollbarThemeData(
+    thumbColor: WidgetStateProperty.all(
+      ColorPalette.primary.withValues(alpha: 0.3),
+    ),
   );
 }

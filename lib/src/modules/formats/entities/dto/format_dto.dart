@@ -11,6 +11,7 @@ class FormatDto {
     required this.contentType,
     required this.size,
     required this.description,
+    required this.id,
   });
 
   factory FormatDto.fromJson(Map<String, dynamic> json) => FormatDto(
@@ -18,6 +19,7 @@ class FormatDto {
     contentType: json['contentType'] ?? '',
     size: json['size'] ?? 0,
     description: json['description'] ?? '',
+    id: json['id'] ?? '',
   );
 
   factory FormatDto.empty() => FormatDto(
@@ -25,11 +27,13 @@ class FormatDto {
     contentType: '',
     size: 0,
     description: '',
+    id: '',
   );
   
   final String fileName;
   final String contentType;
   final String description;
+  final String id;
   final int size;
 
   Map<String, dynamic> toJson() => {
@@ -37,5 +41,6 @@ class FormatDto {
     'contentType': contentType,
     'size': size,
     'description': description,
+    'id': id,
   };
 }

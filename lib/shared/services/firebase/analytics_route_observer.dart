@@ -1,12 +1,15 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:medicos/shared/controllers/state_controller.dart';
 import 'package:medicos/shared/services/firebase/analytics_service.dart';
+import 'package:medicos/shared/utils/tools.dart';
 
 class AnalyticsRouteObserver extends RouteObserver<PageRoute<dynamic>> {
 
   AnalyticsRouteObserver() {
     analytics = Get.find<AnalyticsService>();
   }
+  AppStateController get _appState => Get.find<AppStateController>();
 
   late final AnalyticsService analytics;
 
@@ -18,7 +21,10 @@ class AnalyticsRouteObserver extends RouteObserver<PageRoute<dynamic>> {
     await analytics.setTag(
       'navegacion',
       params: {
-        'seccion': screenName
+        'seccion': screenName,
+        'plataforma': Tools.getPlatformName(),
+        if (_appState.userLogued.email.isNotEmpty)
+          'usuario': _appState.userLogued.email,
       }
     );
   }

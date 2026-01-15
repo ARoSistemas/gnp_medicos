@@ -1,7 +1,10 @@
+import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
 import 'package:medicos/core/config/app_config.dart';
+import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/core/utils/logger.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
+import 'package:medicos/shared/models/entities/session_mdl.dart';
 import 'package:medicos/shared/models/entities/token_mdl.dart';
 
 class AuthRefreshService {
@@ -25,6 +28,14 @@ class AuthRefreshService {
           return false;
         }
         appState.user = appState.user.copyWith(token: Token.fromMap(body));
+        if (kIsWeb) {
+          final SessionModel? session = appService.userStorage.getSessionWeb();
+          if(session != null) {
+             appService.userStorage.saveSessionWeb(
+              session.copyWith(selected: appState.user)
+            );
+          }
+        }
         client.httpClient.addRequestModifier<void>((request) {
           request.headers.addAll({
             'Authorization': 'Bearer $newToken',

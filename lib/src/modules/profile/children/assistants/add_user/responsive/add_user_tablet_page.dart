@@ -1,26 +1,8 @@
 part of '../add_user_page.dart';
 
 class _AddUserTabletPage extends StatelessWidget {
-  _AddUserTabletPage();
-
-  final AddUserController _c = Get.find<AddUserController>();
+  const _AddUserTabletPage();
 
   @override
-  Widget build(BuildContext context) => Scaffold(
-    appBar: AppBar(
-      backgroundColor: Get.theme.colorScheme.inversePrimary,
-      title: Text(_c.state!.name),
-    ),
-    body: Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(
-            'AddUser module tablet page',
-            style: Get.textTheme.headlineMedium,
-          ),
-        ],
-      ),
-    ),
-  );
+  Widget build(BuildContext context) => _AddUserDesktopPage();
 }

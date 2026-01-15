@@ -14,14 +14,15 @@ import 'package:medicos/core/utils/exception_manager.dart';
 import 'package:medicos/core/utils/logger.dart';
 import 'package:medicos/shared/constans/constans.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
+import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/models/entities/claims_mdl.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
-import 'package:medicos/shared/services/alerts/notification_service.dart';
 import 'package:medicos/shared/services/storage/user_storage.dart';
 import 'package:medicos/shared/utils/tools.dart';
-import 'package:medicos/shared/widgets/custom_notification.dart';
+import 'package:medicos/shared/widgets/custom_alert.dart';
 import 'package:medicos/src/modules/home/home_page.dart';
 import 'package:medicos/src/modules/login/domain/repositories/auth_repository.dart';
+import 'package:medicos/src/modules/login/widgets/modal_forgot_password.dart';
 import 'package:medicos/src/modules/registro/registro_page.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -33,12 +34,12 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
   final AppStateController appState = Get.find();
   late PackageInfo packageInfo;
 
-  final NotificationServiceImpl _notification = AppService.i.notifications;
   final LocalAuthentication auth = LocalAuthentication();
 
   final formKey = GlobalKey<FormState>();
 
   RxBool canCheckBiometrics = false.obs;
+  RxBool rememberUser = false.obs;
   final RxList<BiometricType> availableBiometrics = <BiometricType>[].obs;
 
   RxBool isLoading = false.obs;
@@ -52,7 +53,7 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
 
   RxBool isPasswordVisible = false.obs;
 
-  final UserStorage userStorage = AppService.i.userStorage;
+  final UserStorage userStorage = appService.userStorage;
   final formKeyForgotPassword = GlobalKey<FormState>();
 
   @override
@@ -66,6 +67,7 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
         FlavorConfig.flavor == Flavors.uat) {
       appState.version = '${appState.version}(${packageInfo.buildNumber})';
     }
+    checkEmail();
   }
 
   @override
@@ -75,6 +77,14 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
     emailForgotPassController.dispose();
     super.onClose();
   }
+
+   void checkEmail() {
+    final String? email = appService.userStorage.getEmail();
+    if (email != null) {
+      emailController.text = email;
+      rememberUser.value = true;
+    }
+   }
 
   Future<void> doLogin({bool biometric = false}) async {
     Get.back();
@@ -90,15 +100,19 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
     FocusScope.of(Get.context!).unfocus();
 
     await login(
-      biometric ? (userStored.value?.email).value() : emailController.text,
-      biometric ? (userStored.value?.pass).value() : passwordController.text,
-    ).then((value) {
+      biometric ? (userStored.value?.email).value() 
+      : emailController.text.trim(),
+      biometric ? (userStored.value?.pass).value() 
+      : passwordController.text.trim(),
+    ).then((value) async {
       if (value) {
+        appState.userLogued.rememberUser = rememberUser.value;
+        await appService.userStorage.cleanSessionWeb();
         unawaited(
-          Get.offAllNamed(HomePage.page.name)!.then((_) {
+          Get.offAllNamed(HomePage.page.name)?.then((_) {
             if (kIsWeb || GetPlatform.isDesktop) {
               /// Construir el menú web
-              appState.buildMenuWeb('Inicio', []);
+              appState.buildMenuWeb(msg.home.tr(), []);
             }
           }),
         );
@@ -113,9 +127,7 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
     final bool ret = await appService.threads.execute(
       customExceptionMessages: {
         Exception(): ExceptionAlertProperties(
-          message:
-              'Usuario y/o contraseña incorrectos. '
-              'Verifícala e inténtalo de nuevo.',
+          message: msg.invalidUserOrPassword.tr(),
         ),
       },
       func: () async {
@@ -153,7 +165,9 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
         /// Se guarda en el storage temporalmente
         final UserModel userStored = appState.user.copyWith(pass: password);
         appState.userLogued = appState.user;
-        userStorage.saveUser(userStored);
+        if (!kIsWeb) {
+          userStorage.saveUser(userStored);
+        }
       },
     );
 
@@ -179,10 +193,9 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
     );
 
     if (res) {
-      _notification.show(
-        title: 'Envió exitoso',
-        message:
-            'Se envió un enlace de recuperación de contraseña a tu correo.',
+      appService.alert.show(
+        title: msg.success.tr(),
+        message: msg.passwordRecoveryLinkSent.tr(),
         type: AlertType.success,
       );
     }
@@ -211,9 +224,9 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
 
   Future<void> authenticateBiometric() async {
     if (!canCheckBiometrics.value) {
-      _notification.show(
-        title: 'Error',
-        message: 'La biometría no está disponible en este dispositivo.',
+      appService.alert.show(
+        title: msg.error.tr(),
+        message: msg.biometricsNotAvailable.tr(),
         type: AlertType.error,
       );
       return;
@@ -231,16 +244,16 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
       if (didAuthenticate) {
         await doLogin(biometric: true);
       } else {
-        _notification.show(
-          title: 'Falló',
-          message: 'Autenticación Biométrica Fallida.',
+        appService.alert.show(
+          title: msg.failed.tr(),
+          message: msg.biometricAuthenticationFailed.tr(),
           type: AlertType.error,
         );
       }
     } on Exception catch (_) {
-      _notification.show(
-        title: 'Error',
-        message: 'Ocurrió un error al intentar autenticar.',
+      appService.alert.show(
+        title: msg.error.tr(),
+        message: msg.errorAuthenticating.tr(),
         type: AlertType.error,
       );
     }
@@ -252,9 +265,20 @@ class LoginController extends GetxController with StateMixin<LoginModel> {
     }
   }
 
+  Future<void> onRemember({bool? value}) async {
+    rememberUser.value = value.value();
+  }
+
+  /// Change User
   Future<void> changeUser() async {
     await userStorage.cleanUser();
     userStored.value = userStorage.getUser();
+  }
+
+  Future<void> showDilaogPassword() async {
+    await appService.alert.showAlert(
+      child: ModalForgotPassword()
+    );
   }
 
   /// EndClass

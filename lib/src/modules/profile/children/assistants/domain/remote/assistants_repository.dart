@@ -41,7 +41,6 @@ class AssistantsRepository extends ApiBaseProvider {
     final Response<List<AssistantDto>> ret = await get(
       '/$affiliationCode/asistentes',
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': 'Bearer $jwt',
       },
       decoder: (data) {

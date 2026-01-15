@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/core/services/threads/threads_service.dart';
@@ -9,6 +8,7 @@ import 'package:medicos/core/utils/exception_manager.dart';
 import 'package:medicos/shared/constans/constans.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
 import 'package:medicos/shared/messages/i_app_messages.dart';
+import 'package:medicos/shared/models/entities/session_mdl.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
 import 'package:medicos/shared/utils/tools.dart';
 import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
@@ -28,8 +28,8 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
   RxBool andIsDoctor = false.obs;
 
   List<BreadcrumbWeb> breadcrumbs = [
-    BreadcrumbWeb('Inicio', route: WelcomePage.page.name),
-    const BreadcrumbWeb('Home'),
+    BreadcrumbWeb(msg.home.tr(), route: WelcomePage.page.name),
+    BreadcrumbWeb(msg.home.tr()),
   ];
 
   @override
@@ -101,6 +101,7 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
     if (!autoselect) {
       appState.user = appState.user.copyWith(canChangeProfile: true);
     }
+    await saveSession(appState.user, appState.user, appState.userPermissions);
     await _gotToMain();
   }
 
@@ -123,17 +124,27 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
           item.codigoFiliacion,
           appState.user.token.jwt,
         );
+
         await updateUserData(item, res.body ?? []);
         isOk = true;
       },
       customExceptionMessages: {
         Exception(): ExceptionAlertProperties(
-          message: 'Los permisos no fueron recuperados.',
+          message: msg.permissionsDeniedMessage.tr(),
         ),
       },
     );
 
     if (isOk) {
+      if (kIsWeb || GetPlatform.isDesktop) {
+        /// Reconstruir el menú web con base a los nuevos permisos
+        appState.buildMenuWeb(msg.home.tr(), []);
+      }
+      await saveSession(
+        appState.userLogued,
+        appState.user,
+        appState.userPermissions
+      );
       await _gotToMain();
     }
   }
@@ -204,7 +215,6 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
         '/beneficios': true,
         '/anexos': true,
         '/formatos': true,
-        '/evaluaciones': true,
         '/directorio-medico': true,
         '/contacto': true,
         '/datos-personales': true,
@@ -212,6 +222,7 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
         '/datos-fiscales': true,
         '/asistentes': true,
       };
+      // '/evaluaciones': true,
     } else {
       /// Load permissions from user data
       for (final PermissionsDto p in appState.user.permisos) {
@@ -230,34 +241,49 @@ class HomeController extends GetxController with StateMixin<_HomeModel> {
     appState.userPermissions = permisosMap;
   }
 
+  /// Navigates to the main welcome page and displays terms and conditions.
+  /// This method first navigates to the [WelcomePage] using
+  /// `Get.offAllNamed`. Then, it checks if the platform is not web.
+  /// If it's not web, it shows a modal bottom sheet with terms and conditions.
+  /// If it is web, it shows a dialog with the same information.
+  /// The user must accept the terms to continue.
   Future<void> _gotToMain() async {
-    unawaited(Get.offAllNamed(WelcomePage.page.name));
-    if (!kIsWeb) {
-      await showModalBottomSheet(
-        context: Get.context!,
-        builder: (context) => ModalInformative(
-          message: msg.homeTerms.value,
-          okMessage: msg.acceptAndContinue.value,
-        ),
-        isScrollControlled: true,
-        isDismissible: false,
-      );
-    } else {
-      await showDialog(
-        barrierDismissible: false,
-        context: Get.context!,
-        builder: (context) =>  Dialog(
-          child: ModalInformative(
-            message: msg.homeTerms.value,
-            okMessage: msg.acceptAndContinue.value,
-          ),
-        ),
-      );
-    }
+    unawaited(
+      Get.offAllNamed(WelcomePage.page.name)?.then((_) {
+        if (kIsWeb || GetPlatform.isDesktop) {
+          /// Construir el menú web
+          appState.buildMenuWeb('Inicio', []);
+        }
+      }),
+    );
+    await appService.alert.showAlert(
+      child: ModalInformative(
+        message: msg.homeTerms.tr(),
+        okMessage: msg.acceptAndContinue.tr(),
+      )
+    );
   }
 
   void exit() {
     appState.reset();
     unawaited(Get.offAllNamed(LoginPage.page.name));
+  }
+
+  Future<void> saveSession(
+    UserModel userLogged,
+    UserModel userSelected,
+    Map<String, dynamic> permissons
+  ) async {
+    final SessionModel session = SessionModel(
+      logged: userLogged,
+      selected: userSelected,
+      permissions: permissons
+    );
+    appService.userStorage.saveSessionWeb(session);
+    if (userLogged.rememberUser) {
+      appService.userStorage.saveEmail(userLogged.email);
+    } else {
+      await appService.userStorage.cleanEmail();
+    }
   }
 }

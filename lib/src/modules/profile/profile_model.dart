@@ -2,7 +2,7 @@ part of 'profile_controller.dart';
 
 final class ProfileModel {
   const ProfileModel({
-    this.name = 'MiPerfil',
+    this.name = 'Mi Perfil',
   });
 
   ProfileModel copyWith({

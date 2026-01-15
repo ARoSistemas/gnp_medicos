@@ -5,4 +5,5 @@ class AppConfig {
   static const String baseUrlCuentasGnp = String.fromEnvironment(
     'baseUrlCuentasGnp',
   );
+  static const String apiKeyMaps = String.fromEnvironment('apiKeyMaps');
 }

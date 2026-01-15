@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:medicos/core/extensions/null_extensions.dart';
 import 'package:medicos/core/services/navigation/route_params.dart';
-import 'package:medicos/shared/messages/es/es_messages.dart';
+import 'package:medicos/shared/constans/constans.dart';
+import 'package:medicos/shared/mddlewares/auth_middleware.dart';
+import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
+import 'package:medicos/shared/utils/validators.dart';
+import 'package:medicos/shared/widgets/appbar_web.dart';
 import 'package:medicos/shared/widgets/wdgt_appbar_phone.dart';
 import 'package:medicos/shared/widgets/wdgt_loading.dart';
+import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
 
 import 'package:medicos/src/modules/profile/children/assistants/add_user/add_user_controller.dart';
 import 'package:medicos/src/modules/profile/children/assistants/add_user/domain/repository/add_user_repository.dart';
@@ -12,6 +19,7 @@ import 'package:medicos/src/modules/profile/children/assistants/add_user/widgets
 import 'package:medicos/src/modules/profile/children/assistants/add_user/widgets/user_general_data.dart';
 import 'package:medicos/src/modules/profile/children/assistants/add_user/widgets/user_permissions.dart';
 import 'package:medicos/src/modules/profile/children/assistants/domain/remote/add_assistants_repository.dart';
+import 'package:medicos/src/modules/profile/widgets/banner_user.dart';
 
 part 'add_user_bindings.dart';
 part 'add_user_middleware.dart';
@@ -26,16 +34,24 @@ class AddUserPage extends GetResponsiveView<AddUserController> {
   static final GetPage page = GetPage(
     name: '/agregar-usuario',
     page: AddUserPage.new,
+    transition: Transition.rightToLeft,
+    customTransition: MenuWebAdaptiveTransition(),
     binding: _AddUserBindings(),
-    middlewares: [_AddUserMiddleware()],
+    middlewares: [_AddUserMiddleware(), AuthGuard()],
   );
 
   @override
   Widget? phone() => _AddUserPhonePage();
 
   @override
-  Widget? tablet() => _AddUserTabletPage();
+  Widget? tablet() => MenuWeb(
+    breadcrumbs: controller.breadcrumbs,
+    child: const _AddUserTabletPage()
+  );
 
   @override
-  Widget? desktop() => _AddUserDesktopPage();
+  Widget? desktop() => MenuWeb(
+    breadcrumbs: controller.breadcrumbs,
+    child: _AddUserDesktopPage()
+  );
 }

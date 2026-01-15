@@ -7,7 +7,7 @@ class AddAssistantsRepository extends ApiBaseProvider {
   final String url = AppConfig.baseUrlMedicos;
 
   @override
-  final String contextPath = '/admonproveedores/asistentes';
+  final String contextPath = '/admonproveedores';
 
   Future<bool> onOffAssistant({
     required String idAssistant,
@@ -17,13 +17,12 @@ class AddAssistantsRepository extends ApiBaseProvider {
     required String jwt,
   }) async {
     final Response r = await put(
-      '/relaciones/medicos/$affiliationCode/asistentes/$idAssistant',
+      '/medicos/$affiliationCode/asistentes/$idAssistant/relaciones',
       {
         'activo': status,
         'idTipoAsistente': idTipoAsistente
       },
       headers: {
-        'Content-Type': 'application/json',
         'Authorization': 'Bearer $jwt',
       },
     );

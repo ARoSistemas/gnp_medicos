@@ -19,7 +19,7 @@ class _RegistroPhonePage extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(top: 70),
             child: Text(
-              esMessages.mx.createAccount.value,
+              msg.createAccount.tr(),
               style: Get.textTheme.headlineSmall?.copyWith(
                 fontWeight: FontWeight.w700,
                 color: ColorPalette.textPrimary,

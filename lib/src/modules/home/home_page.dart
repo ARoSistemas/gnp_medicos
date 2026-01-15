@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicos/core/extensions/null_extensions.dart';
 import 'package:medicos/core/extensions/responsive_extension.dart';
+import 'package:medicos/shared/mddlewares/auth_middleware.dart';
 import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/widgets/appbar_phone.dart';
+import 'package:medicos/shared/widgets/appbar_web.dart';
 import 'package:medicos/shared/widgets/item_assistants.dart';
 import 'package:medicos/shared/widgets/section_title.dart';
 import 'package:medicos/shared/widgets/wdgt_image_from_web.dart';
@@ -29,20 +31,15 @@ class HomePage extends GetResponsiveView<HomeController> {
     transition: Transition.rightToLeft,
     customTransition: MenuWebAdaptiveTransition(),
     binding: _HomeBindings(),
+    middlewares: [AuthGuard()]
   );
 
   @override
   Widget? phone() => _HomePhonePage();
 
   @override
-  Widget? tablet() => MenuWeb(
-    breadcrumbs: controller.breadcrumbs,
-    child: _HomeTabletPage(),
-  );
+  Widget? tablet() => const _HomeTabletPage();
 
   @override
-  Widget? desktop() => MenuWeb(
-    breadcrumbs: controller.breadcrumbs,
-    child: _HomeDesktopPage(),
-  );
+  Widget? desktop() => _HomeDesktopPage();
 }

@@ -16,7 +16,6 @@ class HomeRepository extends ApiBaseProvider {
       get(
         '/$uuid/medicos',
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': 'Bearer $jwt',
         },
         decoder: (data) {
@@ -37,7 +36,6 @@ class HomeRepository extends ApiBaseProvider {
   ) => get(
     '/$idAssistant/medicos/$affiliationCode/permisos',
     headers: {
-      'Content-Type': 'application/json',
       'Authorization': 'Bearer $jwt',
     },
     decoder: (data) {

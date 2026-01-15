@@ -11,8 +11,6 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty dark;
   abstract final MsgProperty system;
   abstract final MsgProperty settings;
-  abstract final MsgProperty signOut;
-  abstract final MsgProperty deleteAccount;
   abstract final MsgProperty identify;
   abstract final MsgProperty welcomeApp;
   abstract final MsgProperty activateFingerprintFace;
@@ -22,12 +20,16 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty personalData;
   abstract final MsgProperty academicData;
   abstract final MsgProperty taxDataAccounts;
+  abstract final MsgProperty taxData;
   abstract final MsgProperty assistants;
+  abstract final MsgProperty myUsers;
   abstract final MsgProperty changeUser;
   abstract final MsgProperty password;
   abstract final MsgProperty email;
   abstract final MsgProperty forgotPassword;
+  abstract final MsgProperty changePassword;
   abstract final MsgProperty continueB;
+  abstract final MsgProperty login;
   abstract final MsgProperty cancel;
   abstract final MsgProperty loginBiometrics;
   abstract final MsgProperty dontHaveAccount;
@@ -53,6 +55,7 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty generalData;
   abstract final MsgProperty permissions;
   abstract final MsgProperty updateUser;
+  abstract final MsgProperty user;
   abstract final MsgProperty newUser;
   abstract final MsgProperty typeUser;
   abstract final MsgProperty phoneNumber;
@@ -71,7 +74,9 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty noForm;
 
   abstract final MsgProperty medicalReport;
+  abstract final MsgProperty requestMedicalAgreement;
   abstract final MsgProperty paymentManual;
+  abstract final MsgProperty paymentNumber;
   abstract final MsgProperty glossaryTerms;
   abstract final MsgProperty levelsAndTabs;
   abstract final MsgProperty annexes;
@@ -79,6 +84,8 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty gnpContact;
   abstract final MsgProperty webSite;
   abstract final MsgProperty gnpLine;
+  abstract final MsgProperty contact;
+  abstract final MsgProperty contactGnp;
   abstract final MsgProperty agreement;
   abstract final MsgProperty download;
   abstract final MsgProperty view;
@@ -91,10 +98,12 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty medicalCircle;
   abstract final MsgProperty medicalTabulator;
   abstract final MsgProperty status;
+  abstract final MsgProperty tabulators;
   abstract final MsgProperty consultGuidelines;
   abstract final MsgProperty updateInformation;
   abstract final MsgProperty terminationAgreement;
   abstract final MsgProperty downloadMedicalAgreement;
+  abstract final MsgProperty downloadFormats;
   abstract final MsgProperty directory;
   abstract final MsgProperty medicalRegister;
   abstract final MsgProperty registrationData;
@@ -113,6 +122,8 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty notSecondLastName;
 
   abstract final MsgProperty createAccount;
+  abstract final MsgProperty createRegister;
+  abstract final MsgProperty rememberUser;
   abstract final MsgProperty formats;
   abstract final MsgProperty transplantOrthopedicsFormat;
   abstract final MsgProperty transferFormat;
@@ -127,10 +138,12 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty documentationFormatPDFPNG;
   abstract final MsgProperty paymentByTransfer;
   abstract final MsgProperty documentationRequest;
+  abstract final MsgProperty requestDocumentation;
   abstract final MsgProperty goOut;
   abstract final MsgProperty begin;
   abstract final MsgProperty selectDocumentUpload;
   abstract final MsgProperty documents;
+  abstract final MsgProperty documentsUploaded;
   abstract final MsgProperty uploadFile;
   abstract final MsgProperty fileMaximum;
   abstract final MsgProperty threeMB;
@@ -153,6 +166,7 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty enterYourPassword;
   abstract final MsgProperty enterYourPhoneNumber;
   abstract final MsgProperty enterTenDigits;
+  abstract final MsgProperty enterMinDigits;
   abstract final MsgProperty enterYourOption;
   abstract final MsgProperty enterYourDate;
   abstract final MsgProperty enterYourRfc;
@@ -160,9 +174,12 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty rfcGenericNoAllowed;
   abstract final MsgProperty enterYourRfcName;
   abstract final MsgProperty rfcDigitsTwelveThirteen;
-  abstract final MsgProperty reTabulationsLegend;
-  abstract final MsgProperty bankingInfoLegend;
-  abstract final MsgProperty personalizedAssistanceLegend;
+  abstract final MsgProperty reTabulationsTitle;
+  abstract final MsgProperty reTabulationsSubtitle;
+  abstract final MsgProperty bankingInfoTitle;
+  abstract final MsgProperty bankingInfoSubtitle;
+  abstract final MsgProperty personalizedAssistanceTitle;
+  abstract final MsgProperty personalizedAssistanceSubtitle;
   abstract final MsgProperty onlyAlphabeticCharacters;
   abstract final MsgProperty toRegisterYouAccept;
   abstract final MsgProperty termsAndConditions;
@@ -181,17 +198,22 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty noResultsFound;
   abstract final MsgProperty selectBtnToContinue;
 
-  /// Modulo: Anexos
-  abstract final MsgProperty noAnnexesAvailable;
+  /// Modulo: Anexxes
+  abstract final MsgProperty noDataAvailable;
   abstract final MsgProperty errorOccurred;
   abstract final MsgProperty couldNotRetrieveAnnexes;
+  abstract final MsgProperty errorGettingAnnexes;
+  abstract final MsgProperty couldNotRetrieveBenefits;
+  abstract final MsgProperty couldNotRetrieveFormats;
+  abstract final MsgProperty errorDownloadingAnnex;
+  abstract final MsgProperty couldNotDownloadAnnex;
 
-  /// Modulo: Directorio
-  abstract final MsgProperty medico;
+  /// Modulo: Directory
+  abstract final MsgProperty doctor;
   abstract final MsgProperty hospital;
   abstract final MsgProperty clinica;
-  abstract final MsgProperty otrosServicios;
-  abstract final MsgProperty enconvenio;
+  abstract final MsgProperty otherServices;
+  abstract final MsgProperty inAgreement;
   abstract final MsgProperty errorGetting;
   abstract final MsgProperty lookingforHospital;
   abstract final MsgProperty optionalName;
@@ -205,9 +227,24 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty selectMunicipalityAfterState;
   abstract final MsgProperty toCheckLevelHospital;
   abstract final MsgProperty lookingforClinicaName;
-  abstract final MsgProperty lookingforOtrosServiciosName;
+  abstract final MsgProperty lookingforOtherServicesName;
+  abstract final MsgProperty home;
+  abstract final MsgProperty all;
+  abstract final MsgProperty errorLoadingStates;
+  abstract final MsgProperty search;
+  abstract final MsgProperty errorGettingMunicipalities;
+  abstract final MsgProperty searchForSpecialty;
+  abstract final MsgProperty searchResults;
+  abstract final MsgProperty resultsFoundPage;
+  abstract final MsgProperty selected;
+  abstract final MsgProperty noResultsWithFilters;
+  abstract final MsgProperty calculatingPleaseWait;
+  abstract final MsgProperty goodDay;
+  abstract final MsgProperty welcomeMessageBody;
+  abstract final MsgProperty welcomeMessageFooter;
+  abstract final MsgProperty deleteSearchFilters;
 
-  // Msg error nueva solicitud
+  /// Msg error nueva solicitud
   abstract final MsgProperty pleaseSelectASpecialty;
   abstract final MsgProperty pleaseSelectASubspecialty;
   abstract final MsgProperty pleaseSelectAState;
@@ -215,10 +252,125 @@ abstract class IAppMessages extends IMessages {
   abstract final MsgProperty pleaseSelectAtLeastOneHospital;
   abstract final MsgProperty pleaseEnterYourOfficeAddress;
 
-  // Nueva solicitud
+  /// New Request
   abstract final MsgProperty newRequest;
   abstract final MsgProperty medicalOfficeAddress;
   abstract final MsgProperty sendRequest;
+  abstract final MsgProperty actions;
+
+  /// My Procedures
+  abstract final MsgProperty myProcedures;
+  abstract final MsgProperty notProcedures;
+  abstract final MsgProperty errorToGetProcedures;
+  abstract final MsgProperty folio;
+  abstract final MsgProperty insuredName;
+  abstract final MsgProperty dateOfLoss;
+  abstract final MsgProperty condition;
+  abstract final MsgProperty attendingHospital;
+  abstract final MsgProperty policy;
+  abstract final MsgProperty noProceduresFoundForDate;
+  abstract final List<String> monthAbbreviations;
+
+  /// Profile
+  abstract final MsgProperty errorToGetProfile;
+  abstract final MsgProperty profile;
+  abstract final MsgProperty errorGettingDoctors;
+  abstract final MsgProperty errorGettingHospitals;
+  abstract final MsgProperty errorGettingClinics;
+  abstract final MsgProperty errorGettingOtherServices;
+  abstract final MsgProperty resetPassword;
+  abstract final MsgProperty signOut;
+  abstract final MsgProperty deleteAccount;
+  abstract final MsgProperty tResetPassword;
+  abstract final MsgProperty dResetPassword;
+  abstract final MsgProperty tSignOut;
+  abstract final MsgProperty dSignOut;
+  abstract final MsgProperty tDeleteAccount;
+  abstract final MsgProperty dDeleteAccount;
+  abstract final MsgProperty tDeletedAccount;
+  abstract final MsgProperty dDeletedAccount;
+
+  /// My Payments
+  abstract final MsgProperty myPayments;
+  abstract final MsgProperty paymentDate;
+  abstract final MsgProperty amountPaid;
+  abstract final MsgProperty paymentAccount;
+  abstract final MsgProperty associatedIncident;
+  abstract final MsgProperty paymentStatus;
+  abstract final MsgProperty amountClaimed;
+  abstract final MsgProperty bankingInstitution;
+  abstract final MsgProperty notPayments;
+  abstract final MsgProperty errorToGetPayments;
+
+  /// Module: ItemMap
+  abstract final MsgProperty noDataReceived;
+  abstract final MsgProperty locationServicesDisabledTitle;
+  abstract final MsgProperty locationServicesDisabledMessage;
+  abstract final MsgProperty permissionsDeniedTitle;
+  abstract final MsgProperty permissionsDeniedMessage;
+  abstract final MsgProperty permissionsPermanentlyDeniedTitle;
+  abstract final MsgProperty permissionsPermanentlyDeniedMessage;
+  abstract final MsgProperty errorMakingPhoneCall;
+  abstract final MsgProperty routeNotAvailableTitle;
+  abstract final MsgProperty routeNotAvailableMsg;
+  abstract final MsgProperty youAreHere;
+  abstract final MsgProperty errorLoadingProfileTitle;
+
+  abstract final MsgProperty evaluations;
+  abstract final MsgProperty error;
+  abstract final MsgProperty success;
+  abstract final MsgProperty failed;
+  abstract final MsgProperty endOfList;
+  abstract final MsgProperty emptyFilters;
+  abstract final MsgProperty invalidUserOrPassword;
+  abstract final MsgProperty passwordRecoveryLinkSent;
+  abstract final MsgProperty biometricsNotAvailable;
+  abstract final MsgProperty biometricAuthenticationFailed;
+  abstract final MsgProperty errorAuthenticating;
+  abstract final MsgProperty errorGettingFormat;
+  abstract final MsgProperty errorDetail;
+  abstract final MsgProperty errorLoadingProfile;
+  abstract final MsgProperty errorGettingDocument;
+  abstract final MsgProperty agreementNotInEffect;
+  abstract final MsgProperty agreementUpdated;
+  abstract final MsgProperty requestRegistered;
+  abstract final MsgProperty requestNotRegistered;
+  abstract final MsgProperty noMoreProceduresToLoad;
+  abstract final MsgProperty selectFilterAndEnterData;
+  abstract final MsgProperty successfulRegistration;
+  abstract final MsgProperty userRegisteredSuccessfully;
+  abstract final MsgProperty successfulUpdate;
+  abstract final MsgProperty assistantNotUpdated;
+  abstract final MsgProperty errorUpdatingAssistantPermissions;
+  abstract final MsgProperty noDocumentsUploadedYet;
+  abstract final MsgProperty dataNotLoaded;
+  abstract final MsgProperty errorLoadingData;
+  abstract final MsgProperty temailAlreadyRegistered;
+  abstract final MsgProperty demailAlreadyRegistered;
+
+  /// Change Password
+  abstract final MsgProperty dAtLeast8Chars;
+  abstract final MsgProperty dAtLeastOneUppercase;
+  abstract final MsgProperty dAtLeastOneLowercase;
+  abstract final MsgProperty dAtLeast4AlphaChars;
+  abstract final MsgProperty dAtLeastOneNumeric;
+  abstract final MsgProperty dAtLeastOneSpecialChar;
+  abstract final MsgProperty dNoGnpWord;
+  abstract final MsgProperty dNoConsecutiveEqualChars;
+  abstract final MsgProperty dNoConsecutiveChars;
+  abstract final MsgProperty dNoWhiteSpaces;
+  abstract final MsgProperty dPasswordsDoNotMatch;
+  abstract final MsgProperty successfulChange;
+  abstract final MsgProperty dPasswordUpdated;
+
+  /// New Messages for Registration
+  abstract final MsgProperty professionalLicense;
+  abstract final MsgProperty speciality;
+  abstract final MsgProperty subspeciality;
+  abstract final MsgProperty fieldRequired;
+
+
+  abstract final MsgProperty pageNotFound;
 
   @override
   Map<String, String> toJson() => {
@@ -227,8 +379,17 @@ abstract class IAppMessages extends IMessages {
     ...dark.msgMap,
     ...system.msgMap,
     ...settings.msgMap,
+    ...resetPassword.msgMap,
     ...signOut.msgMap,
     ...deleteAccount.msgMap,
+    ...tResetPassword.msgMap,
+    ...dResetPassword.msgMap,
+    ...tSignOut.msgMap,
+    ...dSignOut.msgMap,
+    ...tDeleteAccount.msgMap,
+    ...dDeleteAccount.msgMap,
+    ...tDeletedAccount.msgMap,
+    ...dDeletedAccount.msgMap,
     ...identify.msgMap,
     ...welcomeApp.msgMap,
     ...activateFingerprintFace.msgMap,
@@ -238,12 +399,16 @@ abstract class IAppMessages extends IMessages {
     ...personalData.msgMap,
     ...academicData.msgMap,
     ...taxDataAccounts.msgMap,
+    ...taxData.msgMap,
     ...assistants.msgMap,
     ...changeUser.msgMap,
+    ...user.msgMap,
     ...password.msgMap,
     ...email.msgMap,
     ...forgotPassword.msgMap,
+    ...changePassword.msgMap,
     ...continueB.msgMap,
+    ...login.msgMap,
     ...cancel.msgMap,
     ...loginBiometrics.msgMap,
     ...dontHaveAccount.msgMap,
@@ -285,20 +450,25 @@ abstract class IAppMessages extends IMessages {
     ...errorLoadingAssistants.msgMap,
     ...errorLoadingInvites.msgMap,
     ...errorLoadingContact.msgMap,
+    ...errorLoadingInfo.msgMap,
     ...noInvites.msgMap,
     ...noActiveInvites.msgMap,
     ...noForm.msgMap,
     ...medicalReport.msgMap,
+    ...requestMedicalAgreement.msgMap,
     ...paymentManual.msgMap,
+    ...paymentNumber.msgMap,
     ...glossaryTerms.msgMap,
     ...levelsAndTabs.msgMap,
     ...annexes.msgMap,
     ...benefits.msgMap,
     ...gnpContact.msgMap,
     ...webSite.msgMap,
+    ...contactGnp.msgMap,
     ...gnpLine.msgMap,
     ...agreement.msgMap,
     ...download.msgMap,
+    ...downloadFormats.msgMap,
     ...rfc.msgMap,
     ...withHomoclave.msgMap,
     ...doctorsName.msgMap,
@@ -307,6 +477,7 @@ abstract class IAppMessages extends IMessages {
     ...medicalCircle.msgMap,
     ...medicalTabulator.msgMap,
     ...status.msgMap,
+    ...tabulators.msgMap,
     ...consultGuidelines.msgMap,
     ...updateInformation.msgMap,
     ...terminationAgreement.msgMap,
@@ -316,6 +487,8 @@ abstract class IAppMessages extends IMessages {
     ...registrationData.msgMap,
     ...fullName.msgMap,
     ...createAccount.msgMap,
+    ...createRegister.msgMap,
+    ...rememberUser.msgMap,
     ...formats.msgMap,
     ...transplantOrthopedicsFormat.msgMap,
     ...transferFormat.msgMap,
@@ -330,10 +503,13 @@ abstract class IAppMessages extends IMessages {
     ...documentationFormatPDFPNG.msgMap,
     ...paymentByTransfer.msgMap,
     ...documentationRequest.msgMap,
+    ...requestDocumentation.msgMap,
+    ...requestMedicalAgreement.msgMap,
     ...goOut.msgMap,
     ...begin.msgMap,
     ...selectDocumentUpload.msgMap,
     ...documents.msgMap,
+    ...documentsUploaded.msgMap,
     ...uploadFile.msgMap,
     ...fileMaximum.msgMap,
     ...threeMB.msgMap,
@@ -360,6 +536,7 @@ abstract class IAppMessages extends IMessages {
     ...enterYourPassword.msgMap,
     ...enterYourPhoneNumber.msgMap,
     ...enterTenDigits.msgMap,
+    ...enterMinDigits.msgMap,
     ...enterYourOption.msgMap,
     ...enterYourDate.msgMap,
     ...enterYourRfc.msgMap,
@@ -367,14 +544,17 @@ abstract class IAppMessages extends IMessages {
     ...rfcGenericNoAllowed.msgMap,
     ...enterYourRfcName.msgMap,
     ...rfcDigitsTwelveThirteen.msgMap,
-    ...reTabulationsLegend.msgMap,
-    ...bankingInfoLegend.msgMap,
+    ...reTabulationsTitle.msgMap,
+    ...reTabulationsSubtitle.msgMap,
+    ...bankingInfoTitle.msgMap,
+    ...bankingInfoSubtitle.msgMap,
+    ...personalizedAssistanceTitle.msgMap,
+    ...personalizedAssistanceSubtitle.msgMap,
     ...onlyAlphabeticCharacters.msgMap,
     ...toRegisterYouAccept.msgMap,
     ...termsAndConditions.msgMap,
     ...fromGroupNational.msgMap,
     ...signUp.msgMap,
-    ...personalizedAssistanceLegend.msgMap,
     ...notLastName.msgMap,
     ...notSecondLastName.msgMap,
     ...homeTerms.msgMap,
@@ -382,13 +562,12 @@ abstract class IAppMessages extends IMessages {
     ...apologize.msgMap,
     ...noInvitation.msgMap,
     ...back.msgMap,
-    ...medico.msgMap,
-    ...enconvenio.msgMap,
+    ...doctor.msgMap,
+    ...inAgreement.msgMap,
     ...hospital.msgMap,
     ...clinica.msgMap,
-    ...otrosServicios.msgMap,
+    ...otherServices.msgMap,
     ...errorGetting.msgMap,
-    ...noAnnexesAvailable.msgMap,
     ...lookingforHospital.msgMap,
     ...optionalName.msgMap,
     ...circle.msgMap,
@@ -403,7 +582,7 @@ abstract class IAppMessages extends IMessages {
     ...selectMunicipalityAfterState.msgMap,
     ...toCheckLevelHospital.msgMap,
     ...lookingforClinicaName.msgMap,
-    ...lookingforOtrosServiciosName.msgMap,
+    ...lookingforOtherServicesName.msgMap,
     ...newRequest.msgMap,
     ...pleaseSelectASpecialty.msgMap,
     ...pleaseSelectASubspecialty.msgMap,
@@ -413,5 +592,114 @@ abstract class IAppMessages extends IMessages {
     ...medicalOfficeAddress.msgMap,
     ...pleaseEnterYourOfficeAddress.msgMap,
     ...sendRequest.msgMap,
+    ...myProcedures.msgMap,
+    ...notProcedures.msgMap,
+    ...errorToGetProcedures.msgMap,
+    ...myPayments.msgMap,
+    ...profile.msgMap,
+    ...errorToGetProfile.msgMap,
+    ...errorGettingDoctors.msgMap,
+    ...errorGettingHospitals.msgMap,
+    ...errorGettingClinics.msgMap,
+    ...errorGettingOtherServices.msgMap,
+    ...myUsers.msgMap,
+    ...home.msgMap,
+    ...all.msgMap,
+    ...errorLoadingStates.msgMap,
+    ...errorGettingMunicipalities.msgMap,
+    ...search.msgMap,
+    ...searchForSpecialty.msgMap,
+    ...searchResults.msgMap,
+    ...resultsFoundPage.msgMap,
+    ...selected.msgMap,
+    ...noResultsWithFilters.msgMap,
+    ...calculatingPleaseWait.msgMap,
+    ...goodDay.msgMap,
+    ...welcomeMessageBody.msgMap,
+    ...welcomeMessageFooter.msgMap,
+    ...deleteSearchFilters.msgMap,
+    ...errorGettingAnnexes.msgMap,
+    ...errorDownloadingAnnex.msgMap,
+    ...couldNotDownloadAnnex.msgMap,
+    ...folio.msgMap,
+    ...insuredName.msgMap,
+    ...dateOfLoss.msgMap,
+    ...condition.msgMap,
+    ...attendingHospital.msgMap,
+    ...policy.msgMap,
+    ...noProceduresFoundForDate.msgMap,
+    ...paymentDate.msgMap,
+    ...amountPaid.msgMap,
+    ...paymentAccount.msgMap,
+    ...associatedIncident.msgMap,
+    ...paymentStatus.msgMap,
+    ...amountClaimed.msgMap,
+    ...bankingInstitution.msgMap,
+    ...notPayments.msgMap,
+    ...noDataReceived.msgMap,
+    ...locationServicesDisabledTitle.msgMap,
+    ...locationServicesDisabledMessage.msgMap,
+    ...permissionsDeniedTitle.msgMap,
+    ...permissionsDeniedMessage.msgMap,
+    ...permissionsPermanentlyDeniedTitle.msgMap,
+    ...permissionsPermanentlyDeniedMessage.msgMap,
+    ...errorMakingPhoneCall.msgMap,
+    ...routeNotAvailableTitle.msgMap,
+    ...routeNotAvailableMsg.msgMap,
+    ...youAreHere.msgMap,
+    ...errorLoadingProfileTitle.msgMap,
+    ...noDataAvailable.msgMap,
+    ...evaluations.msgMap,
+    ...error.msgMap,
+    ...success.msgMap,
+    ...failed.msgMap,
+    ...endOfList.msgMap,
+    ...emptyFilters.msgMap,
+    ...invalidUserOrPassword.msgMap,
+    ...passwordRecoveryLinkSent.msgMap,
+    ...biometricsNotAvailable.msgMap,
+    ...biometricAuthenticationFailed.msgMap,
+    ...errorAuthenticating.msgMap,
+    ...errorGettingFormat.msgMap,
+    ...errorDetail.msgMap,
+    ...errorLoadingProfile.msgMap,
+    ...errorGettingDocument.msgMap,
+    ...agreementNotInEffect.msgMap,
+    ...agreementUpdated.msgMap,
+    ...requestRegistered.msgMap,
+    ...requestNotRegistered.msgMap,
+    ...noMoreProceduresToLoad.msgMap,
+    ...selectFilterAndEnterData.msgMap,
+    ...successfulRegistration.msgMap,
+    ...userRegisteredSuccessfully.msgMap,
+    ...successfulUpdate.msgMap,
+    ...assistantNotUpdated.msgMap,
+    ...errorUpdatingAssistantPermissions.msgMap,
+    ...dataNotLoaded.msgMap,
+    ...errorLoadingData.msgMap,
+    ...noDocumentsUploadedYet.msgMap,
+    ...dAtLeast8Chars.msgMap,
+    ...dAtLeastOneUppercase.msgMap,
+    ...dAtLeastOneLowercase.msgMap,
+    ...dAtLeast4AlphaChars.msgMap,
+    ...dAtLeastOneNumeric.msgMap,
+    ...dAtLeastOneSpecialChar.msgMap,
+    ...dNoGnpWord.msgMap,
+    ...dNoConsecutiveEqualChars.msgMap,
+    ...dNoConsecutiveChars.msgMap,
+    ...dNoWhiteSpaces.msgMap,
+    ...dPasswordsDoNotMatch.msgMap,
+    ...successfulChange.msgMap,
+    ...dPasswordUpdated.msgMap,
+    ...temailAlreadyRegistered.msgMap,
+    ...demailAlreadyRegistered.msgMap,
+    ...errorToGetPayments.msgMap,
+    ...professionalLicense.msgMap,
+    ...speciality.msgMap,
+    ...subspeciality.msgMap,
+    ...fieldRequired.msgMap,
+    ...actions.msgMap,
+    ...noResultsFound.msgMap,
+    ...pageNotFound.msgMap
   };
 }

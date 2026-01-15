@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/src/modules/profile/children/assistants/add_user/add_user_page.dart';
 import 'package:medicos/src/modules/profile/children/assistants/add_user/domain/dtos/assistant_dto.dart';
+import 'package:medicos/src/modules/welcome/widgets/modal_informative.dart';
 
 class CardAsistente extends StatelessWidget {
   const CardAsistente({
@@ -21,62 +23,17 @@ class CardAsistente extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future<void> showModal() async {
-      await showModalBottomSheet(
-        context: context,
-        shape: const RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-        ),
-        builder: (context) => Padding(
-          padding: const EdgeInsets.all(16),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              /// Title
-              Text(
-                assistant.activo ? msg.disableUser.value : msg.enableUser.value,
-
-                style: context.textTheme.titleMedium,
-              ),
-
-              /// SubTitle
-              Padding(
-                padding: const EdgeInsets.only(top: 20),
-                child: Container(
-                  alignment: Alignment.topLeft,
-                  child: Text(
-                    assistant.activo
-                        ? '''${msg.disableAssistant.value} ${assistant.nombre}'''
-                        : '''${msg.enableAssistant.value} ${assistant.nombre}''',
-
-                    textAlign: TextAlign.start,
-                    style: context.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w400,
-                      color: ColorPalette.textSecondary,
-                    ),
-                  ),
-                ),
-              ),
-
-              /// Button Continuar
-              Padding(
-                padding: const EdgeInsets.only(top: 10, bottom: 10),
-                child: ElevatedButton(
-                  onPressed: onPressed,
-                  child: Text(msg.accept.value),
-                ),
-              ),
-
-              /// Button Cancelar
-              TextButton(
-                onPressed: Get.back,
-                child: Text(msg.cancel.value),
-              ),
-
-              ///
-            ],
-          ),
-        ),
-      );
+       await appService.alert.showAlert(
+        child: ModalInformative(
+          title: assistant.activo ? msg.disableUser.tr() 
+          : msg.enableUser.tr(),
+          message:  assistant.activo
+          ? '''${msg.disableAssistant.tr()} ${assistant.nombre}'''
+          : '''${msg.enableAssistant.tr()} ${assistant.nombre}''',
+          onOk: onPressed,
+          onCancel: Get.back,
+        )
+       );
     }
 
     return Card(

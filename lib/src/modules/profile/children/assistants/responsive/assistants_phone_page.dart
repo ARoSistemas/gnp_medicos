@@ -8,12 +8,15 @@ class _AssistantsPhonePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBarPhoneWdgt(
-      title: msg.assistants.value,
+      title: msg.assistants.tr(),
       name: _c.user.nombreCompleto,
+      lastname: _c.user.apePaterno,
+      rfc: _c.user.rfc,
+      jwt: _c.user.token.jwt,
       medicalIdentifier: _c.user.codigoFiliacion,
     ),
     body: _c.obx(
-      (data) => Column(
+      (state) => Column(
         children: [
           /// Body
           Expanded(
@@ -22,15 +25,14 @@ class _AssistantsPhonePage extends StatelessWidget {
                 horizontal: 16,
                 vertical: 10,
               ),
-              itemCount: data!.assistants.length,
+              itemCount: state!.assistants.length,
               itemBuilder: (context, i) => CardAsistente(
                 onPressed: () async {
-                  Get.back();
                   await _c.onOffAssistant(
-                    assistant: data.assistants[i],
+                    assistant: state.assistants[i],
                   );
                 },
-                assistant: data.assistants[i],
+                assistant: state.assistants[i],
                 onRefresh: () async {
                   await _c.getAssistant(_c.user.codigoFiliacion);
                 },
@@ -44,15 +46,16 @@ class _AssistantsPhonePage extends StatelessWidget {
               padding: const EdgeInsetsGeometry.symmetric(horizontal: 16),
               child: ElevatedButton(
                 onPressed: _c.addAssistant,
-                child: Text(msg.addAssistant.value),
+                child: Text(msg.addAssistant.tr()),
               ),
             ),
           ),
         ],
       ),
+      onLoading: const Center(child: LoadingGnp()),
       onEmpty: Center(
         child: LoadingGnp(
-          title: msg.noAssistantsToShow.value,
+          title: msg.noAssistantsToShow.tr(),
           icon: const Icon(
             Icons.warning,
             size: 70,
@@ -62,16 +65,11 @@ class _AssistantsPhonePage extends StatelessWidget {
       ),
       onError: (_) => Center(
         child: LoadingGnp(
-          title: msg.errorLoadingAssistants.value,
-          subtitle: msg.pleaseTryAgainLater.value,
-          icon: const Icon(
-            Icons.error,
-            size: 70,
-            color: ColorPalette.primary,
-          ),
+          isError: true,
+          title: msg.errorLoadingAssistants.tr(),
+          subtitle: msg.pleaseTryAgainLater.tr(),
         ),
       ),
-      onLoading: const Center(child: LoadingGnp()),
     ),
   );
 }

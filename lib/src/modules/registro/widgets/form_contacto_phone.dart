@@ -1,10 +1,11 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:medicos/core/extensions/responsive_extension.dart';
 import 'package:medicos/core/utils/upper_case_text_formatter.dart';
 import 'package:medicos/shared/constans/constans.dart';
-import 'package:medicos/shared/messages/es/es_messages.dart';
+import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/utils/validators.dart';
 import 'package:medicos/src/modules/registro/registro_controller.dart';
@@ -37,11 +38,11 @@ class FormContactoPhone extends StatelessWidget {
             maxLength: 50,
             controller: _c.nameCtler,
             decoration: InputDecoration(
-              labelText: esMessages.mx.name.pValue,
-              hintText: esMessages.mx.name.pValue,
+              labelText: msg.name.pValue,
+              hintText: msg.name.pValue,
               counterText: '',
             ),
-            validator: Validators.name,
+            validator: (value) => Validators.inputText(value ?? ''),
             autovalidateMode: AutovalidateMode.onUserInteraction,
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.allow(
@@ -56,11 +57,11 @@ class FormContactoPhone extends StatelessWidget {
             maxLength: 30,
             controller: _c.lastNameCtler,
             decoration: InputDecoration(
-              labelText: esMessages.mx.notLastName.value,
-              hintText: esMessages.mx.notLastName.value,
+              labelText: msg.notLastName.tr(),
+              hintText: msg.notLastName.tr(),
               counterText: '',
             ),
-            validator: Validators.lastName,
+            validator: (value) => Validators.inputText(value ?? ''),
             autovalidateMode: AutovalidateMode.onUserInteraction,
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.allow(
@@ -75,11 +76,11 @@ class FormContactoPhone extends StatelessWidget {
             maxLength: 30,
             controller: _c.secondLastNameCtler,
             decoration: InputDecoration(
-              labelText: esMessages.mx.notSecondLastName.value,
-              hintText: esMessages.mx.notSecondLastName.value,
+              labelText: msg.notSecondLastName.tr(),
+              hintText: msg.notSecondLastName.tr(),
               counterText: '',
             ),
-            validator: Validators.secondLastName,
+            validator: (value) => Validators.inputText(value ?? ''),
             autovalidateMode: AutovalidateMode.onUserInteraction,
             inputFormatters: <TextInputFormatter>[
               FilteringTextInputFormatter.allow(
@@ -94,8 +95,8 @@ class FormContactoPhone extends StatelessWidget {
             maxLength: 100,
             controller: _c.emailCtler,
             decoration: InputDecoration(
-              labelText: esMessages.mx.email.value,
-              hintText: esMessages.mx.email.value,
+              labelText: msg.email.tr(),
+              hintText: msg.email.tr(),
               counterText: '',
             ),
             validator: Validators.email,
@@ -111,8 +112,8 @@ class FormContactoPhone extends StatelessWidget {
             controller: _c.phoneNumberCtler,
             maxLength: 10,
             decoration: InputDecoration(
-              labelText: esMessages.mx.phoneNumber.value,
-              hintText: esMessages.mx.phoneNumber.value,
+              labelText: msg.phoneNumber.tr(),
+              hintText: msg.phoneNumber.tr(),
               counterText: '',
             ),
             keyboardType: TextInputType.phone,
@@ -152,17 +153,77 @@ class FormContactoPhone extends StatelessWidget {
             ),
           ),
 
+          SizedBox(height: context.scale(30, axis: ScaleAxis.height)),
+          /// Professional License
+          TextFormField(
+            controller: _c.cedProfesionalCtler,
+            maxLength: 10,
+            decoration: InputDecoration(
+              labelText: msg.professionalLicense.tr(),
+              hintText: msg.professionalLicense.tr(),
+              counterText: '',
+            ),
+            validator: (val) => Validators.cedule(val, required: true),
+            keyboardType: TextInputType.number,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly,
+            ],
+          ),
+          SizedBox(height: context.scale(30, axis: ScaleAxis.height)),
+
+          /// Speciality
+          TextFormField(
+            controller: _c.cedEspecialidadCtler,
+            maxLength: 10,
+            decoration: InputDecoration(
+              labelText: msg.speciality.tr(),
+              hintText: msg.speciality.tr(),
+              counterText: '',
+            ),
+            validator: (val) => Validators.cedule(val, required: true),
+            keyboardType: TextInputType.number,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly,
+            ],
+          ),
+          SizedBox(height: context.scale(30, axis: ScaleAxis.height)),
+
+          /// Subspeciality
+          TextFormField(
+            controller: _c.cedSubespecialidadCtler,
+            maxLength: 10,
+            decoration: InputDecoration(
+              labelText: msg.subspeciality.tr(),
+              hintText: msg.subspeciality.tr(),
+              counterText: '',
+            ),
+            keyboardType: TextInputType.number,
+            validator: Validators.cedule,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            inputFormatters: <TextInputFormatter>[
+              FilteringTextInputFormatter.digitsOnly,
+            ],
+          ),
+          SizedBox(height: context.scale(30, axis: ScaleAxis.height)),
+
           /// Btn Accept
           Padding(
             padding: const EdgeInsets.only(top: 30),
             child: Obx(
               () => ElevatedButton(
+                style: kIsWeb ? Get.theme.elevatedButtonTheme.style?.copyWith(
+                  minimumSize: WidgetStateProperty.all(
+                    const Size(0, 48),
+                  ),
+                ) : null,
                 onPressed: _c.isLoading.value ? null : _c.registerService,
                 child: _c.isLoading.value
                     ? const CircularProgressIndicator(
                         color: ColorPalette.primary,
                       )
-                    : Text(esMessages.mx.signUp.value),
+                    : Text(msg.signUp.tr()),
               ),
             ),
           ),
@@ -172,7 +233,15 @@ class FormContactoPhone extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 10),
             child: TextButton(
               onPressed: Get.back,
-              child: Text(esMessages.mx.cancel.value),
+              style: kIsWeb ? Get.theme.textButtonTheme.style?.copyWith(
+                minimumSize: WidgetStateProperty.all(
+                  const Size(0, 48),
+                ),
+                padding: WidgetStateProperty.all(
+                  EdgeInsets.zero,
+                ),
+              ) : null,
+              child: Text(msg.cancel.tr()),
             ),
           ),
           Padding(
@@ -181,12 +250,12 @@ class FormContactoPhone extends StatelessWidget {
               text: TextSpan(
                 style: context.textTheme.labelMedium,
                 children: [
-                  TextSpan(text: esMessages.mx.toRegisterYouAccept.value),
+                  TextSpan(text: msg.toRegisterYouAccept.tr()),
                   TextSpan(
-                    text: esMessages.mx.termsAndConditions.value,
+                    text: msg.termsAndConditions.tr(),
                     style: const TextStyle(color: ColorPalette.primary),
                   ),
-                  TextSpan(text: esMessages.mx.fromGroupNational.value),
+                  TextSpan(text: msg.fromGroupNational.tr()),
                 ],
               ),
             ),

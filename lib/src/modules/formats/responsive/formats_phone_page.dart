@@ -8,12 +8,15 @@ class _FormatsPhonePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
     appBar: AppBarPhoneWdgt(
-      title: msg.formats.value,
+      title: msg.formats.tr(),
       name: _c.user.nombreCompleto,
+      lastname: _c.user.apePaterno,
+      rfc: _c.user.rfc,
+      jwt: _c.user.token.jwt,
       medicalIdentifier: _c.user.codigoFiliacion,
     ),
     body: _c.obx(
-       (data) => Column(
+      (state) => Column(
         children: <Widget>[
           SizedBox(height: context.scale(20, axis: ScaleAxis.height)),
           Expanded(
@@ -23,42 +26,44 @@ class _FormatsPhonePage extends StatelessWidget {
                 left: 16,
                 right: 16,
               ),
-              itemCount: data?.formatsList.length,
+              itemCount: state?.formatsList.length,
               itemBuilder: (context, index) => Padding(
                 padding: const EdgeInsets.all(8),
                 child: CardFileDownload(
-                  nombre: data!.formatsList[index].description.split('.').first,
-                  onDownload: () => 
-                  _c.downloadFormato(data.formatsList[index].fileName),
+                  nombre: state!.formatsList[index].description
+                      .split('.')
+                      .first,
+                  image: _c.getNameImage(state.formatsList[index].fileName),
+                  onDownload: () =>
+                      _c.downloadFormato(state.formatsList[index].fileName),
+                  jwt: _c.appState.user.token.jwt,
                 ),
-              )
+              ),
             ),
           ),
         ],
       ),
-      onEmpty: const Center(
+      onLoading: const Center(child: LoadingGnp()),
+      onEmpty: Center(
         child: LoadingGnp(
-          icon: Icon(
+          icon: const Icon(
             Icons.error,
             size: 70,
             color: ColorPalette.primary,
           ),
-          title: 'Sin formatos disponibles',
+          title: msg.noDataAvailable.tr(
+            args: [msg.formats.tr().toLowerCase()],
+          ),
           subtitle: '',
         ),
       ),
-      onError: (_) => const Center(
+      onError: (_) => Center(
         child: LoadingGnp(
-          icon: Icon(
-            Icons.error,
-            size: 70,
-            color: ColorPalette.primary,
-          ),
-          title: 'Ocurrió un error',
-          subtitle: 'No fue posible recuperar los formatos',
+          isError: true,
+          title: msg.errorOccurred.tr(),
+          subtitle: msg.couldNotRetrieveFormats.tr(),
         ),
       ),
-      onLoading: const Center(child: LoadingGnp()),
     ),
   );
 }

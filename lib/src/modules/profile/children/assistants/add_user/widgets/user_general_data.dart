@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:medicos/core/extensions/null_extensions.dart';
 import 'package:medicos/shared/constans/constans.dart';
-import 'package:medicos/shared/messages/es/es_messages.dart';
+import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/utils/validators.dart';
 import 'package:medicos/src/modules/profile/children/assistants/add_user/add_user_controller.dart';
@@ -22,8 +22,8 @@ class UserGeneralData extends StatelessWidget {
         TextFormField(
           maxLength: 50,
           decoration: InputDecoration(
-            labelText: esMessages.mx.name.value,
-            hintText: esMessages.mx.name.value,
+            labelText: msg.name.tr(),
+            hintText: msg.name.tr(),
             counterText: ''
           ),
           controller: _c.nameController,
@@ -44,8 +44,8 @@ class UserGeneralData extends StatelessWidget {
             controller: _c.lastNameController,
             validator: Validators.lastName,
             decoration: InputDecoration(
-              labelText: esMessages.mx.lastName.value,
-              hintText: esMessages.mx.lastName.value,
+              labelText: msg.lastName.tr(),
+              hintText: msg.lastName.tr(),
               counterText: ''
             ),
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -63,8 +63,8 @@ class UserGeneralData extends StatelessWidget {
           controller: _c.secondLastNameController,
           validator: Validators.secondLastName,
           decoration: InputDecoration(
-            labelText: esMessages.mx.secondLastName.value,
-            hintText: esMessages.mx.secondLastName.value,
+            labelText: msg.secondLastName.tr(),
+            hintText: msg.secondLastName.tr(),
             counterText: ''
           ),
           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -84,8 +84,8 @@ class UserGeneralData extends StatelessWidget {
             controller: _c.emailController,
             validator: Validators.email,
             decoration: InputDecoration(
-              labelText: esMessages.mx.email.value,
-              hintText: esMessages.mx.email.value,
+              labelText: msg.email.tr(),
+              hintText: msg.email.tr(),
               counterText: ''
             ),
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -103,8 +103,8 @@ class UserGeneralData extends StatelessWidget {
           keyboardType: TextInputType.phone,
           validator: Validators.phone,
           decoration: InputDecoration(
-            labelText: esMessages.mx.phoneNumber.value,
-            hintText: esMessages.mx.phoneNumber.value,
+            labelText: msg.phoneNumber.tr(),
+            hintText: msg.phoneNumber.tr(),
             counterText: ''
           ),
           inputFormatters: <TextInputFormatter>[
@@ -122,8 +122,8 @@ class UserGeneralData extends StatelessWidget {
             readOnly: true,
             onTap: () => _c.selectDateCalendar(context), 
             decoration: InputDecoration(
-              labelText: esMessages.mx.birthdate.value,
-              hintText: esMessages.mx.birthdate.value,
+              labelText: msg.birthdate.tr(),
+              hintText: msg.birthdate.tr(),
               suffixIcon: IconButton(
                 icon: const Icon(Icons.calendar_today),
                 onPressed: () => _c.selectDateCalendar(context),
@@ -141,14 +141,9 @@ class UserGeneralData extends StatelessWidget {
               : _c.selectedItemType.value,
           validator: Validators.option,
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          hint: Padding(
-            padding: const EdgeInsets.only(left: 10),
-            child: Text(
-              esMessages.mx.typeUser.value,
-              style: context.textTheme.titleMedium?.copyWith(
-                color: ColorPalette.labelText,
-              ),
-            ),
+          decoration: InputDecoration(
+            labelText: msg.typeUser.tr(),
+            floatingLabelBehavior: FloatingLabelBehavior.auto,
           ),
           isExpanded: true,
           onChanged: _c.selectTypeAssistant,
@@ -174,7 +169,7 @@ class UserGeneralData extends StatelessWidget {
           child: ElevatedButton(
             onPressed: _c.validForm,
             child: Text(
-              esMessages.mx.continueB.value,
+              msg.continueB.tr(),
             ),
           ),
         ),

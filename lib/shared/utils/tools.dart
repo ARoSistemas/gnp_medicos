@@ -1,3 +1,6 @@
+import 'dart:io';
+
+import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
 class Tools {
@@ -50,14 +53,32 @@ class Tools {
     const withDiacritics = 'áàäâãéèëêíìïîóòöôõúùüûñÁÀÄÂÃÉÈËÊÍÌÏÎÓÒÖÔÕÚÙÜÛÑ';
     const withoutDiacritics = 'aaaaaeeeeiiiiooooouuuunAAAAAEEEEIIIIOOOOOUUUUN';
 
-    return str
-      .split('')
-      .map((char) {
-        final int index = withDiacritics.indexOf(char);
-        return index == -1
-            ? char.toLowerCase()
-            : withoutDiacritics[index].toLowerCase();
-      })
-      .join();
+    return str.split('').map((char) {
+      final int index = withDiacritics.indexOf(char);
+      return index == -1
+          ? char.toLowerCase()
+          : withoutDiacritics[index].toLowerCase();
+    }).join();
+  }
+
+  String formatMXN(double value) {
+    final formatter = NumberFormat.currency(
+      locale: 'es_MX',
+      symbol: r'$',
+      decimalDigits: 2,
+    );
+    return formatter.format(value);
+  }
+
+  static String getPlatformName() {
+    if (kIsWeb) {
+      return 'web';
+    } else if (Platform.isAndroid) {
+      return 'android';
+    } else if (Platform.isIOS) {
+      return 'ios';
+    } else {
+      return 'other';
+    }
   }
 }

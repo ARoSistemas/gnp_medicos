@@ -35,8 +35,9 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+         <!-- Aquí se usa el placeholder definido en build.gradle.kts -->
          <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyD7GXXga8PBGyqsF-vA6n10geYEQfWZ5dw"/>
+               android:value="${androidFirebaseApiKey}"/>
     </application>
     <!-- Required to query activities that can process text, see:
            https://developer.android.com/training/package-visibility and

@@ -2,20 +2,19 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicos/core/extensions/font_size_extension.dart';
-import 'package:medicos/core/extensions/responsive_extension.dart';
+import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/widgets/drawer/widgets/item_drawer.dart';
-import 'package:medicos/src/modules/anexos/anexos_page.dart';
+import 'package:medicos/src/modules/annexes/annexes_page.dart';
 import 'package:medicos/src/modules/benefits/benefits_page.dart';
-import 'package:medicos/src/modules/contacto/contacto_page.dart';
+import 'package:medicos/src/modules/contact/contact_page.dart';
 import 'package:medicos/src/modules/convenio_medico/convenio_medico_page.dart';
-import 'package:medicos/src/modules/directorio/directorio_page.dart';
-import 'package:medicos/src/modules/evaluations/evaluations_page.dart';
+import 'package:medicos/src/modules/directory/directory_page.dart';
 import 'package:medicos/src/modules/formats/formats_page.dart';
 import 'package:medicos/src/modules/payments/payments_page.dart';
 import 'package:medicos/src/modules/procedures/procedures_page.dart';
-import 'package:medicos/src/modules/solicitud_convenio_medico/solicitud_convenio_medico_page.dart';
-import 'package:medicos/src/modules/tabuladores/tabuladores_page.dart';
+import 'package:medicos/src/modules/request_medical_agreement/request_medical_agreement_page.dart';
+import 'package:medicos/src/modules/tabulators/tabulators_page.dart';
 
 class DrawerPhone extends StatelessWidget {
   const DrawerPhone({
@@ -33,72 +32,74 @@ class DrawerPhone extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String request = msg.requestAgreement.tr().replaceAll('de ', '');
+
     final List<ItemForDrawer> items = [
       ItemForDrawer(
         iconName: 'icono_modulo_convenio_medico.png',
-        title: 'Convenio Médico',
+        title: '${msg.agreement.tr()} ${msg.doctor.tr().toLowerCase()}',
         route: ConvenioMedicoPage.page.name,
         visible:
             (permisos[ConvenioMedicoPage.page.name] ?? false) && banConvenio,
       ),
       ItemForDrawer(
         iconName: 'icono_modulo_tabuladores.png',
-        title: 'Tabuladores',
+        title: msg.tabulators.tr(),
         route: TabuladoresPage.page.name,
         visible: (permisos[TabuladoresPage.page.name] ?? false) && banConvenio,
       ),
       ItemForDrawer(
         iconName: 'icono_modulo_mis_pagos.png',
-        title: 'Mis pagos',
+        title: msg.myPayments.tr(),
         route: PaymentsPage.page.name,
         visible: permisos[PaymentsPage.page.name] ?? false,
       ),
       ItemForDrawer(
         iconName: 'icono_modulo_solicitud_convenio_medico.png',
-        title: 'Solicitud convenio médico',
-        route: SolicitudConvenioMedicoPage.page.name,
-        visible: permisos[SolicitudConvenioMedicoPage.page.name] ?? false,
+        title: '$request ${msg.doctor.tr().toLowerCase()}',
+        route: RequestMedicalAgreementPage.page.name,
+        visible: permisos[RequestMedicalAgreementPage.page.name] ?? false,
       ),
       ItemForDrawer(
         iconName: 'icono_modulo_mis_tramites.png',
-        title: 'Mis tramites',
+        title: msg.myProcedures.tr(),
         route: ProceduresPage.page.name,
         visible: (permisos[ProceduresPage.page.name] ?? false) && banConvenio,
       ),
       ItemForDrawer(
         iconName: 'icono_modulo_beneficios.png',
-        title: 'Beneficios',
+        title: msg.benefits.tr(),
         route: BeneficiosPage.page.name,
         visible: (permisos[BeneficiosPage.page.name] ?? false) && banConvenio,
       ),
       ItemForDrawer(
         iconName: 'icono_modulo_anexos.png',
-        title: 'Anexos',
-        route: AnexosPage.page.name,
-        visible: permisos[AnexosPage.page.name] ?? false,
+        title: msg.annexes.tr(),
+        route: AnnexesPage.page.name,
+        visible: permisos[AnnexesPage.page.name] ?? false,
       ),
       ItemForDrawer(
         iconName: 'icono_modulo_formatos.png',
-        title: 'Formatos',
+        title: msg.formats.tr(),
         route: FormatsPage.page.name,
         visible: permisos[FormatsPage.page.name] ?? false,
       ),
-      ItemForDrawer(
-        iconName: 'icono_modulo_evaluacion.png',
-        title: 'Evaluación',
-        route: EvaluationsPage.page.name,
-        visible: true,
-      ),
+      // ItemForDrawer(
+      //   iconName: 'icono_modulo_evaluacion.png',
+      //   title: 'Evaluación',
+      //   route: EvaluationsPage.page.name,
+      //   visible: true,
+      // ),
       ItemForDrawer(
         iconName: 'icono_modulo_directorio_medico.png',
-        title: 'Directorio médico',
-        route: DirectorioPage.page.name,
-        visible: permisos[DirectorioPage.page.name] ?? false,
+        title: '${msg.directory.tr()} ${msg.doctor.tr().toLowerCase()}',
+        route: DirectoryPage.page.name,
+        visible: permisos[DirectoryPage.page.name] ?? false,
       ),
       ItemForDrawer(
         iconName: 'icono_modulo_contacto.png',
-        title: 'Contacto GNP',
-        route: ContactoPage.page.name,
+        title: msg.contactGnp.tr(),
+        route: ContactPage.page.name,
         visible: true,
       ),
     ];
@@ -107,9 +108,7 @@ class DrawerPhone extends StatelessWidget {
       child: Column(
         children: [
           /// Body
-          SizedBox(
-            height: context.pHeight(92),
-            width: double.infinity,
+          Flexible(
             child: ListView.builder(
               itemCount: items.length,
               itemBuilder: (_, i) => Visibility(
@@ -129,21 +128,21 @@ class DrawerPhone extends StatelessWidget {
           /// Footer
           SizedBox(
             child: Padding(
-              padding: const EdgeInsets.only(left: 20),
+              padding: const EdgeInsets.only(left: 16, bottom: 16),
               child: Column(
                 children: [
-                  Row(
-                    children: [
-                      Text(
-                        'Última sesión: 04/01/2025 12_18:11',
-                        style: TextStyle(
-                          fontSize: context.fontSize(12),
-                          color: ColorPalette.textPrimary,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   children: [
+                  //     Text(
+                  //       'Última sesión: 04/01/2025 12_18:11',
+                  //       style: TextStyle(
+                  //         fontSize: context.fontSize(12),
+                  //         color: ColorPalette.textPrimary,
+                  //         fontWeight: FontWeight.w600,
+                  //       ),
+                  //     ),
+                  //   ],
+                  // ),
                   const Divider(color: Colors.transparent),
                   Row(
                     children: [

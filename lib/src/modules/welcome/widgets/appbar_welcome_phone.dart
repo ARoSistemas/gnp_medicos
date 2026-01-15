@@ -9,9 +9,18 @@ import 'package:medicos/src/modules/profile/profile_page.dart';
 
 class AppbarWelcomePhone extends StatelessWidget
     implements PreferredSizeWidget {
-  const AppbarWelcomePhone({required this.nombre, super.key});
+  const AppbarWelcomePhone({
+    required this.name,
+    required this.lastname,
+    required this.rfc,
+    required this.jwt,
+    super.key,
+  });
 
-  final String nombre;
+  final String name;
+  final String lastname;
+  final String rfc;
+  final String jwt;
 
   @override
   Widget build(BuildContext context) => AppBar(
@@ -28,9 +37,12 @@ class AppbarWelcomePhone extends StatelessWidget
         padding: const EdgeInsets.only(top: 10, bottom: 5),
         width: context.scale(50),
         child: AvatarUser(
-          name: nombre,
+          name: name,
+          lastname: lastname,
+          rfc: rfc,
+          jwt: jwt,
           isPerfil: false,
-          radius: 40,
+          radius: 18,
           onTap: () => Get.toNamed(ProfilePage.page.name),
         ),
       ),
@@ -44,6 +56,11 @@ class AppbarWelcomePhone extends StatelessWidget
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
     super.debugFillProperties(properties);
-    properties.add(StringProperty('nombre', nombre));
+
+    properties
+      ..add(StringProperty('name', name))
+      ..add(StringProperty('lastname', lastname))
+      ..add(StringProperty('rfc', rfc))
+      ..add(StringProperty('jwt', jwt));
   }
 }

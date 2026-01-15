@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicos/core/extensions/responsive_extension.dart';
 import 'package:medicos/core/services/navigation/route_params.dart';
+import 'package:medicos/shared/mddlewares/auth_middleware.dart';
 import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/widgets/appbar_web.dart';
@@ -33,7 +34,7 @@ class FormatsPage extends GetResponsiveView<FormatsController> {
     transition: Transition.rightToLeft,
     customTransition: MenuWebAdaptiveTransition(),
     binding: _FormatsBindings(),
-    middlewares: [_FormatsMiddleware()],
+    middlewares: [_FormatsMiddleware(), AuthGuard()],
   );
 
   @override

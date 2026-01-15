@@ -13,7 +13,7 @@ class AddUserRepository extends ApiBaseProvider {
   final String url = AppConfig.baseUrlMedicos;
 
   @override
-  final String contextPath = '/admonproveedores/asistentes';
+  final String contextPath = '/admonproveedores';
 
   /// Fetch for assistants list.
   ///
@@ -36,7 +36,7 @@ class AddUserRepository extends ApiBaseProvider {
   Future<Response<List<TiposAsistentesModel>>> getTypeAssistants(
     String jwt,
   ) => get(
-    '/tipos',
+    '/asistentes/tipos',
     headers: finalHeaders(jwt),
     decoder: (data) {
       if (data is List) {
@@ -76,7 +76,7 @@ class AddUserRepository extends ApiBaseProvider {
     String jwt,
   ) => post(
     headers: finalHeaders(jwt),
-    '/relacion-medico',
+    '/medicos/asistentes/relaciones',
     registerModel.toJson(),
     decoder: (data) {
       if (data is Map) {
@@ -107,7 +107,7 @@ class AddUserRepository extends ApiBaseProvider {
     required AssistantUpdateModel updateAssistantModel,
     required String jwt,
   }) => put(
-    '/$idAssistant',
+    '/asistentes/$idAssistant',
     headers: finalHeaders(jwt),
     updateAssistantModel.toJson(),
     decoder: (data) {
@@ -197,7 +197,7 @@ class AddUserRepository extends ApiBaseProvider {
     String jwt,
   ) => get(
     headers: finalHeaders(jwt),
-    '/$idAssistant/medicos/$affiliationCode/permisos',
+    '/asistentes/$idAssistant/medicos/$affiliationCode/permisos',
     decoder: (data) {
       if (data is List) {
         final List<PermissionsDto> list = data
@@ -288,7 +288,7 @@ class AddUserRepository extends ApiBaseProvider {
     required List<String> permissions,
     required String jwt,
   }) async {
-    final String endpoint = '/$idAssistant/medicos/$affiliationCode/permisos';
+    final String endpoint = '/asistentes/$idAssistant/medicos/$affiliationCode/permisos';
 
     Response response = const Response(
       statusCode: 0,
@@ -306,7 +306,7 @@ class AddUserRepository extends ApiBaseProvider {
   }
 
   Future getDoctors(String idAssistant, String jwt) async {
-    final String loginEnpoint = '/$idAssistant/medicos';
+    final String loginEnpoint = '/asistentes/$idAssistant/medicos';
 
     final Response response = await get(
       headers: finalHeaders(jwt),
@@ -319,7 +319,6 @@ class AddUserRepository extends ApiBaseProvider {
   }
 
   Map<String, String> finalHeaders(String jwt) => {
-    'Content-Type': 'application/json',
     'Authorization': 'Bearer $jwt',
   };
 }

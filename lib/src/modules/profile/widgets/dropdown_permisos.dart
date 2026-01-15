@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:medicos/shared/messages/es/es_messages.dart';
+import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 
 class DropdownPermission extends StatelessWidget {
@@ -34,7 +34,7 @@ class DropdownPermission extends StatelessWidget {
           .toList(),
       hint: Text((value != null && value!.isNotEmpty) ? value! : title),
       decoration: InputDecoration(
-        labelText: esMessages.mx.selectOneOrMoreOptions.value,
+        labelText: msg.selectOneOrMoreOptions.tr(),
         labelStyle: Get.textTheme.labelMedium?.copyWith(
           color: ColorPalette.textTertiary,
           fontWeight: FontWeight.w500,

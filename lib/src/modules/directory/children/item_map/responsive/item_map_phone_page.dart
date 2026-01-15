@@ -1,0 +1,248 @@
+part of '../item_map_page.dart';
+
+class _ItemMapPhonePage extends StatelessWidget {
+  _ItemMapPhonePage();
+
+  final ItemMapController _c = Get.find<ItemMapController>();
+
+  @override
+  Widget build(BuildContext context) => Scaffold(
+    appBar: AppBarPhoneWdgt(
+      title: _c.state?.name ?? '',
+      name: _c.user.nombreCompleto,
+      lastname: _c.user.apePaterno,
+      rfc: _c.user.rfc,
+      jwt: _c.user.token.jwt,
+      medicalIdentifier: _c.user.codigoFiliacion,
+    ),
+    body: _c.obx(
+      (state) => Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 8),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            /// Map
+            SizedBox(
+              width: double.infinity,
+              height: context.pHeight(50),
+              child: Stack(
+                children: [
+                  /// Map
+                  Obx(
+                    () => SizedBox(
+                      height: context.pHeight(50),
+                      child: GoogleMap(
+                        key: _c.mapKey.value,
+                        scrollGesturesEnabled: false,
+                        zoomControlsEnabled: false,
+                        zoomGesturesEnabled: false,
+                        rotateGesturesEnabled: false,
+                        initialCameraPosition: _c.state!.gps,
+                        onMapCreated: _c.onMapCreated,
+                        markers: _c.markers,
+                        polylines: _c.polylines,
+                        compassEnabled: false,
+                        myLocationButtonEnabled: false,
+                      ),
+                    ),
+                  ),
+
+                  /// Center marker
+                  Obx(
+                    () => _c.showCentralPin.value
+                        ? const Center(
+                            child: Padding(
+                              padding: EdgeInsets.only(bottom: 40),
+                              child: Icon(
+                                Icons.location_on,
+                                color: ColorPalette.primary,
+                                size: 40,
+                              ),
+                            ),
+                          )
+                        : const SizedBox.shrink(),
+                  ),
+
+                  /// Transport mode buttons
+                  Align(
+                    alignment: Alignment.bottomCenter,
+                    child: SizedBox(
+                      width: context.pWidth(40),
+                      height: context.pHeight(5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          /// Icon gps
+                          GestureDetector(
+                            onTap: () =>
+                                _c.goToCurrentLocation(moveCamera: true),
+                            child: const DecoratedBox(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(5),
+                                  bottomLeft: Radius.circular(5),
+                                ),
+                                color: Colors.white,
+                              ),
+                              child: Icon(
+                                Icons.my_location,
+                                color: Color(0xFF59677D),
+                                size: 35,
+                              ),
+                            ),
+                          ),
+
+                          /// Icon car
+                          if (state!.lat.isNotEmpty && state.lng.isNotEmpty)
+                            InkWell(
+                              onTap: () async {
+                                await _c.getRouteTransportMode(
+                                  isModeDriving: true,
+                                  isWeb: false,
+                                );
+                              },
+                              child: const Padding(
+                                padding: EdgeInsets.only(left: 4, right: 4),
+                                child: DecoratedBox(
+                                  decoration: BoxDecoration(
+                                    color: Colors.white,
+                                  ),
+                                  child: Icon(
+                                    Icons.directions_car,
+                                    color: Color(0xFF59677D),
+                                    size: 35,
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                          /// Icon walking
+                          if (state.lat.isNotEmpty && state.lng.isNotEmpty)
+                            InkWell(
+                              onTap: () async {
+                                await _c.getRouteTransportMode(
+                                  isModeDriving: false,
+                                  isWeb: false,
+                                );
+                              },
+                              child: const DecoratedBox(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                    topRight: Radius.circular(5),
+                                    bottomRight: Radius.circular(5),
+                                  ),
+                                  color: Colors.white,
+                                ),
+                                child: Icon(
+                                  Icons.directions_walk,
+                                  color: Color(0xFF59677D),
+                                  size: 35,
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ),
+
+                  /// UI loading
+                  Obx(
+                    () => _c.isLoadingRoute.value
+                        ? Container(
+                            height: context.pHeight(50),
+                            color: Colors.grey.shade50,
+                          )
+                        : const SizedBox.shrink(),
+                  ),
+                  Obx(
+                    () => _c.isLoadingRoute.value
+                        ?   Center(
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const CircularProgressIndicator(
+                                  color: ColorPalette.primary,
+                                ),
+                                const Divider(color: Colors.transparent),
+                                Text(
+                                  msg.calculatingPleaseWait.tr(),
+                                  style: const TextStyle(
+                                    color: ColorPalette.primary,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                        : const SizedBox.shrink(),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 30),
+
+            /// Title
+            Text(
+              _c.state!.title,
+              style: Get.textTheme.titleMedium,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+
+            /// SubTitle
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: Text(
+                _c.state!.subtitle,
+                style: Get.textTheme.bodySmall,
+              ),
+            ),
+
+            /// Description
+            Text(
+              _c.state!.desc,
+              style: Get.textTheme.bodyMedium,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
+
+            /// Telefono
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10),
+              child: InkWell(
+                onTap: _c.launchPhone,
+                child: Text(
+                  _c.state!.tel,
+                  style: Get.textTheme.bodyMedium!.copyWith(
+                    color: ColorPalette.primary,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+      onLoading: const Center(child: LoadingGnp()),
+      onEmpty: Center(
+        child: LoadingGnp(
+          icon: const Icon(
+            Icons.warning,
+            size: 70,
+            color: ColorPalette.primary,
+          ),
+          title: msg.noInformationToShow.tr(),
+          subtitle: '',
+        ),
+      ),
+      onError: (_) => Center(
+        child: LoadingGnp(
+          isError: true,
+          title: msg.errorLoadingInfo.tr(),
+          subtitle: msg.pleaseTryAgainLater.tr(),
+        ),
+      ),
+    ),
+  );
+}

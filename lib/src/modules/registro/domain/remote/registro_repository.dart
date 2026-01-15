@@ -11,7 +11,7 @@ class RegistroRepository extends ApiBaseProvider {
   final String contextPath = '/admonproveedores/conveniomedicos';
 
   Future<bool> registerService(Map<String, String> data) async {
-    final Response res = await post('/usuarios/registrar', data);
+    final Response res = await post('/usuarios', data);
     return (res.statusCode ?? 0) >= 200 && (res.statusCode ?? 0) <= 299;
   }
 }

@@ -1,9 +1,5 @@
 import 'dart:convert';
-   
 
-
-
-   
 class AssistantDto {
   AssistantDto({
     required this.nombre,

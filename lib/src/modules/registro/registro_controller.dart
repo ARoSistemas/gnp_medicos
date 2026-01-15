@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:medicos/core/services/app_service.dart';
 import 'package:medicos/core/services/threads/threads_service.dart';
-import 'package:medicos/shared/services/alerts/notification_service.dart';
 import 'package:medicos/shared/utils/validators.dart';
-import 'package:medicos/shared/widgets/custom_notification.dart';
+import 'package:medicos/shared/widgets/custom_alert.dart';
 import 'package:medicos/src/modules/registro/domain/remote/registro_repository.dart';
 
 part 'registro_model.dart';
@@ -15,7 +14,7 @@ class RegistroController extends GetxController
 
   final ThreadsService threadsService = Get.find();
   final RegistroRepository _authService = Get.find();
-  final NotificationServiceImpl _notification = AppService.i.notifications;
+
   late TabController tabController;
   RxInt selectedIndex = 0.obs;
 
@@ -27,9 +26,12 @@ class RegistroController extends GetxController
   final TextEditingController emailCtler = TextEditingController();
   final TextEditingController phoneNumberCtler = TextEditingController();
   final TextEditingController rfcCtler = TextEditingController();
-  final TextEditingController cedulaCtler = TextEditingController();
   final TextEditingController passwordCtler = TextEditingController();
   final TextEditingController passwordConfirmCtler = TextEditingController();
+  
+  final TextEditingController cedProfesionalCtler = TextEditingController();
+  final TextEditingController cedEspecialidadCtler = TextEditingController();
+  final TextEditingController cedSubespecialidadCtler = TextEditingController();
 
   RxBool isPasswordVisible = false.obs;
   RxBool isConfirmPasswordVisible = false.obs;
@@ -51,12 +53,23 @@ class RegistroController extends GetxController
   @override
   void onClose() {
     tabController.dispose();
+    nameCtler.dispose();
+    lastNameCtler.dispose();
+    secondLastNameCtler.dispose();
+    emailCtler.dispose();
+    phoneNumberCtler.dispose();
+    rfcCtler.dispose();
+    passwordCtler.dispose();
+    passwordConfirmCtler.dispose();
+    cedProfesionalCtler.dispose();
+    cedEspecialidadCtler.dispose();
+    cedSubespecialidadCtler.dispose();
     super.onClose();
   }
 
   Future<void> registerService() async {
     if (!formKey.currentState!.validate()) {
-      _notification.show(
+      appService.alert.show(
         title: 'Atención',
         message: 'Favor de validar la información ingresada.',
         type: AlertType.warning,
@@ -78,15 +91,19 @@ class RegistroController extends GetxController
           'rfc': rfcCtler.text.trim(),
           'mail': emailCtler.text.trim(),
           'password': passwordCtler.text.trim(),
+          'cedulaProfesional': cedProfesionalCtler.text.trim(),
+          'cedulaEspecialidad': cedEspecialidadCtler.text.trim(),
+          'cedulaSubespecialidad': cedSubespecialidadCtler.text.trim(),
         });
       },
     );
 
-    _notification.show(
+    appService.alert.show(
       title: res ? 'Éxito' : 'Error',
-      message: res ? 'Registro exitoso.' : 
-      'El correo que intentas usar ya está registrado. Por favor, '
-      'utiliza otro para continuar con tu registro.',
+      message: res
+          ? 'Registro exitoso.'
+          : 'El correo que intentas usar ya está registrado. Por favor, '
+                'utiliza otro para continuar con tu registro.',
       type: res ? AlertType.success : AlertType.error,
     );
 

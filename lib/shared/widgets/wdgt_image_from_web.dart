@@ -34,6 +34,7 @@ class ImageFromWeb extends StatelessWidget {
     this.width = 24,
     this.borderRadius = BorderRadius.zero,
     this.path = '/assets',
+    this.fit = BoxFit.cover,
     super.key,
   });
 
@@ -52,8 +53,10 @@ class ImageFromWeb extends StatelessWidget {
 
   /// The border radius to clip the image. Defaults to [BorderRadius.zero].
   final BorderRadiusGeometry borderRadius;
-  
+
   final String path;
+
+  final BoxFit fit;
 
   @override
   Widget build(BuildContext context) => ClipRRect(
@@ -67,14 +70,14 @@ class ImageFromWeb extends StatelessWidget {
         : CachedNetworkImage(
             height: height,
             width: width,
-            fit: BoxFit.cover,
+            fit: fit,
             imageUrl: '${AppConfig.baseUrlMedicos}/gestor-medico$path/$imageName',
             httpHeaders: {'Authorization': 'Bearer $jwt'},
             errorWidget: (context, url, error) =>
                 const Icon(Icons.question_mark_outlined),
             imageRenderMethodForWeb: ImageRenderMethodForWeb.HttpGet,
-          ),
-  );
+          ),    
+    );
 
   @override
   void debugFillProperties(DiagnosticPropertiesBuilder properties) {
@@ -87,6 +90,7 @@ class ImageFromWeb extends StatelessWidget {
       ..add(
         DiagnosticsProperty<BorderRadiusGeometry>('borderRadius', borderRadius),
       )
-      ..add(StringProperty('path', path));
+      ..add(StringProperty('path', path))
+      ..add(EnumProperty<BoxFit>('fit', fit));
   }
 }
