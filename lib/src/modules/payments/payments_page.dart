@@ -9,6 +9,7 @@ import 'package:medicos/shared/mddlewares/auth_middleware.dart';
 import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/utils/enums.dart';
+import 'package:medicos/shared/utils/tools.dart';
 import 'package:medicos/shared/widgets/appbar_web.dart';
 import 'package:medicos/shared/widgets/wdgt_appbar_phone.dart';
 import 'package:medicos/shared/widgets/wdgt_custom_search_bar.dart';

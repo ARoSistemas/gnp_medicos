@@ -6,9 +6,10 @@ import 'package:medicos/core/utils/exception_manager.dart';
 import 'package:medicos/shared/controllers/state_controller.dart';
 import 'package:medicos/shared/messages/i_app_messages.dart';
 import 'package:medicos/shared/models/entities/user_mdl.dart';
+import 'package:medicos/shared/utils/colors/color_palette.dart';
 import 'package:medicos/shared/utils/enums.dart';
 import 'package:medicos/shared/widgets/custom_alert.dart';
-import 'package:medicos/shared/widgets/wdgt_calendar.dart';
+import 'package:medicos/shared/widgets/custom_calendar_gnp/custom_calendar_gnp.dart';
 import 'package:medicos/shared/widgets/wdgt_menu_web.dart';
 import 'package:medicos/src/modules/payments/domain/dtos/payments_response_dto.dart';
 import 'package:medicos/src/modules/payments/domain/entities/payment.dart';
@@ -344,7 +345,6 @@ class PaymentsController extends GetxController with StateMixin<PaymentsModel> {
 
   /// Show filter dialog
   Future<void> showFilterDialog() async {
-    clearFilters();
     await showModalBottomSheet(
       context: Get.context!,
       isScrollControlled: true,
@@ -359,6 +359,7 @@ class PaymentsController extends GetxController with StateMixin<PaymentsModel> {
           'Número de siniestro',
         ],
         onOptionSelected: (opt) async {
+          clearFilters();
           isFilterApplied.value = opt.isNotEmpty;
           appliedFilterOption.value = opt;
           if (appliedFilterOption.value == 'Fecha de pago') {
@@ -396,14 +397,20 @@ class PaymentsController extends GetxController with StateMixin<PaymentsModel> {
       return;
     }
 
-    final DateTimeRange<DateTime>? result = await CalendarService.instance
-        .pickDateRange(
-          context: Get.context!,
-        );
+    final String result = await CustomCalendarGNP.open(
+      Get.context!,
+      bgChips: ColorPalette.chips,
+    );
 
-    if (result != null) {
-      fechaAperturaIni = result.start.toIso8601String().split('T').first;
-      fechaAperturaFin = result.end.toIso8601String().split('T').first;
+    // final DateTimeRange<DateTime>? result = await CalendarService.instance
+    //     .pickDateRange(
+    //       context: Get.context!,
+    //     );
+
+    if (result.isNotEmpty) {
+      final List<String> tmp = result.split(',');
+      fechaAperturaIni = tmp[0];
+      fechaAperturaFin = tmp[1];
       filterInputCtrler.text = '$fechaAperturaIni - $fechaAperturaFin';
 
       /// call to search
@@ -416,7 +423,6 @@ class PaymentsController extends GetxController with StateMixin<PaymentsModel> {
 
   /// Show filter dialog for web
   Future<void> showFilterDialogWeb() async {
-    clearFilters();
     isFilterOpen.value = !isFilterOpen.value;
   }
 

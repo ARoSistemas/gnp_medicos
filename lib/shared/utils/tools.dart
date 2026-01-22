@@ -81,4 +81,12 @@ class Tools {
       return 'other';
     }
   }
+    static String formatMoney(double value) {
+    final formatter = NumberFormat.currency(
+      locale: 'es_MX',
+      symbol: r'$',
+      decimalDigits: 2,
+    );
+    return formatter.format(value);
+  }
 }

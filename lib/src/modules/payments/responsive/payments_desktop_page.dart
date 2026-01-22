@@ -50,11 +50,11 @@ class _PaymentsDesktopPage extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
           ),
           Text(
-            '\$${payment.montoReclamado.toStringAsFixed(2)} MXN',
+            '${Tools.formatMoney(payment.montoReclamado)} MXN',
             overflow: TextOverflow.ellipsis,
           ),
           Text(
-            '\$${payment.montoPagado.toStringAsFixed(2)} MXN',
+            '${Tools.formatMoney(payment.montoPagado)} MXN',
             overflow: TextOverflow.ellipsis,
           ),
           Text(
@@ -132,6 +132,7 @@ class _PaymentsDesktopPage extends StatelessWidget {
                         child: FilterSelectorWeb(
                           options: _c.optionsFilters,
                           onSelected: (opt) async {
+                            _c.clearFilters();
                             _c.isFilterApplied.value = opt.isNotEmpty;
                             _c.appliedFilterOption.value = opt;
                             _c.isFilterOpen.value = false;
@@ -220,6 +221,7 @@ class _PaymentsDesktopPage extends StatelessWidget {
                         child: FilterSelectorWeb(
                           options: _c.optionsFilters,
                           onSelected: (opt) async {
+                            _c.clearFilters();
                             if (opt.isNotEmpty) {
                               _c.isFilterApplied.value = opt.isNotEmpty;
                               _c.appliedFilterOption.value = opt;
